@@ -1,0 +1,232 @@
+*
+{
+    font-family: Verdana, Arial;
+    font-size: 10pt;
+    text-decoration: none;
+    color: #cccccc;
+}
+body
+{
+	background-color: #000000;
+    margin: 0;
+    padding: 0;
+}
+p
+{
+/*	padding-bottom: 10px; */
+}
+h1
+{
+	font-family: Arial;
+	font-size: 11pt;
+	font-weight: bold;
+	color: #26A9E0;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	text-transform: uppercase;
+}
+h2
+{
+	font-family: Arial;
+	font-size: 10pt;
+	font-weight: bold;
+	color: #26A9E0;
+	/*
+	padding-top: 20px;
+	padding-bottom: 10px;
+	*/
+}
+h3
+{
+	font-family: Arial;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #26A9E0;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+a
+{
+	text-decoration: none;
+	color: #3FA9F5;
+}
+#messageBox
+{
+	border: solid 1px #1c357f;
+	background-color: #1b75bb;
+	padding: 5px;
+	color: White;
+}
+#header
+{
+/*	height: 72px; */
+	overflow: hidden;
+	width: 100%;
+	padding: 25px 0 25px 0;
+}
+#headerBox
+{
+/*	height: 72px; */
+    width: 930px;
+    margin: 0 auto;
+    position: relative;
+}
+#headerBox img
+{
+	border: 0;
+}
+#greeting
+{
+	position: absolute;
+	right: 175px;
+	bottom: 0;
+}
+#pageBox
+{
+    margin: 0 auto;
+    width: 980px;
+}
+#menuBox
+{
+	float: left;
+	width: 200px;
+}
+#middleBox
+{
+	float: left;
+	width: 580px;
+	background:#333333;
+}
+#rightBox
+{
+	float: left;
+	width: 198px;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+#title
+{
+	width: 520px;
+	background-color: #3e3e3e;
+	font-size: 11pt;
+	padding: 18px 30px 18px 30px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-family: Arial;
+	color: White;
+}
+input[type="text"], input[type="password"], textarea
+{
+	/*background-color: White;*/
+	/*border: 0;*/
+	color: Black;
+	/*padding: 5px;*/
+}
+input[type="button"], input[type="submit"]
+{
+	background-color: #1b75bb;
+	color: White;
+	border: solid 1px #231f20;
+	padding: 5px;
+}
+#content
+{
+	padding: 18px 30px 18px 30px;
+/*	min-height: 350px; */
+}
+#menuBox ul
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-position: outside;
+}
+#menuBox li
+{
+    background-image: url('../Images/MenuItemDeselected.jpg');
+    background-repeat: no-repeat;
+    width: 200px;
+    margin-bottom: 7px;
+    padding: 0;
+}
+#menuBox li:hover
+{
+    background-image: url('../Images/MenuItemHover.jpg');
+    background-repeat: no-repeat;
+    width: 200px;
+    margin-bottom: 7px;
+    padding: 0;
+}
+#menuBox li.selectedItem
+{
+    background-image: url('../Images/MenuItemSelected.jpg');
+    background-repeat: no-repeat;
+    width: 200px;
+    margin-bottom: 7px;
+    padding: 0;
+}
+#menuBox a
+{
+	display: block;
+	padding: 13px 13px 13px 17px;
+}
+#menuBox a:hover
+{
+	display: block;
+	padding: 13px 13px 13px 17px;
+	color: White;
+}
+#menuBox li.selectedItem a
+{
+	color: White;
+}
+#footer
+{
+	clear: both;
+	width: 100%;
+/*	height: 30px; */
+}
+#footerBox
+{
+	clear: both;
+/*	height: 30px; */
+    width: 980px;
+    margin: 0 auto;
+    background-color: #171c20;
+}
+#footerInnerBox
+{
+	width: 580px;
+/*	height: 30px; */
+    margin: 0 auto;
+    background-color: #3e3e3e;
+}
+#footerText
+{
+    padding: 8px;
+    text-align: center;
+}
+#footerText a
+{
+    font-size: 8pt;
+}
+/* Table colors */
+.TableHeadingColor     { background: #555555; color:#000000 } /* Dark mauve */
+.TableSubHeadingColor  { background: #888888; color:#000000 } /* Light mauve */
+.TableRowColor         { background: #111111; color:#FFFFFF } /* White */
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont   { font-size: 100%; font-family: Helvetica, Arial, sans-serif; color:#000000 }
+.FrameHeadingFont { font-size:  90%; font-family: Helvetica, Arial, sans-serif; color:#000000 }
+.FrameItemFont    { font-size:  90%; font-family: Helvetica, Arial, sans-serif; color:#000000 }
+
+/* Navigation bar fonts and colors */
+.NavBarCell1    { background-color:#444444; color:#00FF00} /* Light mauve */
+.NavBarCell1Rev { background-color:#0000FF; color:#FF0000} /* Dark Blue */
+.NavBarFont1    { font-family: Arial, Helvetica, sans-serif; color:#FF0000;}
+.NavBarFont1Rev { font-family: Arial, Helvetica, sans-serif; color:#00FF00;}
+
+.NavBarCell2    { font-family: Arial, Helvetica, sans-serif; background-color:#888888; color:#FF0000;}
+.NavBarCell3    { font-family: Arial, Helvetica, sans-serif; background-color:#EEEEEE; color:#00FF00;}
+

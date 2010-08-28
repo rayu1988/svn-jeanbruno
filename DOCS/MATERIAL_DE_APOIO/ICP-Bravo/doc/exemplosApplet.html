@@ -1,0 +1,907 @@
+<html>
+<header>
+	<link href="icpbravo.css" rel="stylesheet" type="text/css" />
+	<title>ICPBravo - Manual de Usuário - Exemplos do uso do applet sem interface de usuário</title>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+	
+	<script type="text/javascript" src="../scripts/shCore.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCSharp.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCss.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushDiff.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushJava.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushPlain.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet" href="../styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../styles/shThemeMidnight.css"/>
+	<script type="text/javascript">
+		SyntaxHighlighter.config.clipboardSwf = '../scripts/clipboard.swf';
+		SyntaxHighlighter.all();
+	</script>
+</header>
+<body>
+	<table width='100%'><tr>
+	<td align='left'><a href='index.html'><img src='../img/LogoGrande.png' border='0'></a></td>
+	<td align='right'><h1><a href='http://www.oaks.com.br'>OAK Soluções Empresariais</a></h1></td>
+	</tr>
+	<tr><td align='center' colspan='2'><h1>Exemplos do uso do applet sem interface de usuário</h1></td></tr>
+	</table>
+	<p>
+	O uso da ICP-Bravo API compreende de funcionalidades para aplicações no lado do servidor, 
+	onde a interação com a mesma se dará por compilar a biblioteca junto com a aplicação, 
+	fazendo-se chamadas as classes e métodos da API (vide <a href='./javadoc/br/com/oaks/ICPBravo/Exemplos.html'>Exemplos.java</a>), 
+	porém também existirá a necessidade de se relacionar com a API no lado do cliente.  
+	</p>
+	<p>
+	Esta relação do lado cliente se faz necessária, pois é o local onde está instalado o dispositivo criptográfico (PKCS#11), e onde o servidor não tem acesso diretamente.
+	</p>
+	<p>
+	Para tal interação, a API disponibiliza uma applet, que devem ser iniciados a partir das páginas HTMLs, onde a interação com a mesma se dará por meio de comandos javascript.
+	</p>
+	<p>
+	Junto com esta applet, a API também disponibiliza um arquivo de comandos javascript, denominado <i>ICPBravo.js</i>, de forma a facilitar ainda mais esta interação. 
+	</p>
+	<p>
+	A seguir apresentaremos as interfaces de acesso, tanto da applet, quanto do javascript e alguns exemplos do uso de applet com API ICPBravo, demonstrando as funcionalidades do lado do cliente.
+	<br>obs(1).: Para o funcionamento de alguns exemplos, pode ser necessária a presença de algum dispositivo criptográfico instalado.
+	<br>obs(2).: O código fonte desta applet poderá ser encontrado na distribuição da API, dentro do diretório sample, onde poderá servir de base para a construção de outros applets.
+	</p>
+	<ul>
+	<li><h2><a href='exemplosApplet.html#interfaceJavascript()'>Descrição da interface com o javascript</a></h2></li>
+	<li><h2><a href='exemplosApplet.html#interfaceApplet()'>Descrição da interface com o applet</a></h2></li>
+	<li><h2><a href='exemplosApplet.html#instalandoApplet()'>Instalação do applet na página</a></h2></li>
+	<li><h2><a href='exemplosApplet.html#apresentandoCertificados()'>Apresentação dos certificados no HTML</a></h2></li>
+	<li><h2><a href='exemplosApplet.html#assinandoConteudo()'>Assinando Conteúdo</a></h2></li>
+	<li><h2><a href='exemplosApplet.html#criptografandoConteudo()'>Criptografando Conteúdo</a></h2></li>
+	</ul>
+
+	<hr>
+	<A NAME="interfaceJavascript()"><!-- --></A>
+	<h1>Descrição da interface com o javascript</h1>
+	<p>O javascript fornecido junto a API poderá ser encontrado em um arquivo chamado ICPBravo.js.</p>
+	<p>São os seguintes métodos existentes neste javascript:</p>
+	<ul>
+		<li><h3>ICPBravoApplet()</h3>Este método atua como um atalho para acessar o objeto do applet, desde que esta seja instalado na página com o id='ICPBravoApplet'.</li>
+		<li><h3>configureApplet()</h3>Este método invoca uma tela que permite alterar os parâmetros de configuração do applet (obs.: apenas os que não foram forçados na tag &lt;applet&gt;).</li>
+		<li><h3>readCurrentDocument()</h3>Este método permite carregar a página corrente e os dados que foram digitados, construindo um XML. É útil para assinar o formulário HTML com seus dados.</li>
+		<li><h3>apresentaDialogsErro(boolean[, fn])</h3>Este método permite indicar se as mensagens de erro serão ou não apresentadas em dialog do applet (true) ou apenas enviada para método do javascript (false). O método fn (opcional) indica o método javascript que será invocado ao se identificar um erro de applet.</li>
+	</ul>
+	<h3>Callbacks</h3>Todas as interações entre o javascript e o applet se dará por meio de invocação de métodos do applet diretamente, porém o retorno dos resultados destes métodos serão devolvidos ao javascript por meio de 'callbacks', ou seja, antes de invocarmos o método, devemos registrar a função que o applet deverá invocar em nosso javascript para nos devolver o resultado desejado.<br />
+	A seguir descrevemos quais são estas callbacks:<br />
+	<ul>
+		<li>
+			<h3>setCMSCallback(fn)</h3> - indica a callback para todas as funções que produzem como resultado um CMS, como:
+				signSimpleBytes, signFile, signURL, signMessage, signMessageToHex, signMessageB64, signPDFUrl, signPDFMessageB64, signMessageHex, decrypEnvelopedData e generateEnvelopedData.
+		</li>
+		<li>
+			<h3>setHASHCallback(fn)</h3> - indica a callback para a função de cálculo de hash "getDocumentHash".
+		</li>
+		<li>
+			<h3>setCertificateGenereatedCallback(fn)</h3> - indica a callback para a função de geração de certificado pelo applet "createCertificate".
+		</li>
+		<li>
+			<h3>setAppletLoadedCallback(fn)</h3> - indica a callback para a função que será invocada logo após o applet estar disponível para uso.
+		</li>
+		<li>
+			<h3>setAppletLoadedCallback(fn)</h3> - indica a callback para a função que será invocada logo após o applet estar disponível para uso.
+		</li>
+		<li>
+			<h3>setOnSetCertificateProperties(fn)</h3> - indica a callback para a função que solicita informações do certificado digital.
+		</li>
+		<li>
+			<h3>setAddCertificate(fn)</h3> - indica a callback para a função de carga de certificados de usuário a partir do token, smartcard, arquivo PKCS#12, etc.
+		</li>
+		<li>
+			<h3>setFinalizeOperationCallback(fn)</h3> - indica a callback para a função que será invocada logo após a finalização de todas as operações do applet, caso venham a apresentar falhas e não retornem pela callback padrão.
+		</li>
+	</ul>
+	
+	<hr>
+	<A NAME="interfaceApplet()"><!-- --></A>
+	<h1>Descrição da interface com o applet</h1>
+	<p>O applet fornecido junto a API poderá ser encontrado dentro do próprio jar ICPBravoAPI-X.XX.jar, e sua instalação em sua página será descrita no capítulo <a href='exemplosApplet.html#instalandoApplet()'>Instalação do applet na página</a>.</p>
+	<p>Este applet apresenta algumas funções que possibilitam acesso a algumas funções de certificação digital e que são bastante úteis.</p>
+	<p>Vaja mais sobre o applet em <a target="conteudo" href = './javadoc/br/com/oaks/ICPBravo/applet/AppletICPBravoManager.html'>APPLET</a> em formato javadoc.</p>
+	
+	<h3>Certificado do usuário</h3>As funções abaixo são para operações com o certificado do usuário:<br />
+	<ul>
+		<li>
+			<h3>loadCertificates(managerName)</h3> - Carrega os certificados presentes no dispositivo indicado. Ao invocar este método, para cada certificado encontrado dentro do dispositivo, a applet invocará a callback indicada na função "setAddCertificate" passando como parâmetro um alias que servirá para referenciar este certificado em outros métodos na applet e um nome que indica a parte do "Common Name" presente do campo "Subject" do certificado.
+				<br />Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>managerName</h4> - Nome do gerenciado que pode ser: fromFile, PKCS11, PKCS12, Windows-MY, JKS, Windows-ROOT, CAPI ou Default</li>
+				</ul>
+		</li>
+		<li>
+			<h3>getCertificateProperties(alias, prop)</h3> - Informa um propriedade do certificado indicado. É esperado como parâmetro o indicador do certificado (vide loadCertificates) e a propriedade desejada, conforme lista abaixo:
+			<ul>
+			<li><h4>Id</h4> - Número de série do certificado</li>
+			<li><h4>Issuer</h4> - DN do emissor do certificado</li>
+			<li><h4>DocumentNumber</h4> - Número do documento (CPF ou CNPJ), caso presente no certificado</li>
+			<li><h4>Name</h4> - Valor do "Common Name" presente no campo "Subject"</li>
+			<li><h4>NotAfter</h4> - Data de expiração do certificado</li>
+			<li><h4>NotBefore</h4> - Data de início de validade do certificado</li>
+			<li><h4>IsICPBrasil</h4> - Indica se é ou não um certificado candidato a ICPBrasil</li>
+			<li><h4>PEM</h4> - Traz o certificado e sua cadeia, codificado em Base64, URL encoded e separados por ';'.</li>
+			</ul> 
+		</li>
+		<li>
+			<h3>generateCSR(managerName, alias, dn, validade)</h3> - Permite a geração de um CSR (Certificate Signing Request) em base64 e um par de chaves dentro do dispositivo indicado.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>managerName</h4> - O mesmo que em loadCertificates.</li>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>dn</h4> - Linha formatada conforme o padrão Distinguished Name (DN).</li>
+				<li><h4>validade</h4> - Validade (em dias) da solicitação do certificado.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>saveCartificate(managerName, alias, certificateAndChain)</h3> - Instala um certificado no dispositivo indicado.
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>managerName</h4> - O mesmo que em loadCertificates, porém será aceito null, caso queira utilizar o último acessado.</li>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>certificateAndChain</h4> - Um certificado codificado em Base64 com suas respectivas cadeias.</li>
+				</ul>
+		</li>
+	</ul>
+	<h3>Assinatura Digital</h3>As funções abaixo são para propósitos de assinatura digital:<br />
+	<ul>
+		<li>
+			<h3>setPolice(policeName)</h3> - Indica a police utilizada para as próximas assinaturas realizadas.
+		</li>
+		<li>
+			<h3>setFriendlyName(name)</h3> - Indica o atributo de nome amigável para as próximas assinaturas realizadas.
+		</li>
+		<li>
+			<h3>setCommitmentType(type)</h3> - Indica o tipo de compromisso para as próximas assinaturas realizadas.
+		</li>
+		<li>
+			<h3>setDocumentDescription(description)</h3> - Indica a descrição dos documentos para as próximas assinaturas realizadas.
+		</li>
+		<li>
+			<h3>setSignerLocation(countryName, localityName, postalAddress)</h3> - Indica a localização do signatário para as próximas assinaturas realizadas.
+		</li>
+		<li>
+			<h3>signSimpleBytes(alias, toSign)</h3> - Criptografa um conjunto de bytes (esperado em Base64 no parâmetro toSign) com a chave privativa do certificado indicado.
+		</li>
+		<li>
+			<h3>signMultiplesBytes(alias, toSign, separator)</h3> - Criptografa um conjunto de conjunto de bytes (esperado em Base64 no parâmetro toSign, onde será separado pelo separador informado) com a chave privativa do certificado indicado.<br/>
+			O resultado também será retornado com uma string separada com o separador informado.
+			
+		</li>
+		<li>
+			<h3>signFile(alias, file, signature, encapsulate)</h3> - Assina um arquivo no sistema de arquivos local da máquina onde o applet está rodando.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>file</h4> - Caminho e nome do arquivo.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>signURL(alias, url, signature, encapsulate)</h3> - Assina o conteúdo de uma URL.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>url</h4> - URL de onde será possível extrair o conteúdo.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>signMessage(alias, message, signature, encapsulate)</h3> - Assina uma mensagem.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>mensagem</h4> - Uma string contendo a mensagem a ser assinada.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>signMessageToHex(alias, message, signature, encapsulate)</h3> - Assina uma mensagem.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Hexadecimal.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>mensagem</h4> - Uma string contendo a mensagem a ser assinada.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>.
+		</li>
+		<li>
+			<h3>signMessageB64(alias, message, signature, encapsulate)</h3> - Assina uma mensagem em base64.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>mensagem</h4> - Uma string contendo a mensagem a ser assinada codificada em Base64.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>.
+		</li>
+		<li>
+			<h3>signPDFUrl(alias, url, reason, location)</h3> - Assina um PDF indicando a URL deste.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PDF assinado, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>url</h4> - A URL onde será possível encontrar o PDF.</li>
+				<li><h4>reason</h4> - A razão da assinatura.</li>
+				<li><h4>location</h4> - A localidade da assinatura.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>signPDFMessageB64(alias, message, reason, location)</h3> - Assina um PDF.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PDF assinado, codificado em Base64.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>message</h4> - O PDF codificado em Base64.</li>
+				<li><h4>reason</h4> - A razão da assinatura.</li>
+				<li><h4>location</h4> - A localidade da assinatura.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>signMessageHex(alias, message, signature, encapsulate)</h3> - Assina uma mensagem codificada em Hexadecimal.
+				<br />O produto desta assinatura será um conjunto de bytes que representa o PKCS#7 da assinatura, codificado em Hexadecimal.<br />
+				Os parâmetros esperados são:<br />
+				<ul>
+				<li><h4>alias</h4> - indicador do certificado (vide loadCertificates).</li>
+				<li><h4>mensagem</h4> - Uma string contendo a mensagem a ser assinada codificada em Hexadecimal.</li>
+				<li><h4>signature</h4> - null ou uma assinatura pré existente codificada em Base64, caso se deseje co-assinar.</li>
+				<li><h4>encapsulate</h4> - true caso queira que a assinatura gerada contenha o documento assinado anexado ou, caso contrário, false.</li>
+				</ul>
+		</li>
+		<li>
+			<h3>getDocumentHash(message, hashAlgorithm)</h3> - Retorna o hash de uma mensagem, utilizando um determinado algoritmo.
+		</li>
+	</ul>
+	<h3>Criptografia</h3>As funções abaixo são para propósitos de criptografia:<br />
+	<ul>
+		<li>
+			<h3>initializeEnvelopedData(algorithm, input, envelopedData)</h3> - Inicia um envelope digital de criptografia, infomando o algoritimo assimétrico utilizado, os dados que serão criptografados e, caso se tenha a necessidade de decriptografar um conteúdo, o envelope criptografado pré-existente.
+		</li>
+		<li>
+			<h3>addTarget(alias)</h3> - Adiciona um certificado digital que poderá decriptografar o envelope. (obs.: Neste caso não se tem a necessidade de passar uma referência a um certificado que tenha chave privativa. Pode ser um certificado oriundo de um arquivo exportado)
+		</li>
+		<li>
+			<h3>generateEnvelopedData()</h3> - Gera o envelope criptografado.
+		</li>
+		<li>
+			<h3>decrypEnvelopedData(envelopedData, alias)</h3> - Decriptografa o conteúdo de um envelope com um certificado.
+		</li>
+	</ul>
+
+<!--		
+	
+	<h3>Certificado do usuário - Criação</h3>As funções abaixo são para a construção de um novo certificado do usuário:<br />
+	<ul>
+		<li>
+			<h3>createCertificate(managerName)</h3> - ....
+		</li>
+		<li>
+			<h3>setType(int type)</h3> - ....
+		</li>
+		<li>
+			<h3>setTstUrl(String tstUrl)</h3> - ....
+		</li>
+		<li>
+			<h3>setAlias(String alias)</h3> - ....
+		</li>
+		<li>
+			<h3>setSerialNumber(long serialNumber)</h3> - ....
+		</li>
+		<li>
+			<h3>setSubject(String subject)</h3> - ....
+		</li>
+		<li>
+			<h3>setOu(String ou)</h3> - ....
+		</li>
+		<li>
+			<h3>setAliasIssuer(int aliasIssuer)</h3> - ....
+		</li>
+		<li>
+			<h3>setCrlUrl(String crlUrl)</h3> - ....
+		</li>
+		<li>
+			<h3>setPoliciesOid(String policiesOid)</h3> - ....
+		</li>
+		<li>
+			<h3>setPoliciesUrl(String policiesUrl)</h3> - ....
+		</li>
+		<li>
+			<h3>setFrom(String from, String format)</h3> - ....
+		</li>
+		<li>
+			<h3>setTo(String to, String format)</h3> - ....
+		</li>
+		<li>
+			<h3>setSign0(String sign, String hash)</h3> - ....
+		</li>
+		<li>
+			<h3>setEmail(String email)</h3> - ....
+		</li>
+		<li>
+			<h3>setResponsavel(String responsavel)</h3> - ....
+		</li>
+		<li>
+			<h3>setNascimento(String nascimento, String format)</h3> - ....
+		</li>
+		<li>
+			<h3>setCpf(String cpf)</h3> - ....
+		</li>
+		<li>
+			<h3>setNis(String nis)</h3> - ....
+		</li>
+		<li>
+			<h3>setRg(String rg)</h3> - ....
+		</li>
+		<li>
+			<h3>setOe(String oe)</h3> - ....
+		</li>
+		<li>
+			<h3>setTe(String te)</h3> - ....
+		</li>
+		<li>
+			<h3>setZona(String zona)</h3> - ....
+		</li>
+		<li>
+			<h3>setSessao(String sessao)</h3> - ....
+		</li>
+		<li>
+			<h3>setMunicipioUf(String municipioUf)</h3> - ....
+		</li>
+		<li>
+			<h3>setInss(String inss)</h3> - ....
+		</li>
+		<li>
+			<h3>setCnpj(String cnpj)</h3> - ....
+		</li>
+		<li>
+			<h3>setDigitalSignature(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setNonRepudiation(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setKeyEncipherment(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setDataEncipherment(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setKeyAgreement(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setKeyCertiSign(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setCrlSign(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setEncipherOnly(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setDecipherOnly(boolean value)</h3> - ....
+		</li>
+
+		<li>
+			<h3>setServerAuth(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setClientAuth(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setCodeSigning(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setEmailProtection(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setIpsecEndSystem(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setIpsecTunnel(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setIpsecUser(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setTimeStamping(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setOCSPSigning(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setDvcs(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setSbgpCertAAServerAuth(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setScvp_responder(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setEapOverPPP(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setEapOverLAN(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setScvpServer(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setScvpClient(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setIpsecIKE(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setCapwapAC(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setCapwapWTP(boolean value)</h3> - ....
+		</li>
+		<li>
+			<h3>setSmartcardlogon(boolean value)</h3> - ....
+		</li>
+	</ul>
+-->
+
+	<hr>
+	<A NAME="instalandoApplet()"><!-- --></A>
+	<h1>Instalação do applet na página</h1>
+	<p>Para a instalação do applet na página são necessárias basicamente duas operações:</p>
+	<ul>
+	<li><h2>Tag HTML que chama o applet</h2><p>Trata-se da chamada a tag &lt;applet ...&gt; que descreve os parâmetros iniciais para a chamada ao applet.</p>
+	<pre class="brush: js; html-script: true;">
+	&lt;applet id='ICPBravoApplet'
+	width='100px'
+	height='20px'
+	code='br.com.oaks.ICPBravo.applet.AppletICPBravoManager'
+	codebase='../lib'
+	archive='../lib/ICPBravoAPI-X.XX.jar,../lib/commons-codec.jar,../lib/commons-httpclient.jar,../lib/commons-logging.jar,../lib/mail.jar'
+	mayscript&gt;
+	... parâmetros de inicialização do applet ...
+&lt;/applet&gt;</pre>
+	<p>ps.: É importante salientar que não se deve mudar o parâmetro id, pois o javascript faz uso deste.</p></li>
+	<li><h2>Inclusão do javascript</h2><p>Trata-se da inclusão ao arquivo de javascript, fornecido junto à API, que encapsula e trata o relacionamento com o applet na API.</p>
+		<pre class="brush: js; html-script: true;">&lt;script src='ICPBravo.js'&gt;&lt;/script&gt;</pre>
+	</li>
+	</ul>
+	<p>
+	Para a inicialização do applet, os seguintes parâmetros são aceitos pela API:
+	<ul>
+		<li><h3>TipoRepositorio</h3>0: PKCS11, 1: PKCS12, 2: WindowsMY, 3: WindowsROOT, 4: CAPI, 5: JKS.</li>
+		<li><h3>AlgoritmosConsumo</h3>SHA1, SHA256, MD5.</li>
+		<li><h3>PermiteAssinaturaComCertificadoExpiradoOuInvalido</h3>Indica se o applet aceitará assinaturas com certificados expirados ou inválidos.</li>
+		<li><h3>PermiteAssinaturaComCertificadoSemValidarCrl</h3>Indica se o applet aceitará assinaturas com certificados onde não seja possível validar os CRLs.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoDigitalSignature</h3>Indica se o applet aceitará assinaturas com certificados que não sejam DigitalSignature.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoNonRepudiation</h3>Indica se o applet aceitará assinaturas com certificados que não sejam NonRepudiation.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoKeyEncipherment</h3>Indica se o applet aceitará assinaturas com certificados que não sejam KeyEncipherment.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoDataEncipherment</h3>Indica se o applet aceitará assinaturas com certificados que não sejam DataEncipherment.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoKeyAgreement</h3>Indica se o applet aceitará assinaturas com certificados que não sejam KeyAgreement.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoKeyCertisign</h3>Indica se o applet aceitará assinaturas com certificados que não sejam Certisign.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoCrlSign</h3>Indica se o applet aceitará assinaturas com certificados que não sejam CrlSign.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoEncipherOnly</h3>Indica se o applet aceitará assinaturas com certificados que não sejam EncipherOnly.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoDecipherOnly</h3>Indica se o applet aceitará assinaturas com certificados que não sejam DecipherOnly.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoServerAuth</h3>Indica se o applet aceitará assinaturas com certificados que não sejam ServerAuth.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoClientAuth</h3>Indica se o applet aceitará assinaturas com certificados que não sejam ClientAuth.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoCodeSigning</h3>Indica se o applet aceitará assinaturas com certificados que não sejam CodeSign.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoEmailProtection</h3>Indica se o applet aceitará assinaturas com certificados que não sejam EmailProtection.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoIPSecEndSystem</h3>Indica se o applet aceitará assinaturas com certificados que não sejam IPSecEndSystem.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoIPSecTunnel</h3>Indica se o applet aceitará assinaturas com certificados que não sejam IPSecTunnel.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoIPSecUser</h3>Indica se o applet aceitará assinaturas com certificados que não sejam IPSecUser.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoIPSecIKE</h3>Indica se o applet aceitará assinaturas com certificados que não sejam IPSecIKE.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoTimeStamping</h3>Indica se o applet aceitará assinaturas com certificados que não sejam TimeStamping.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoOCSPSigning</h3>Indica se o applet aceitará assinaturas com certificados que não sejam OCSPSigning.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoDvcs</h3>Indica se o applet aceitará assinaturas com certificados que não sejam Dvcs.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoSBGPCertAAServerAuth</h3>Indica se o applet aceitará assinaturas com certificados que não sejam SBGPCertAAServerAuth.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoEAPOverPPP</h3>Indica se o applet aceitará assinaturas com certificados que não sejam EAPOverPPP.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoEAPOverLan</h3>Indica se o applet aceitará assinaturas com certificados que não sejam EAPOverLan.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoSCVPServer</h3>Indica se o applet aceitará assinaturas com certificados que não sejam SCVPServer.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoSCVPClient</h3>Indica se o applet aceitará assinaturas com certificados que não sejam SCVPClient.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoSCVPResponder</h3>Indica se o applet aceitará assinaturas com certificados que não sejam SCVP_Responder.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoCapWapac</h3>Indica se o applet aceitará assinaturas com certificados que não sejam CapWapac.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoCapWapwtp</h3>Indica se o applet aceitará assinaturas com certificados que não sejam CapWapwtp.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoSmartcardLogon</h3>Indica se o applet aceitará assinaturas com certificados que não sejam SmartcardLogon.</li>
+		<li><h3>PermiteAssinaturaComCertificadoDeSigilo</h3>Indica se o applet aceitará assinaturas com certificados de sigilo.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoConfiavel</h3>Indica se o applet aceitará assinaturas com certificados que não estejam instalados na cadeia de certificados confiáveis.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoIssuerIsCA</h3>Indica se o applet aceitará assinaturas com certificados cujo alguma de suas ACs não tenham o atributo de AC.</li>
+		<li><h3>PermiteAssinaturaComCertificadoNaoICPBrasil</h3>Indica se o applet aceitará assinaturas com certificados que não sejam da ICP-Brasil.</li>
+		<li><h3>GatewayVerificacaoCRL</h3>Indica um endereço de URL que receberá como parâmetro o endereço definitivo que deve ser carregado o CRL.</li>
+		<li><h3>DefinicoesPKCS11</h3>Indica um novo arquivo de propiedades onde se encontram alternativas de acesso para dispositivos PKCS#11.</li>
+		<li><h3>TempFilesLocation</h3>Indica o diretório para salvar os arquivos temporários, como a DLL de CAPICom, por exemplo.</li>
+	</ul>
+	</p>
+	O applet não necessita de nenhuma interface disponível ao usuário, porém em nosso exemplo, é apresentado na página HTML desta forma:
+	<applet id='ICPBravoApplet'
+		width='100px'
+		height='20px'
+		code='br.com.oaks.ICPBravo.applet.AppletICPBravoManager'
+		codebase='../lib'
+		archive='../lib/ICPBravoAPI-1.20.jar,../lib/commons-codec.jar,../lib/commons-httpclient.jar,../lib/commons-logging.jar,../lib/mail.jar'
+		mayscript>
+		<param name='TipoRepositorio' value='5'>
+		<param name='AlgoritmosConsumo' value='SHA1'>
+		<param name='PermiteAssinaturaComCertificadoExpiradoOuInvalido' value='true'>
+		<param name='PermiteAssinaturaComCertificadoSemValidarCrl' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoDigitalSignature' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoNonRepudiation' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoKeyEncipherment' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoDataEncipherment' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoKeyAgreement' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoKeyCertisign' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoCrlSign' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoEncipherOnly' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoDecipherOnly' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoServerAuth' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoClientAuth' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoCodeSigning' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoEmailProtection' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoIPSecEndSystem' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoIPSecTunnel' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoIPSecUser' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoIPSecIKE' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoTimeStamping' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoOCSPSigning' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoDvcs' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoSBGPCertAAServerAuth' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoEAPOverPPP' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoEAPOverLan' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoSCVPServer' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoSCVPClient' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoSCVPResponder' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoCapWapac' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoCapWapwtp' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoSmartcardLogon' value='true'>
+		<param name='PermiteAssinaturaComCertificadoDeSigilo' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoConfiavel' value='true'>
+		<param name='PermiteAssinaturaComCertificadoNaoIssuerIsCA' value='true'>
+	</applet>
+	<script src='ICPBravo.js'></script>
+	
+<A NAME="apresentandoCertificados()"><!-- --></A>
+<h1>Apresentação dos certificados no HTML</h1>
+<p>Para a apresentação dos certificados presentes no dispositivo criptográfico na tela, criaremos em nosso exemplo um combobox dentro de um form, e alguns botões para inicializarmos o applet com o tipo de dispositivo selecionado.</p>
+<p>Também será necessária a construção de alguns métodos javascript para receber os dados oriundos do applet.</p>
+<form name='certificados' method='post' action='#'>
+	Certificado selecionado: <select id='CertificadosExistentes'></select>
+	Carregar de : 
+	<input type='button' id='pkcs11Combo' disabled='true' value='PKCS11' onClick='javascript:carregaCertificados("PKCS11");'>
+	<input type='button' id='pkcs12Combo' disabled='true' value='PKCS12' onClick='javascript:carregaCertificados("PKCS12");'>
+	<input type='button' id='fromFileCombo' disabled='true' value='.CER' onClick='javascript:carregaCertificados("fromFile");'>
+	- <input type='button' id='configuraAppletCombo' disabled='true' value='Configurar Applet' onClick='javascript:configureApplet();'>
+</form>
+<script language='JavaScript'>
+	function carregaCertificados(managerName) {
+		var field = document.getElementById('CertificadosExistentes');
+		for(var a=field.options.length-1; a>=0; a--)
+			field.options[a] = null;
+		ICPBravoApplet().loadCertificates(managerName);
+	}
+	
+	function addCertificate(alias, name) {
+		var field = document.getElementById('CertificadosExistentes');
+		var pos = field.options.length;
+		field.options[pos] = new Option();
+		field.options[pos].value = alias;
+		field.options[pos].text = name;
+	}
+	
+	function getComboValue(combo) {
+		for(var a=0; a<combo.options.length; a++)
+		{
+			if (combo.options[a].selected)
+				return combo.options[a].value;
+		}
+		return null;
+	}
+	
+	function certificadoSelecionado() {
+		return getComboValue(document.getElementById('CertificadosExistentes'));
+	}
+	
+	function habilitaBotoesDeCarga() {
+		document.getElementById('pkcs11Combo').disabled = false;
+		document.getElementById('pkcs12Combo').disabled = false;
+		document.getElementById('fromFileCombo').disabled = false;
+		document.getElementById('configuraAppletCombo').disabled = false;
+	}
+	
+	setAppletLoadedCallback(habilitaBotoesDeCarga);	
+</script>
+<p>O conteúdo acima é resultado do seguinte código HTML:
+<pre class="brush: js; html-script: true;">
+&lt;form name='certificados' method='post' action='#'&gt;
+	Certificado selecionado: &lt;select id='CertificadosExistentes'&gt;&lt;/select&gt;
+	Carregar de : 
+	&lt;input type='button' id='pkcs11Combo' disabled='true' value='PKCS11' onClick='javascript:carregaCertificados("PKCS11");'&gt;
+	&lt;input type='button' id='pkcs12Combo' disabled='true' value='PKCS12' onClick='javascript:carregaCertificados("PKCS12");'&gt;
+	&lt;input type='button' id='fromFileCombo' disabled='true' value='.CER' onClick='javascript:carregaCertificados("fromFile");'&gt;
+	- &lt;input type='button' id='configuraAppletCombo' disabled='true' value='Configurar Applet' onClick='javascript:configureApplet();'&gt;
+&lt;/form&gt;
+&lt;script language='JavaScript'&gt;
+	function carregaCertificados(managerName) {
+		var field = document.getElementById('CertificadosExistentes');
+		for(var a=field.options.length-1; a&gt;=0; a--)
+			field.options[a] = null;
+		ICPBravoApplet().loadCertificates(managerName);
+	}
+
+	// Este método é chamado pelo applet em forma de callback.	
+	function addCertificate(alias, name) {
+		var field = document.getElementById('CertificadosExistentes');
+		var pos = field.options.length;
+		field.options[pos] = new Option();
+		field.options[pos].value = alias;
+		field.options[pos].text = name;
+	}
+	
+	function getComboValue(combo) {
+		for(var a=0; a&lt;combo.options.length; a++)
+		{
+			if (combo.options[a].selected)
+				return combo.options[a].value;
+		}
+		return null;
+	}
+	
+	function certificadoSelecionado() {
+		return getComboValue(document.getElementById('CertificadosExistentes'));
+	}
+	
+	function habilitaBotoesDeCarga() {
+		document.getElementById('pkcs11Combo').disabled = false;
+		document.getElementById('pkcs12Combo').disabled = false;
+		document.getElementById('fromFileCombo').disabled = false;
+		document.getElementById('configuraAppletCombo').disabled = false;
+	}
+
+	// Esta chamada indica qual é a callback que será chamada quando o applet estiver pronto.
+	setAppletLoadedCallback(habilitaBotoesDeCarga);	
+&lt;/script&gt;
+</pre>
+</p>
+<A NAME="assinandoConteudo()"><!-- --></A>
+<h1>Assinando conteúdo</h1>
+<p>Em aplicaçõe com certificação digital, várias vezes se torna necessário a assinatura de documentos.</p>
+<p>Esta é uma das aplicações que se fazem necessárias de interações com os dispositivos criptográficos instalados na máquina do cliente.</p>
+<p>No exemplo que veremos em seguida, assinaremos um conteúdo oriundo do resultado de um campo textarea que criaremos em um form do nosso exemplo.</p>
+<p>Utilizaremos como signatário o certificado selecionado no campo 'CertificadosExistentes' de nosso <a href='exemplosApplet.html#apresentandoCertificados()'>último exemplo</a></p>
+<p>O resultado da nossa assinatura, um pacote CMS codificado em base64, será apresentado em um dialog (alert) logo após realizada a assinatura.</p>
+<form name='assinatura' method='post' action='#'>
+	Conte&uacute;do<br>
+	<textarea name='conteudo' rows='15' cols='100'>Conteúdo a ser assinado</textarea>
+	<br>
+	<input type='button' value='Assinar' onclick='javascript:assinar();'>
+	<br>
+	<h2>PKCS#7 SignedData</h2>
+	<textarea name='pkcs7SignedData' rows='15' cols='100' readonly='true'></textarea>
+</form>
+<script language='JavaScript'>
+	function assinar() {
+		setCMSCallback(assinado);
+		alert('Assinando "'+document.assinatura.conteudo.value+'" com certificado: '+certificadoSelecionado());
+		ICPBravoApplet().signMessage(certificadoSelecionado(), document.assinatura.conteudo.value, null, true);
+	}
+	
+	function assinado(pkcs7) {
+		document.assinatura.pkcs7SignedData.value = pkcs7;
+	}
+</script>
+<p>O conteúdo acima é resultado do seguinte código HTML:
+<pre class="brush: js; html-script: true;">
+&lt;form name='assinatura' method='post' action='#'&gt;
+	Conte&uacute;do&lt;br&gt;
+	&lt;textarea name='conteudo' rows='15' cols='100'&gt;Conteúdo a ser assinado&lt;/textarea&gt;
+	&lt;br&gt;
+	&lt;input type='button' value='Assinar' onclick='javascript:assinar();'&gt;
+	&lt;br&gt;
+	&lt;h2&gt;PKCS#7 SignedData&lt;h2&gt;
+	&lt;textarea name='pkcs7SignedData' rows='15' cols='100' readonly='true'&gt;&lt;/textarea&gt;
+&lt;/form&gt;
+&lt;script language='JavaScript'&gt;
+	function assinar() {
+		setCMSCallback(assinado);
+		alert('Assinando "'+document.assinatura.conteudo.value+'" com certificado: '+certificadoSelecionado());
+		ICPBravoApplet().signMessage(certificadoSelecionado(), document.assinatura.conteudo.value, null, true);
+	}
+	
+	function assinado(pkcs7) {
+		// Neste ponto é possível enviar o PKCS#7, em base64 para um hidden file, de forma a enviá-lo para o servidor.
+		document.assinatura.pkcs7SignedData.value = pkcs7;
+	}
+&lt;/script&gt;
+</pre>
+<A NAME="assinandoHTML()"><!-- --></A>
+<h1>Assinando o HTML</h1>
+<p>A API ICPBravo suporta, além da assinatura de documentos que são montados pelo javascript no browser, também a assinatura da página HTML inteira.</p>
+<p>Lembramos que HTML não é apenas um documento e sim o resultado fruto de uma linguagem interpretada pelo browser e por este motivo é importante salientar que, ao assinar o HTML, os valores preenchidos nos campos que estão presentes no browser do usuário devem ser assinados também, de forma a preservar o contexto.</p>
+<p>No javascript que acompanha a API ICPBravo existe uma função chamada de readCurrentDocument() que, quando chamada, cria uma string com todo o conteúdo da página corrente.</p>
+<p>A partir desta string, a assinatura e o processo de assinatura é exatamente igual a assinatura de qualquer outro documento, bastando enviá-la para a chamada da função de assinatura.</p>
+<p>No botão a seguir é possível mostrar em um campo do tipo textarea o conteúdo retornado pela chamada readCurrentDocument() para o documento atual.</p>
+<p>Perceba que, ao final do documento são anexados os dados do usuário que foram preenchidos ou selecionados no documento presente.</p>
+<p>Em função desta caracterísitca dinâmica do HTML, também sugerimos que as páginas assinadas SEMPRE seja anexadas a assinatura, pois caso contrário, não será possível recuperar o conteúdo original assinado para verificação da assinatura.</p>
+<input type='button' value='Apresentar documento corrente' onclick='document.getElementById("conteudoHTML").value=readCurrentDocument();' /><br/>
+<textarea id='conteudoHTML' cols=150 rows=20></textarea>
+
+<A NAME="assinandoComHASH()"><!-- --></A>
+<h1>Assinando com um HASH existente</h1>
+<p>Em alguns casos pode ser necessário assinar a partir de um hash já existente e não a partir do documento original.</p>
+<p>Um exemplo desta situação seria a assinatura de um grande arquivo presente no servidor, onde a melhor situação seria processar seu HASH no servidor, subindo apenaas este HASH.</p>
+<p>Demostraremos uma situação onde a assinatura será a partir do hash e não do arquivo. Como não temos um servidor neste exemplo, utilizaremos o applet para calcular o hash também.</p>
+<form name='assinaturaHash' method='post' action='#'>
+	Conte&uacute;do<br>
+	<textarea name='conteudoHash' rows='15' cols='100'>Conteúdo a ser assinado</textarea>
+	<br>
+	<input type='button' value='CalcularHash' onclick='javascript:calcularHash();'>
+	<br>
+	<h2>HASH</h2>
+	<input type='text' name='algoritimoHash' id='algoritimoHash' readonly='true'>
+	<input type='text' name='hash' id='hash' readonly='true' style='width:200px;'>
+	<br>
+	<input type='button' value='AssinarHash' onclick='javascript:assinarHash();'>
+	<br>
+	<h2>PKCS#7 SignedData</h2>
+	<textarea name='pkcs7SignedDataHash' rows='15' cols='100' readonly='true'></textarea>
+</form>
+<script language='JavaScript'>
+	var hashAlg = '';
+	
+	function calcularHash() {
+		setHASHCallback(hashCalculado);
+		hashAlg = ICPBravoApplet().getDigestAlgorithm(); 
+		ICPBravoApplet().getDocumentHash(document.assinaturaHash.conteudoHash.value, hashAlg);
+	}
+	
+	function hashCalculado(hash) {
+		document.assinaturaHash.algoritimoHash.value = hashAlg;
+		document.assinaturaHash.hash.value = hash;
+	}
+	
+	function assinarHash() {
+		setCMSCallback(assinadoHash);
+		ICPBravoApplet().signHashMessage(certificadoSelecionado(), document.assinaturaHash.hash.value, null);
+	}
+	
+	function assinadoHash(pkcs7) {
+		document.assinaturaHash.pkcs7SignedDataHash.value = pkcs7;
+	}
+</script>
+<p>O conteúdo acima é resultado do seguinte código HTML:
+<pre class="brush: js; html-script: true;">
+&lt;form name='assinaturaHash' method='post' action='#'&gt;
+	Conte&uacute;do&lt;br&gt;
+	&lt;textarea name='conteudoHash' rows='15' cols='100'&gt;Conteúdo a ser assinado&lt;/textarea&gt;
+	&lt;br&gt;
+	&lt;input type='button' value='CalcularHash' onclick='javascript:calcularHash();'&gt;
+	&lt;br&gt;
+	&lt;h2&gt;HASH&lt;/h2&gt;
+	&lt;input type='text' name='algoritimoHash' id='algoritimoHash' readonly='true'&gt;
+	&lt;input type='text' name='hash' id='hash' readonly='true' style='width:200px;'&gt;
+	&lt;br&gt;
+	&lt;input type='button' value='AssinarHash' onclick='javascript:assinarHash();'&gt;
+	&lt;br&gt;
+	&lt;h2&gt;PKCS#7 SignedData&lt;/h2&gt;
+	&lt;textarea name='pkcs7SignedDataHash' rows='15' cols='100' readonly='true'&gt;&lt;/textarea&gt;
+&lt;/form&gt;
+&lt;script language='JavaScript'&gt;
+	var hashAlg = '';
+	
+	function calcularHash() {
+		setHASHCallback(hashCalculado);
+		hashAlg = ICPBravoApplet().getDigestAlgorithm(); 
+		ICPBravoApplet().getDocumentHash(document.assinaturaHash.conteudoHash.value, hashAlg);
+	}
+	
+	function hashCalculado(hash) {
+		document.assinaturaHash.algoritimoHash.value = hashAlg;
+		document.assinaturaHash.hash.value = hash;
+	}
+	
+	function assinarHash() {
+		setCMSCallback(assinadoHash);
+		ICPBravoApplet().signHashMessage(certificadoSelecionado(), document.assinaturaHash.hash.value, null);
+	}
+	
+	function assinadoHash(pkcs7) {
+		document.assinaturaHash.pkcs7SignedDataHash.value = pkcs7;
+	}
+&lt;/script&gt;
+</pre>
+
+
+<A NAME="criptografandoConteudo()"><!-- --></A>
+<h1>Criptografando conteúdo</h1>
+<p>Outra aplicação comum com certificados digitais, é o envio de informações criptografadas entre pessoas.</p>
+<p>Para esta operação, o uso de certificados digitais traz um grande benefício que é o uso do par de chaves assimétricas, que permite que
+um conteúdo seja criptografado e o segredo seja enviado para o destinatário utilizando-se da
+chave pública do certficado.</p>
+<p>Em nosso próximo exemplo, criptografaremos um conteúdo para o certificado que selecionamos no campo 'CertificadosExistentes' <a href='exemplosApplet.html#apresentandoCertificados()'>acima</a>.</p>
+<p>Isto quer dizer que utilizaremos a chave pública deste certificado para poder criptografar nosso documento, onde só será possível decriptografar este conteúdo com a chave privativa deste certificado.</p>
+<p>Armazenaremos o conteúdo criptografado em um campo textarea de nosso form 'pkcs7EnvelopedData' e na sequência decripgrafaremos o conteúdo em outro campo.<p>
+<p>Para decriptografar, utilizaremos o processo inverso, ou seja, decriptografaremos o conteúdo com a chave provativa do certificado.</p>
+<form name='criptografia' method='post' action='#'>
+	Conte&uacute;do<br>
+	<textarea name='conteudo' rows='15' cols='100'>criptografado</textarea>
+	<br>
+	<input type='button' value='Criptografar' onclick='javascript:criptografar();'>
+	<br>
+	<h2>PKCS#7 EnvelopedData</h2>
+	<textarea name='pkcs7EnvelopedData' rows='15' cols='100'></textarea>
+	<br>
+	<input type='button' value='Decriptografar' onclick='javascript:decriptografar();'>
+	<h2>Conteúdo decriptografado.</h2>
+	<textarea name='conteudoDecriptografado' rows='15' cols='100' readonly='true'></textarea>
+</form>
+<script language='JavaScript'>
+	function criptografar() {
+		setCMSCallback(criptografado);
+		var applet = ICPBravoApplet(); 
+		applet.initializeEnvelopedData('AES128CBC', document.criptografia.conteudo.value, null);
+		applet.addTarget(certificadoSelecionado());
+		applet.generateEnvelopedData();
+	}
+	
+	function criptografado(pkcs7) {
+		document.criptografia.pkcs7EnvelopedData.value = pkcs7;
+	}
+	
+	function decriptografar() {
+		setCMSCallback(decriptografado);
+		var applet = ICPBravoApplet(); 
+		applet.decrypEnvelopedData(document.criptografia.pkcs7EnvelopedData.value, certificadoSelecionado());
+	}
+	
+	function decriptografado(decriptografado) {
+		document.criptografia.conteudoDecriptografado.value = decriptografado;
+	}
+</script>
+<p>O conteúdo acima é resultado do seguinte código HTML:
+<pre class="brush: js; html-script: true;">
+&lt;form name='criptografia' method='post' action='#'&gt;
+	Conte&uacute;do&lt;br&gt;
+	&lt;textarea name='conteudo' rows='15' cols='100'&gt;criptografado&lt;/textarea&gt;
+	&lt;br&gt;
+	&lt;input type='button' value='Criptografar' onclick='javascript:criptografar();'&gt;
+	&lt;br&gt;
+	&lt;h2&gt;PKCS#7 EnvelopedData&lt;/h2&gt;
+	&lt;textarea name='pkcs7EnvelopedData' rows='15' cols='100'&gt;&lt;/textarea&gt;
+	&lt;br&gt;
+	&lt;input type='button' value='Decriptografar' onclick='javascript:decriptografar();'&gt;
+	&lt;h2&gt;Conteúdo decriptografado.&lt;/h2&gt;
+	&lt;textarea name='conteudoDecriptografado' rows='15' cols='100' readonly='true'&gt;&lt;/textarea&gt;
+&lt;/form&gt;
+&lt;script language='JavaScript'&gt;
+	function criptografar() {
+		setCMSCallback(criptografado);
+		var applet = ICPBravoApplet(); 
+		applet.initializeEnvelopedData('AES128CBC', document.criptografia.conteudo.value, null);
+		applet.addTarget(certificadoSelecionado());
+		applet.generateEnvelopedData();
+	}
+	
+	function criptografado(pkcs7) {
+		document.criptografia.pkcs7EnvelopedData.value = pkcs7;
+	}
+	
+	function decriptografar() {
+		setCMSCallback(decriptografado);
+		var applet = ICPBravoApplet(); 
+		applet.decrypEnvelopedData(document.criptografia.pkcs7EnvelopedData.value, certificadoSelecionado());
+	}
+	
+	function decriptografado(decriptografado) {
+		document.criptografia.conteudoDecriptografado.value = decriptografado;
+	}
+&lt;/script&gt;
+</pre>
+</body>
+</html>

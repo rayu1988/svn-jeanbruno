@@ -1,0 +1,41 @@
+<html>
+<header>
+	<link href="icpbravo.css" rel="stylesheet" type="text/css" />
+	<title>ICPBravo - manual de Integração</title>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+</header>
+<body>
+	<table width='100%'><tr>
+	<td align='left'><a href='index.html'><img src='../img/LogoGrande.png' border='0'></a></td>
+	<td align='right'><h1><a href='http://www.oaks.com.br'>OAK Soluções Empresariais</a></h1></td>
+	</tr>
+	<tr><td align='center' colspan='2'><h1>Manual de Integração</h1></td></tr>
+	</table>
+<p>
+Para integrar a API ICPBravo com os dispositivos criptogáficos existentes, é necessário que este dispositivo também tenha uma API que permita esta integração, em conformidade com as definições da JCA/JCE da Sun.
+</p>
+<p>
+Não será discutido neste material a forma de implementar esta API, porém no site da SUN, em <a href='http://java.sun.com/j2se/1.5.0/docs/guide/security/jce/HowToImplAJCEProvider.html'>How to Implement a Provider for the JavaTM Cryptography Extension</a>, encontra-se uma descrição detalhada sobre o assunto. 
+</p>
+<p>
+Para integrar um novo dispositivo na API ICPBravo, é necessário parametrizar um arquivo de configuração que informa os tipos de dispositivos 
+PKCS#11 que serão acessados, bem como seus parâmetros. 
+</p>
+<p>
+Para adicionar um tipo de dispositivo criptográfico a lista de alternativas que serão verificadas pela API ICPBravo ao iniciar o seu gerenciador 
+de PKCS#11, é necessário criar um arquivo no formato <i>properties (*)</i> em um diretório acessível por sua aplicação e, se a sua aplicação utilizar-se do applet da ICPBravo, adicionar o parâmetro <i>'DefinicoesPKCS11'</i> indicando a referência a este arquivo criado (veja <a href='exemplosApplet.html#instalandoApplet()'>Instalação do applet na página</a>). Caso a sua aplicação necesite utilizar este novo arquivo em acesso direto a API, inclua uma referência a este novo arquivo na chamada de seu gerenciado PKCS#11 conforme o exemplo a seguir.
+<br>
+<pre>
+	ICPBravoManager gerenciador = new PKCS11Manager("NovosPKCS11");
+</pre>
+<i>Supondo que o arquivo criado tenha sido NovosPKCS11.properties e esteja em um local acessível pela API.</i>
+<br><br>
+<i>(*) arquivo properties é um tipo de arquivo utilizado em armazenagem de parêmtros comumente utilizado em aplicações java. Veja mais em <a href='http://java.sun.com/j2se/1.4.2/docs/api/java/util/PropertyResourceBundle.html'>PropertyResourceBundle</a> da API da Sun</i>
+</p>
+<p>
+Alguns equipamentos já constam em um arquivo de propriedade embutido da API ICPBravo, chamado de <i>ICPBravo.properties</i>, e podem serem observados na 
+<a href = './HWHomologados.html'>relação de equipamentos homologados pela API</a>.
+<br><br><i>Obs.: No caso de especificar um arquivo de propiedades novo, contendo os novos dispositivo que se deja testar na inicialização do gerenciador de PKCS#11, não será perdida a referência as definições já especificadas pela API ICPBravo. Apenas adicionará novos testes.</i>
+</p>
+</body>
+</html>

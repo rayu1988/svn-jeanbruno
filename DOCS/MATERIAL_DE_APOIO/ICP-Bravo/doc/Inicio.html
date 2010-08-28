@@ -1,0 +1,205 @@
+<html>
+<header>
+	<link href="icpbravo.css" rel="stylesheet" type="text/css" />
+	<title>ICPBravo - Documenta&ccedil;&atilde;o</title>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+</header>
+<body>
+	<table width='100%'><tr>
+	<td align='left'><img src='../img/LogoGrande.png' border='0'></td>
+	<td align='right'><h1><a href='http://www.oaks.com.br'>OAK Soluções Empresariais</a></h1></td>
+	</tr>
+	<tr><td align='center' colspan='2'><h1>Apresentação</h1></td></tr>
+	</table>
+<h2>Índice</h2>
+<ul>
+<li><h2><a href='Inicio.html#certificacaoDigital()'>Certificação Digital</a></h2></li>
+<li><h2><a href='Inicio.html#criptografia()'>Criptografia</a></h2></li>
+<li><h2><a href='Inicio.html#certificadosDigitais()'>Certificados Digitais</a></h2></li>
+<li><h2><a href='Inicio.html#assinaturaDigital()'>Assinatura Digital</a></h2></li>
+<li><h2><a href='Inicio.html#criptografiaDigital()'>Criptografia Digital</a></h2></li>
+<li><h2><a href='Inicio.html#api()'>API ICPBravo</a></h2></li>
+</ul>
+<br>
+<A NAME="certificacaoDigital()"><!-- --></A>
+<h2>Certificação Digital</h2>
+<p>Trata-se de um conjunto de normas, técnicas, algoritimos e estruturas que permitirão empregar técnicas seguras para tráfego de informações sigilosas e assinaturas digitais.</p>
+<p>O uso da certificação digital é baseado em um modelo, onde seu elemento central é sua infraestrutura, denominada ICP, acrônimo de Infraestrutura de Chaves Públicas (ou PKI, acrônimo para Public Key Infrastructure).</p>
+<p>A função desta infraestrutura é prover as regras para a utilização de certificados digitais em um ambiente confiável e seguro. A ICP pode ser uma iniciativa pública ou privada, ou um misto destas.</p>
+<p>A ICP está para a emissão dos certificados digitais assim como o departamento de trânsito está para a emissão do documento de habilitação e de propriedade de veículos ou a secretaria de segurança pública para o documento de identidade pessoal, ou até mesmo o seu clube campestre para a sua carteirinha do clube.</p>
+<p>Quando um oficial de trânsito pede seu documento de habilitação ou do veículo, subentende-se que ele confia no departamento de trânsito, e as informações contidas nestes documentos sejam fiéis. O mesmo ocorre quando a portaria do clube campestre pede que seja apresentada a carteirinha. Isto ocorre em função da confiança estabelecida pelas infraestruturas mensionadas, onde procedimentos e normas de utilização foram estabelecidos de forma a garantir aos usuários destes documentos que os documentos sejam fiéis relacionando informações aos seus portadores.</p>
+<p>A partir de uma medida provisóra de 24 de agosto de 2001 (MP No 2.200-2) ficou estabelecida a ICP brasileria, denominada ICP-Brasil. Isto indica que o Brasil adotou a utilização de certificação digital e que normas e leis nos permitem confiar em uma infraestrutura, pois os certificados digitais emitidos por esta ICP são de confiança.</p>
+<p>Esta infraestrutura é disposta em componentes que tornam possível a emissão destes certificados digitais de forma que estes seja emitidos e entregues apenas aos seus verdadeiros proprietários, pois em caso contrário, não seria possível confiar nesta infraestrutura.</p>
+<p>O principal componente desta infraestrutura é a AC, acrônimo de Autoridade Certificadora. Cabe a ela definir as regras para o uso de certificação digital, como mecanismos de auditoria, estruturas organizacionais, tecnologias adotadas, leis, etc.</p>
+<p>É na AC que fica a infraestrutura técnológica que permite a emissão de certificados digitais de forma segura.</p>
+<p>O modelo brasileiro define uma estrutura de AC's completamente hierárquica, onde todas as autoridades certificadoras estão abaixo de uma AC raiz, representada pelo ITI (Instituto nacional de Tecnologia da Informação) que é uma altarquia federal vinculada a Casa Civil da Presidência da República do Brasil.</p>
+<p>Nos níveis seguintes desta hierarquia, é contemplado a existência de outros órgão governamentais para a emissão de certificados digitais, porém é previsto também a existência de empresas privadas com prerrogativa de emissão de documentos públicos. Isto é possível devido as regras de auditoria estabelecidas pela ICP-Brasil e pela tecnologia de chaves públicas.</p>
+<p>No modelo brasileiro, é previsto três e apenas três níveis de ACs para a emissão de certificados digitais para usuários, ou seja, a AC-Raiz, a AC de primeiro nível e a AC de segundo nível, como pode ser visto abaixo.</p>
+<img src='../img/ICPBrasil-Estrutura BrcoPrto.jpg' border='0'>
+<!--   ul>
+	<li>AC Raiz
+		<ul>
+			<li>AC CEF
+				<ul>
+					<li>Caixa PF</li>
+					<li>Caixa PJ</li>
+				</ul>
+			</li>
+			<li>AC Certisign
+				<ul>
+					<li>AC Certisign Multipla</li>
+					<li>AC Certisign SPB</li>
+					<li>AC Imprensa Oficial SP</li>
+					<li>AC SINCOR</li>
+					<li>AC PRODEMGE</li>
+					<li>AC PETROBRAS</li>
+					<li>AC OAB</li>
+				</ul>
+			</li>
+			<li>AC Imprensa Oficial SP
+				<ul>
+					<li>AC Imprensa Oficial</li>
+				</ul>
+			</li>
+			<li>AC JUS
+				<ul>
+					<li>AC Caixa JUS</li>
+					<li>AC Certisign JUS</li>
+					<li>AC SERASA JUS</li>
+					<li>AC SERPRO JUS</li>
+				</ul>
+			</li>
+			<li>AC PR</li>
+			<li>AC SERASA ACP
+				<ul>
+					<li>SERASA AC</li>
+					<li>SERASA CD</li>
+					<li>AC FENACOR</li>
+				</ul>
+			</li>
+			<li>AC SERPRO
+				<ul>
+					<li>AC SERPRO ACF</li>
+					<li>AC PRODERJ</li>
+				</ul>
+			</li>
+			<li>AC RFB
+				<ul>
+					<li>AC CERTISIGN RFB</li>
+					<li>AC IMESP RFB</li>
+					<li>AC PRODEMGE RFB</li>
+					<li>AC SERASA RFB</li>
+					<li>AC SERPRO RFB</li>
+					<li>AC SINCOR RFB</li>
+					<li>AC FENACON CERTISIGN RFB</li>
+					<li>AC NOTARIAL RFB</li>
+					<li>AC BR RFB</li>
+				</ul>
+			</li>
+			<li>AC CMB (Casa da Moeda do Brasil)</li>
+		</ul>
+	</li>
+</ul -->
+<p>Outro componente desta estrutura é a AR, acrônimo de Autoridade Registradora. Cabe a esta a parte documental da estrutura, ou seja, receber os documentos dos candidatos a certificado digital de forma a garantir que apenas os verdadeiros proprietários recebam seus certificados.</p>
+<p>Dentro das ARs trabalham os agentes de registro. Pessoas qualificadas a operar os sitemas das AC's de forma a emitir os certificados digitais, ou revogá-los em caso de suspeita de falhas por parte dos seus usuários.</p>
+<p>Certificação digital não é apenas o uso de tecnologia.</p>
+<p>Certificação digital significa mudanças positivas no fluxo de negócios, combate às fraudes, eliminação de documentos em papel e suporte legal conferido à transação eletrônica.</p>
+<br>
+<A NAME="criptografia()"><!-- --></A>
+<h2>Criptografia</h2>
+<p>Dentre os conceitos que permitem que esta infraestura de certificação digital seja segura, além dos procedimentos e auditorias envolvidos na ICP, estão a tecnologia. Para explicar esta tecnologia, buscaremos explicar antes alguns conceitos que já estão presentes na humanidade muito antes de cogitar-se a existência dos computadores, que são a criptografia.</p>
+<p>Criptografia (Do Grego kryptós, "escondido", e gráphein, "escrita") é o estudo dos princípios e técnicas pelas quais a informação pode ser transformada da sua forma original para outra ilegível, de forma que possa ser conhecida apenas por seu destinatário, o que a torna difícil de ser lida por alguém não autorizado. Assim sendo, só o receptor da mensagem pode ler a informação com facilidade.</p>
+<p>Ao longo dos anos, foram inventadas várias maneiras de embaralhar/desembaralhar documentos, sendo que as formas mais antigas remontam do século V A.C., onde os espartanos cifravam e ocultavam mensagens usando pedaços de madeira, no formato de um bastão (chamado de skytalh - escútala) e uma tira de papel ou pano enrolado nesse bastão, onde a mensagem era escrita. A tira era desenrolada e enviada ao destinatário que tinha outro bastão idêntico. Este enrolava a tira que ele tinha no bastão e lia a mensagem, de forma que se a tira ou a escútala fosse de tamanho diferente, indicava que a mensagem havia sido alterada e aparecia torta no local a que se destinava.</p>
+<p>Já o imperador romano Júlio César, há mais de 2000 anos, inventou um método de criptografia por substituição, onde ele enviava mensagens aos seus interlocutores trocando letras do alfabeto por algumas letras subsequente <i>(ex.: A-&gt;D, B-&gt;E, C-&gt;F ...)</i> e para recuperar a mensagem, utilizava-se o processo inverso.</p>
+<p>Sendo assim, caso tivéssemos a necessidade de enviar uma mensagem, como 'Mensagem original' por exemplo, esta mensagem seria codificada com 3 letras a mais em 'Phqvdjhp ruljlqdo'.<br>
+Como a forma de criptografia (o algoritimo) e a quantidade de letras de distância (o segredo) já foi combinado com os interlocutores, basta nós pegarmos a mensagem embaralhada, voltarmos as 3 letras em cada uma das letras para obtermos o texto original.</p>
+<!-- <p>Algumas vezes, quando estamos na presença de várias pessoas e gostaríamos de contar algum segredo para uma pessoa específica, adotamos técnicas como falar baixinho ou até mesmo falar em código como mudando o idioma, por exemplo.</p>
+<p>No mundo cibernético não é possível utilizarmos destas técnicas, primeiramente porque mesmo falando baixinho, sempre existirão bons ouvidos com capacidades de nos escutar, e depois porque existe uma grande chance de existir alguém que entenda o nosso idioma secreto. 
+Porém existem algorítmos matemáticos para embaralhar nossos documentos de forma que só seja possível desembaralhar por meio de um segredo, de forma que ninguém(*) sem acesso a este segredo consiga desembaralhar.</p>
+<p>Este processo de embaralhar/desembaralhar é o que chamamos de criptografia (chamado de criptografar/decriptografar).</p>
+<p>É importante salientar que estes algoritmos devem ter toda sua força concentrada no segredo e não no algoritmo (como no algoritmo de Júlio César), uma vez que vários destes são públicos e mesmo de posse dos algoritmos, deve ser impossível, ou pelo menos muito difícil desembaralhar este documento sem a presença do segredo.</p> -->
+<p>Na criptografia atual, encontramos dois tipos principais de criptografia, que são os algoritmos de criptografia de chaves simétricas e os algoritmos de chaves assimétricas.</p>
+<p>Os algoritimos simétricos levam este nome devido ao fato de utilizarem a mesma chave para criptografar e decriptografar o conteúdo. São algoritmos bastante rápidos e seguros porém tem um problema que é a troca da chave entre as pontas, ou seja, se alguém criptografa um conteúdo com uma determinada chave, deve informar a chave de alguma forma a pessoa que fará o processo de decriptografia, o que mostra que o ponto de fragilidade deste algoritimo está neste meio de troca de chaves.</p>
+<p>Se a gerência desta chaves entre apenas estas duas pontas que exemplificamos já se parece uma tarefa bastante complexa, imagine se tivermos que trocar chaves entre um grupo de, digamos, 10 pessoas. Este algoritimo não é escalável para grandes grupos não é ?</p>
+<p>Outro tipo de algoritimo é o de chaves assimétricas. Neste modelo, as chaves são geradas em pares que são relacionados entre si de alguma forma. O algoritimo permite que o que seja criptografado com uma das chaves só possa ser decriptografado com a chave relacionada. Desta forma é possível que, no momento da geração da chave, uma das chaves seja armazenada de forma secreta, sempre de posse de seu proprietário, e a outra possa ser divulgada publicamente. É deste algoritimo que deriva o nome de infraestrutura de chaves públicas.</p>
+<p>Nitidamente este modelo de algoritimo resolve o problema de troca de chaves, imposto pelo algoritimo de chaves simétricas, porém cria um novo problema que é a sua performance. Devido sua complexidade matemática, são algoritimos bastante lentos em termos de processamento computacional, inviabilizando seu uso em criptografias de conteúdos muito grandes.</p>
+<p>A solução deste problema de performance pode surgir a partir de um terceiro grupo de algoritimo, chamado de algoritimo de hash ou também conhecido como algoritimo de digest ou de resumo. São algoritimos capazes de traduzir uma entrada de qualquer tamanho em uma saída sempre do mesmo tamanho. Um exemplo seria o algoritimo de hash chamado de SHA-1, que produz um resultado sempre de 160bits, e que para a entrada "exemplo de frase" sempre produzirá uma saída que codificada em hexadecimal será "5c1fe32d3d71b82441648130d0ea98fcc353ea6a".</p>
+<p>Este no entanto não deve ser confundido com algoritimo de criptografia por duas características. Uma delas é o fato de envolver nenhum tipo de chave, ou seja o resultado produzido não depende de nenhuma chave. O outro fator é que é um algoritimo de mão única, ou seja, não é possível voltar do resumo para a entrada que o produziu.</p>
+<br>
+<!-- i>(*) Alguns algoritmos já se mostraram ineficázes, já tendo sido provado meios de quebrá-los de forma a recuperar o conteúdo e o segredo, por isso o termo 'ninguém' pode não ser completamente apropriado.</i -->
+<A NAME="certificadosDigitais()"><!-- --></A>
+<h2>Certificados digitais</h2>
+<p>Conforme alguns exemplos anteriores, informamos que o produto de uma ICP seria um certificado digital, mas o que é um certificado digital ?</p>
+<p>Trata-se de um documento eletrônico, assinado digitalmente pelo seu emissário, que tem como função associar uma chave pública ao seu proprietário que pode ser uma pessoa, uma instituição, um equipamento, etc.</p>
+<p>Dentro dele é possível encontrar uma série de informações que podem ser o nome do proprietário, data de validade do certificado, a chave pública associada ao certificado, número de série e mais uma série de atributos que desiginam o proprietário do certificado digital ou as regras de utilização do certificado.</p>
+<p>Este certificado digital é codificado seguindo uma regra que atende a especificação do ITU-T chamada de X509 v3.</p>
+<p>O certificado digital tem um ciclo de vida que inicia-se após sua solicitação e emissão, onde é indicado por sua data de validade inicial e encerra-se ou ao atingir-se a data de validade final ou pelo surgimento do evento da revogação do mesmo pela sua ICP.</p>
+<p>Devido estas caracterísitcas de chaves públicas e privadas, estes certificados digitais servem para propósitos de assinaturas digitais, autenticação de usuário, tráfego de informações sigilosas, criptografia de sessão, carimbo de tempo, etc.</p>
+<p>Como o segredo em torno de todo o processo de certificação digital gira em torno da chave privativa, cuidados devem ser tomados para evitar que esta chave seja violada.</p>
+<p>O primeiro cuidado já deve ser tomado no momento da geração do par de chaves, pois no momento em que a chave é gerada, algum programa mal intencionado pode copiá-la e, futuramente utilizá-la para simular ações em nome do portador do certificado digital.</p>
+<p>Estas chaves podem ser geradas e armazenadas por programas de computador e sistemas operacionais que o suportam, porém também existem mecanismos que implementam determinadas seguranças que impedem o vazamento destas chaves em hardwares dedicados, chamados hardware criptográficos (tokens, smart-cards ou HSMs). Estes hardwares possuem arquiteturas dedicadas que permitem a geração das chaves em seus processadores de forma que sejam armazenadas em hardwares invioláveis e que não permitam que a chave privativa seja exportada em nenhuma hipótese. Quando uma criptografia necessitar utilizar a chave privativa, o algoritimo roda no processador dedicado do hardware.</p>
+<p>A ICP-Brasil determina alguns modelos de certificado digital, que são os do tipo <b>"A"</b> para assinatura, <b>"S"</b> para sigilo, <b>"T"</b> para carimbadoras de tempo e os <b>"AC"</b> para os de autoridades certificadoras, e indica também as formas de geração e armazenagem das chaves privativas.</p>
+<p>Estas formas podem ser:
+<ul>
+<li>Par de chaves gerada em software e armazenadas em software;</li>
+<li>Par de chaves gerada em software e armazenadas em hardware;</li>
+<li>Par de chaves gerada e armazenadas em hardware criptográfico;</li>
+</ul>
+</p>
+<br>
+<A NAME="assinaturaDigital()"><!-- --></A>
+<h2>Assinatura digital</h2>
+<p>A assinatura digital é um dos maiores objetivos da utilização de certificação digital, pelo menos no contexto da ICP-Brasil.</p>
+<p>Por assinatura digital, entende-se uma assinatúra única, emitida por um portador de certificado digital, que não possa ser reproduzida por outro certificado de forma proposital.</p>
+<p>A assinatura, de forma teórica, pode ser entendida por um processo onde um hash do documento original no qual deseja-se assinar seja produzido e este hash seja criptografado com a chave privativa do signatário, produzindo um conteúdo que é a assinatura.</p>
+<p>Para verificar se esta assinatura é válida, processa-se o hash do documento que supostamente seria o assinado, comparando-o com a assinatura decriptografada com a chave pública do suposto signatário. No caso de serem iguais, é a prova de que aquele conteúdo foi assinado pelo suposto signatário e caso contrário é prova de que, ou o conteúdo foi alterado ou o signatário não é o indicado.</p>
+<p>Isto garante aos portadores desta assinatura os seguintes quesitos:
+<ul>
+<li>Autenticação - Identificação inequívoca de seu signatário;</li>
+<li>Não repúdio - A impossibilidade de contestação de autoria pelo seu signatário;</li>
+<li>Integridade - A legitimidade das informações assinadas;</li>
+<li>Não reutilização - A segurança ao signatário que sua assinatura não será reutilizada em outros documentos.</li>
+</ul>
+</p>
+<p>Para que esta assinatura digital funcione na prática, o entendimento de assinatura digital deve ser elevado para não só a produção deste hash criptografado, mas de um pacote que contenham informações completas o suficiente para que possam indicar o seu signatário e mais algumas informações que são pertinentes em um ambiente de assinaturas digitais.</p>
+<p>Estes pacotes podem ser proprietários, porém alguns padrões podem ser encontrados no mercado como PKCS#7, CMS, CaDES, XMLDsig, XaDES, PaDES, etc. de forma a garantir a interoperabilidade destas assinaturas.</p>
+<p>Apenas assinaturas que atendam aos padrões CaDES ou XaDES tem valor legal perante a ICP-Brasil. Qualquer outro formato, apesar de produzir assinaturas que técnicamente permitem verificar seu(s) signatário(s) não são aceitos pela ICP-Brasil.</p>
+<br>
+<A NAME="criptografiaDigital()"><!-- --></A>
+<h2>Criptografia digital</h2>
+<p>Outra utilização do certificado digital seria a criptografia.</p>
+<p>A criptografia funciona da forma inversa a assinatura, onde o que se deseja esconder é criptogrado com a chave pública do proprietário do certificado digital, permitindo que apenas ele, portador da chave privativa consiga decriptografar o conteúdo.</p>
+<p>Em função dos problemas de performance associados ao uso de chaves assimétricas, assim como nas assinaturas, um truque é empregado.</p>
+<p>O processo de criptografia utiliza o algoritimo simétrico, onde uma chave secreta é produzida de forma aleatória e o conteúdo é criptografado com esta chave aleatória.O que é criptografado com a chave pública do destinatário é a chave aleatório, cujo seu tamanho é pequeno o suficiente para viabilizar o uso da certificação digital.</p>
+<p>No momento de revelar o segredo, o destinatário utiliza sua chave privativa para decriptografar a chave secreta e utiliza esta para decriptografar o conteúdo.</p>
+<p>Assim como nas assinaturas digitais, existem padrões para a utilização desta técnica, como o CMS e o XMLSec.</p>
+<br>
+<A NAME="api()"><!-- --></A>
+<h2>ICPBravo API</h2>
+<p>Como pode ser observado, para utilizar-se das facilidades em torno de certificação digital, é necessário uma série de mecanismos de forma a preservar a segurança e atender todos os padrões em torno de um assunto tão extenso.</p>
+<p>É necessário o processamento de complexos algoritimos matemáticos, de interfaces com hardwares criptográficos, de produção de informações em padrões que garantam a interoperabilidade entre as aplicações.</p>
+<p>A API ICPBravo é uma biblioteca que proporciona um conjunto de classes e rotinas que servem para o desenvolvimento de aplicações para certificação digital.</p>
+<p>Tem em sua estrutura um arquivo <i>.JAR</i> que se destina a construção de aplicações em linguagem JAVA (Server-side), um applet disposto também em arquivo <i>.JAR</i> e um conjunto de rotinas em script para se relacionar com o applet em arquivo <i>.JS</i> para a construção de aplicações WEB (Client-side), uma <i>.DLL</i> para o desenvolvimento de aplicações em outras linguagens para se relacionar com a API MS-CAPICOM. Em sua versão .NET uma conta com uma <i>.DLL</i> para a construção de aplicações em ambiente .NET (Server Side).</p>
+<p>A API ICPBravo conta com uma extensa documentação com exemplos que resumem a árdua tarefa de construir aplicações para certificação digital em poucas linhas de código adicionadas ao seu programa.</p>
+<br>
+<p>Dentre as inúmeras funcionalidades desempenhadas pela API ICPBravo, podemos enumerar algumas:
+<ul>
+<li>Uso de algoritmos simétricos de criptografia para geração de chaves secretas, criptografar e decriptografar documentos nos seguintes algoritmos: AES, DES, RC2, RC4 e TripleDES.</li>
+<li>Uso de algoritmos assimétricos de criptografia para geração de par de chaves, criptografar e decriptografar documentos e chaves nos seguintes algoritmos: DSA, RSA e Diffie-Hellman.</li>
+<li>Uso de algoritmos de digest para geração de valores de hash para os seguintes algoritmos: SHA-1, SHA-2 (224, 256, 384 e 512), MD5 e HMAC-SHA1.</li>
+<li>Uso de algoritmos de Segredo compartilhados M de N para o algoritimo de ShamirSecretSharing.</li>
+<li>Uso de algoritmos de geração de números pseudo-aleatórios para os seguintes algoritmos: SHA-1 e LFSR.</li>
+<li>Codificação e Decodificação de pacotes PKCS#7, CMS, CaDES, XML, XaDES, PaDES para assinaturas e criptografia (SignedData e EnvelopedData) em conformidade com as especificações correntes da ICP-Brasil.</li>
+<li>Atendimento as políticas de assinaturas exigidas pela ICP-Brasil, como AD-CP, AD-T, AD-C, AD-R e AD-A.</li>
+<li>Codificação e Decodificação de certificados X509 v2 e v3, permitindo acessar as exensões em conformidade com as especificações correntes da ICP-Brasil.</li>
+<li>Acesso a LCR (lista de certificados revogados), permitindo cache, de forma a minimizar tráfego de informações em redes;</li>
+<li>Suporte a inúmeros dispositivos criptográficos disponíveis no mercado (PKCS#11 ou CAPICOM).</li>
+<li>Suporte a operações criptográficas por software (PKCS#12).</li>
+<li>Suporte a gerenciadores de certificados: LDAP, JKS, KeyStore, CAPICOM. </li>
+<li>Suporte a integração e uso de certificados digitais com alguns padrões, como: SSL, TSL, S/MIME, etc..</li>
+<li>Applets e scripts que permitem a construção de aplicações Web que se interoperam com os dispositivos criptográficos e os padrões exigidos.</li>
+</ul>
+<i>ps.: Alguns algoritmos implementados na API já se encontram em desuso, porém permanecem implementados para efeito de compatibilidade com aplicações anteriores.</i>
+<br>
+</body>
+</html>
