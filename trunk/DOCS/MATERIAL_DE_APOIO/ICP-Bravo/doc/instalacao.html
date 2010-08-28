@@ -1,0 +1,65 @@
+<html>
+<header>
+	<link href="icpbravo.css" rel="stylesheet" type="text/css" />
+	<title>ICPBravo - Instala&ccedil;&atilde;o</title>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+</header>
+<body>
+	<table width='100%'><tr>
+	<td align='left'><a href='index.html'><img src='../img/LogoGrande.png' border='0'></a></td>
+	<td align='right'><h1><a href='http://www.oaks.com.br'>OAK Soluções Empresariais</a></h1></td>
+	</tr>
+	</table>
+<h1>Instala&ccedil;&atilde;o da API ICP-Bravo</h1>
+<p>A API ICP-Bravo é distribuida em arquivo formato zip.</p>
+<p>Para a instalação da API, é necessário descompactar o zip <i>'ICPBravoDistrib-X.XX.zip'</i> em seu diretório de projetos, e fazer referência os pacotes a API em seus projetos.</p>
+<p>Dentro do zip, deverá ser encontrada a seguinte estrutura:</p>
+<ul>
+<li><h3>doc</h3>diretório contendo toda a documentação da API.
+	<ul>
+		<li>index.html - Página inicial para consulta à documentação da API.</li>
+		<li>Indice.html - Índice dos capítulos da documentação.</li>
+		<li><a href='Inicio.html'>Inicio.html</a> - Apresentação da API ICPBravo.</li>
+		<li><a href='desenvolvedor.html'>desenvolvedor.html</a> - Manual do desenvolvedor de aplicações com a API ICPBravo.</li>
+		<li><a href='exemplosApplet.html'>exemplosApplet.html</a> - Documentação do applet da API.</li>
+		<li><a href='exemplosAppletUsuario.html'>exemplosAppletUsuario.html</a> - Documentação do applet com interface de usuário.</li>
+		<li><a href='instalacao.html'>instalacao.html</a> - Documentação de instalação da API.</li>
+		<li><a href='integracao.html'>integracao.html</a> - Manual de integração com hardwares criptográficos.</li>
+		<li><a href='javadoc/index.html'>javadoc</a> - diretório com o conteúdo javadoc da API.</li>
+		<li>ICPBravo.js - conjunto de biblioteca em javascript para ser utilizado em páginas HTML/JSP/PHP.</li>
+		<li><a href='seguranca.html'>seguranca.html</a> - Descrição dos mecanismos de seguraça da API.</li>
+		<li><a href='caracteristicasTecnicas.html'>caracteristicasTecnicas.html</a> - Descrição das características técnicas da API.</li>
+		<li><a href = 'suporte.html'>suporte.html</a> - Relação de Telefones/Endereços para atendimento e suporte técnico.</li>
+	</ul>
+</li>
+<br><br>
+<li><h3>lib</h3>diretório contendo os arquivos necessários para compilar programas com a API ICPBravo.
+	<ul>
+		<li><h3>Para programas em JAVA</h3></li>
+		<li>ICPBravoAPI-X.XX.jar - JAR com a API ICPBravo.</li>
+		<li>commons-httpclient.jar, commons-codec.jar e commons-logging.jar - API para chamadas HTTP. Necessário para acessar o CRL.</li>
+		<li>mail.jar - API da Sun que possibilita o envio de emails. Necessário para o uso de S/MIME.</li><br><br>
+		<li><h3>Para programas em outras linguagens com acesso via DLL</h3></li>
+		<li>MsCAPI.dll - DLL para acesso ao conjunto de bibliotecas da Microsoft, denominada CapiCOM.</li>
+		<li>Oak.ICPBravo.dll (*) - DLL ICPBravo para desenvolvimento de aplicação servidor em ambiente .NET.</li>
+	</ul>
+</li>
+<i>(*) - Este arquivo está presente apenas na distribuição para versão .NET</i>
+<br><br>
+<li><h3>sample</h3>diretório contendo o código fonte de exemplos da API.
+	<ul>
+		<li>br/com/oaks/ICPBravo/Exemplos.java - Conjunto de códigos fontes que demonstram a utilização da API.</li>
+	</ul>
+</li>
+<br><br>
+<li><h3>img</h3>diretório contendo imagens e figuras utilizada na API e na documentação da API.</li>
+<br><br>
+<li><h3>pages, scripts, styles, WEB-INF</h3>diretório contendo exemplos de uma aplicação em JSP, possibilitando o entendimento de aplicações em ambiente WEB utilizando a API.</li>
+</ul>
+<p>Para verificar os sistemas operacionais e versões de navegadores e JREs suportados, vide <a href='./caracteristicasTecnicas.html#SistemasOperacionais()'>Características Técnicas</a></p>
+<br>
+<br>
+<p>A instalação dos applets nas páginas e/ou da API em projetos será abordada nos capítulos pertinentes ao desenvolvimento de aplicações.</p>
+<p>Veja também o tópico de <a href='./seguranca.html'>segurança</a></p>
+</body>
+</html>

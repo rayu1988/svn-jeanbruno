@@ -1,0 +1,584 @@
+<html>
+<head>
+	<link href="icpbravo.css" rel="stylesheet" type="text/css" />
+	<title>ICPBravo - Manual do Desenvolvedor</title>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+	
+	<script type="text/javascript" src="../scripts/shCore.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCSharp.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushCss.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushDiff.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushJava.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushJScript.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushPlain.js"></script>
+	<script type="text/javascript" src="../scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet" href="../styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="../styles/shThemeMidnight.css"/>
+	<script type="text/javascript">
+		SyntaxHighlighter.config.clipboardSwf = '../scripts/clipboard.swf';
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+	<table width='100%'><tr>
+	<td align='left'><a href='index.html'><img src='../img/LogoGrande.png' border='0'></a></td>
+	<td align='right'><h1><a href='http://www.oaks.com.br'>OAK Soluções Empresariais</a></h1></td>
+	</tr>
+	</table>
+<h1>ICPBravo - Manual do Desenvolvedor</h1>
+<p>O presente manual ajudará o desenvolvedor a construir aplicações com o uso da API ICPBravo.</p>
+Os seguintes capítulos poderão ser verificados neste manual.
+<ul>
+<li><h2><a href='desenvolvedor.html#sunJCA_JCE()'>SUN JCA e JCE</a></h2></li>
+<li><h2><a href='desenvolvedor.html#chavesSimetricas()'>Algoritmos Simétricos</a></h2></li>
+<li><h2><a href='desenvolvedor.html#chavesAssimetricas()'>AlgoAlgoritmos Assimétricos ou Algoritmos de Chave Pública</a></h2></li>
+<li><h2><a href='desenvolvedor.html#digest()'>Algoritmos de Digest</a></h2></li>
+<li><h2><a href='desenvolvedor.html#numerosAleatorios()'>Números Aleatórios</a></h2></li>
+<li><h2><a href='desenvolvedor.html#pkcs()'>PKCS - Public Key Criptography Standards</a></h2></li>
+<li><h2><a href='desenvolvedor.html#asn1()'>ASN.1 - Abstract Syntax Notation number one</a></h2></li>
+<li><h2><a href='desenvolvedor.html#certificadosDigitais()'>Certificados Digitais</a></h2></li>
+<li><h2><a href='desenvolvedor.html#signedData()'>Assinaturas Digitais</a></h2></li>
+<li><h2><a href='desenvolvedor.html#envelopedData()'>Pacotes de Criptografia</a></h2></li>
+<li><h2><a href='desenvolvedor.html#csr()'>CSR - Certificate Signing Request</a></h2></li>
+</ul>
+
+<hr>
+<A NAME="sunJCA_JCE()"><!-- --></A>
+<h2>SUN JCA e JCE</h2>
+<p>A plataforma JAVA da Sun, adotou uma forma de se operar algoritmos de criptografia chamada de JCA, acrônimo de Java Cryptography Architecture e algum tempo depois, por exigencia do próprio mercado e de regulamentações do governo americano, a plataforma JCE, acrônimo de Java Cryptography Extension. (*)</p>
+<p>Esta arquitetura permite que aplicações de criptografia sejam construidas, sendo possível a troca da implementação dos algoritmos sem a necessidade de alterações substanciais nos códigos fontes em produção.</p>
+<p>Isto é possível devido ao uso de <i>Provider's</i> e <i>Factory's</i> que encapsulam a forma de se contruir objetos criptográficos dentro da plataforma.</p>
+<p>Desta forma, a sua aplicação deve sempre solicitar objetos criptográficos ao(s) Provider(s), onde a própria arquitetura se encarregará de fornecer o objeto adequado para atender ao contexto, assim como pode ser demonstrado abaixo.</p>
+<img src='../img/JCA-JCE Arquitetura 1 BrcoPrto.png' width='100%'>
+
+<p>Isto é necessário devido a grande gama de opções derivadas de problemas relacionados ao uso de criptografia.</p>
+<br><i>(*) Nos dias atuais, devido a similaridade destas duas plataformas, elas estão convergindo para a existência de apenas uma, sendo que até o momento da produção deste material ainda não tinha uma definição.</i>
+<A NAME="chavesSimetricas()"><!-- --></A>
+<h2>Algoritmos Simétricos</h2>
+<p>Algoritmos simétricos são algoritmos onde a chave para criptografar e decriptografar o conteúdo é a mesma.</p>
+<p>Estes algoritmos tem como benefício a característica de serem rápidos, porém sua maior fragilidade consiste no fato da divulgação do segredo para as duas partes, que pode sofrer algum tipo de interceptação, colocando toda a seguraça da criptografia por água abaixo.</p>
+<pre class="brush: java;">
+// Criar uma chave simétrica
+KeyGenerator generator = KeyGenerator.getInstance("DES", "ICPBRAVO");
+generator.init(112);
+SecretKey key = generator.generateKey();
+
+// Instanciar um novo objeto do tipo Cipher
+Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5PADDING","ICPBRAVO");
+
+// Contruir os parâmetros adequados para o tipo de bloco desejado
+AlgorithmParameterSpec parm = new IvParameterSpec(new byte[8]); 
+
+// Inicializar o algoritimo no modo desejado
+cipher.init(Cipher.ENCRYPT_MODE, key, parm);
+
+// Criptografar o conteúdo de plainText em cryptDoc 
+byte [] plainText = "text original".getBytes();
+byte [] cryptDoc = cipher.doFinal(plainText)
+
+// Retornar o conteúdo com a chave secreta
+cipher.update(Cipher.DECRYPT_MODE, key, parm);
+byte [] decryptDoc = cipher.doFinal(cryptDoc)
+
+</pre>
+<p>Alguns problemas foram observados no uso desta forma, que são:</p>
+<ul>
+<li>Em primeiro lugar, todos os parâmetros são sempre passados as Factory's por meio de strings. Isto pode ocasionar falhas frequentes de erros de digitação, que não poderão serem verificadas em tempo de compilação e que só poderão ser observadas na execução do código.</li>
+<li>Necessidade de conhecimento aprofundado de cada parâmetro exigido pelo algoritmo desejado, como pode ser observado nas linhas de inicialização da chaveSecreta e na inicialização do objeto cipher, que no caso de falhas, também só poderão ser observadas em tempo de execução.</li>
+<li>Seleção do algoritmo por meio de string, que força que a JRE seja configurada de antemão para suportar o provider, fazendo com que o procedimento de instalação dos aplicativos se tornem mais complexos.</li>
+</ul>
+<p>A API ICPBravo proporciona uma alternativa para se utilizar destes algoritmos, de forma a minimizar estes problemas mensionados, fazendo com que as eventuais falhas de utilização dos algoritmos já possam serem observadas em tempo de compilação, conforme o trecho de código abaixo:</p>
+<pre class="brush: java;">
+// Instanciar o objeto que representa o algoritmo
+SymmetricAlgorithm alg = new DES112CBC(new ICPBravoProvider());
+
+// Criar uma chave simétrica
+SecretKey key = alg.generateKey();
+
+// Criptografar o conteúdo de plainText em cryptDoc 
+byte [] plainText = "text original".getBytes();
+byte [] cryptDoc = alg.crypt(plainText, key);
+
+// Retornar o conteúdo com a chave secreta
+byte [] decryptDoc = alg.decrypt(cryptDoc, key);
+</pre>
+<p>Perceba que, fora as visíveis diminuições nas quantidades de linhas do programa para se efetuar a mesma lógica, não foi mais necessário decorar as strings de parâmetro do algoritmo utilizado.</p>
+<p>Veja que, caso digitassemos o nome do algoritmo de forma errada, como por exemplo DES128CBC, o compilador daria um erro informando que o algoritmo em questão não existe, visto que não é uma classe implementada, sendo que no modo anterior, se inicializassemos a chave com 128 bits ao invés de 112, o erro só poderia ser observado em tempo de execução, uma vez que o algoritmo em questão não suporta este tamanho de chave.</p>
+<p>Este mesmo padrão poderá ser observado para as demais classes de algoritmos, como os assimétricos, digest, chaves aleatórias, etc., portanto a partir de agora, demonstraremos o uso dos algoritmos apenas com o uso das classes da API.</p>
+<p>Veja mais exemplos do uso de algoritmos simétricos em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaCifrasSimetricas()'>Exemplos</a></p>
+<A NAME="chavesAssimetricas()"><!-- --></A>
+<h2>Algoritmos Assimétricos ou Algoritmos de Chave Pública</h2>
+<p>Algoritmos assimétricos são algoritmos onde utilizam-se de pares de chaves. Uma chave é utilizada na criptografia da mensagem e a outra chave é utilizada na decriptografia.</p>
+<p><b>Algoritmos Suportados</b></p>
+<ul>
+<li>DSA</li>
+<li>RSA</li>
+<li>ECDSA (RFC 5480)</li>
+</ul>
+<p><b>Geração de chaves</b></p>
+<p>São Geradas chaves para DSA 512,RSA 1024, RSA 2048, RSA 4096, ECDSA 256,ECDSA 512.</p>
+<p>A API ICPBravo também implementa classes que permitem o uso das capacidades destes algoritmos, como pode ser verificado no trecho de código abaixo.</p>
+<pre class="brush: java;">
+// Instanciar o objeto que representa o algoritmo
+AsymmetricAlgorithm alg = new RSA1024ECB(new ICPBravoProvider());
+
+// Criar um par de chaves assimétricas
+KeyPair key = alg.generateKeyPair();
+
+// Criptografar o conteúdo de plainText em cryptDoc com a chave privada
+byte [] plainText = "text original".getBytes();
+byte [] cryptDoc = alg.crypt(plainText, key.getPrivate());
+
+// Retornar o conteúdo com a chave pública
+byte [] decryptDoc = alg.decrypt(cryptDoc, key.getPublic());
+</pre>
+<p>Veja que, ao contrário do algoritmo simétrico, foram utilizadas duas chaves. Uma para criptografar e outra para decriptografar.</p>
+<p>Veja mais exemplos do uso de algoritmos assimétricos em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaCifrasAssimetricas()'>Exemplos</a></p>
+<A NAME="digest()"><!-- --></A>
+<h2>Algoritmos de Digest</h2>
+<p>Nas operações de assinaturas, é comum criarmos um resumo do documento assinado para que, ao aplicá-lo em algoritmos assimétricos, não consumam um tempo excessivamente longo.</p>
+<p>Um algorítimo de digest, ou também conhecido como algorítimo de hash é uma seqüencia de bits geradas por um algoritmo de dispersão, em geral representada em base hexadecimal, que permite a visualização em letras (A a F) e números, representando 2 bytes cada.
+O conceito teórico diz que <i>"hash é a transformação de uma grande quantidade de informações em uma pequena quantidade de informações"</i>.</p>
+<p>Essa seqüencia busca identificar um arquivo ou informação unicamente, como por exemplo, uma mensagem de correio eletrônico, uma senha, uma chave criptográfica ou mesmo um arquivo.</p>
+<p>É um método para transformar dados de tal forma que o resultado seja (quase) exclusivo. Além disso, funções usadas em criptografia garantem que não é possível a partir de um valor de hash retornar à informação original. Como a seqüencia do hash é limitada, muitas vezes não passando de 512 bits, existem colisões (seqüências iguais para dados diferentes). Quanto maior for a dificuldade de se criar colisões intencionais, melhor é o algoritmo.</p>
+<p>Uma função de hash recebe um valor de um determinado tipo e retorna um código para ele. Enquanto o ideal seria gerar identificadores únicos para os valores de entrada, isso normalmente não é possível: na maioria dos casos, o contra-domínio de nossa função é muito menor do que o seu domínio, ou seja, x (o tipo de entrada) pode assumir uma gama muito maior de valores do que (o resultado da função de hash).
+</p>
+<p>A API ICPBravo também implementa classes que permitem o uso das capacidades destes algoritmos, como pode ser verificado no trecho de código abaixo.</p>
+<pre class="brush: java;">
+// Instancia o algoritmo de digest com um provider
+DigestAlgorithm alg = new new SHA1(provider);
+
+// Gera o hash para os bytes de entrada
+byte[] bts = "teste".getBytes();
+byte hash [] = algs.digest(bts);
+</pre>
+<p>Veja mais exemplos do uso de algoritmos de digest em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaDigest()'>Exemplos</a></p>
+<A NAME="numerosAleatorios()"><!-- --></A>
+<h2>Números Aleatórios</h2>
+<p>Na ICPBravo são implemetados três algoritmos para geração de números pseudo aleatórios.</p>
+<ul>
+<li>LFSRs (linear feedback shift registers)</li>
+<li>SHA1-PRNG</li>
+<li>WindowsPRNG</li>
+</ul>
+<p><b>LFSR</b></p>
+<p>O algoritmo utilizado é baseado no Non-binary Galois LFSR utilizando a combinação da saída de três LFSRs. Para a combinação é  utilizado o algortimo Alternating Stop-and-go. Nessa implementação, são utilizados registradores de 256 bits,  permitindo assim gerar chaves de até 256 bits sem com isso facilitar a criptoanálise das chaves geradas.</p>
+<p><b>SHA1-PRNG</b></p>
+<p>Utiliza o algoritmo descrito em FIPS Pub 186-2 apendice 3.1</p>
+<p><b>WindowsPRNG</b></p>
+<p>Utiliza a implemetação da Microsoft . Para o Windows XP é utilizado o FIPS Pub 186-2. Para o Windows Vista com SP1 é utilizado o NIST Special Publication 800-90. http://csrc.nist.gov/publications/nistpubs/800-90/SP800-90revised_March2007.pdf</p>
+<p>A API ICPBravo possibilita o uso destes algoritmos por meio de suas classe, conforme pode ser observado no trecho de código a seguir:</p>
+<pre class="brush: java;">
+PRNGAlgorithm alg = new LFSR(new ICPBravoProvider());
+SecureRandom sr = algs.getRandom();
+// Gera um número aleatório entre 0 e 511
+int random = sr.nextInt(512);
+</pre>
+<p>Veja mais exemplos do uso de geração de números aleatórios em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaNumerosAleatorios()'>Exemplos</a></p>
+<A NAME="pkcs()"><!-- --></A>
+<h2>PKCS - Public Key Criptography Standards</h2>
+<p>A empresa RSA, nome este em função de seus fundadores, Ron Rivest, Adi Shamir e Len Adleman, tem um papel fundamental no mercado de normalizações e uma divisão no laboratório RSA mantém uma série de padrões denominados PKCS.</p>
+<p>Os PKCS indicam um padrão de fato relativos aos formatos de transferência de dados de forma a garantir a interoperabilidade e compatibilidade entre aplicações, onde existia um vazio nas normas internacionais.</p>
+<p>São doze os padrões utilizados:</p>
+<ul>
+<li>PKCS#1  <i>(RSA Encryption Standard)</i> - Normaliza o uso do algoritmo RSA para assinaturas e envelopes digitais. O formato de uma mensagem contendo uma assinatura digital está definido em PKCS#7.</li>
+<li>PKCS#3  <i>(Diffie-Hellman Key Agreement Standard)</i> - Normaliza o uso do protocolo de acordo com as chaves Diffie-Hellman no estabelecimento de chaves secretas ou de sessão (em camadas de rede ou de transporte).</li>
+<li>PKCS#5  <i>(Password-Based Encryption Standard)</i> - Descreve um método para criptografar um array de bytes utilizando uma chave secreta calculada com base em uma senha (Password-Based Encryption - PBE)</li>
+<li>PKCS#6  <i>(Extended-Certificate Syntax Standard)</i> - Extende a definição dos cerficados X.509, permitindo a associação de outros atributos à entidade titular do certificado.</li>
+<li>PKCS#7  <i>(Cryptographic Message Syntax Standard)</i> - Define uma sintaxe para mensagens criptografadas, como assinaturas e envelopes digitais, bem como um repositório para CRLs e certificados.</li>
+<li>PKCS#8  <i>(Private-Key Information Syntax Standard)</i> - Define uma sintaxe para informações de chaves privativas (valor, algoritmo e atributos).</li>
+<li>PKCS#9  <i>(Selected Attribute Types)</i> - Atributos que podem estar associados a chaves, assinaturas, certificados, etc.</li>
+<li>PKCS#10 <i>(Certification Request Syntax Standard)</i> - Define uma sintaxe para pedidos de certificados.</li>
+<li>PKCS#11 <i>(Cryptographic Token Interface Standard)</i> - Define uma API, chamada de Cryptoki, para dispositivos criptográficos (que armazenam e executam algoritmos criptográficos).</li>
+<li>PKCS#12 <i>(Personal Information Exchange Syntax)</i> - Descreve uma sintaxe para a transferência de informações de identificação pessoal, incluindo chaves privativas, certificados, chaves secretas e extensões.</li>
+<li>PKCS#13 <i>(Elliptic Curve Cryptographic Standard)</i> - Ainda em desenvolvimento, e será dedicada às técnicas de criptografia baseada em curvas elípticas.</li>
+<li>PKCS#15 <i>(Cryptographic Token Interface Format Standard)</i> - Descrevem uma forma de utilizar e identificar tokens criptográficos.</li>
+</ul>
+<p>O entendimento destes padrões será mais amplamente discutido no decorrer deste documento.</p>
+<A NAME="asn1()"><!-- --></A>
+<h2>ASN.1 - Abstract Syntax Notation number one</h2>
+<p>ASN.1 ou Abstract Syntax Notation One é uma notação que permite definir tipos de dados simples e complexos e especificar valores que estes tipos podem assumir.</p>
+<p>É importante descrever esta notação pois a maioria dos padrões de PKCS são em definidos em notação ASN.1 e, será muito comum nos depararmos com objetos ASN1 nos objetos que implementam relações com certificação digital.</p>
+<p>Os valores que são transmitidos podem ser de diversos tipos. Existem os tipos simples e outros, mais complexos, que são formados de vários tipos simples combinados. Cada tipo recebe uma denominação que o distingue, de forma inequívoca de todos os demais tipos. Algumas das maneiras de definir novos tipos são:</p>
+<ul>
+<li>uma sequência (ordenada) de tipos existentes</li> 
+<li>uma sequência não ordenada de tipos existentes</li> 
+<li>uma seleção de um dentre um conjunto de tipos</li>
+</ul>
+<p>Estes são denominados tipos estruturados. Cada tipo recebe um rótulo ("tag"). Um mesmo rótulo pode ser atribuído a mais de um tipo cuja particular identificação será decidida pelo contexto em que o rótulo for usado.</p>
+<p>Existem quatro classes de rótulos:</p>
+<ul>
+<li><b>UNIVERSAL</b>: pode ser atribuído a um tipo simples ou a um mecanismo de construção, conforme especificado na tabela A.1.</li>
+<li><b>APLICAÇÃO</b>: rótulos atribuídos a tipos por padrões específicos. Num particular padrão os rótulos da classe de APLICAÇ[[Atilde]]O somente podem ser atribuídos a um único valor.</li>
+<li><b>PRIVADA</b>: rótulos usados numa empresa especifica.</li>
+<li><b>ESPECIFICADO-POR-CONTEXTO</b>: interpretado de acordo com o contexto em que é usado.</li>
+</ul>
+<br>
+<table>
+<tr><th colspan='2'>TABELA A.1 Rotulo atribuídos na classe universal</th></tr>
+<tr><td>UNIVERSAL 1</td><td>boleano</td></tr>
+<tr><td>UNIVERSAL 2</td><td>inteiro</td></tr>
+<tr><td>UNIVERSAL 3</td><td>string de bits</td></tr>
+<tr><td>UNIVERSAL 4</td><td>string de octetos</td></tr>
+<tr><td>UNIVERSAL 5</td><td>nulo</td></tr>
+<tr><td>UNIVERSAL 6</td><td>id de objetos</td></tr>
+<tr><td>UNIVERSAL 7</td><td>descritor de objetos</td></tr>
+<tr><td>UNIVERSAL 8</td><td>externo</td></tr>
+<tr><td>UNIVERSAL 9-15</td><td>reservados para adendos ao padrão</td></tr>
+<tr><td>UNIVERSAL 16</td><td>SEQUENCE e SEQUENCE-OF</td></tr>
+<tr><td>UNIVERSAL 17</td><td>SET e SET-OF</td></tr>
+<tr><td>UNIVERSAL 18-22, 25-27</td><td>string de conjuntos de caracteres</td></tr>
+<tr><td>UNIVERSAL 23-24</td><td>hora</td></tr>
+<tr><td>UNIVERSAL 28,...</td><td>reservados para adendos ao padrão</td></tr>
+</table>
+<p>O valor do rótulo é especificado indicando-se sua classe e o número dentro da classe (que deve ser inteiro não negativo), em notação decimal.</p>
+<p>As regras de codificação sempre conduzem o rótulo do tipo, explícita ou implicitamente, bem como alguma representação do valor do tipo.</p>
+<p>ASN.1 ou Abstract Syntax Notation One e uma notação que permite definir tipos complexos e especificar valores destes tipos. As regras de codificação constituem outro padrão que aplicadas ao valor de um certo tipo definido pela ASN.1 resultam na especificação completa dos valores daquele tipo durante a transferência. As regras de codificação sempre forçam a transmissão do rótulo de um tipo, implícita ou explicitamente, juntamente com a representação do seu valor.</p>
+<p>A API ICPBravo implementa classes para utilização dos pacotes ASN.1 dentro do package <i>br.com.oaks.ICPBravo.asn1</i> e seus subpacotes.</p>
+<p>A API ICPBravo contempla o reconhecimento dos OID's (Identificadores de objetos ASN.1) mais utilizados, reconhecidos pela ICP-Brasil, que poderá ser encontrado na classe br.com.oaks.ICPBravo.asn1.oiw.OIWObjectIdentifiers.</p>
+<p>Por meio desta classe é possível acessar uma lista de OID's previamnete cadastrada, e também é possível a inclusão de OID's específicos.</p>
+<A NAME="certificadosDigitais()"><!-- --></A>
+<h2>Certificados Digitais</h2>
+<p>Muito se fala em certificados digitais, mas o que é um certificado digital na realidade?</p>
+<p>Trata-se de um conjunto de informações que são armazenadas em um repositório, que permitem identificar o seu proprietário (subject), o seu emissor (issuer) e sua chave pública, bem como algumas informações adicionais que serão descritas em outros capítulos desta documentação.</p>
+<p>Este conjunto de informações pode ser armazenado em um arquivo do sistema operacional (PKCS#12 ou JKS), porém isto ocasiona que, no caso da perda da máquina ou mesmo da invasão desta, este certificado fique vulnerável. Possibilitando que pessoas não autorizadas possam realizar operações com o certificado de forma não autorizada.</p>
+<p>Outra opção é armazenar este certificado em um dispositivo criptográfico (PKCS#11), que pode ser: Um cartão smartcard, que pode ser lido através de uma interface leitora de cartão, um token criptográfico, ou em alguns casos, um hardware específico, chamado de HSM.</p>
+<p>Estas opções garantem uma maior segurança do certificado, uma vez que nunca permitem a exportação da chave privativa de dentro de seu hardware.</p>
+<p>Outras características importantes dos certificados residem no fato de que são emitidos por instituições confiáveis, chamadas de AC (Autoridades Certificadoras).</p>
+<p>A estas ACs cabem as tarefas de:</p>
+<ul>
+<li>Manter a mais rígida segurança possível para a chave privativa da AC;</li>
+<li>Assegurar que seu próprio certificado seja amplamente distribuido;</li>
+<li>Emissão de certificados;</li>
+<li>Revogação de certificados;</li>
+<li>Renovação de certificados;</li>
+<li>Emissão da lista de certificados revogados;</li>
+<li>Publicação da lista de certificados revogados;</li>
+<li>Disponibilizar a situação do certificado, quando requerida;</li>
+<li>Gerência de chaves criptográficas;</li>
+<li>Publicação de suas regras operacionais;</li>
+<li>Fiscalização do cumprimento das políticas pelos usuários.</li>
+</ul>
+<p>A API ICPBravo implementa algumas funcionalidades para utilizar certificados digitais.</p>
+<p>São implementados na API por meio das classes no pacote <i>br.com.oaks.ICPBravo.certs</i>, sendo que as duas principais classes são <i>ICPBravoCertificate</i>, que definem o próprio certificado e <i>ICPBravoCertificateGenerator</i> que auxilia no procedimento de geração de novos certificados.</p>
+<p>Para certificados de usuário ou de ACs, os modelos X.509 v3, existem classes que permitem codificar e decodificar estes, e testar as extensões definidas pela ICP-Brasil.</p>
+
+<h3>Criando certificados digitais</h3>
+<p>No trecho de programa abaixo criaremos um certificado raiz, representando um certificado de AC, e um certificado de usuário final.</p>
+<pre class="brush: java;">
+Date from = ... data da validade inicial do certificado
+Date to = ... data da validade final do certificado
+
+// Cria um novo gerenciador de dispositivos, e pega o provider deste.
+ICPBravoManager manager = new  = new TestManager("JKS", new ICPBravoProvider(), "1234".toCharArray());
+Provider provider = manager.getProvider();
+
+// Instanciar um novo objeto gerador de certificados ...
+ICPBravoCertificateGenerator gen = new ICPBravoCertificateGenerator(
+		provider,
+		"Certificado raiz", // Alias
+		BigInteger.valueOf(1), // Número de série do certificado
+		"Certificado raiz", // Subject
+		null,// Issuer do certificado. no caso de null é autoassinado
+		
+		// KeyUsages
+		KeyUsageASN1.keyCertSign | KeyUsageASN1.cRLSign,
+		
+		// KeyPurposes
+		new KeyPurposeIdASN1 [] {KeyPurposeIdASN1.id_kp_serverAuth, KeyPurposeIdASN1.id_kp_clientAuth, KeyPurposeIdASN1.id_kp_emailProtection, KeyPurposeIdASN1.id_kp_codeSigning, KeyPurposeIdASN1.id_kp_timeStamping},
+		
+		// Endereço URL para tratamento da requisição de CRL
+		"http://acraiz.icpbrasil.gov.oaks.com.br/LCRacraiz.crl",
+		
+		// Declaração das práticas de certificação (DPC) 
+		OIWObjectIdentifiers.OID_ICPBrasilDPC+".0",
+		"http://acraiz.icpbrasil.gov.oaks.com.br/DPCacraiz.pdf", 
+		
+		// Valores adicionais a serem acrescentados ao campo subject
+		"OAK Solucoes Empresariais,L=Brasilia,S=DF",
+		
+		// Data de validade
+		from,
+		to,
+		
+		new RSA1024ECB(provider),	// Algoritmo da chave assimétrica
+		new SHA1(provider),		// Algoritmo de digest 
+		
+		null // Endereço de email como subjectAlternativeName
+		);
+
+// Gerar um novo certificado raiz
+ICPBravoCertificate raiz = gen.generate(manager, true);
+
+// Instanciar um novo objeto gerado
+gen = new ICPBravoCertificateGenerator(
+		provider, 
+		"Pessoa 1", // Alias
+		BigInteger.valueOf(2), // Número de série
+		"Pessoa 1", // Subject
+		raiz, // Neste caso, estamos informando que o issuer do certifcado é a nossa raiz 
+		KeyUsageASN1.digitalSignature | KeyUsageASN1.keyEncipherment | KeyUsageASN1.nonRepudiation,
+		new KeyPurposeIdASN1 [] {KeyPurposeIdASN1.id_kp_clientAuth, KeyPurposeIdASN1.id_kp_emailProtection, KeyPurposeIdASN1.id_kp_codeSigning, KeyPurposeIdASN1.id_kp_timeStamping},
+		"http://www.certificadodigital.oaks.com.br/repositorio/lcr/SerasaSRF.crl", 
+		OIWObjectIdentifiers.OID_ICPBrasilA3+".10",
+		"http://www.certificadodigital.oaks.com.br/repositorio/dpc", 
+		"OU=SRF e-CPF fake,OU=Secretaria da Receita Federal fake - SRFf",
+		from,
+		to,
+		new RSA(provider),
+		new SHA1(provider),
+		"pessoa1S@oaktech.com.br", 
+		
+		// Para os certificados de pessoa física, adicionaremos algumas informações adicionais ao
+		// certificado, com informações de seu proprietário (E-CPF, por exemplo) 
+		new GregorianCalendar(2009, 1, 1).getTime(), // nascimento
+		"12345678901", // cpf
+		null, // nis
+		"12345678909", // rg
+		"SSPDf", // oe
+		null, // tituloEleitor
+		null, // zona
+		null, // sessao
+		null, // municipioUf
+		null // inss
+		);
+
+// Gerar um novo certificado de pessoa física
+ICPBravoCertificate cert = gen.generate(manager, true);
+
+</pre>
+<p>Nos exemplos acima, utilizamos classes da API que nos permitiram criar dois certificados em um mesmo gerenciador de dispositivo.</p>
+<p>Neste exemplo utilizamos um gerenciador de dispositivo meramente para fins de explicação.<br>
+Caso quisessemos gerar estes certificados em tokens ou cartões smartCard, seria necessário trocar o manager utilizado para:</p>
+<pre class="brush: java;">
+ICPBravoManager manager = new PKCS11Manager();</pre>
+ou se quisessemos utilizar um store armazenado em nosso próprio sistema de arquivos, chamado de PKCS#12, deveríamos utilizar o manager abaixo
+<pre class="brush: java;">
+ICPBravoManager manager = new PKCS12Manager();</pre>
+Sendo que, neste caso, ao terminarmos de gerar todos os certificados, deveríamos gerar o arquivo com o comando:
+<pre class="brush: java;">
+manager.saveTofile();
+</pre> 
+<i>ps.: Existem algumas formas de se inicializar um manager PKCS#12. No exemplo acima apenas instanciamos o manager com o comando 'new PKCS12Manager()', o que fará com qua a API solicitite ao usuário que seja selecionado o arquivo com o pacote PKCS#12 e seu PIN. Existem casos em que já é sabido o local deste arquivo e/ou seu PIN, onde deve ser passado como parâmetro ao construtor da classe.</i>
+<h3>Ler informações dos certificados digitais</h3>
+<p>Outra operação muito comum com certificados, alias, bem mais comum que a emissão de certificados a não ser que você esteja implantando uma AC, é leitura e verificação do certificado.</p>
+<p>Em nosso exemplo acima, já criamos os certificados e os associamos a variáveis, porém na maioria dos casos, nós gostaríamos de abrir um dispositivo existente e recuperar o certificado que está armazenado em seu conteúdo.</p>
+<p>Vamos montar um novo exemplo com este procedimento.</p>
+<pre class="brush: java;">
+ICPBravoManager manager = new PKCS11Manager();
+manager.reload(); // A linha indica para carregarmos o conteúdo do dispositivo para memória
+ICPBravoCertificate cert = manager.getCertificate("Pessoa 1"); // Recuperamos o certificado pelo seu alias
+</pre>
+ou poderíamos ler todos os certificados instalados no dispositivo
+<pre class="brush: java;">
+Vector&lt;ICPBravoCertificate&gt; certs = manager.getCertificates(); // recuperamos a lista com todos os certificados presente no gerenciador
+</pre>
+
+<p>
+De posse do certificado, vamos analizá-lo de forma a garantir a sua capacidade. A nossa análise consistirá basicamente de ler as informações relevantes do certificado e apresentá-las no System.out.</p>
+<pre class="brush: java;">
+System.out.println("é autoassinado: "+cert.isAutoSign());
+System.out.println("é certificador de sigilo: "+cert.isSecrecy());
+System.out.println("é ICPBrasil: "+cert.isICPBrasil());
+System.out.println("é raiz ICPBrasil: "+cert.isICPBrasilRoot());
+System.out.println("pode assinar: "+cert.canSign());
+System.out.println("crlSign: "+cert.isKeyUsageExtensionCrlSign());
+System.out.println("dataEncipherment: "+cert.isKeyUsageExtensionDataEncipherment());
+System.out.println("decipherOnly: "+cert.isKeyUsageExtensionDecipherOnly());
+System.out.println("encipherOnly: "+cert.isKeyUsageExtensionEncipherOnly());
+System.out.println("digitalSignature: "+cert.isKeyUsageExtensionDigitalSignature());
+System.out.println("keyAgreement: "+cert.isKeyUsageExtensionKeyAgreement());
+System.out.println("KeyCertisign: "+cert.isKeyUsageExtensionKeyCertisign());
+System.out.println("KeyEncipherment: "+cert.isKeyUsageExtensionKeyEncipherment());
+System.out.println("NonRepudiation: "+cert.isKeyUsageExtensionNonRepudiation());
+try {
+	cert.tryValidate();
+	System.out.println("certificado válido: OK");
+} catch (CertificadoExpiradoException e1) {
+	System.out.println("certificado válido: Falha "+e1.getMessage());
+} catch (InvalidCertificateException e1) {
+	System.out.println("certificado válido: Falha "+e1.getMessage());
+}
+try {
+	cert.tryTrustedValidate();
+	System.out.println("certificado confiável: OK");
+} catch (Exception e1) {
+	System.out.println("certificado confiável: Falha "+e1.getMessage());
+}
+try {
+	ICPBravoCA ac = cert.getIssuerObject();
+	if (ac != null) {
+		System.out.println("AC: "+ac.toString());
+		System.out.println("AC URL: "+ac.getURLCrl());
+		ICPBravoCRL crl = ac.getValidCRL(null);
+		System.out.println("CRL OK: "+crl.getThisUpdate()+" até "+crl.getNextUpdate());
+	} else
+		System.out.println("Não tem AC");
+} catch (Exception e) {
+	System.out.println("Falha na verificação de CRL "+e.toString());
+}
+Vector&lt;CertificateAttribute&gt; infoGerais = cert.getGeneralInformation();
+for (CertificateAttribute informacaoCertificado : infoGerais)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoIssuerDNKeys = cert.getIssuerDNKeys();
+for (CertificateAttribute informacaoCertificado : infoIssuerDNKeys)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoSubjectDNKeys = cert.getSubjectDNKeys();
+for (CertificateAttribute informacaoCertificado : infoSubjectDNKeys)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoSubjectAlternativeNameExtensions = cert.getSubjectAlternativeNamesExtensions();
+for (CertificateAttribute informacaoCertificado : infoSubjectAlternativeNameExtensions)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoKeyUsageExtensions = cert.getKeyUsageExtension();
+for (CertificateAttribute informacaoCertificado : infoKeyUsageExtensions)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoExtendedKeyUsageExtension = cert.getExtendedKeyUsageExtension();
+for (CertificateAttribute informacaoCertificado : infoExtendedKeyUsageExtension)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoPolicesExtensions = cert.getCertificatePoliciesExtensions();
+for (CertificateAttribute informacaoCertificado : infoPolicesExtensions)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoCRLDistributionPointsExtensions = cert.getCRLDistributionPointsExtensions();
+for (CertificateAttribute informacaoCertificado : infoCRLDistributionPointsExtensions)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+Vector&lt;CertificateAttribute&gt; infoICPBrasil = cert.constroiSubjectAlternativeNamesExtensions();
+for (CertificateAttribute informacaoCertificado : infoICPBrasil)
+	System.out.println(informacaoCertificado.getDescription()+": "+informacaoCertificado.getValue());
+</pre>
+<p>Veja mais exemplos do uso de certificados digitais em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaCertificadoX509v3()'>Exemplos</a></p>
+<h3>Criando CRLs</h3>
+<p>No exemplo acima, que apresenta os dados do certificado, uma das informações que pode ser observada, foi a leitura e verificação do CRL, ou seja a lista de certificados revogados que é emitida pela AC que emitiu o certificado.</p>
+<p>No caso de se utilizar a API para o desenvolvimento de aplicações para ACs, será necessário também a emissão desta lista de revogados.</p>
+<p>É importante salientar que a API fornece subsidio para codificar este tipo de certificado, conhecido por X.509 v.2, porém é de responsabilidade dos projetistas da aplicação manterem a base de dados destes certificados revogados, até mesmo porque esta base deve ser mantida em bancos de dados com segurança, uma vez que a possibilidade de corromper esta lista deve ser completamente descartada.</p>
+<p>Vamos apresentar um pequeno trecho que mostra como codificar um CRL, porém sem a mínima pretensão de apresentar trechos de código que implementem esta base de dados.</p>
+<pre class="brush: java;">
+// Instancia um objeto gerador de CRLs, informando quem é o issuer
+ICPBravoCRLGenerator genCRL = new ICPBravoCRLGenerator(manager, certIssuer);
+
+// Adicione os certificados revogados que devem aparecer na lista, bem como o motivo
+// em nosso exemplo estamos adicionando apenas um certificado revogado,
+// porém neste ponto deveria adicionar toda a lista da base de dados
+genCRL.addCRLEntry(cert1.getSerialNumber(), new Date(), ICPBravoCRLGenerator.reason_unspecified);
+
+// Crie o objeto CRL, informando a sua validade e assinando com o certificado do issuer
+ICPBravoCRL crl = genCRL.generate(certIssuer.getPrivateKey(), new GregorianCalendar(2009, 0, 23).getTime(), new GregorianCalendar(2009, 1, 26).getTime());
+
+// Gere o arquivo com o CRL, que deverá estar disponível no servidor da AC.
+ICPBravoCRLGenerator.saveTofile("lastest.crl", crl);
+</pre>
+<A NAME="signedData()"><!-- --></A>
+<h2>Assinaturas Digitais</h2>
+<p>Uma assinatura digital deve ser interpretado como um procedimento análogo ao da assinatura manuscrita, onde deve ser possível:</p>
+<ul>
+<li>Autenticação - Identificação inequívoca das partes envolvidas no processo, assim como ocorre em cartórios;</li>
+<li>Integridade - As informações não podem ser modificadas, o que invalidaria a assinatura e garante ao signatário e aos seus destinatários que o conteúdo assinado não foi modificado;</li>
+<li>Não Reutilização - Não é possível utilizar uma mesma assinatura para mais de um documento(*1), o que também garante ao signatário que sua assinatura não possa ser copiada para outros documentos;</li>
+<li>Não Repúdio - O autor da assinatura não tem como negar sua autoria, o que garante aos receptores da assinatura que o signatário não poderá contestar sua assinatura.</li>
+</ul>
+<p>Sendo assim, para produzir uma assinatura digital, o procedimento pode ser descrito em:</p>
+<ul>
+<li>Criar um resumo de um documento (conhecido como hash do documento), que é feito por algoritmos que garantem que um mesmo conteúdo sempre gere o mesmo hash e, pequenas alterações no conteúdo produzam hashs completamente diferentes;</li>
+<li>Criptografar este resumo junto com outras informações relevante da assinatura (data/hora, tipo do documento, etc.) com o uso da chave privativa, o que garante que apenas o proprietário do certificado possa realizar tal operação;</li>
+<li>Unir estas informações em um pacote de forma que seja possível enviá-las, junto com as informações de autoria e chave pública do signatário para os destinatários, chamado de pacote PKCS#7(*2).</li>
+</ul>
+<p>Desta forma é possível realizar a operação inversa, ou seja decriptografar esta assinatura com a chave pública do signatário (que pode ser recuperada do certificado público do signatário) e verificar sua autoria.</p>
+<p>A API ICPBravo implementa algumas classe para o uso de assinatura digital, em conformidade com a RFC3852, que descreve as especificações de CMS, que estão dentro do pacote <i>br.com.oaks.ICPBravo.cms</i> e são basicamente as classes <i>CMSSignedData</i> contendo informações do pacote e <i>CMSSignerInformation</i> que contém as informações do signatário.
+<br>No exemplo a seguir criaremos uma nova assinatura, armazenando-a em um array de bytes:</p>
+<pre class="brush: java;">
+byte [] bts = "conteúdo".getBytes();
+
+CMSSignedData sd = new CMSSignedData(manager);
+
+// O conteúdo a ser assinado
+sd.setData(bts);
+
+// A linha abaixo especifica que utilizaremos um serviço de carimbo de tempo na URL descrita
+sd.setTSTUrl("http://tsp.iaik.at/tsp/TspRequest");
+
+// A linha abaixo indica que queremos que o conteúdo assinado esteja encapsulado dentro da assinatura
+sd.setEncapsulate(true);
+
+// Adicionar o signatário
+sd.addSigner(cert, cert.getPrivateKey(), 
+	new SignatureAlgorithm(
+		provider, 
+		new SHA1(provider), 
+		new RSA(provider)));
+
+// Criar o pacote
+byte [] sdPkcs7CMS = sd.getASN1Encoded();
+</pre> 
+<p>Agora faremos a operação inversa, ou seja, abrir o pacote de assinatura e verificar seus signatários.</p>
+<pre class="brush: java;">
+CMSSignedData sd = new CMSSignedData(manager, sdPkcs7CMS);
+sd.verify(null); // verifica a assinatura
+byte [] bts = sd.getDataBytes(); // Recebe o conteúdo assinado de volta, 
+				// uma vez que o conteúdo foi adicionado a assinatura
+
+List&lt;CMSSignerInformation&gt; signers = sd.getSigners(); // Lista todos os signatários da assinatura
+for (CMSSignerInformation signerInformation : signers) {
+	System.out.println("Signer: "+signerInformation.getCertificate().getName());
+	
+	// Lista todos os atributos assinados
+	Pkcs9 pkcs9SignedAttributes = signerInformation.getSignedAttributes();
+	List&lt;Pkcs9.Attribute&gt; signedAttributes = pkcs9SignedAttributes.getAttributes();
+	for (Pkcs9.Attribute attribute : signedAttributes) {
+		System.out.println(attribute.description()+": "+attribute.toString());
+	}
+	
+	// Lista todos os atributos não assinados (como por exemplo o TimeStampToken)
+	Pkcs9 pkcs9UnsignedAttributes = signerInformation.getUnsignedAttributes();
+	List&lt;Pkcs9.Attribute&gt; unsignedAttributes = pkcs9UnsignedAttributes.getAttributes();
+	for (Pkcs9.Attribute attribute : unsignedAttributes) {
+		System.out.println(attribute.description()+": "+attribute.toString());
+	}
+}
+</pre>
+<p>Veja mais exemplos do uso de assinaturas digitais em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaSignedData()'>Exemplos</a></p>
+<p>Semelhante a assinatura de bytes, também é possível a assinatura de mensagens de email por meio de pacote S/MIME (Secure/Multipurpose Internet Mail Extensions) e o exemplo para tal funcionalidade poderá ser encontrado em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaSMIME()'>Exemplos</a>.</p>
+<br>
+<i>(*1) Devido a operação de hash poder, pelo menos matematicamente, produzir o mesmo hash para mais de modelo de documento diferente, entende-se que não é possível produzir o mesmo hash pelo menos para documentos que tenham conteúdos coerentes, ou seja, alterar o conteúdo de um documento de forma a obter uma alteração desejável não deve produzir um mesmo hash do documento original.</i>
+<br><i>(*2) Devido a exigencias da ICP-Brasil, este pacote deve ser um CADES, que é de certa forma uma extensão do PKCS#7/CMS ou um XADES, que é uma assinatura em arquivos XML.</i>
+<A NAME="envelopedData()"><!-- --></A>
+<h2>Pacotes de Criptografia</h2>
+<p>São chamados de pacotes de criptografia, pacotes onde é possível enviar e receber informações criptografadas, permitindo a sua abertura sem a divulgação de nenhum segredo neste, caso sejam interceptados.</p>
+<p>Na definição dos pacotes PKCS#7/CMS, são conhecidos como EnvelopedData.</p>
+<p>Como o uso de algoritmos assimétricos em criptografia de grandes documentos é inviável devido ao tempo necessário para o processo, 
+e o uso de apenas algoritmos simétricos implicaria no problema de divulgar o segredo entre as partes, 
+o que enfraqueceria a segurança do processo, uma técnica bastante eficáz para esta criptografia é:</p>
+<ul>
+<li>Gerar uma chave secreta (segredo) aleatóriamente por meio de um algoritmo simétrico;</li>
+<li>Criptografar o documento com esta chave secreta;</li>
+<li>Criptografar esta chave secreta com a chave pública do destinatário (de forma que apenas o destinatário possa decriptografar esta chave).</li>
+<li>Empacotar o conteúdo e a chave, ambos criptografados, bem como as informações sobre o procedimento adotado, de forma a poder enviar estas informações para o(s) destinatário(s).</li>
+</ul>
+Ao receber estas informações, o destinatário executa os seguintes passos:
+<ul>
+<li>Decriptografa esta senha secreta com sua chave privativa;</li>
+<li>Decriptografa o documento com a senha secreta encontrada;</li>
+</ul>
+<p>Este modelo produz uma forma segura de se enviar informações criptografadas entre pessoas/instituições.</p>
+<p>A API ICPBravo implementa algumas classe para o uso de envelopes digitais, em conformidade com a RFC3852, que descreve as especificações de CMS, que estão dentro do pacote <i>br.com.oaks.ICPBravo.cms</i> e são basicamente as classes <i>CMSEnvelopedData</i> contendo informações do pacote e <i>CMSRecipientInformation</i> que contém as informações dos recipientes.
+<br>No exemplo a seguir criaremos um novo pacote de criptografia, armazenando-a em um array de bytes:</p>
+<pre class="brush: java;">
+byte [] bts = "conteúdo".getBytes();
+CMSEnvelopedData ed = new CMSEnvelopedData(provider, new AES128CBC(provider));
+ed.setData(bts);
+ed.addKeyTransRecipient(cert1);
+byte [] edPkcs7CMS = ed.getASN1Encoded();
+</pre> 
+<p>Agora faremos a operação inversa, ou seja, abrir o pacote de criptografia e recuperar seu conteúdo.</p>
+<pre class="brush: java;">
+CMSEnvelopedData ed = new CMSEnvelopedData(provider, edPkcs7CMS);
+byte [] bts = ed.getRecipient(cert, cert.getPrivateKey());
+</pre>
+<p>Veja mais exemplos do uso de envelopes digitais em <a href='javadoc/br/com/oaks/ICPBravo/Exemplos.html#testaEnvelopedData()'>Exemplos</a></p>
+<i>ps.: Algumas alternativas deste algorítimo também são aceitas, como incluir informações do remetente, ou mesmo criptografar com uma chave pré-concebida, porém este é o método mais utilizado.</i>
+<A NAME="csr()"><!-- --></A>
+<h2>CSR - Certificate Signing Request</h2>
+<p>Trata-se de uma forma eficiênte e segura de pacote de solicitação de certificado digital.</p>
+<p>Com esta técnica será possível gerar um par de chaves em um dispositivo criptográfico, mantendo a chave privativa em um local inviolável, e gerar um pacote de solicitação de certificado digital contendo a chave pública, e assinado pela chave privativa.</p>
+<p>Este pacote é submetido a autoridade ceritificadora (AC), onde o certificado poderá ser gerado e devolvido ao usuário para que possa ser instalado no dispositivo criptográfico.</p>
+<p>A API ICPBravo implementa algumas classe para o uso de CSR, em conformidade com PKCS#10.</p>
+</body>
+</html>
