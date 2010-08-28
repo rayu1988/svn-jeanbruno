@@ -1,0 +1,1 @@
+#Este diretório é destinado a abraçar os possíveis workspaces do eclipse.
