@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Tim Stamp" />
+<meta name="Original Author" content="CryptoMX Tools" />
+<meta name="Source" content="http://www.java2s.com/Code/JavaScriptDemo/Base64EncodingDecoding.htm" />
+<meta name="Source" content="http://www.vortex.prodigynet.co.uk/misc/ascii_conv.html" />
+<meta name="OriginalAuthor" content="Derek Buitenhuis" />
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<title>ASC-Hex-Dec-Bin - JavaScript Crypto Library</title>
+<script type="text/javascript" src="js/ascii_conv.js"></script>
+<script type="text/javascript" src="../base64/js/base64.js"></script>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #ddd;
+  margin: 10px;
+  font-size: 9pt;
+  background-image: url(../../img/bg_mech.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+input, select, textarea { font-family: Monospace; font-size:9pt;}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+</style>
+</head><body>
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="baseconvert.html.md5">[md5]</a>
+<a href="baseconvert.html.sha1">[sha1]</a>
+</div>
+
+<h2>Base Converter</h2>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+function swap() {
+    var from = document.getElementById("input");
+    var to = document.getElementById("output");
+    var tmp = from.value;
+    from.value = to.value;
+    to.value = tmp;
+    
+    var fromtype = document.getElementById("fromtype");
+    var fromval = fromtype.selectedIndex;
+    var totype = document.getElementById("totype");
+    var toval = totype.selectedIndex;
+    fromtype.selectedIndex = toval;
+    totype.selectedIndex = fromval;
+    
+}
+function convert() {
+    var delimiter = document.getElementById("delimiter").value;
+    var output = document.getElementById("input").value;
+    var fromtype = document.getElementById("fromtype");
+    fromtype = fromtype.options[fromtype.selectedIndex].value;
+    var totype = document.getElementById("totype");
+    totype = totype.options[totype.selectedIndex].value;
+    if(fromtype == "chars") {
+        output = hex_from_chars(output, delimiter);
+    }else if(fromtype == "b64") {
+        output = decode64(output);
+        output = hex_from_chars(output, delimiter);
+    }else if(fromtype == "dec") {
+        output = hex_from_dec(output, delimiter);
+    }else if(fromtype == "oct") {
+        output = hex_from_oct(output, delimiter);
+    }else if(fromtype == "bin") {
+        output = hex_from_bin(output, delimiter);
+    } //else input is in hex - so we don't need to convert it to hex!
+    if(totype == "chars") {
+        output = chars_from_hex(output, delimiter);
+    } else if(totype == "b64") {
+        output = chars_from_hex(output, delimiter);
+        output = encode64(output);
+    } else if(totype == "dec") {
+        output = dec_from_hex(output, delimiter);
+    } else if(totype == "oct") {
+        output = oct_from_hex(output, delimiter);
+    } else if(totype == "bin") {
+        output = bin_from_hex(output, delimiter);
+    }//else output is in hex - which the input is already!
+    document.getElementById("output").value = output;
+}
+/* ]]> */
+</script>
+
+<div>
+<label for="input">Input:</label><br />
+<textarea id="input" rows="10" cols="72" style="width:100%"></textarea><br />
+<label for="delimiter">Separator:</label>
+<input id="delimiter" value=" " size="2" type="text" />
+<label for="fromtype">From:</label>
+<select id="fromtype">
+    <option value="bin">Binary</option>
+    <option value="dec">Decimal</option>
+    <option value="oct">Octal</option>
+    <option value="hex">Hexadecimal</option>
+    <option value="b64">Base64</option>
+    <option value="chars">Plaintext</option>
+</select>
+<label for="totype">To:</label>
+<select id="totype">
+    <option value="bin">Binary (Base2)</option>
+    <option value="dec">Decimal (Base10)</option>
+    <option value="oct">Octal (Base8)</option>
+    <option value="hex">Hexadecimal (Base16)</option>
+    <option value="b64">Base64</option>
+    <option value="chars" selected="selected">Plaintext (Base256)</option>
+</select><br />
+<input type="reset" value="Reset" />
+<input type="button" onclick="swap()" value="Swap Fields" />
+<input type="button" onclick="convert()" value="Convert" /><br />
+<label for="output">Output:</label><br />
+<textarea id="output" rows="10" cols="72" style="width:100%"></textarea>
+</div>
+
+<p style="text-align:justify;">
+<b>Usage notes:</b><br />
+Plaintext: <i>Support for unprintable characters depends on your browser!</i><br />
+Base64: <i>Any non-base64 characters will be ignored.</i><br />
+Octal &amp; Decimal: <i>Any non-numerical characters will be ignored.</i><br />
+Hexadecimal: <i>Any non-hex characters will be ignored.</i><br />
+Binary: <i>Anything that isn't a '0' or a '1' will be ignored.</i><br />
+<br /><br />
+(The Base64 conversion algorithms are the same as used on the Base64 page.)<br />
+The delimiter is placed between all numbers to make them easier to read,
+however the converter ignores the delimiter and only sees a string of digits.
+The digits must be separated by non-standard characters, which the converter
+uses to split the string into its component variables.
+Decimal works by assuming all numbers are between 0 and 255.
+<br /><br />
+When converting to characters from dec/hex/bin anything below 32 will be set to
+32 (space).
+Using a delimiter that contains any hexadecimal digits [0-9A-Fa-f] will cause
+strange things to happen when converting from characters/bin/dec as they
+convert to hex first.
+<br /><br />
+<b>Known Bug:</b> Using Firefox in Linux 3.0.4 and probably other versions as well,
+converting from Binary into ASCII the decimal number 13 (Carriage Return or 'CR') will be
+automatically changed into decimal 10 (ASCII code for Line Feed or 'LF') by Firefox.
+This is possibly because of the UTF-8 encoding of these web pages, where ASCII 
+code 13 is used to represent a newline in a document, whereas with native Microsoft 
+encoding, new lines in documents are created with both a 13 and a 10 character (CRLF).
+In Microsoft IE6, perhaps interestingly, both the CR and the LF are replaced with a CRLF
+pair, making converting a specific String containing new lines
+Unprintable characters (0x00 to 0x1f) are typically displayed in Firefox as small 
+squares (&#9723;), which is an improvement over IE6, which stops displaying input as soon
+as a null char (0x00) is found. Presumably it is treating the null character as the end
+of the string, which is sort of understandable from a programming perspective.
+<br />
+This bug only affects the output when converting from the ASCII output, but will cause
+the data to change even if only in a very small way.
+</p>
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+
+</body></html>

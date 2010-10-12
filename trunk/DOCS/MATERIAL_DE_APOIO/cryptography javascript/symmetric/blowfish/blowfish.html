@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Tim Stamp" />
+<meta name="Source" content="http://dren.ch/js_blowfish/" />
+<meta name="Source" content="http://www.fourmilab.ch/" />
+<meta name="OriginalAuthor" content="John Walker" />
+<meta name="OriginalAuthor" content="Fritz Schneider" />
+<meta name="OriginalAuthor" content="Andre Mueller" />
+<meta name="OriginalAuthor" content="Rainer Wollmann" />
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<title>Blowfish - JavaScript Crypto Library</title>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #ddd;
+  margin: 10px;
+  font-size: 9pt;
+  background-image: url(../../img/bg_mech.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+input, select, textarea { font-family: Monospace; font-size:9pt;}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+</style>
+<script type="text/javascript" src="js/blowfish.js"></script>
+<!-- key generator stuff - leave this out if you don't want to generate keys -->
+<script type="text/javascript" src="../aes/js/aes.js"></script>
+<script type="text/javascript" src="../aes/js/entropy.js"></script>
+<script type="text/javascript" src="../aes/js/aesprng.js"></script>
+<script type="text/javascript" src="../aes/js/md5.js"></script>
+<script type="text/javascript" src="../aes/js/jscrypt.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+//	Our onLoad handler kicks off the collection of entropy for key generation
+function nowLoaded() {    
+    ce();	    	    	    	// Add time we got here to entropy
+    mouseMotionEntropy(60);   	// Initialise collection of mouse motion entropy
+}
+function genkey() {
+    //keylen for Blowfish is 448 bit == 56 Byte == 112 Hex chars.
+    var strvalue = Generate_key()+Generate_key();//generate key returns a 32 byte key.
+    var strkey = strvalue.slice(0,64)+'\n'+strvalue.slice(64,112);//add a newline after 64 chars
+    document.getElementById("key").value = strkey;
+}
+// end key generator stuff 
+function chars_from_hex(inputstr) {
+	var char_str = "";
+    inputstr = inputstr.replace(/^(0x)?/g, '');//remove '0x' which might be at start of a hex string
+	inputstr = inputstr.replace(/[^A-Fa-f0-9]/g, '');
+	inputstr = inputstr.split('');
+	for(var i=0; i<inputstr.length; i+=2) {
+		char_str += String.fromCharCode(parseInt(inputstr[i]+""+inputstr[i+1], 16));
+    }
+	return char_str;
+}
+function hex_from_chars(inputstr) {
+	var hex_str = "";
+	var i, n;
+	var hex_digits = "0123456789abcdef";
+	hex_digits = hex_digits.split('');
+	inputstr = inputstr.split('');
+	for(var i=0; i<inputstr.length; i++) {
+		if(i % 32 == 0 && i > 0) hex_str += '\n';
+		n = String.charCodeAt(inputstr[i]);
+		hex_str += hex_digits[(n >> 4) & 0xf] + hex_digits[n & 0xf];
+	}
+	return hex_str;
+}
+function encrypt_string() {
+    var inputstr = document.getElementById("input").value;
+    var key = document.getElementById("key").value;
+    key = key.replace(/^(0x)?/g, '');
+	key = key.replace(/[^A-Fa-f0-9]/g, '');
+    key = chars_from_hex(key);
+    var bf = new Blowfish(key);
+    var ciphertext = bf.encrypt(inputstr);
+    var hex_str = "";
+    ciphertext = ciphertext.split('');
+    for(var i=0; i<ciphertext.length; i++) {
+		if(i % 64 == 0 && i > 0) hex_str += '\n';
+		hex_str += ciphertext[i];
+	}
+    document.getElementById("output").value = hex_str;
+}
+function decrypt_string() {
+    var inputstr = document.getElementById("input").value;
+    inputstr = inputstr.replace(/^(0x)?/g, '');
+	inputstr = inputstr.replace(/[^A-Fa-f0-9]/g, '');
+    var key = document.getElementById("key").value;
+    key = key.replace(/^(0x)?/g, '');
+	key = key.replace(/[^A-Fa-f0-9]/g, '');
+    key = chars_from_hex(key);
+    //input = chars_from_hex(input);
+    var bf = new Blowfish(key);
+    var plaintext = bf.decrypt(inputstr);
+    //remove null characters from end of output
+    plaintext = plaintext.replace(/\0*$/g, '');
+    document.getElementById("output").value = plaintext;
+}
+function swap() {
+    var src = document.getElementById("input");
+    var dst = document.getElementById("output");
+    var tmp = src.value;
+    src.value = dst.value;
+    dst.value = tmp;
+}
+/* ]]> */
+</script>
+
+</head><body onload="nowLoaded();">
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="aes.html.md5">[md5]</a>
+<a href="aes.html.sha1">[sha1]</a>
+</div>
+
+<h2>Blowfish</h2>
+
+<div>
+<label for="key">448 bit Key in Hexadecimal:</label><br />
+<textarea id="key" style="width:100%" rows="2" cols="80" onfocus="ce();" onblur="ce();" onkeydown="ce();"></textarea>
+<br />
+<input type="button" id="genkey" value="Generate Key" onclick="genkey();" />
+<br />
+<label for="input">Input:</label><br />
+<textarea id="input" rows="10" cols="80" style="width:100%;" onfocus="ce();" onblur="ce();" onkeydown="ce();"></textarea>
+<br />
+<input type="button" id="encbut" value="Encrypt" onclick="encrypt_string();" />
+<input type="button" id="decbut" value="Decrypt" onclick="decrypt_string();" />
+<input type="button" onclick="swap()" value="Swap" /><br />
+<label for="output">Output:</label><br />
+<textarea id="output" rows="10" cols="80" style="width:100%;" onfocus="ce();" onblur="ce();" onkeydown="ce();"></textarea>
+</div>
+
+<p>
+To use a plaintext key or password to encrypt or decrypt a message here, use
+the <b>ASCII functions</b> in this application to convert the string to 
+Hexadecimal format.
+<br /><br />
+The <b>Generate</b> button may be used to create a key sufficiently 
+long to provide maximum security using a high quality pseudorandom 
+number generator using the AES libraries, seeded from:
+</p>
+<ul>
+<li>the time the page was loaded, </li>
+<li>the time you pressed the Generate button, </li>
+<li>and the time of keystrokes and various other events
+since the page was loaded.</li>
+</ul>
+
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+</body></html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Tim Stamp" />
+<meta name="Source" content="http://www-cs-students.stanford.edu/~tjw/jsbn/rsa2.html" />
+<meta name="Original Author" content="Tom Wu" />
+<script type="text/javascript" src="js/sha.js"></script>
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<title>RSA - JavaScript Crypto Library</title>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #ddd;
+  font-size: 9pt;
+  background-image: url(../../img/bg_mech.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+pre { font-size: 1em; }
+input, select, textarea { font-family: Monospace; font-size:9pt;}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+</style>
+<script type="text/javascript" src="js/jsbn.js"></script>
+<script type="text/javascript" src="js/jsbn2.js"></script>
+<script type="text/javascript" src="js/prng4.js"></script>
+<script type="text/javascript" src="js/rng.js"></script>
+<script type="text/javascript" src="js/rsa.js"></script>
+<script type="text/javascript" src="js/rsa2.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+function set_512e3() {
+  document.getElementById("n").value="BC86E3DC782C446EE756B874ACECF2A115E613021EAF1ED5EF295BEC2BED899D\n26FE2EC896BF9DE84FE381AF67A7B7CBB48D85235E72AB595ABF8FE840D5F8DB";
+  document.getElementById("e").value="3";
+  document.getElementById("d").value="7daf4292fac82d9f44e47af87348a1c0b9440cac1474bf394a1b929d729e5bbc\nf402f29a9300e11b478c091f7e5dacd3f8edae2effe3164d7e0eeada87ee817b";
+  document.getElementById("p").value="ef3fc61e21867a900e01ee4b1ba69f5403274ed27656da03ed88d7902cce693f";
+  document.getElementById("q").value="c9b9fcc298b7d1af568f85b50e749539bc01b10a68472fe1302058104821cd65";
+  document.getElementById("dmp1").value="9f7fd9696baefc6009569edcbd19bf8d576f89e1a439e6ad4905e50ac8899b7f";
+  document.getElementById("dmq1").value="867bfdd7107a8bca39b503ce09a30e267d567606f02f7540cac03ab5856bde43";
+  document.getElementById("coeff").value="412d6b551d93ee1bd7dccafc63d7a6d031fc66035ecc630ddf75f949a378cd9d";
+}
+function set_512f4() {
+  document.getElementById("n").value="C4E3F7212602E1E396C0B6623CF11D26204ACE3E7D26685E037AD2507DCE82FC\n28F2D5F8A67FC3AFAB89A6D818D1F4C28CFA548418BD9F8E7426789A67E73E41";
+  document.getElementById("e").value="10001";
+  document.getElementById("d").value="7cd1745aec69096129b1f42da52ac9eae0afebbe0bc2ec89253598dcf454960e\n3e5e4ec9f8c87202b986601dd167253ee3fb3fa047e14f1dfd5ccd37e931b29d";
+  document.getElementById("p").value="f0e4dd1eac5622bd3932860fc749bbc48662edabdf3d2826059acc0251ac0d3b";
+  document.getElementById("q").value="d13cb38fbcd06ee9bca330b4000b3dae5dae12b27e5173e4d888c325cda61ab3";
+  document.getElementById("dmp1").value="b3d5571197fc31b0eb6b4153b425e24c033b054d22b9c8282254fe69d8c8c593";
+  document.getElementById("dmq1").value="968ffe89e50d7b72585a79b65cfdb9c1da0963cceb56c3759e57334de5a0ac3f";
+  document.getElementById("coeff").value="d9bc4f420e93adad9f007d0e5744c2fe051c9ed9d3c9b65f439a18e13d6e3908";
+}
+function set_1024e3() {
+  document.getElementById("n").value="ABC30681295774F7CECA691EC17F4E762DA6DE70F198EAEE3CCE3A435FC006B9\n71DC24E55904F1D2705758C041C2B0B18E8BFAE2C9CD96B50082D7D8C7342CBA\nB7F6E0622DA53B8B56DBDB24174F00173263CFECAE604795CDA2A037BC3A69B7\nC0090AA2DE1568998BCD6D70CC2E0574755B9F7986AE01CE8714A26144279CDB";
+  document.getElementById("e").value="3"
+  document.getElementById("d").value="728204561b8fa34fdf319b69d654def973c4944b4bbb47497dded1823fd559d0\nf692c34390adf68c4ae4e5d5812c75cbb45d51ec86890f2355ac8fe5da22c87b\n62449e2aa754422bc43d3ca32efa866227ad58178e7803897d074f1312740aa7\n61cfc7ed753bb829d7a2ab091289d1676809bfd61276b43bb3a395714f167beb";
+  document.getElementById("p").value="e200731c6e934a0fdc1d5ce5f66d08ba9478280f46e9cbed777029dd4811a7cd\n4aa66ad8365c5aa67b06b97e54ee8fec03adb2134f7359a427c7ffc468ef0231";
+  document.getElementById("q").value="c28f8005c4138e39d462a3495a6a2dc96267a3ba11c2765a1aa77fbdd87ab1ef\n62aaf3e677df79b44d52b364db70bb6d559f4da51b8899d0d1d74272e496e0cb";
+  document.getElementById("dmp1").value="96aaf76849b786b53d68e8994ef35b270da5700a2f4687f3a4f5713e300bc533\n87199c90243d91c452047ba98df45ff2ad1e76b78a4ce66d6fdaaa82f09f56cb";
+  document.getElementById("dmq1").value="81b50003d80d097be2ec6cdb919c1e86419a6d26b681a43c11c4ffd3e5a7214a\n41c74d444fea5122de3722433cf5d248e3bf8918bd05bbe08be4d6f7430f4087";
+  document.getElementById("coeff").value="a318fb95d3b10d6cfb0096fc3a3173377cf0952bf5d50fd3ccf678dd636ca1a1\naeed8da416c8fba4395b00dc3e22823d1b2add8a4e1222d562af11bd6c78ad94";
+}
+function set_1024f4() {
+  document.getElementById("n").value="a5261939975948bb7a58dffe5ff54e65f0498f9175f5a09288810b8975871e99\naf3b5dd94057b0fc07535f5f97444504fa35169d461d0d30cf0192e307727c06\n5168c788771c561a9400fb49175e9e6aa4e23fe11af69e9412dd23b0cb6684c4\nc2429bce139e848ab26d0829073351f4acd36074eafd036a5eb83359d2a698d3";
+  document.getElementById("e").value="10001";
+  document.getElementById("d").value="8e9912f6d3645894e8d38cb58c0db81ff516cf4c7e5a14c7f1eddb1459d2cded\n4d8d293fc97aee6aefb861859c8b6a3d1dfe710463e1f9ddc72048c09751971c\n4a580aa51eb523357a3cc48d31cfad1d4a165066ed92d4748fb6571211da5cb1\n4bc11b6e2df7c1a559e6d5ac1cd5c94703a22891464fba23d0d965086277a161";
+  document.getElementById("p").value="d090ce58a92c75233a6486cb0a9209bf3583b64f540c76f5294bb97d285eed33\naec220bde14b2417951178ac152ceab6da7090905b478195498b352048f15e7d";
+  document.getElementById("q").value="cab575dc652bb66df15a0359609d51d1db184750c00c6698b90ef3465c996551\n03edbf0d54c56aec0ce3c4d22592338092a126a0cc49f65a4a30d222b411e58f";
+  document.getElementById("dmp1").value="1a24bca8e273df2f0e47c199bbf678604e7df7215480c77c8db39f49b000ce2c\nf7500038acfff5433b7d582a01f1826e6f4d42e1c57f5e1fef7b12aabc59fd25";
+  document.getElementById("dmq1").value="3d06982efbbe47339e1f6d36b1216b8a741d410b0c662f54f7118b27b9a4ec9d\n914337eb39841d8666f3034408cf94f5b62f11c402fc994fe15a05493150d9fd";
+  document.getElementById("coeff").value="3a3e731acd8960b7ff9eb81a7ff93bd1cfa74cbd56987db58b4594fb09c09084\ndb1734c8143f98b602b981aaa9243ca28deb69b5b280ee8dcee0fd2625e53250";
+}
+function set_4096f4() {
+  document.getElementById("n").value=linebrk("b0f82325097c76f411d1509c42bee36d6991a7e5b955857793312910be464f20bfca50bc6037a346fe5904f2a01f51d037b90bbe6b0a20abcb44a6f5b5e72a4182913d9fd89d898cd83856ef6ad3ee5f06d0b67dfd6e8aa8255d13eaaf558c5aa54573bbe0c557b492e89577de80af779f89c6ce60e536ae567bd9480ac37de68759e2a80453c4e320b231193f46afe909cd26178f91f686e66ee97921a7a0fcab24c7386b6e010820e563554a17b3033bc5c8dc41019abcab8de6b8fec0276e11bf0e0bef9679a06dcf375cccb2e28a20449c8d60b6f2d4d444a88d5d0a5e3b451a7e934a94c41d4d0a6f896ff0db711f1b979c2733a25d65559c61d581a4d39296a1aac880097679c8128611eab4f6ffca83ab03abb9b8fdaab3026caba3e5ade6f64c29fabd74b23d4f78791492b5ba13455f87f589037cbe11da8323e6b18e6227c712f17f97acb7bfdf1975af8b695162fbbb6b3ab11e76b8e8f5a50a2416576bb992eeef364a5e7b2717cd43dce48731c80ab737216b90b91992b32dd70a073eadbdcd6747512bf4a05d5ce99e91f631933249269897a24f105eba3113270f3ef154f7dad19071523149fcc21ecc51e9317e328a645586850c944435c28bd3ec8ab986eb5ea0d3e56aa941194ff57b656303240ca6d2bde860a83a5c0347d5645cdf54847b502ea382086278c0886475f638dcaefa77671de85e3f67c9",64);
+  document.getElementById("e").value="10001";
+  document.getElementById("d").value=linebrk("604c46638b0bed76d6933df829e1d1c3e1e45ea684f9628d34cd557944f0e17202ab46cf9ad3ebc75ff474daca0300f3fabe79037f1f9db39e02978fb1123f4e328c722a1f276a87f7c88095fb5da3a29604d0a932550aa280e26b4a136acbdb2f7fe18064c93df686d285331b228f58dab99033114ae93c68d72fdf21ec4b003cbaceb97ad1529bfd58b99af171b79b69b7f6786fa98faacc8da202462bff503e98dec776bdff55bb00d7d2bb64b606966a03e8c67ee702af9fa1e31cccd727f00434d28de725fc0484f3ad4dbe31c3d3d7421134859911f30801681b2edf2405706b5c1f0360cc48f5dac7c0e021a926b24f07abd54f0edf6b7c93482929d5075f13541adc88626088de36c1687dfe944e16f33f497ce132b8db1f63e9d0a4ba84c55822eab45435f1165a6ce5dfadab3c7e283edc99aa5748c47151166a2bb530a7b00ebc4a38f360af4b4e7f3edb8b9633d35e1ddb9f538b29fbcffec47cd0f48c34057ebaa4ce71751fbef2a57704a393867daebcb7d65473ab92c9e8d9a2139cf94df1d399d03718218b5945acaf5893998ceac546a06fd61b8ce0f240ac48b91838d8b2dc6b5f118ba0f5971f065585df3cc79e0af7149d7b0e5c5a2342feaf20a5011e95b77c65bab80b28849ff996ca5831d8578e912c67fbd08690ed335a09600123fdafdfab8d99ef05f4fca198a3d564241f0062b9c5badf7e01",64);
+  document.getElementById("p").value=linebrk("de09a4a2f959f25cd07143a4605c6c12148a1b442ed24f293f1f86bca451a2e8788117da183a28813a4c33989b767f911ba488fb838b4dade0f6f21d4b1a9b993be1944d97b3a1a7793ada8418d93ba6c71c2e25ed2d91a4ea67ae193083b28b8c970c7087eb586d73eee1b117f32d389d089c8886ff19dfe1ce9b6635b63649cdbb8ea8d047d70fa658ba55350ea6fd5ce10f6a5516de454657d2d610c1b6f364da2893f39a52ec0928ea3da1657861088b738a5e29af143497db5d5c42eb2d10cd53f8aa8d920ca91f91ec4e69c394e18a8166453159e0df68b414f660f87ea60ce77697ba35182255c7ca80f0d20d4f75cef25d4fbf5276297744dd4f8429",64);
+  document.getElementById("q").value=linebrk("cc09bef1396687aac68fa0b9fc1a53cfed4568cef610ef03b1c7a55446993a69cbf6acbfda927ca3570e109b9321910b0384e8515fe0a15cec7c2afe934e48bd55031a91a7d502c1506076d5d056c1071657f460106afcc144052eaecac861f3439b8d7065d4c50f7ebdca7797b05d2e1ec9bda5f5217dee9abd94466b3be927a7290d08231f6a9aca1a3fd85cca02ab64bd21ea261d086235348ee57290269cacd934f796e9119d8e177c30afc66bebc1127a80030e55cd8b225814de1b0b54645eeb62fb1b088e52f14351ce808e99b916962c36acc2eddef0cc751949afc5abc260950fcec54bb1258b107d253e7078ee7fecccce59a908f02a3b5a6c3aa1",64);
+  document.getElementById("dmp1").value=linebrk("20d4582d68a4edfadf2f000b5bdc0e7695e6dda5352f0f594fe5ff6c00f7b9189a48ac182920e0404b385d20a14be20cb883996566cbc00e8786bbc1ad0b201a860a127d6e82b6d22650976294b1f9e9ece2b3c813cb7b0f61413732ae43aab08b7701f5d982e8ae364809c2bf81cb1be5cc1228f59cde5c85eca0797a5398af4ce6006fe16bddd68887f1f50b45415790d60e0b70cd52cbf75ca0e5d9d06a968e40db6314cfaa970fbba6f6b9d860f627e7468c1ce418e8e9e5d21f79b6c343048af7717af637b3fb859973d11c3e38d328417db799566ab35dadd2b3a31edacafe7972c57858c55abe482e1ee67c884f4961f1dfee1ca1baaae2e1a1bf5211",64);
+  document.getElementById("dmq1").value=linebrk("5ade6046481d0c8096ebb256021bab85e792c8e99b16d18ba0aa5c4c1b20f4add763656e1026bb11779cd0f2a8650396971ba2e752bed4be70a79ff23ea257acd2668e779dfa34bee94ffcbc9e8b746df69a77402d2fa89f5deebceaa56ef688836c8c622947c7f76da792bb0e3842575ee8d3e84c327d463d6dfed219c1d5c58e21af2717954f41de8e302ee8ac22e237fc2f557b61e4b0f0271718c29bc64672884d999280fc12620cbd876551061139ac44182cc43e9c4ac1a1deb147f414c29aaf5426a6d479a620c2ad753d35c4ea744faf232e6fa5c66b1173792ea2f472d91f706358dfef24d6a6875264bad9165289706989e0ce72279b77517eefe1",64);
+  document.getElementById("coeff").value=linebrk("d89f3c56ef1092f6da3a9d9ec5fbb88558eee27a6bcf7e2666664636ec95ec5326052a24f537c25b3139768423286af8e5422c1018b204f8e43f76c082786157f6cac8caa3911cac039b57fd26e364e8ec3160516a411ca6092974f3594a31a63766a17858ca7d4ecc0c29df06639a310a5ac528d36954a230cf2aadb6964e1b9d50d7d29c023488e7749a86e9062c1f0585598eef58b7a9a5c559fa563fab6aba0151522ef8ace3b9988daa36119d65011040f40a5a6b3ac06f9a2a2250af6a0e9805cd93e6d20f3f0caa4eaa1f9caf13bc2e72fabfb2187b1a33b7995471e57623bed6be3dbec21a95399efec223860cd69a5bab32dc1a978104714784bc32",64);
+}
+function set_status(s) {
+  document.getElementById("status").value = s;
+}
+function do_init() {
+  if(document.getElementById("n").value.length == 0) set_1024f4();
+}
+function do_encrypt() {
+  document.getElementById("output").value = "";
+  var before = new Date();
+  var rsa = new RSAKey();
+  rsa.setPublic(document.getElementById("n").value,
+                document.getElementById("e").value);
+  var res = rsa.encrypt(document.getElementById("input").value);
+  var after = new Date();
+  if(res) {
+    document.getElementById("output").value = linebrk(res, 64);
+    set_status("Encryption Time: " + (after - before) + "ms");
+  }
+}
+function do_decrypt() {
+  set_status("Decrypting...");
+  document.getElementById("output").value = "";
+  var before = new Date();
+  var rsa = new RSAKey();
+  rsa.setPrivateEx(document.getElementById("n").value, 
+                   document.getElementById("e").value,
+                   document.getElementById("d").value, 
+                   document.getElementById("p").value, 
+                   document.getElementById("q").value, 
+                   document.getElementById("dmp1").value, 
+                   document.getElementById("dmq1").value, 
+                   document.getElementById("coeff").value);
+  if(document.getElementById("input").value.length == 0) {
+    set_status("No Ciphertext - encrypt something first");
+    return;
+  }
+  var res = rsa.decrypt(document.getElementById("input").value);
+  var after = new Date();
+  if(res == null) {
+    set_status("Decryption failed - Invalid Ciphertext");
+  }
+  else {
+    document.getElementById("output").value = res;
+    set_status("Decryption Time: " + (after - before) + "ms");
+  }
+}
+function do_genrsa() {
+  var before = new Date();
+  var rsa = new RSAKey();
+  set_status("Generating RSA Key...");
+  var bitsbox = document.getElementById("bits");
+  var bits = parseInt(bitsbox.options[bitsbox.selectedIndex].value);
+  rsa.generate(bits, document.getElementById("e").value);
+  document.getElementById("n").value = linebrk(rsa.n.toString(16),64);
+  document.getElementById("d").value = linebrk(rsa.d.toString(16),64);
+  document.getElementById("p").value = linebrk(rsa.p.toString(16),64);
+  document.getElementById("q").value = linebrk(rsa.q.toString(16),64);
+  document.getElementById("dmp1").value = linebrk(rsa.dmp1.toString(16),64);
+  document.getElementById("dmq1").value = linebrk(rsa.dmq1.toString(16),64);
+  document.getElementById("coeff").value = linebrk(rsa.coeff.toString(16),64);
+  var after = new Date();
+  set_status("Key Generation Time: " + (after - before) + "ms");
+}
+function swap() {
+    var src = document.getElementById("input");
+    var dst = document.getElementById("output");
+    var tmp = src.value;
+    src.value = dst.value;
+    dst.value = tmp;
+}
+/* ]]> */
+</script>
+</head><body onload="do_init();">
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="rsa.html.md5">[md5]</a>
+<a href="rsa.html.sha1">[sha1]</a>
+</div>
+
+<h2>RSA</h2>
+
+<div>
+<label for="input">Input:</label><br />
+<textarea id="input" style="width:100%" rows="6" cols="70"></textarea><br />
+<input value="encrypt" onclick="do_encrypt();" type="button"></input>
+<input value="decrypt" onclick="do_decrypt();" type="button"></input>
+<input type="button" onclick="swap()" value="Swap"></input>
+<br />
+<label for="output">Output:</label><br />
+<textarea id="output" style="width:100%" rows="6" cols="70"></textarea><br />
+<label for="status">Status:</label><br />
+<input id="status" style="width:100%" type="text"></input>
+<br />
+<input value="Generate Key" onclick="do_genrsa();" type="button" />
+<select id="bits">
+  <option value="128">128 bit</option>
+  <option value="256">256 bit</option>
+  <option value="512">512 bit</option>
+  <option value="1024" selected="selected">1024 bit</option>
+  <option value="2048">2048 bit</option>
+  <option value="4096">4096 bit</option>
+</select>
+<br /><br />
+<label>Predefined keys (These are examples, not secure for real use!)</label>
+<input value="1024 bit (e=F4)" onclick="set_1024f4();" type="button"></input>
+<input value="1024 bit (e=3)" onclick="set_1024e3();" type="button"></input>
+<input value="512 bit (e=F4)" onclick="set_512f4();" type="button"></input>
+<input value="512 bit (e=3)" onclick="set_512e3();" type="button"></input>
+<input value="4096 bit (e=F4)" onclick="set_4096f4();" type="button"></input>
+<br /><br />
+<label for="n">Modulus (n) in Hexadecimal:</label><br />
+<textarea id="n" style="width:100%" rows="4" cols="70"></textarea><br />
+
+<label for="e">Public exponent (e) (Fermat's 4th = 0x010001):</label><br />
+<input id="e" style="width:100%" size="20" type="text"></input><br />
+<br />
+<label for="d">Private exponent (d) in Hexadecimal:</label><br />
+<textarea id="d" style="width:100%" rows="4" cols="70"></textarea><br />
+
+<label for="p">Prime 1 (p) in Hexadecimal:</label><br />
+<textarea id="p" style="width:100%" rows="2" cols="70"></textarea><br />
+
+<label for="q">Prime 2 (q) in Hexadecimal:</label><br />
+<textarea id="q" style="width:100%" rows="2" cols="70"></textarea><br />
+
+<label for="dmp1">Exponent 1 (d%(p-1)) in Hexadecimal:</label><br />
+<textarea id="dmp1" style="width:100%" rows="2" cols="70"></textarea><br />
+
+<label for="dmq1">Exponent 2 (d%(q-1)) in Hexadecimal:</label><br />
+<textarea id="dmq1" style="width:100%" rows="2" cols="70"></textarea><br />
+
+<label for="coeff">Coefficient (1/q % p) in Hexadecimal:</label><br />
+<textarea id="coeff" style="width:100%" rows="2" cols="70"></textarea>
+</div>
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+
+</body></html>
