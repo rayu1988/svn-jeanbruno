@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="Author" content="Tim Stamp" />
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<title>RSA 512 bit Key Breakdown - JavaScript Crypto Library</title>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #fff;
+  font-size: 9pt;
+  background-image: url(../../img/bg_doc.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+b { color: #000; }
+b.hl1, b.hl2, b.hl3, b.hl4 { font-weight: normal; color: #000; }
+b.hl1 { background-color: #cfc; }
+b.hl2 { background-color: #ccc; }
+b.hl3 { background-color: #fcc; }
+b.hl4 { background-color: #ccf; }
+</style>
+</head><body>
+
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="rsa_key_breakdown.html.md5">[md5]</a>
+<a href="rsa_key_breakdown.html.sha1">[sha1]</a>
+<br />
+<a href="rsa_key_breakdown.html">[description]</a>
+<a href="rsa_256.html">[256bit]</a>
+<a href="rsa_512.html">[512bit]</a>
+<a href="rsa_1024.html">[1024bit]</a>
+<a href="rsa_2048.html">[2048bit]</a>
+<a href="rsa_4096.html">[4096bit]</a></div>
+
+<h2>OpenSSL 1024 bit RSA Private Key Breakdown</h2>
+
+<p>
+On Linux, using the following command generated this key:<br />
+<i>openssl genrsa -out rsa_1024_priv.pem 1024</i><br />
+<br />
+To understand how the key is broken down into its respective
+components, execute the following additional command:<br />
+<i>openssl rsa -text -in rsa_1024_priv.pem</i><br />
+<br />
+Alternatively, you can do what I did and breakdown the individual
+components by hand - in order to learn how the data structure
+actually works.<br />
+<br />
+Firstly, the data block has to be decoded from it's standard
+Base64 format, so remove the "-----BEGIN..." lines at the start
+and end of the file and convert the data into Hexadecimal.<br />
+<br />
+The data block is now in a format we can read (sort of).<br />
+Using Abstract Syntax Notation 1 (or ASN.1), we can read and
+identify the Distinguished Encoding Rules (DER) encoded components 
+contained within this data.<br />
+Although the only data stored in this instance of the ASN format 
+is of type Integer, other standard variable types are listed here
+for clarity. When the Integer type is used in this context, it is
+followed by the length in bytes for the following data object, and 
+then the data itself, as can be seen below.
+</p>
+<ul>
+<li>0x02 == Integer</li>
+<li>0x03 == Bit String</li>
+<li>0x04 == Octet String</li>
+<li>0x05 == NULL</li>
+<li>0x06 == Object Identifier</li>
+<li>0x10 == "Sequence" and "Sequence of"</li>
+<li>0x11 == "Set" and "Set of"</li>
+<li>0x13 == Printable String</li>
+<li>0x14 == T61 String</li>
+<li>0x16 == IA5 String</li>
+<li>0x17 == UTC Time</li>
+<li>0x30 82 == ASN1 Sequence</li>
+</ul>
+
+<h3>1024 bit RSA Private Key in Base64 Format</h3>
+
+<pre>
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDHikastc8+I81zCg/qWW8dMr8mqvXQ3qbPAmu0RjxoZVI47tvs
+kYlFAXOf0sPrhO2nUuooJngnHV0639iTTEYG1vckNaW2R6U5QTdQ5Rq5u+uV3pMk
+7w7Vs4n3urQ6jnqt2rTXbC1DNa/PFeAZatbf7ffBBy0IGO0zc128IshYcwIDAQAB
+AoGBALTNl2JxTvq4SDW/3VH0fZkQXWH1MM10oeMbB2qO5beWb11FGaOO77nGKfWc
+bYgfp5Ogrql4yhBvLAXnxH8bcqqwORtFhlyV68U1y4R+8WxDNh0aevxH8hRS/1X5
+031DJm1JlU0E+vStiktN0tC3ebH5hE+1OxbIHSZ+WOWLYX7JAkEA5uigRgKp8ScG
+auUijvdOLZIhHWq7y5Wz+nOHUuDw8P7wOTKU34QJAoWEe771p9Pf/GTA/kr0BQnP
+QvWUDxGzJwJBAN05C6krwPeryFKrKtjOGJIniIoY72wRnoNcdEEs3HDRhf48YWFo
+riRbZylzzzNFy/gmzT6XJQTfktGqq+FZD9UCQGIJaGrxHJgfmpDuAhMzGsUsYtTr
+iRox0D1Iqa7dhE693t5aBG010OF6MLqdZA1CXrn5SRtuVVaCSLZEL/2J5UcCQQDA
+d3MXucNnN4NPuS/L9HMYJWD7lPoosaORcgyK77bSSNgk+u9WSjbH1uYIAIPSffUZ
+bti+jc1dUg5wb+aeZlgJAkEAurrpmpqj5vg087ZngKfFGR5rozDiTsK5DceTV97K
+a3Y+Nzl+XWTxDBWk4YPh2ZlKv402hZEfWBYxUDn5ZkH/bw==
+-----END RSA PRIVATE KEY-----
+</pre>
+
+<h3>Private Key in Hexadecimal Format</h3>
+
+<p>
+In this example, the Hexadecimal values have been paired for clarity,
+but in the other examples (see links at the top of this page) the
+values have not been separated.<br />
+Parts highlighted below, in order:
+</p>
+<ul>
+<li>ASN.1 Header</li>
+<li>Algorithm Version</li>
+<li>Modulus</li>
+<li>Public Exponent</li>
+<li>Private Exponent</li>
+<li>prime1</li>
+<li>prime2</li>
+<li>exponent 1</li>
+<li>exponent 2</li>
+<li>coefficient</li>
+</ul>
+
+<p>
+-----BEGIN RSA PRIVATE KEY-----<br />
+<b class="hl1">30 82 02 5e</b> 02 01 <b class="hl2">00</b> 02 81 81 <b class="hl3">00 c7 8a 46 ac b5 cf 3e 23 cd 73 0a<br />
+0f ea 59 6f 1d 32 bf 26 aa f5 d0 de a6 cf 02 6b b4 46 3c 68 65 52<br />
+38 ee db ec 91 89 45 01 73 9f d2 c3 eb 84 ed a7 52 ea 28 26 78 27<br />
+1d 5d 3a df d8 93 4c 46 06 d6 f7 24 35 a5 b6 47 a5 39 41 37 50 e5<br />
+1a b9 bb eb 95 de 93 24 ef 0e d5 b3 89 f7 ba b4 3a 8e 7a ad da b4<br />
+d7 6c 2d 43 35 af cf 15 e0 19 6a d6 df ed f7 c1 07 2d 08 18 ed 33<br />
+73 5d bc 22 c8 58 73</b> 02 03 <b class="hl4">01 00 01</b> 02 81 81 <b class="hl1">00 b4 cd 97 62 71 4e<br />
+fa b8 48 35 bf dd 51 f4 7d 99 10 5d 61 f5 30 cd 74 a1 e3 1b 07 6a<br />
+8e e5 b7 96 6f 5d 45 19 a3 8e ef b9 c6 29 f5 9c 6d 88 1f a7 93 a0<br />
+ae a9 78 ca 10 6f 2c 05 e7 c4 7f 1b 72 aa b0 39 1b 45 86 5c 95 eb<br />
+c5 35 cb 84 7e f1 6c 43 36 1d 1a 7a fc 47 f2 14 52 ff 55 f9 d3 7d<br />
+43 26 6d 49 95 4d 04 fa f4 ad 8a 4b 4d d2 d0 b7 79 b1 f9 84 4f b5<br />
+3b 16 c8 1d 26 7e 58 e5 8b 61 7e c9</b> 02 41 <b class="hl2">00 e6 e8 a0 46 02 a9 f1<br />
+27 06 6a e5 22 8e f7 4e 2d 92 21 1d 6a bb cb 95 b3 fa 73 87 52 e0<br />
+f0 f0 fe f0 39 32 94 df 84 09 02 85 84 7b be f5 a7 d3 df fc 64 c0<br />
+fe 4a f4 05 09 cf 42 f5 94 0f 11 b3 27</b> 02 41 <b class="hl3">00 dd 39 0b a9 2b c0<br />
+f7 ab c8 52 ab 2a d8 ce 18 92 27 88 8a 18 ef 6c 11 9e 83 5c 74 41<br />
+2c dc 70 d1 85 fe 3c 61 61 68 ae 24 5b 67 29 73 cf 33 45 cb f8 26<br />
+cd 3e 97 25 04 df 92 d1 aa ab e1 59 0f d5</b> 02 40 <b class="hl4">62 09 68 6a f1 1c<br />
+98 1f 9a 90 ee 02 13 33 1a c5 2c 62 d4 eb 89 1a 31 d0 3d 48 a9 ae<br />
+dd 84 4e bd de de 5a 04 6d 35 d0 e1 7a 30 ba 9d 64 0d 42 5e b9 f9<br />
+49 1b 6e 55 56 82 48 b6 44 2f fd 89 e5 47</b> 02 41 <b class="hl1">00 c0 77 73 17 b9<br />
+c3 67 37 83 4f b9 2f cb f4 73 18 25 60 fb 94 fa 28 b1 a3 91 72 0c<br />
+8a ef b6 d2 48 d8 24 fa ef 56 4a 36 c7 d6 e6 08 00 83 d2 7d f5 19<br />
+6e d8 be 8d cd 5d 52 0e 70 6f e6 9e 66 58 09</b> 02 41 <b class="hl2">00 ba ba e9 9a<br />
+9a a3 e6 f8 34 f3 b6 67 80 a7 c5 19 1e 6b a3 30 e2 4e c2 b9 0d c7<br />
+93 57 de ca 6b 76 3e 37 39 7e 5d 64 f1 0c 15 a4 e1 83 e1 d9 99 4a<br />
+bf 8d 36 85 91 1f 58 16 31 50 39 f9 66 41 ff 6f</b><br />
+-----END RSA PRIVATE KEY-----<br />
+</p>
+
+<h3>Extracted Key Components, in order of appearance</h3>
+
+<p>
+Private-Key: <br />
+<b>header:</b><br />
+<b class="hl1">
+30 82 02 5e</b> (0x3082 == ASN.1 Sequence)<br />
+<br />
+<b>separator:</b><br />
+02 01 (0x02 == Integer and 0x01 == 1 byte long)<br />
+<br />
+<b>algorithm version:</b><br />
+<b class="hl2">
+00</b> (0x00 == version zero)<br />
+<br />
+<b>separator:</b> <br />
+02 81 81 (0x02 == Integer and 0x81 == 129 bytes long)<br />
+<br />
+<b>modulus:</b> (129 bytes - starts with a null (0x00), remove this.)<br />
+<b class="hl3">
+00 c7 8a 46 ac b5 cf 3e 23 cd 73 0a 0f ea 59 <br />
+6f 1d 32 bf 26 aa f5 d0 de a6 cf 02 6b b4 46 <br />
+3c 68 65 52 38 ee db ec 91 89 45 01 73 9f d2 <br />
+c3 eb 84 ed a7 52 ea 28 26 78 27 1d 5d 3a df <br />
+d8 93 4c 46 06 d6 f7 24 35 a5 b6 47 a5 39 41 <br />
+37 50 e5 1a b9 bb eb 95 de 93 24 ef 0e d5 b3 <br />
+89 f7 ba b4 3a 8e 7a ad da b4 d7 6c 2d 43 35 <br />
+af cf 15 e0 19 6a d6 df ed f7 c1 07 2d 08 18 <br />
+ed 33 73 5d bc 22 c8 58 73</b><br />
+<br />
+<b>separator:</b> <br />
+02 03 (0x02 == Integer and 0x03 == 3 bytes long)<br />
+<br />
+<b>public exponent:</b> (3 bytes)<br />
+<b class="hl4">
+01 00 01</b> (Integer value 65537, Fermat Number F4)<br />
+<br />
+<b>separator:</b><br />
+02 81 81 (0x02 == Integer and 0x81 == 129 bytes long)<br />
+<br />
+<b>private exponent:</b> (129 bytes - starts with a null, remove this)<br />
+<b class="hl1">
+00 b4 cd 97 62 71 4e fa b8 48 35 bf dd 51 f4 <br />
+7d 99 10 5d 61 f5 30 cd 74 a1 e3 1b 07 6a 8e <br />
+e5 b7 96 6f 5d 45 19 a3 8e ef b9 c6 29 f5 9c <br />
+6d 88 1f a7 93 a0 ae a9 78 ca 10 6f 2c 05 e7 <br />
+c4 7f 1b 72 aa b0 39 1b 45 86 5c 95 eb c5 35 <br />
+cb 84 7e f1 6c 43 36 1d 1a 7a fc 47 f2 14 52 <br />
+ff 55 f9 d3 7d 43 26 6d 49 95 4d 04 fa f4 ad <br />
+8a 4b 4d d2 d0 b7 79 b1 f9 84 4f b5 3b 16 c8 <br />
+1d 26 7e 58 e5 8b 61 7e c9</b><br />
+<br />
+<b>separator:</b><br />
+02 41 (0x02 == Integer and 0x41 == 65 bytes long)<br />
+<br />
+<b>prime1:</b> (65 bytes - starts with a null, remove this)<br />
+<b class="hl2">
+00 e6 e8 a0 46 02 a9 f1 27 06 6a e5 22 8e f7 <br />
+4e 2d 92 21 1d 6a bb cb 95 b3 fa 73 87 52 e0 <br />
+f0 f0 fe f0 39 32 94 df 84 09 02 85 84 7b be <br />
+f5 a7 d3 df fc 64 c0 fe 4a f4 05 09 cf 42 f5 <br />
+94 0f 11 b3 27</b><br />
+<br />
+<b>separator:</b><br />
+02 41 (0x02 == Integer and 0x41 == 65 bytes long)<br />
+<br />
+<b>prime2:</b> (65 bytes - starts with a null, remove this)<br />
+<b class="hl3">
+00 dd 39 0b a9 2b c0 f7 ab c8 52 ab 2a d8 ce <br />
+18 92 27 88 8a 18 ef 6c 11 9e 83 5c 74 41 2c <br />
+dc 70 d1 85 fe 3c 61 61 68 ae 24 5b 67 29 73 <br />
+cf 33 45 cb f8 26 cd 3e 97 25 04 df 92 d1 aa <br />
+ab e1 59 0f d5</b><br />
+<br />
+<b>separator:</b><br />
+02 40 (0x02 == Integer and 0x40 == 64 bytes long)<br />
+<br />
+<b>exponent1:</b> (64 bytes)<br />
+<b class="hl4">
+62 09 68 6a f1 1c 98 1f 9a 90 ee 02 13 33 1a <br />
+c5 2c 62 d4 eb 89 1a 31 d0 3d 48 a9 ae dd 84 <br />
+4e bd de de 5a 04 6d 35 d0 e1 7a 30 ba 9d 64 <br />
+0d 42 5e b9 f9 49 1b 6e 55 56 82 48 b6 44 2f <br />
+fd 89 e5 47</b><br />
+<br />
+<b>separator:</b><br />
+02 41 (0x02 == Integer and 0x41 == 65 bytes long)<br />
+<br />
+<b>exponent2:</b> (65 bytes - starts with a null, remove this)<br />
+<b class="hl1">
+00 c0 77 73 17 b9 c3 67 37 83 4f b9 2f cb f4 <br />
+73 18 25 60 fb 94 fa 28 b1 a3 91 72 0c 8a ef <br />
+b6 d2 48 d8 24 fa ef 56 4a 36 c7 d6 e6 08 00 <br />
+83 d2 7d f5 19 6e d8 be 8d cd 5d 52 0e 70 6f <br />
+e6 9e 66 58 09</b><br />
+<br />
+<b>separator:</b><br />
+02 41 (0x02 == Integer and 0x41 == 65 bytes long)<br />
+<br />
+<b>coefficient:</b> (65 bytes - always starts with a null)<br />
+<b class="hl2">
+00 ba ba e9 9a 9a a3 e6 f8 34 f3 b6 67 80 a7 <br />
+c5 19 1e 6b a3 30 e2 4e c2 b9 0d c7 93 57 de <br />
+ca 6b 76 3e 37 39 7e 5d 64 f1 0c 15 a4 e1 83 <br />
+e1 d9 99 4a bf 8d 36 85 91 1f 58 16 31 50 39 <br />
+f9 66 41 ff 6f</b><br />
+</p>
+
+<hr />
+
+<h2>SSL 1024 bit RSA Public Key Breakdown</h2>
+<p>
+Using Linux, the following command generated this public key:<br />
+<b>openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem</b>
+</p>
+
+<pre>
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHikastc8+I81zCg/qWW8dMr8m
+qvXQ3qbPAmu0RjxoZVI47tvskYlFAXOf0sPrhO2nUuooJngnHV0639iTTEYG1vck
+NaW2R6U5QTdQ5Rq5u+uV3pMk7w7Vs4n3urQ6jnqt2rTXbC1DNa/PFeAZatbf7ffB
+By0IGO0zc128IshYcwIDAQAB
+-----END PUBLIC KEY-----
+</pre>
+
+<h3>Public Key in Hexadecimal Format</h3>
+
+<p>
+Parts in bold, in order:
+</p>
+<ul>
+<li>Modulus</li>
+<li>Public Exponent</li>
+</ul>
+
+<p>
+-----BEGIN PUBLIC KEY-----<br />
+<b class="hl1">30 81 9f 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 81 8d 00 <br />
+30 81 89</b> 02 81 81 <b class="hl2">00 c7 8a 46 ac b5 cf 3e 23 cd 73 0a 0f ea 59 6f <br />
+1d 32 bf 26 aa f5 d0 de a6 cf 02 6b b4 46 3c 68 65 52 38 ee db ec <br />
+91 89 45 01 73 9f d2 c3 eb 84 ed a7 52 ea 28 26 78 27 1d 5d 3a df <br />
+d8 93 4c 46 06 d6 f7 24 35 a5 b6 47 a5 39 41 37 50 e5 1a b9 bb eb <br />
+95 de 93 24 ef 0e d5 b3 89 f7 ba b4 3a 8e 7a ad da b4 d7 6c 2d 43 <br />
+35 af cf 15 e0 19 6a d6 df ed f7 c1 07 2d 08 18 ed 33 73 5d bc 22 <br />
+c8 58 73</b> 02 03 <b class="hl3">01 00 01</b><br />
+-----END PUBLIC KEY-----<br />
+</p>
+
+<h3>Extracted Public Key Components</h3>
+<p>
+<b>header:</b><br />
+<b class="hl1">
+30 81 9f 30 0d 06 09 2a 86 48 86 f7 0d 01 01<br />
+01 05 00 03 81 8d 00 30 81 89<br />
+</b>
+<br />
+<b>separator:</b><br />
+02 81 81<br />
+<br />
+<b>modulus:</b><br />
+<b class="hl2">
+00 c7 8a 46 ac b5 cf 3e 23 cd 73 0a 0f ea 59 <br />
+6f 1d 32 bf 26 aa f5 d0 de a6 cf 02 6b b4 46 <br />
+3c 68 65 52 38 ee db ec 91 89 45 01 73 9f d2 <br />
+c3 eb 84 ed a7 52 ea 28 26 78 27 1d 5d 3a df <br />
+d8 93 4c 46 06 d6 f7 24 35 a5 b6 47 a5 39 41 <br />
+37 50 e5 1a b9 bb eb 95 de 93 24 ef 0e d5 b3 <br />
+89 f7 ba b4 3a 8e 7a ad da b4 d7 6c 2d 43 35 <br />
+af cf 15 e0 19 6a d6 df ed f7 c1 07 2d 08 18 <br />
+ed 33 73 5d bc 22 c8 58 73<br />
+</b>
+<br />
+<b>separator:</b><br />
+02 03<br />
+<br />
+<b>public exponent:</b><br />
+<b class="hl3">
+01 00 01</b>
+</p>
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+
+</body>
+</html>

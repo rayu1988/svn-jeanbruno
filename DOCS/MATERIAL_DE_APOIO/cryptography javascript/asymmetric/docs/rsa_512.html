@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<meta name="Author" content="Tim Stamp" />
+<title>RSA 512 bit Key Breakdown - JavaScript Crypto Library</title>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #fff;
+  font-size: 9pt;
+  background-image: url(../../img/bg_doc.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+b.hl { font-weight: normal; background-color: #fcc; color: #000; }
+</style>
+</head><body>
+    
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="rsa_512.html.md5">[md5]</a>
+<a href="rsa_512.html.sha1">[sha1]</a>
+<br />
+<a href="rsa_key_breakdown.html">[description]</a>
+<a href="rsa_256.html">[256bit]</a>
+<a href="rsa_512.html">[512bit]</a>
+<a href="rsa_1024.html">[1024bit]</a>
+<a href="rsa_2048.html">[2048bit]</a>
+<a href="rsa_4096.html">[4096bit]</a></div>
+
+<h2>OpenSSL 512 bit RSA Private Key Breakdown</h2>
+
+<p>See rsa_key_breakdown.html for more detailed explanation of
+what the following all means.</p>
+<pre>
+-----BEGIN RSA PRIVATE KEY-----
+MIIBOwIBAAJBAMCBYKrBu7Yylb5Vkdgog2VBXYszfDXlu4hZswib7yS+gdl4zJ7T
+9QMNuEAhOBDEKF2/H1T9t7/HWNwr78KCLr8CAwEAAQJADfqXIW82CVH9C7g9AfxX
+Jkgr2crgTy2ig5E37f0czYcjuarqgqk01Sjbq8dpnp/9usHBe8cEpCF77AN3RlBU
+eQIhAOIgT1QNsVQEqrOVopLl5omwwmXNdZfbuirdGBP2hV/FAiEA2e//BNPahRv9
+Thzajj/rbO5RwhuK5jeH/F9mTrXK2LMCIQCNS7EmDXRL0qqzkoHGlr9qNDgUksCz
+Bkqa9BJSjw0iHQIgI5vG+y7yQVV1adHlE+D1wnKeAS0m4L6qBV5BBRNG9WkCIQDc
+MYj0aNm4yAxcvr+X8tBFwsi7JQyDDtJVhrZ0TgbfTQ==
+-----END RSA PRIVATE KEY-----
+</pre>
+<p>
+<b class="hl">3082013b</b>0201<b class="hl">00</b>0241<b class="hl">00c08160aac1bbb63295be5591d8288365415d8b337c35<br />
+e5bb8859b3089bef24be81d978cc9ed3f5030db840213810c4285dbf1f54fdb7<br />
+bfc758dc2befc2822ebf</b>02030100010240<b class="hl">0dfa97216f360951fd0bb83d01fc57<br />
+26482bd9cae04f2da2839137edfd1ccd8723b9aaea82a934d528dbabc7699e9f<br />
+fdbac1c17bc704a4217bec037746505479</b>0221<b class="hl">00e2204f540db15404aab395a2<br />
+92e5e689b0c265cd7597dbba2add1813f6855fc5</b>0221<b class="hl">00d9efff04d3da851bfd<br />
+4e1cda8e3feb6cee51c21b8ae63787fc5f664eb5cad8b3</b>0221<b class="hl">008d4bb1260d74<br />
+4bd2aab39281c696bf6a34381492c0b3064a9af412528f0d221d</b>0220<b class="hl">239bc6fb<br />
+2ef241557569d1e513e0f5c2729e012d26e0beaa055e41051346f569</b>0221<b class="hl">00dc<br />
+3188f468d9b8c80c5cbebf97f2d045c2c8bb250c830ed25586b6744e06df4d</b><br />
+</p>
+
+<pre>
+Private-Key: (512 bit)
+modulus
+    00c08160aac1bbb63295be5591d828
+    8365415d8b337c35e5bb8859b3089b
+    ef24be81d978cc9ed3f5030db84021
+    3810c4285dbf1f54fdb7bfc758dc2b
+    efc2822ebf
+publicExponent (0x010001 = 65537)
+    010001
+privateExponent
+    0dfa97216f360951fd0bb83d01fc57
+    26482bd9cae04f2da2839137edfd1c
+    cd8723b9aaea82a934d528dbabc769
+    9e9ffdbac1c17bc704a4217bec0377
+    46505479
+prime1
+    00e2204f540db15404aab395a292e5
+    e689b0c265cd7597dbba2add1813f6
+    855fc5
+prime2
+    00d9efff04d3da851bfd4e1cda8e3f
+    eb6cee51c21b8ae63787fc5f664eb5
+    cad8b3
+exponent1
+    008d4bb1260d744bd2aab39281c696
+    bf6a34381492c0b3064a9af412528f
+    0d221d
+exponent2
+    239bc6fb2ef241557569d1e513e0f5
+    c2729e012d26e0beaa055e41051346
+    f569
+coefficient
+    00dc3188f468d9b8c80c5cbebf97f2
+    d045c2c8bb250c830ed25586b6744e
+    06df4d
+    
+-----BEGIN PUBLIC KEY-----
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMCBYKrBu7Yylb5Vkdgog2VBXYszfDXl
+u4hZswib7yS+gdl4zJ7T9QMNuEAhOBDEKF2/H1T9t7/HWNwr78KCLr8CAwEAAQ==
+-----END PUBLIC KEY-----
+</pre>
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+
+</body>
+</html>

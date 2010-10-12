@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link href="../../icon.png" rev="contents" rel="shortcut icon" type="image/x-icon" />
+<meta name="Author" content="Tim Stamp" />
+<title>RSA 1024 bit Key Breakdown - JavaScript Crypto Library</title>
+<style type="text/css">
+body {
+  color: #333;
+  font-family: Monospace;
+  background-color: #fff;
+  font-size: 9pt;
+  background-image: url(../../img/bg_doc.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+a, img.a { border-width: 0px; color:#00f; text-decoration:none;}
+.extlink { color: #f00; }
+h1 { font-size: 1.5em; color: #000; }
+h2 { font-size: 1.2em; margin: 1px; padding: 5px; color: #000; }
+h3 { font-size: 1.1em; text-decoration: none; color: #000; }
+b.hl { font-weight: normal; background-color: #fcc; color: #000; }
+</style>
+</head><body>
+    
+<div>
+<a href="../../main.html">[home]</a>
+<a href="../../contents.html">[contents]</a>
+<a href="files.html">[files]</a>
+<a href="rsa_1024.html.md5">[md5]</a>
+<a href="rsa_1024.html.sha1">[sha1]</a>
+<br />
+<a href="rsa_key_breakdown.html">[description]</a>
+<a href="rsa_256.html">[256bit]</a>
+<a href="rsa_512.html">[512bit]</a>
+<a href="rsa_1024.html">[1024bit]</a>
+<a href="rsa_2048.html">[2048bit]</a>
+<a href="rsa_4096.html">[4096bit]</a></div>
+
+<h2>OpenSSL 1024 bit RSA Private Key Breakdown</h2>
+
+<p>See rsa_key_breakdown.html for more detailed explanation of
+what the following all means.</p>
+
+<pre>
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDHikastc8+I81zCg/qWW8dMr8mqvXQ3qbPAmu0RjxoZVI47tvs
+kYlFAXOf0sPrhO2nUuooJngnHV0639iTTEYG1vckNaW2R6U5QTdQ5Rq5u+uV3pMk
+7w7Vs4n3urQ6jnqt2rTXbC1DNa/PFeAZatbf7ffBBy0IGO0zc128IshYcwIDAQAB
+AoGBALTNl2JxTvq4SDW/3VH0fZkQXWH1MM10oeMbB2qO5beWb11FGaOO77nGKfWc
+bYgfp5Ogrql4yhBvLAXnxH8bcqqwORtFhlyV68U1y4R+8WxDNh0aevxH8hRS/1X5
+031DJm1JlU0E+vStiktN0tC3ebH5hE+1OxbIHSZ+WOWLYX7JAkEA5uigRgKp8ScG
+auUijvdOLZIhHWq7y5Wz+nOHUuDw8P7wOTKU34QJAoWEe771p9Pf/GTA/kr0BQnP
+QvWUDxGzJwJBAN05C6krwPeryFKrKtjOGJIniIoY72wRnoNcdEEs3HDRhf48YWFo
+riRbZylzzzNFy/gmzT6XJQTfktGqq+FZD9UCQGIJaGrxHJgfmpDuAhMzGsUsYtTr
+iRox0D1Iqa7dhE693t5aBG010OF6MLqdZA1CXrn5SRtuVVaCSLZEL/2J5UcCQQDA
+d3MXucNnN4NPuS/L9HMYJWD7lPoosaORcgyK77bSSNgk+u9WSjbH1uYIAIPSffUZ
+bti+jc1dUg5wb+aeZlgJAkEAurrpmpqj5vg087ZngKfFGR5rozDiTsK5DceTV97K
+a3Y+Nzl+XWTxDBWk4YPh2ZlKv402hZEfWBYxUDn5ZkH/bw==
+-----END RSA PRIVATE KEY-----
+</pre>
+<p>
+<b class="hl">3082025e</b>0201<b class="hl">00</b>028181<b class="hl">00c78a46acb5cf3e23cd730a0fea596f1d32bf26aaf5<br />
+d0dea6cf026bb4463c68655238eedbec91894501739fd2c3eb84eda752ea2826<br />
+78271d5d3adfd8934c4606d6f72435a5b647a539413750e51ab9bbeb95de9324<br />
+ef0ed5b389f7bab43a8e7aaddab4d76c2d4335afcf15e0196ad6dfedf7c1072d<br />
+0818ed33735dbc22c85873</b>0203010001028181<b class="hl">00b4cd9762714efab84835bfdd<br />
+51f47d99105d61f530cd74a1e31b076a8ee5b7966f5d4519a38eefb9c629f59c<br />
+6d881fa793a0aea978ca106f2c05e7c47f1b72aab0391b45865c95ebc535cb84<br />
+7ef16c43361d1a7afc47f21452ff55f9d37d43266d49954d04faf4ad8a4b4dd2<br />
+d0b779b1f9844fb53b16c81d267e58e58b617ec9</b>0241<b class="hl">00e6e8a04602a9f12706<br />
+6ae5228ef74e2d92211d6abbcb95b3fa738752e0f0f0fef0393294df84090285<br />
+847bbef5a7d3dffc64c0fe4af40509cf42f5940f11b327</b>0241<b class="hl">00dd390ba92bc0<br />
+f7abc852ab2ad8ce189227888a18ef6c119e835c74412cdc70d185fe3c616168<br />
+ae245b672973cf3345cbf826cd3e972504df92d1aaabe1590fd5</b>0240<b class="hl">6209686a<br />
+f11c981f9a90ee0213331ac52c62d4eb891a31d03d48a9aedd844ebddede5a04<br />
+6d35d0e17a30ba9d640d425eb9f9491b6e55568248b6442ffd89e547</b>0241<b class="hl">00c0<br />
+777317b9c36737834fb92fcbf473182560fb94fa28b1a391720c8aefb6d248d8<br />
+24faef564a36c7d6e6080083d27df5196ed8be8dcd5d520e706fe69e665809</b>02<br />
+4100<b class="hl">babae99a9aa3e6f834f3b66780a7c5191e6ba330e24ec2b90dc79357deca<br />
+6b763e37397e5d64f10c15a4e183e1d9994abf8d3685911f5816315039f96641<br />
+ff6f</b>
+</p>
+<pre>
+Private-Key: (1024 bit)
+modulus
+    00c78a46acb5cf3e23cd730a0fea59
+    6f1d32bf26aaf5d0dea6cf026bb446
+    3c68655238eedbec91894501739fd2
+    c3eb84eda752ea282678271d5d3adf
+    d8934c4606d6f72435a5b647a53941
+    3750e51ab9bbeb95de9324ef0ed5b3
+    89f7bab43a8e7aaddab4d76c2d4335
+    afcf15e0196ad6dfedf7c1072d0818
+    ed33735dbc22c85873
+publicexponent (0x010001 = 65537)
+    010001
+privateexponent
+    00b4cd9762714efab84835bfdd51f4
+    7d99105d61f530cd74a1e31b076a8e
+    e5b7966f5d4519a38eefb9c629f59c
+    6d881fa793a0aea978ca106f2c05e7
+    c47f1b72aab0391b45865c95ebc535
+    cb847ef16c43361d1a7afc47f21452
+    ff55f9d37d43266d49954d04faf4ad
+    8a4b4dd2d0b779b1f9844fb53b16c8
+    1d267e58e58b617ec9
+prime1
+    00e6e8a04602a9f127066ae5228ef7
+    4e2d92211d6abbcb95b3fa738752e0
+    f0f0fef0393294df84090285847bbe
+    f5a7d3dffc64c0fe4af40509cf42f5
+    940f11b327
+prime2
+    00dd390ba92bc0f7abc852ab2ad8ce
+    189227888a18ef6c119e835c74412c
+    dc70d185fe3c616168ae245b672973
+    cf3345cbf826cd3e972504df92d1aa
+    abe1590fd5
+exponent1
+    6209686af11c981f9a90ee0213331a
+    c52c62d4eb891a31d03d48a9aedd84
+    4ebddede5a046d35d0e17a30ba9d64
+    0d425eb9f9491b6e55568248b6442f
+    fd89e547
+exponent2
+    00c0777317b9c36737834fb92fcbf4
+    73182560fb94fa28b1a391720c8aef
+    b6d248d824faef564a36c7d6e60800
+    83d27df5196ed8be8dcd5d520e706f
+    e69e665809
+coefficient
+    00babae99a9aa3e6f834f3b66780a7
+    c5191e6ba330e24ec2b90dc79357de
+    ca6b763e37397e5d64f10c15a4e183
+    e1d9994abf8d3685911f5816315039
+    f96641ff6f
+
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHikastc8+I81zCg/qWW8dMr8m
+qvXQ3qbPAmu0RjxoZVI47tvskYlFAXOf0sPrhO2nUuooJngnHV0639iTTEYG1vck
+NaW2R6U5QTdQ5Rq5u+uV3pMk7w7Vs4n3urQ6jnqt2rTXbC1DNa/PFeAZatbf7ffB
+By0IGO0zc128IshYcwIDAQAB
+-----END PUBLIC KEY-----
+</pre>
+
+<p>
+<a class="extlink" type="text/html" href="http://jigsaw.w3.org/css-validator/check/referer">[W3C Valid CSS 2]</a><br />
+<a class="extlink" type="text/html" href="http://validator.w3.org/check?uri=referer">[W3C Valid XHTML 1.1]</a>
+</p>
+
+</body>
+</html>
