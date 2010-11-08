@@ -1,0 +1,11 @@
+#Mon Nov 08 09:26:32 BRST 2010
+fixTomcatHomeBug=fixed
+contextsDir=C\:\\Program Files (x86)\\Servers\\Tomcat 6.0\\conf\\Catalina\\localhost
+tomcatDir=C\:\\Program Files (x86)\\Servers\\Tomcat 6.0
+jvmParameters=-XX%3AMaxPermSize%3D256M;-Xmx1g;-Xms400m;
+tomcatJRE=1289214594711
+tomcatConfigFile=C\:\\Program Files (x86)\\Servers\\Tomcat 6.0\\conf\\server.xml
+eclipse.preferences.version=1
+tomcatVersion=tomcatV6
+managerUrl=http\://localhost\:8080/manager
+projectsInSourcePath=DigitalSignerApplet;DocumentSigningDemoWebApp;SmartCardSignerApplet;

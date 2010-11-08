@@ -1,0 +1,8 @@
+rem GENERATING SELF-SIGNED CERTIFICATES
+
+rem exclui o arquivo chamado DigitalSignerApplet.jks
+del DigitalSignerApplet.jks
+rem Com a ferramenta keytool é gerado um certificado com o padrão X.509 e sua chave privada e salva estas informações sobre o nome signFiles
+rem sendo que tal certificado é salvo no arquivo denominado DigitalSignerApplet.jks, sendo que a extensão jks está para Java Key Store.
+keytool -genkey -alias signFiles -keystore DigitalSignerApplet.jks -keypass !secret -dname "CN=Compania Jean Bruno Teste" -storepass !secret
+pause
