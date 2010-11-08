@@ -1,6 +1,10 @@
 package demo;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 /**
@@ -19,11 +23,17 @@ import org.apache.struts.upload.FormFile;
  * for any purpose as long as this copyright statement is not
  * removed or modified.
  */
+@SuppressWarnings("serial")
 public class SignedFileUploadActionForm extends ActionForm {
 
     private FormFile mUploadFile;
     private String mCertChain;
     private String mSignature;
+    
+    @Override
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+    	return super.validate(mapping, request);
+    }
 
     public FormFile getUploadFile() {
         return mUploadFile;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<project name="DigitalSignerApplet" default="build" basedir=".">
+<project name="SmartCardSignerApplet" default="build" basedir=".">
 
 	<!-- initialize variables/constants -->
     <target name="init">
-    	<property name="project-name" value="DigitalSignerApplet"/>
+    	<property name="project-name" value="SmartCardSignerApplet"/>
     	<property name="applet-name" value="${project-name}.jar"/>
     	<property name="classes-dir" value="bin"/>
     	<property name="deploy-dir" value="deploy"/>
