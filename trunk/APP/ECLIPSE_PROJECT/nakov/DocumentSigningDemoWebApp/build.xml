@@ -24,14 +24,10 @@
         <delete dir="${deploy-dir}"/>
         <mkdir dir="${deploy-dir}"/>
     	
-    	<delete>
-    		<fileset>
-    			<filename name="${name-smart-card-project}.jks"/>
-    			<filename name="${name-smart-card-project}.jar"/>
-    			<filename name="${name-digital-signer-project}.jks"/>
-    			<filename name="${name-digital-signer-project}.jar"/>
-    		</fileset>
-    	</delete>
+		<delete file="${name-smart-card-project}.jks"/>
+		<delete file="${name-smart-card-project}.jar"/>
+		<delete file="${name-digital-signer-project}.jks"/>
+		<delete file="${name-digital-signer-project}.jar"/>
     </target>
 
 	<!-- compila os arquivos java -->
