@@ -4,6 +4,9 @@
 
 	<!-- inicializacao das variaveis/constantes -->
     <target name="init">
+    	<property name="name-smart-card-project" value="SmartCardSignerApplet"/>
+    	<property name="name-digital-signer-project" value="DigitalSignerApplet"/>
+    	
         <property name="app-name" value="DocumentSigningDemoWebApp"/>
         <property name="webapp-name" value="${app-name}.war"/>
         <property name="src-dir" value="src"/>
@@ -20,6 +23,15 @@
         <mkdir dir="${classes-dir}"/>
         <delete dir="${deploy-dir}"/>
         <mkdir dir="${deploy-dir}"/>
+    	
+    	<delete>
+    		<fileset>
+    			<filename name="${name-smart-card-project}.jks"/>
+    			<filename name="${name-smart-card-project}.jar"/>
+    			<filename name="${name-digital-signer-project}.jks"/>
+    			<filename name="${name-digital-signer-project}.jar"/>
+    		</fileset>
+    	</delete>
     </target>
 
 	<!-- compila os arquivos java -->
