@@ -48,6 +48,14 @@
         </javac>
     </target>
 
+	<!-- copia os jar applets e jks certificados dos seus respectivos projetos -->
+	<target name="copy-jar-jks" depends="init">
+		<copy file="../${name-smart-card-project}/certificate/${name-smart-card-project}.jks" todir="${www-dir}"/>
+		<copy file="../${name-smart-card-project}/deploy/${name-smart-card-project}.jar" todir="${www-dir}"/>
+		<copy file="../${name-digital-signer-project}/certificate/${name-digital-signer-project}.jks" todir="${www-dir}"/>
+		<copy file="../${name-digital-signer-project}/deploy/${name-digital-signer-project}.jar" todir="${www-dir}"/>
+	</target>
+	
 	<!-- cria o WAR file -->
     <target name="war" depends="init">
         <war compress="true" destfile="${deploy-dir}/${webapp-name}" webxml="${web-xml}" >
@@ -60,6 +68,7 @@
 	<!-- comando principal, para criação do war -->
     <target name="build">
         <antcall target="clean"/>
+        <antcall target="copy-jar-jks"/>
         <antcall target="compile"/>
         <antcall target="war"/>
     </target>
