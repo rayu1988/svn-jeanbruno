@@ -61,12 +61,17 @@
         </war>
     </target>
 
+	<!-- targe para geracao do war file -->
+	<target name="generates-war-file">
+		<antcall target="build"/>
+		<antcall target="war"/>
+	</target>
+	
 	<!-- comando principal, para criação do war -->
     <target name="build">
         <antcall target="clean"/>
         <antcall target="copy-jar-jks"/>
         <antcall target="compile"/>
-        <antcall target="war"/>
     </target>
 
 </project>
