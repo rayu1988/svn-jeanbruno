@@ -1,0 +1,19 @@
+rem SCRIPTING FOR SIGNING JAVA APPLETS WITH JARSIGNER
+
+rem exclui todos os arquivos com extensão .class
+del *.class
+rem compila todos os arquivos java presentes aqui com a lib %JAVA_HOME%\jre\lib\plugin.jar
+javac -classpath .;"%JAVA_HOME%\jre\lib\plugin.jar" *.java
+
+rem exclui todos os arquivos com extensão .jar
+del *.jar
+rem empacota em um arquivo denominado DigitalSignerApplet.jar todos os arquivos com extensão .class
+jar -cvf DigitalSignerApplet.jar *.class
+
+rem este comando assina o arquivo DigitalSignerApplet.jar 
+jarsigner -keystore DigitalSignerApplet.jks -storepass !secret -keypass !secret DigitalSignerApplet.jar signFiles
+
+rem exclui todos os arquivos com extensão .class
+del *.class
+
+pause

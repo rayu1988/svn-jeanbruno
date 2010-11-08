@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project name="DigitalSignerApplet" default="build" basedir=".">
+
+	<!-- inicializacao das variaveis/constantes -->
+    <target name="init">
+    	<property name="applet-name" value="DigitalSignerApplet.jar"/>
+    	<property name="classes-dir" value="bin"/>
+    	<property name="deploy-dir" value="deploy"/>
+    	<property name="certificate-name" value="SignApplet.jks"/>
+    	<property name="certificate-dir" value="certificate"/>
+    	<property name="applet-full-name" value="${deploy-dir}/${applet-name}"/>
+    	<property name="keystore-certificate" value="${certificate-dir}/${certificate-name}"/>
+    	<property name="storepass-certificate" value="!secret"/>
+    	<property name="keypass-certificate" value="!secret"/>
+    	<property name="alias-certificate" value="signFiles"/>
+    </target>
+
+	<!-- limpa o diretorio de deploy -->
+    <target name="clean" depends="init">
+        <delete dir="${deploy-dir}"/>
+        <mkdir dir="${deploy-dir}"/>
+    </target>
+
+	<!-- gera o certificado jks -->
+	<target name="generates-a-new-certificate-jks" depends="clean">
+		
+	</target>
+	
+	<!-- compila os arquivos java -->
+	<target name="creates-jar-applet" depends="clean">
+		<jar destfile="${applet-full-name}">
+			<fileset dir="${classes-dir}"/>
+		</jar>
+	</target>
+	
+	<!-- assina o jar -->
+	<target name="sign-jar-applet" depends="init">
+		<signjar jar="${applet-full-name}"
+				keystore="${keystore-certificate}"
+				storepass="${storepass-certificate}"
+				keypass="${keypass-certificate}"
+				alias="${alias-certificate}"
+				lazy="false"/>
+	</target>
+	
+    <target name="compile" depends="init">
+        <javac srcdir="${src-dir}"
+            destdir="${classes-dir}"
+            debug="on">
+            <classpath>
+                <fileset dir="${lib-dir}">
+                    <include name="**/*.jar"/>
+                    <include name="**/*.zip"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+	<!-- cria o WAR file -->
+    <target name="war" depends="init">
+        <war compress="true" destfile="${deploy-dir}/${webapp-name}" webxml="${web-xml}" >
+            <fileset dir="${www-dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </war>
+    </target>
+
+	<!-- comando principal, para criação do war -->
+    <target name="build">
+        <antcall target="clean"/>
+        <antcall target="compile"/>
+        <antcall target="war"/>
+    </target>
+
+</project>
