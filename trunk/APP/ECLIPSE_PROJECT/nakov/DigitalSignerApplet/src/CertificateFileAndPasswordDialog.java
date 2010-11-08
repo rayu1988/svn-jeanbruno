@@ -185,8 +185,7 @@ public class CertificateFileAndPasswordDialog extends JDialog {
      * @return the file name with full path to it where the dialog settings are stored.
      */
     private String getConfigFileName() {
-        String configFileName = System.getProperty("user.home") +
-            System.getProperty("file.separator") + CONFIG_FILE_NAME;
+        String configFileName = System.getProperty("user.home") + System.getProperty("file.separator") + CONFIG_FILE_NAME;
         return configFileName;
     }
 
@@ -204,8 +203,7 @@ public class CertificateFileAndPasswordDialog extends JDialog {
         configFileStream.close();
 
         // Apply setings from the config file
-        String lastCertificateFileName =
-            configProps.getProperty(PFX_FILE_NAME_KEY);
+        String lastCertificateFileName = configProps.getProperty(PFX_FILE_NAME_KEY);
         if (lastCertificateFileName != null)
             mCertFileNameTextField.setText(lastCertificateFileName);
         else
@@ -282,8 +280,7 @@ public class CertificateFileAndPasswordDialog extends JDialog {
             }
 
             String fileName = aFile.getName().toUpperCase();
-            boolean accepted =
-                (fileName.endsWith(".PFX") || fileName.endsWith(".P12"));
+            boolean accepted = (fileName.endsWith(".PFX") || fileName.endsWith(".P12"));
             return accepted;
         }
 

@@ -186,8 +186,7 @@ public class DigitalSignerApplet extends Applet {
      * @throws DocumentSignException when a problem arise during the singing process
      * (e.g. invalid file format, invalid certificate, invalid password, etc.)
      */
-    private CertificationChainAndSignatureInBase64 signFile(String aFileName)
-    throws DocumentSignException {
+    private CertificationChainAndSignatureInBase64 signFile(String aFileName) throws DocumentSignException {
 
         // Load the file for signing
         byte[] documentToSign = null;
@@ -199,15 +198,13 @@ public class DigitalSignerApplet extends Applet {
         }
 
         // Show a dialog for selecting PFX file and password
-        CertificateFileAndPasswordDialog certFileAndPasswdDlg =
-            new CertificateFileAndPasswordDialog();
+        CertificateFileAndPasswordDialog certFileAndPasswdDlg = new CertificateFileAndPasswordDialog();
         if (certFileAndPasswdDlg.run()) {
 
             // Load the keystore from specified file using the specified password
             String keyStoreFileName = certFileAndPasswdDlg.getCertificateFileName();
             if (keyStoreFileName.length() == 0) {
-                String errorMessage = "It is mandatory to select a certificate " +
-                	"keystore (.PFX or .P12 file)!";
+                String errorMessage = "It is mandatory to select a certificate keystore (.PFX or .P12 file)!";
                 throw new DocumentSignException(errorMessage);
             }
             String password = certFileAndPasswdDlg.getCertificatePassword();
