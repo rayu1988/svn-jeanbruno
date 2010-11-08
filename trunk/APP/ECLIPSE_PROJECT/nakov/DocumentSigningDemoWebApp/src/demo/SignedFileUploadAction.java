@@ -25,14 +25,12 @@ import org.apache.struts.action.*;
  */
 public class SignedFileUploadAction extends Action {
 
-    public ActionForward perform(ActionMapping aActionMapping, ActionForm aActionForm,
-            HttpServletRequest aRequest, HttpServletResponse aResponse) {
-        SignedFileUploadActionForm signedFileUploadActionForm =
-            (SignedFileUploadActionForm) aActionForm;
+    public ActionForward perform(ActionMapping aActionMapping, ActionForm aActionForm, HttpServletRequest aRequest, HttpServletResponse aResponse) {
+        SignedFileUploadActionForm signedFileUploadActionForm = (SignedFileUploadActionForm) aActionForm;
         HttpSession session = aRequest.getSession();
         session.setAttribute("signedFileUploadActionForm", signedFileUploadActionForm);
 
         return aActionMapping.findForward("ShowSignedFileUploadResults");
     }
-
+    
 }
