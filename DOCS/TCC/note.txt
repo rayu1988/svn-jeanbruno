@@ -1,5 +1,4 @@
 1 - Qualquer que seja a alteração efeutada no trabalho que altere sua estrutura de alguma maneira, deve ser lembrado de atualizar os valores para;
-* REFERÊNCIAS (O NÚMERO DE PÁGINAS DE REFERÊNCIA DEVE COMEÇAR UM VALOR APÓS A ÚLTIMA PÁGINA DO DOCUMENTO ELEMENTOS-TEXTUAIS)
 * SUMÁRIO (ATUALIZAR OS CAMPOS DO SUMÁRIO)
 * FICHA CATALOGRÁFIA (NÚMERO DE PÁGINAS)
 (A CONTAGEM DAS FOLHAS INICIA A PARTIR DA FOLHA DE ROSTO, E DEVE SER APRESENTADA A PARTIR DA INTRODUÇÃO)
