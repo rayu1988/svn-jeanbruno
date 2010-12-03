@@ -25,8 +25,6 @@ public class DigitalSignerBO implements DigitalSigner {
 	
 	public static final String PKCS12_KEYSTORE_TYPE					= "PKCS12";
 	public static final String DIGITAL_SIGNATURE_ALGORITHM_NAME		= "SHA1withRSA";
-	public static final String X509_CERTIFICATE_TYPE				= "X.509";
-	public static final String CERTIFICATION_CHAIN_ENCODING			= "PkiPath";
 	
 	private PrivateKey 			privateKey;
 	private Certificate[] 		certificationChain;
@@ -40,15 +38,13 @@ public class DigitalSignerBO implements DigitalSigner {
 	public SignatureTO sign(KeyStoreTO keyStoreTO) throws NoneMessageException {
 		try {
 			KeyStore keyStore = keyStoreTO.getKeyStore();
-			this.getPrivateKeyAndCertChain(keyStore, keyStoreTO);
+			this.setPrivateKeyAndCertChain(keyStore, keyStoreTO);
 			Signature signatureAlgorithm = Signature.getInstance(DIGITAL_SIGNATURE_ALGORITHM_NAME);
 	        signatureAlgorithm.initSign(this.privateKey);
-	        signatureAlgorithm.update(this.message.getMessage());
+	        signatureAlgorithm.update(this.message.getCodedMessage());
 	        byte[] digitalSignature = signatureAlgorithm.sign();
 	        
-			SignatureTO signature = new SignatureTO();
-			signature.setMessageDigestCoded(digitalSignature);
-			signature.setCertificationChainCoded(this.certificationChain);
+			SignatureTO signature = new SignatureTO(digitalSignature, this.certificationChain);
 			
 			return signature;
 		} catch (SignatureException e) {
@@ -74,7 +70,7 @@ public class DigitalSignerBO implements DigitalSigner {
      * several entries, the first is used.
      */
     @SuppressWarnings("unchecked")
-	private void getPrivateKeyAndCertChain(KeyStore keystore, KeyStoreTO keystoreTO) throws GeneralSecurityException {
+	private void setPrivateKeyAndCertChain(KeyStore keystore, KeyStoreTO keystoreTO) throws GeneralSecurityException {
         char[] password = keystoreTO.getPassword().toCharArray();
         Enumeration aliasesEnum = keystore.aliases();
         if (aliasesEnum.hasMoreElements()) {

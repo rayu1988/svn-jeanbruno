@@ -16,8 +16,9 @@ public class MessageTO {
 	public static final String charSetISO88591 = "ISO-8859-1";
 	public static final String charSetUTF8 = "UTF-8";
 	
-	private File file;
-	private String string;
+	private File 		file;
+	private String 		string;
+	private byte[] 		codedMsg;
 	
 	/**
 	 * 
@@ -37,15 +38,25 @@ public class MessageTO {
 	
 	/**
 	 * 
+	 * @param codedMsg
+	 */
+	public MessageTO(byte[] codedMsg) {
+		this.codedMsg = codedMsg;
+	}
+	
+	/**
+	 * 
 	 * @return
 	 * @throws IOException
 	 * @throws NoneMessageException 
 	 */
-	public byte[] getMessage() throws IOException, NoneMessageException {
+	public byte[] getCodedMessage() throws IOException, NoneMessageException {
 		if (file != null)
 			return this.readFile(file);
 		else if (Util.stringOk(this.string))
 			return this.string.getBytes(charSetUTF8);
+		else if (this.codedMsg != null)
+			return this.codedMsg;
 		else
 			throw new NoneMessageException("None valid message into.");
 	}
