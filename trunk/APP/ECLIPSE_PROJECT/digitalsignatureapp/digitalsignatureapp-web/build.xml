@@ -13,8 +13,8 @@
 		<property name="libs-repository" value="libs-repository"/>
 		<property name="path-lib-dir" value="web/WEB-INF/lib"/>
 		
-		<delete dir="${web/WEB-INF/lib}"/>
-		<mkdir dir="${web/WEB-INF/lib}"/>
+		<delete dir="${path-lib-dir}"/>
+		<mkdir dir="${path-lib-dir}"/>
 		
 		<copy file="${path-workspace}/${libs-repository}/common-annotations.jar" todir="${path-lib-dir}"/>
 		<copy file="${path-workspace}/${libs-repository}/commons-beanutils.jar" todir="${path-lib-dir}"/>
