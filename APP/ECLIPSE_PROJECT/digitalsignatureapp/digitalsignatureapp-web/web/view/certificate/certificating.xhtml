@@ -1,0 +1,83 @@
+<ui:composition template="/view/layout/base.xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:define name="mainBody">
+
+		<h:panelGrid columns="2">
+
+			<h:outputLabel value="#{msg.digitalsignatureTypeMsgForSign}:" for="#{msg.ID_FIELD_RADIO_TYPE_MESSAGE}" />
+			<h:selectOneRadio value="#{certificateBean.idTypeMessage}" id="#{msg.ID_FIELD_RADIO_TYPE_MESSAGE}" onclick="changeTypeMessage(this);">
+				<f:selectItem itemLabel="#{msg.digitalsignatureTypeFreeMsg}" itemValue="f"/>
+				<f:selectItem itemLabel="#{msg.digitalsignatureTypeMsgDigital}" itemValue="d"/>
+			</h:selectOneRadio>
+
+			<h:outputLabel value="#{msg.digitalsignatureTypeFieldFreeMessage}:" for="#{msg.ID_FIELD_FREE_MESSAGE}" />
+			<h:inputTextarea value="#{certificateBean.freeMessage}" id="#{msg.ID_FIELD_FREE_MESSAGE}" cols="60" />
+
+			<h:outputLabel value="#{msg.digitalsignatureTypeFieldDigitalMessage}:" for="#{msg.ID_FIEDL_DIGITAL_FILE}" />
+			<t:inputFileUpload id="#{msg.ID_FIEDL_DIGITAL_FILE}" value="#{certificateBean.digitalFile}"/>
+
+			<h:column/>
+			<object
+		        classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+		        codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0"
+		        width="160" height="25" name="#{msg.NAME_APPLET_SIGNER}">
+		        <param name="type" value="application/x-java-applet;version=1.4"/>
+		        <param name="code" value="br.com.digitalsignatureapp.applet.DigitalSignerApplet"/>
+		        <param name="archive" value="#{facesContext.externalContext.request.contextPath}#{msg.PATH_JAR_SIGNER}#{msg.NAME_APPLET_SIGNER}#{msg.EXTENSION_JAR}"/>
+		        <param name="mayscript" value="true"/>
+		        <param name="scriptable" value="true"/>
+		        <param name="fileNameField" value="#{msg.ID_FIEDL_DIGITAL_FILE}"/>
+		        <param name="certificationChainField" value="#{msg.ID_FIEDL_CERTIFICATION_CHAIN}"/>
+		        <param name="signatureField" value="#{msg.ID_FIEDL_DIGITAL_SIGNATURE}"/>
+		        <param name="signButtonCaption" value="#{msg.digitalsignatureButtonActionSign}"/>
+		        <param name="namePopupBox" value="#{msg.digitalsignatureNamePopupBox}"/>
+		        <param name="msgSelectKeystore" value="#{msg.digitalsignatureMsgSelectKeystore}"/>
+		        <param name="browseButtonName" value="#{msg.digitalsignatureBrowseButton}"/>
+		        <param name="enterPassword" value="#{msg.digitalsignatureMsgEnterPassword}"/>
+		        <param name="labelActionSign" value="#{msg.digitalsignatureActionSign}"/>
+		        <param name="labelActionCancel" value="#{msg.digitalsignatureActionCancel}"/>
+		        <param name="msgRestrictExtensionFiles" value="#{msg.digitalsignatureBrowseMsgRestrictExtensionFiles}"/>
+	
+		        <comment>
+		            <embed
+		                type="application/x-java-applet;version=1.4"
+		                pluginspage="http://java.sun.com/products/plugin/index.html#download"
+		                code="br.com.digitalsignatureapp.applet.DigitalSignerApplet"
+		                archive="#{facesContext.externalContext.request.contextPath}#{msg.PATH_JAR_SIGNER}#{msg.NAME_APPLET_SIGNER}#{msg.EXTENSION_JAR}"
+		                width="160"
+		                height="25"
+		                mayscript="true"
+		                scriptable="true"
+		                fileNameField="#{msg.ID_FIEDL_DIGITAL_FILE}"
+		                certificationChainField="#{msg.ID_FIEDL_CERTIFICATION_CHAIN}"
+		                signatureField="#{msg.ID_FIEDL_DIGITAL_SIGNATURE}"
+		                signButtonCaption="#{msg.digitalsignatureButtonActionSign}"
+		                namePopupBox="#{msg.digitalsignatureNamePopupBox}"
+				        msgSelectKeystore="#{msg.digitalsignatureMsgSelectKeystore}"
+				        browseButtonName="#{msg.digitalsignatureBrowseButton}"
+				        enterPassword="#{msg.digitalsignatureMsgEnterPassword}"
+				        labelActionSign="#{msg.digitalsignatureActionSign}"
+				        labelActionCancel="#{msg.digitalsignatureActionCancel}"
+				        msgRestrictExtensionFiles="#{msg.digitalsignatureBrowseMsgRestrictExtensionFiles}">
+			            <noembed>
+			            	#{msg.ERROR_CANNOT_OPEN_APPLET}
+			            </noembed>
+		        	</embed>
+		        </comment>
+		    </object>
+
+		    <h:outputLabel value="#{msg.digitalsignatureFieldCertificationChain}:" for="#{msg.ID_FIEDL_CERTIFICATION_CHAIN}" />
+		    <h:inputTextarea value="#{certificateBean.certificationChain}" id="#{msg.ID_FIEDL_CERTIFICATION_CHAIN}"
+		    				cols="60" rows="5" readonly="true" style="border:0px;"/>
+		    
+		    <h:outputLabel value="#{msg.digitalsignatureFieldDigitalSignature}:" for="#{msg.ID_FIEDL_DIGITAL_SIGNATURE}" />
+		    <h:inputTextarea value="#{certificateBean.messageDigest}" id="#{msg.ID_FIEDL_DIGITAL_SIGNATURE}"
+		    				cols="60" rows="5" readonly="true" style="border:0px;"/>
+		</h:panelGrid>
+
+	</ui:define>
+</ui:composition>

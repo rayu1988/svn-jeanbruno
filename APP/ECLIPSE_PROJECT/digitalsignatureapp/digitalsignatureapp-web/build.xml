@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project name="digitalsignatureapp-web" default="main" basedir=".">
+	<import file="../DigitalSignerApplet/build.xml" optional="true" />
+	
+	<target name="main" depends="init">
+		<antcall target="build"/>
+		<copy file="${applet-full-name}"
+			todir="${path-workspace}/digitalsignatureapp-web/web/resources/applet"/>
+	</target>
+</project>
