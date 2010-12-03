@@ -8,4 +8,36 @@
 		<copy file="${applet-full-name}"
 			todir="${path-workspace}/digitalsignatureapp-web/web/resources/applet"/>
 	</target>
+	
+	<target name="copy-libraries" depends="init">
+		<property name="libs-repository" value="libs-repository"/>
+		<property name="path-lib-dir" value="web/WEB-INF/lib"/>
+		
+		<delete dir="${web/WEB-INF/lib}"/>
+		<mkdir dir="${web/WEB-INF/lib}"/>
+		
+		<copy file="${path-workspace}/${libs-repository}/common-annotations.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-beanutils.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-collections.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-digester.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-fileupload-1.2.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-io-1.4.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/commons-logging.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/el-api.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/el-ri.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jhighlight-1.0.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jsf-api.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jsf-facelets.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jsf-impl.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jsf-tlds.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jsp-api.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jstl-1.2.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/jstl.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/richfaces-api-3.3.2.SR1.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/richfaces-impl-3.3.2.SR1.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/richfaces-ui-3.3.2.SR1.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/servlet-api.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/standard.jar" todir="${path-lib-dir}"/>
+		<copy file="${path-workspace}/${libs-repository}/tomahawk12-1.1.9.jar" todir="${path-lib-dir}"/>
+	</target>
 </project>
