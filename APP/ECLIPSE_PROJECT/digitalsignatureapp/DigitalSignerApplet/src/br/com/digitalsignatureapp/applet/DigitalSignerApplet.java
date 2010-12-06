@@ -31,6 +31,8 @@ import br.com.digitalsignature.entity.MessageTO;
 import br.com.digitalsignature.entity.SignatureTO;
 import br.com.digitalsignature.exception.KeyStoreException;
 import br.com.digitalsignature.exception.NoneMessageException;
+import br.com.digitalsignatureapp.ControledApplet;
+import br.com.digitalsignatureapp.DigitalSignature;
 
 /**
  * Applet for digital signing documents. The applet is intended to be placed in a HTML
@@ -91,13 +93,6 @@ import br.com.digitalsignature.exception.NoneMessageException;
 @SuppressWarnings("serial")
 public class DigitalSignerApplet extends ControledApplet {
 
-    // ID FIELDS HTML FORM
-    public static final String ID_FIELD_RADIO_TYPE_MESSAGE			= "selectRadioTypeMessage";
-    public static final String ID_FIELD_FREE_MESSAGE				= "fieldFreeMessage";
-    public static final String ID_FIEDL_DIGITAL_FILE				= "fieldDigitalMessage";
-    public static final String ID_FIEDL_CERTIFICATION_CHAIN			= "fiedlCertificationChain";
-    public static final String ID_FIEDL_DIGITAL_SIGNATURE			= "fieldDigitalSignature";
-    
     public static final String PARAM_SIGN_BUTTON_CAPTION 			= "signButtonCaption";
     public static final String PARAM_NAME_POPUP 					= "namePopupBox";
     public static final String PARAM_MSG_SELECT_KEYSTORE 			= "msgSelectKeystore";
@@ -238,32 +233,28 @@ public class DigitalSignerApplet extends ControledApplet {
     	Character typeMessage = ((String) ((JSObject) this.browserWindow.call("getCurrentTypeMessage", null)).getMember("value")).toCharArray()[0];
     	MessageTO message = null;
 
+    	if (typeMessage.equals('f')) {
+    		message = new MessageTO(this.getValue(DigitalSignature.ID_FIELD_FREE_MESSAGE));
+    	} else if (typeMessage.equals('d')) {
+    		message = new MessageTO(new File(this.getValue(DigitalSignature.ID_FIEDL_DIGITAL_FILE)));
+    	} else throw new IllegalStateException("The variable called messageType it's wrong.");
+    	
+    	DigitalSigner dsBusiness = new DigitalSignerBO();
+    	dsBusiness.setMessage(message);
+    	
     	try {
-    		if (typeMessage.equals('f')) {
-        		message = new MessageTO(this.getValue(ID_FIELD_FREE_MESSAGE));
-        	} else if (typeMessage.equals('d')) {
-        		message = new MessageTO(new File(this.getValue(ID_FIEDL_DIGITAL_FILE)));
-        	} else throw new IllegalStateException("The variable called messageType it's wrong.");
-
-        	DigitalSigner dsBusiness = new DigitalSignerBO();
-        	dsBusiness.setMessage(message);
-    		
 			KeyStoreTO keystore = new KeyStoreTO(passwordKeyStore, pathKeystore);
 			SignatureTO signature = dsBusiness.sign(keystore);
 			
 			this.showResponse(signature);
 		} catch (GeneralSecurityException e) {
 			this.responseException(e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			this.responseException(e);
-			e.printStackTrace();
 		} catch (NoneMessageException e) {
 			this.responseException(e);
-			e.printStackTrace();
 		} catch (KeyStoreException e) {
 			this.responseException(e);
-			e.printStackTrace();
 		}
 		
     	this.popUp.hide();
@@ -274,8 +265,8 @@ public class DigitalSignerApplet extends ControledApplet {
      * @param signature
      */
 	private void showResponse(SignatureTO signature) {
-		this.setValue(ID_FIEDL_CERTIFICATION_CHAIN, signature.getCertificationChainDecoded());
-		this.setValue(ID_FIEDL_DIGITAL_SIGNATURE, signature.getMessageDigestDecoded());
+		this.setValue(DigitalSignature.ID_FIEDL_CERTIFICATION_CHAIN, signature.getCertificationChainDecoded());
+		this.setValue(DigitalSignature.ID_FIEDL_DIGITAL_SIGNATURE, signature.getMessageDigestDecoded());
 	}
 
 	/**
