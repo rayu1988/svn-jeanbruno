@@ -50,15 +50,18 @@ public class MessageTO {
 	 * @throws IOException
 	 * @throws NoneMessageException 
 	 */
-	public byte[] getCodedMessage() throws IOException, NoneMessageException {
-		if (file != null)
-			return this.readFile(file);
-		else if (Util.stringOk(this.string))
-			return this.string.getBytes(charSetUTF8);
-		else if (this.codedMsg != null)
-			return this.codedMsg;
-		else
-			throw new NoneMessageException("None valid message into.");
+	public byte[] getCodedMessage() throws NoneMessageException {
+		try {
+			if (file != null)
+				return this.readFile(file);
+			else if (Util.stringOk(this.string))
+				return this.string.getBytes(charSetUTF8);
+			else if (this.codedMsg != null)
+				return this.codedMsg;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		throw new NoneMessageException("None valid message into.");
 	}
 	
 	/**

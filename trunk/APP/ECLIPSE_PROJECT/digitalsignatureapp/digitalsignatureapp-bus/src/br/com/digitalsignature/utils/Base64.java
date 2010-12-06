@@ -95,7 +95,7 @@ public class Base64 {
      * @exception IllegalArgumentException if NULL or empty data is passed
      */
     public static byte[] base64Decode(String aData) {
-        if ((aData == null) || (aData.length() == 0))
+        if (!Util.stringOk(aData))
             throw new IllegalArgumentException("Can not decode NULL or empty string.");
 
         byte[] data = aData.getBytes();
