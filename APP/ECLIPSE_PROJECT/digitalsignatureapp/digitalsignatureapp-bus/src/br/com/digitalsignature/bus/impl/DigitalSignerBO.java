@@ -1,12 +1,12 @@
 package br.com.digitalsignature.bus.impl;
 
-import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
-import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.util.Enumeration;
 
@@ -15,6 +15,7 @@ import br.com.digitalsignature.entity.KeyStoreTO;
 import br.com.digitalsignature.entity.MessageTO;
 import br.com.digitalsignature.entity.SignatureTO;
 import br.com.digitalsignature.exception.NoneMessageException;
+import br.com.digitalsignature.exception.SignatureException;
 
 /**
  * 
@@ -34,6 +35,19 @@ public class DigitalSignerBO implements DigitalSigner {
 	/**
 	 * 
 	 */
+	public DigitalSignerBO() {}
+	
+	/**
+	 * 
+	 * @param message
+	 */
+	public DigitalSignerBO(MessageTO message) {
+		this.message = message;
+	}
+	
+	/**
+	 * 
+	 */
 	@Override
 	public SignatureTO sign(KeyStoreTO keyStoreTO) throws NoneMessageException {
 		try {
@@ -47,13 +61,10 @@ public class DigitalSignerBO implements DigitalSigner {
 			SignatureTO signature = new SignatureTO(digitalSignature, this.certificationChain);
 			
 			return signature;
-		} catch (SignatureException e) {
+		} catch (java.security.SignatureException e) {
 			e.printStackTrace();
 			throw new NoneMessageException("Problems while was trying sign the message.");
 		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-			throw new NoneMessageException("Problems while was trying sign the message.");
-		} catch (IOException e) {
 			e.printStackTrace();
 			throw new NoneMessageException("Problems while was trying sign the message.");
 		}
@@ -82,6 +93,30 @@ public class DigitalSignerBO implements DigitalSigner {
         }
     }
 	
+    /**
+     * 
+     */
+    public boolean verify(SignatureTO signature) throws SignatureException {
+    	try {
+			Signature signatureAlgorithm = Signature.getInstance(DIGITAL_SIGNATURE_ALGORITHM_NAME);
+			signatureAlgorithm.initVerify(signature.getPublicKey());
+			signatureAlgorithm.update(this.message.getCodedMessage());
+			return signatureAlgorithm.verify(signature.getMessageDigestCoded());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			throw new SignatureException("Problems with the informed algorithm: " + DIGITAL_SIGNATURE_ALGORITHM_NAME);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+			throw new SignatureException("Problems with the public key.");
+		} catch (java.security.SignatureException e) {
+			e.printStackTrace();
+			throw new SignatureException("Problems with the legible or coded (64 base) message.");
+		} catch (NoneMessageException e) {
+			e.printStackTrace();
+			throw new SignatureException("There's no message to sign.");
+		}
+    }
+    
 	// GETTERS AND SETTERS //
 	public MessageTO getMessage() {
 		return message;

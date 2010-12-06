@@ -16,4 +16,14 @@ public class Util {
 		}
 		else return false;
 	}
+	
+	/**
+	 * Método usado testa se o Boolean é não null e true
+	 */
+	public static boolean isBooleanTrue(Boolean b){
+		if(b != null && b){
+		   return true;
+		}
+		else return false;
+	}
 }

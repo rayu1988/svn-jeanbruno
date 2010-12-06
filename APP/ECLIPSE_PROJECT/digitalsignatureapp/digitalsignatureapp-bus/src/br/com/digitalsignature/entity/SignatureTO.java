@@ -53,7 +53,7 @@ public class SignatureTO {
         InputStream certChainStream = new ByteArrayInputStream(certChainEncoded);
         try {
         	CertPath certPath = cf.generateCertPath(certChainStream, CERTIFICATION_CHAIN_ENCODING);
-            this.certificationChainCoded = certPath.getCertificates().toArray(new Certificate[0]);
+            this.certificationChainCoded = certPath.getCertificates().toArray(new Certificate[]{});
         } finally {
             try {
 				certChainStream.close();
@@ -68,9 +68,13 @@ public class SignatureTO {
 		return messageDigestDecoded;
 	}
 
-	public void setMessageDigestDecoded(String messageDigestDecoded) {
-		this.messageDigestDecoded = messageDigestDecoded;
-		this.messageDigestCoded = Base64.base64Decode(messageDigestDecoded);
+	public void setMessageDigestDecoded(String messageDigestDecoded) throws SignatureException {
+		try {
+			this.messageDigestCoded = Base64.base64Decode(messageDigestDecoded);
+			this.messageDigestDecoded = messageDigestDecoded;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new SignatureException("Problems while try decode a string message in base64.");
+		}
 	}
 	
 	public String getCertificationChainDecoded() {
