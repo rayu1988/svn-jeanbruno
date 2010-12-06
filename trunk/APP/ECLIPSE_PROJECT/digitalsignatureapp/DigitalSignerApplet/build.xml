@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<project name="DigitalSignerApplet" default="build" basedir=".">
+<project name="digitalsignatureapp-applet" default="build" basedir=".">
 
 	<!-- initialize variables/constants -->
     <target name="init">
-    	<property name="path-workspace" value="D:/Documentos/Study/Digital Certificate Working/TCC/APP/ECLIPSE_PROJECT/digitalsignatureapp"/>
-    	<property name="project-name" value="DigitalSignerApplet"/>
+    	<property name="path-workspace" value="D:/Workspaces/digitalsignatureapp"/>
+    	<property name="project-name" value="digitalsignatureapp-applet"/>
     	<property name="applet-name" value="${project-name}.jar"/>
     	<property name="classes-dir" value="${path-workspace}/${project-name}/bin"/>
     	<property name="deploy-dir" value="${path-workspace}/${project-name}/deploy"/>
