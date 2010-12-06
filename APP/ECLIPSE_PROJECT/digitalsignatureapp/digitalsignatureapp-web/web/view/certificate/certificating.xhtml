@@ -26,7 +26,7 @@
 		        codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0"
 		        width="160" height="25" name="#{msg.NAME_APPLET_SIGNER}">
 		        <param name="type" value="application/x-java-applet;version=1.4"/>
-		        <param name="code" value="br.com.digitalsignatureapp.applet.DigitalSignerApplet"/>
+		        <param name="code" value="#{msg.FULL_NAME_CLASS_APPLET_SIGNER}"/>
 		        <param name="archive" value="#{facesContext.externalContext.request.contextPath}#{msg.PATH_JAR_SIGNER}#{msg.NAME_APPLET_SIGNER}#{msg.EXTENSION_JAR}"/>
 		        <param name="mayscript" value="true"/>
 		        <param name="scriptable" value="true"/>
@@ -46,7 +46,7 @@
 		            <embed
 		                type="application/x-java-applet;version=1.4"
 		                pluginspage="http://java.sun.com/products/plugin/index.html#download"
-		                code="br.com.digitalsignatureapp.applet.DigitalSignerApplet"
+		                code="#{msg.FULL_NAME_CLASS_APPLET_SIGNER}"
 		                archive="#{facesContext.externalContext.request.contextPath}#{msg.PATH_JAR_SIGNER}#{msg.NAME_APPLET_SIGNER}#{msg.EXTENSION_JAR}"
 		                width="160"
 		                height="25"
