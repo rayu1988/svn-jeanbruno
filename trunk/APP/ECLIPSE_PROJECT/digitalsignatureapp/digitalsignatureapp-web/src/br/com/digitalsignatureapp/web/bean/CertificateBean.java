@@ -2,6 +2,8 @@ package br.com.digitalsignatureapp.web.bean;
 
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 
+import br.com.digitalsignatureapp.control.ControlManagedBean;
+
 public class CertificateBean extends ControlManagedBean {
 	
 	private String				idTypeMessage;
