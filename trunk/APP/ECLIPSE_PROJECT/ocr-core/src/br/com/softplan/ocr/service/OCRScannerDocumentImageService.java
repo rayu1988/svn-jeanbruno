@@ -35,7 +35,9 @@ public class OCRScannerDocumentImageService extends OCRScannerImage implements O
 	}
 
 	@Override
-	public void beginScanImage(OCRImage ocrImage) throws OCRException { }
+	public void beginScanImage(OCRImage ocrImage) throws OCRException {
+		this.scannedDocumentImage.addWordDivisor(); // start scan
+	}
 
 	@Override
 	public void beginRow(OCRImage ocrImage, int y1, int y2) throws OCRException { }
@@ -48,11 +50,17 @@ public class OCRScannerDocumentImageService extends OCRScannerImage implements O
 	}
 
 	@Override
-	public void processSpace(OCRImage ocrImage, int x1, int y1, int x2, int y2) throws OCRException { }
+	public void processSpace(OCRImage ocrImage, int x1, int y1, int x2, int y2) throws OCRException {
+		this.scannedDocumentImage.addWordDivisor(); // new space
+	}
 
 	@Override
-	public void endRow(OCRImage ocrImage, int y1, int y2) throws OCRException { }
+	public void endRow(OCRImage ocrImage, int y1, int y2) throws OCRException {
+		this.scannedDocumentImage.addWordDivisor(); // new break line
+	}
 
 	@Override
-	public void endScanImage(OCRImage ocrImage) throws OCRException { }
+	public void endScanImage(OCRImage ocrImage) throws OCRException {
+		this.scannedDocumentImage.addWordDivisor(); // ends scan
+	}
 }
