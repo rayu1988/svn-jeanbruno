@@ -19,6 +19,8 @@ public class OCRScannedDocumentImage implements Serializable {
 
 	private static final long 					serialVersionUID = -5445694967301468918L;
 	
+	private ArrayList<Integer>					listWordDivisor = new ArrayList<Integer>();
+	
 	private OCRDocumentImage					documentImage;
 	private List<OCRScannedCharacterImage>		scannedCharacters;
 	
@@ -28,8 +30,19 @@ public class OCRScannedDocumentImage implements Serializable {
 		this.scannedCharacters = new ArrayList<OCRScannedCharacterImage>();
 	}
 
+	/**
+	 * Add a new scanned character image to currente document image.
+	 * @param scannedCharacterImage
+	 */
 	public void addScannedCharacterImage(OCRScannedCharacterImage scannedCharacterImage) {
 		this.scannedCharacters.add(scannedCharacterImage);
+	}
+	
+	/**
+	 * Mark a pointer to word divisor.
+	 */
+	public void addWordDivisor() {
+		this.listWordDivisor.add(this.scannedCharacters.size());
 	}
 	
 	// GETTERS //
@@ -38,5 +51,9 @@ public class OCRScannedDocumentImage implements Serializable {
 	}
 	public List<OCRScannedCharacterImage> getScannedCharacters() {
 		return scannedCharacters;
+	}
+
+	public ArrayList<Integer> getListWordDivisor() {
+		return listWordDivisor;
 	}
 }
