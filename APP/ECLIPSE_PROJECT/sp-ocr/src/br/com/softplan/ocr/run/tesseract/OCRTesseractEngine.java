@@ -22,14 +22,14 @@ public class OCRTesseractEngine implements OCREngine {
 	
 	public static final String 				TESSERACT_ENGINE = "Tesseract Engine";
 	private static final String 			RESOURCE_CONFIGS;
-	private static final File 				CONFIGS_FILE;
+	public static final File 				CONFIGS_FILE;
 	private static final String 			OUTPUT_FILE_NAME;
 	private static final String 			FILE_EXTENSION_HOCR;
 	private static final String 			LANG_OPTION;
 	private static final String 			PSM_OPTION;
 
 	static {
-		RESOURCE_CONFIGS = "configs";
+		RESOURCE_CONFIGS = "tesseract/tesseract_configs";
 		CONFIGS_FILE = new File(ClassLoader.getSystemResource(RESOURCE_CONFIGS).getFile());
 		OUTPUT_FILE_NAME = "TessOutput";
 		FILE_EXTENSION_HOCR = ".html";
@@ -57,10 +57,10 @@ public class OCRTesseractEngine implements OCREngine {
      * The return is the string extracted formated as hOCR standard.
      * 
      * @param tiffFiles
-     * @return A hOCR String
+     * @return To each imageFile passed as parameter, will there a String hOCR in the same index at the List returned. A list of hOCR String.
      * @throws OCRExtractingException 
      */
-    public String run(final List<File> tiffFiles) throws OCRExtractingException {
+    public List<String> run(final List<File> tiffFiles) throws OCRExtractingException {
 		try {
 			File tempTessOutputFile=null;
 			tempTessOutputFile = File.createTempFile(OUTPUT_FILE_NAME, FILE_EXTENSION_HOCR);
@@ -81,9 +81,8 @@ public class OCRTesseractEngine implements OCREngine {
 	        ProcessBuilder pb = new ProcessBuilder();
 	        pb.directory(new File(System.getProperty("user.home")));
 	        pb.redirectErrorStream(true);
-	
-	        StringBuilder result = new StringBuilder();
-	
+
+	        List<String> hOCR = new ArrayList<String>();
 	        for (File tiffFile : tiffFiles) {
 	            cmd.set(1, tiffFile.getPath());
 	            pb.command(cmd);
@@ -99,6 +98,7 @@ public class OCRTesseractEngine implements OCREngine {
 	            int w = process.waitFor();
 	            System.out.println("Exit value = " + w);
 	
+	            StringBuilder result = new StringBuilder();
 	            if (w == 0) {
 	                BufferedReader in = new BufferedReader(OCRUtil.getInstanceReaderUTF8(tempTessOutputFile));
 	
@@ -121,29 +121,36 @@ public class OCRTesseractEngine implements OCREngine {
 	                }
 	                throw new RuntimeException(msg);
 	            }
+	            
+	            hOCR.add(result.toString());
 	        }
-	
 	        tempTessOutputFile.delete();
-	        return result.toString();
+	        
+	        return hOCR;
 		} catch (Exception e) {
 			throw new OCRExtractingException(e, TESSERACT_ENGINE);
 		}
     }
 
     // GETTERS AND SETTERS //
-    /**
-     * Sets page segmentation mode.
-     * @param mode 
-     */
-    public void setPSM(String mode) {
-        psm = mode;
-    }
-
 	public String getCurrentLanguage() {
 		return currentLanguage;
 	}
-
 	public void setCurrentLanguage(String currentLanguage) {
 		this.currentLanguage = currentLanguage;
+	}
+	/**
+	 * Get page segmentation mode.
+	 * @return
+	 */
+	public String getPsm() {
+		return psm;
+	}
+	/**
+	 * Set page segmentation mode.
+	 * @return
+	 */
+	public void setPsm(String psm) {
+		this.psm = psm;
 	}
 }

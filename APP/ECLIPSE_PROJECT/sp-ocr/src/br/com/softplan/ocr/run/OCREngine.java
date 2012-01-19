@@ -18,11 +18,11 @@ public interface OCREngine {
 	
 	/**
 	 * Method to invoke the tesseract engine to extract text contained at the image passed as parameter.
-     * The return is the string extracted formated as hOCR standard.
+     * The return is a list of string extracted and also formated as hOCR standard.
      * 
 	 * @param imageFiles
-	 * @return A hOCR String
+	 * @return To each imageFile passed as parameter, will there a String hOCR in the same index at the List returned. A list of hOCR String.
 	 * @throws OCRExtractingException
 	 */
-	String run(final List<File> imageFiles) throws OCRExtractingException;
+	List<String> run(final List<File> imageFiles) throws OCRExtractingException;
 }
