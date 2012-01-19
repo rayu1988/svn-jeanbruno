@@ -1,3 +1,5 @@
+import br.com.softplan.ocr.run.tesseract.OCRTesseractEngine;
+
 
 /**
  * 
@@ -7,6 +9,7 @@
 public class Main {
 	
 	public static void main(String[] args) {
-		
+//			OCRTesseractEngine ocr = new OCRTesseractEngine("sdfsdf", "dfsd", "1");
+			System.out.println(OCRTesseractEngine.CONFIGS_FILE.getAbsolutePath());
 	}
 }
