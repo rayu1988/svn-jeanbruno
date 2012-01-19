@@ -20,7 +20,9 @@ import br.com.softplan.ocr.common.OCRImageIOHelper;
  *
  */
 public class OCRImageEntity {
+	
 	private final static Rectangle EMPTY_RECTANGLE = new Rectangle();
+	
     /** input images */
     private List<IIOImage> oimages;
     /** input image File */
