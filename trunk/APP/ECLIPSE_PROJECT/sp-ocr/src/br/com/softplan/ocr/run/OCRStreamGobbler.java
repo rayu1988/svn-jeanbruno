@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import br.com.softplan.ocr.common.OCRConstant;
+
 /**
  * When Runtime.exec() won't.
  * http://www.javaworld.com/javaworld/jw-12-2000/jw-1229-traps.html
@@ -34,7 +36,7 @@ class OCRStreamGobbler extends Thread {
             String line = null;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
-                this.outputMessage.append(line).append(OCRTesseractEngine.END_OF_LINE);
+                this.outputMessage.append(line).append(OCRConstant.END_OF_LINE);
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();

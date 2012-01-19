@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.softplan.ocr.common.OCRConstant;
+
 /**
  * Utility class that aims get a hOCR data result with Tesseract Engine.
  * @author jean.villete
@@ -17,7 +19,6 @@ import java.util.List;
  */
 public class OCRTesseractEngine {
 	
-	public static final String 				END_OF_LINE;
 	private static final String 			RESOURCE_CONFIGS;
 	private static final File 				CONFIGS_FILE;
 	private static final String 			OUTPUT_FILE_NAME;
@@ -32,7 +33,6 @@ public class OCRTesseractEngine {
 		FILE_EXTENSION_HOCR = ".html";
 		LANG_OPTION = "-l";
 		PSM_OPTION = "-psm";
-		END_OF_LINE = "\n";
 	}
 	
     private String tessPath;
@@ -93,12 +93,12 @@ public class OCRTesseractEngine {
                 String str;
 
                 while ((str = in.readLine()) != null) {
-                    result.append(str).append(END_OF_LINE);
+                    result.append(str).append(OCRConstant.END_OF_LINE);
                 }
 
                 int length = result.length();
-                if (length >= END_OF_LINE.length()) {
-                    result.setLength(length - END_OF_LINE.length()); // remove last EOL
+                if (length >= OCRConstant.END_OF_LINE.length()) {
+                    result.setLength(length - OCRConstant.END_OF_LINE.length()); // remove last EOL
                 }
                 in.close();
             } else {
