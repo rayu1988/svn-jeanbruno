@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.softplan.ocr.run;
+package br.com.softplan.ocr.run.tesseract;
 
 import java.io.BufferedReader;
 import java.io.IOException;
