@@ -17,15 +17,15 @@ public class SampleRun {
 //			Properties configsProp = OCRUtil.getLoadedProperties(fileConfigs);
 			
 			// image base with some text at
-			File imageBase = new File("C:\\OCR\\TESTES\\input\\eng.arial.jpg");
+			File imageBase = new File("C:\\OCR\\TESTES\\input\\image-mail-example.jpg");
 			
 			// preparing softplan ocr
 			OCRSoftplan ocrSoftplan = new OCRSoftplan();
 			ocrSoftplan.setOCREngine(OCRTesseractEngine.class);
 			ocrSoftplan.setImageFile(imageBase);
 			
-			File pdfFile = new File("C:\\OCR\\TESTES\\output\\hocr.pdf");
-			ocrSoftplan.save(OCRTypeExtension.PDF, pdfFile);
+//			File pdfFile = new File("C:\\OCR\\TESTES\\output\\hocr.pdf");
+			System.out.println( ocrSoftplan.getBytes(OCRTypeExtension.PDF) );
 			
 //			File hOCRFile = new File("C:\\OCR\\TESTES\\output\\hocr.html");
 //			ocrSoftplan.save(OCRTypeExtension.HOCR, hOCRFile);
