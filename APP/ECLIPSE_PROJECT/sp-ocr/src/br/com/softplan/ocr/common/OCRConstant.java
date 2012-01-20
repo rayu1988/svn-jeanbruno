@@ -25,4 +25,9 @@ public interface OCRConstant {
 	 * Default language to Softplan is "por", which follows ISO 639-3 standard, initials to portuguese.
 	 */
 	public static final String					DEFAULT_LANGUAGE_SOFTPLAN = "por";
+	
+	/**
+	 * Possibly an environment variable that points to a valid file properties with certain configs to sp ocr.
+	 */
+	public static final String					CONFIG_ENVIRONMENT_VARIABLE = "SP_OCR_CONFIG_PROP";
 }
