@@ -25,4 +25,10 @@ public interface OCREngine {
 	 * @throws OCRExtractingException
 	 */
 	List<String> run(final List<File> imageFiles) throws OCRExtractingException;
+	
+	/**
+	 * Set complete String command to invoke the ocr engine.
+	 * @param appInvoking
+	 */
+	void setAppInvoking(String appInvoking);
 }

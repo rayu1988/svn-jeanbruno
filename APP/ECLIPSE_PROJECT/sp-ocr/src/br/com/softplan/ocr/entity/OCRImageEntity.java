@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.IIOImage;
 
 import br.com.softplan.ocr.common.OCRImageHelper;
@@ -31,8 +32,6 @@ public class OCRImageEntity {
     private int index;
     /** bounding rectangle */
     private Rectangle rect;
-    /** Language code, which follows ISO 639-3 standard */
-    private String lang;
     /** Horizontal Resolution */
     private int dpiX;
     /** Vertical Resolution */
@@ -43,13 +42,11 @@ public class OCRImageEntity {
      * @param oimages a list of <code>IIOImage</code> objects
      * @param index
      * @param the bounding rectangle defines the region of the image to be recognized. A rectangle of zero dimension or <code>null</code> indicates the whole image.
-     * @param lang language code, which follows ISO 639-3 standard
      */
-    public OCRImageEntity(List<IIOImage> oimages, int index, Rectangle rect, String lang) {
+    public OCRImageEntity(List<IIOImage> oimages, int index, Rectangle rect) {
         this.oimages = oimages;
         this.index = index;
         this.rect = rect;
-        this.lang = lang;
     }
 
     /**
@@ -57,13 +54,11 @@ public class OCRImageEntity {
      * @param imageFile an image file
      * @param index
      * @param the bounding rectangle defines the region of the image to be recognized. A rectangle of zero dimension or <code>null</code> indicates the whole image.
-     * @param lang language code, which follows ISO 639-3 standard
      */
-    public OCRImageEntity(File imageFile, int index, Rectangle rect, String lang) {
+    public OCRImageEntity(File imageFile, int index, Rectangle rect) {
         this.imageFile = imageFile;
         this.index = index;
         this.rect = rect;
-        this.lang = lang;
     }
 
     /**
@@ -157,12 +152,5 @@ public class OCRImageEntity {
     public void setResolution(int dpiX, int dpiY) {
         this.dpiX = dpiX;
         this.dpiY = dpiY;
-    }
-
-    /**
-     * @return the language code
-     */
-    public String getLanguage() {
-        return lang;
     }
 }

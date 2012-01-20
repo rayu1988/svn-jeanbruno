@@ -20,4 +20,9 @@ public interface OCRConstant {
 	public static final String 					OCR_TO_TMP_DIR = FILE_SEPARATOR + "OpticalCharacterRecognationTempDir";
 
 	public static final String 					END_OF_LINE = "\n";
+	
+	/**
+	 * Default language to Softplan is "por", which follows ISO 639-3 standard, initials to portuguese.
+	 */
+	public static final String					DEFAULT_LANGUAGE_SOFTPLAN = "por";
 }
