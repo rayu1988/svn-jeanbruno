@@ -14,6 +14,8 @@ public interface OCRConstant {
 	
 	public static final String					FILE_SEPARATOR = System.getProperty("file.separator");
 	
+	public static final String					FILE_TEMP_IDENTIFIER = "OcrSoftplanTemp";
+	
 	/**
 	 * Used to define a valid Temp Dir to Optical Character Recognation System.
 	 */

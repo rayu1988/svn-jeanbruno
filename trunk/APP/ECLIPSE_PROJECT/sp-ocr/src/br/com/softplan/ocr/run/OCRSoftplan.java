@@ -137,7 +137,7 @@ public class OCRSoftplan {
 		} else if (fileImage.getName().toLowerCase().endsWith(".tif") || fileImage.getName().toLowerCase().endsWith(".tiff")) {
 			this.controlTypeImage = false;
 		} else {
-			throw new IOException( "Image type not supported:" + fileImage.getName() );
+			throw new IOException("Image type not supported:" + fileImage.getName() );
 		}
 		
 		this.fileImage = fileImage;
@@ -146,6 +146,15 @@ public class OCRSoftplan {
 		this.entity.setScreenshotMode(false);
 	}
 	
+	/**
+	 * Method to indicates a ocr extracting and save result as a file (saveAs), where the address is passed as parameter (targetFile).
+	 * 
+	 * @param saveAs PDF, TXT or HOCR
+	 * @param targetFile The address to save the extracting result.
+	 * @throws OCRExtractingException
+	 * @throws IOException
+	 * @throws COSVisitorException
+	 */
 	public void save(OCRTypeExtension saveAs, File targetFile) throws OCRExtractingException, IOException, COSVisitorException {
 		if (saveAs == null || targetFile == null) {
 			throw new IllegalArgumentException("Arguments can't be null.");
@@ -163,8 +172,29 @@ public class OCRSoftplan {
 		}
 	}
 	
+	/**
+	 * Method to indicates a ocr extracting and returns a file result as an array of bytes.
+	 * 
+	 * @param extractTo
+	 * @return
+	 * @throws IOException
+	 * @throws OCRExtractingException
+	 * @throws COSVisitorException
+	 */
+	public byte[] getBytes(OCRTypeExtension extractTo) throws IOException, OCRExtractingException, COSVisitorException {
+		if (extractTo == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		File tempFile = File.createTempFile(OCRConstant.FILE_TEMP_IDENTIFIER + Long.toString(System.nanoTime()), ".ocrsoftplantmp");
+		this.save(extractTo, tempFile);
+		byte[] arrayToReturn = OCRUtil.getBytesFromFile(tempFile);
+		tempFile.delete();
+		return arrayToReturn;
+	}
+	
 	private void saveAsPDF(List<String> listHOCR, File pdfFile) throws IOException, COSVisitorException {
-		// PDF Box
+		// ENTER PDF Box
 		PDDocument pdfDocument = new PDDocument();
 		
 		for (String hOCR : listHOCR) {
@@ -185,10 +215,6 @@ public class OCRSoftplan {
 				PDPage pdfPage = new PDPage(pdfRectangle);
 				pdfDocument.addPage(pdfPage);
 				PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, pdfPage);
-				
-				int defaultSize = 30;
-				contentStream.setFont(PDType1Font.HELVETICA, defaultSize);
-				
 				for (Element lineHOCR : pageHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_LINE)) {
 					for (Element wordHOCR : lineHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_WORD)) {
 						
@@ -201,11 +227,13 @@ public class OCRSoftplan {
 							
 							int x0 = Integer.parseInt((bboxWordCoordinateMatcher.group(1)));
 							int y0 = Integer.parseInt((bboxWordCoordinateMatcher.group(2)));
-							int x1 = Integer.parseInt((bboxWordCoordinateMatcher.group(3)));
+//							int x1 = Integer.parseInt((bboxWordCoordinateMatcher.group(3)));
 							int y1 = Integer.parseInt((bboxWordCoordinateMatcher.group(4)));
+
+							contentStream.setFont(PDType1Font.HELVETICA, y1 - y0);
 							
 							contentStream.beginText();
-							contentStream.moveTextPositionByAmount(x0, pdfImage.getHeight() - y0);
+							contentStream.moveTextPositionByAmount(x0, pdfImage.getHeight() - y1);
 							contentStream.drawString(wordText);
 				            contentStream.endText();
 						}
