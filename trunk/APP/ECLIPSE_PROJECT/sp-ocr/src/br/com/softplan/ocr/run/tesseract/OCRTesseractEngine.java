@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import br.com.softplan.ocr.common.OCRConstant;
 import br.com.softplan.ocr.common.OCRUtil;
@@ -27,9 +28,9 @@ public class OCRTesseractEngine implements OCREngine {
 	private static final String 			FILE_EXTENSION_HOCR;
 	private static final String 			LANG_OPTION;
 	private static final String 			PSM_OPTION;
-
+	
 	static {
-		RESOURCE_CONFIGS = "tesseract/tesseract_configs";
+		RESOURCE_CONFIGS = "tesseract_configs";
 		CONFIGS_FILE = new File(ClassLoader.getSystemResource(RESOURCE_CONFIGS).getFile());
 		OUTPUT_FILE_NAME = "TessOutput";
 		FILE_EXTENSION_HOCR = ".html";
@@ -37,19 +38,32 @@ public class OCRTesseractEngine implements OCREngine {
 		PSM_OPTION = "-psm";
 	}
 	
-    private String tessPath;
-    private String currentLanguage;
+    private String language = "eng";
     private String psm = "3"; // Fully automatic page segmentation, but no OSD (default)
+    private String appInvoking;
     
-    /** Creates a new instance of OCREngine */
-    public OCRTesseractEngine(String tessPath, String currentLanguage, String psm) {
-    	if (!OCRUtil.isStringOk(tessPath) || !OCRUtil.isStringOk(currentLanguage) || !OCRUtil.isStringOk(psm)) {
-    		throw new IllegalArgumentException();
+    /**
+     * Creates a new instance of OCRTesseractEngine.
+     * This constructor will gives a instance with its default values to psm (3) and language (eng).
+     * @param tesseractProperties
+     */
+    public OCRTesseractEngine() {
+    	this(null);
+    }
+    
+    /**
+     * Creates a new instance of OCRTesseractEngine specifying some properties to tesseract, like psm and language.
+     * @param tesseractProperties
+     */
+    public OCRTesseractEngine(Properties tesseractProperties) {
+    	if (tesseractProperties != null) {
+    		if (tesseractProperties.containsKey("tesseract_psm")) {
+    			this.psm = tesseractProperties.getProperty("tesseract_psm");
+    		}
+    		if (tesseractProperties.containsKey("tesseract_language")) {
+    			this.language = tesseractProperties.getProperty("tesseract_language");
+    		}
     	}
-    	
-        this.tessPath = tessPath;
-        this.currentLanguage = currentLanguage;
-        this.psm = psm;
     }
 
     /**
@@ -61,19 +75,21 @@ public class OCRTesseractEngine implements OCREngine {
      * @throws OCRExtractingException 
      */
     public List<String> run(final List<File> tiffFiles) throws OCRExtractingException {
+    	if (!OCRUtil.isStringOk(this.appInvoking)) {
+    		throw new IllegalStateException("There's no valid value to appInvoking.");
+    	}
+    	
 		try {
 			File tempTessOutputFile=null;
 			tempTessOutputFile = File.createTempFile(OUTPUT_FILE_NAME, FILE_EXTENSION_HOCR);
 	        String outputFileName = tempTessOutputFile.getPath().substring(0, tempTessOutputFile.getPath().length() - FILE_EXTENSION_HOCR.length()); // chop the .txt extension
 	
 	        List<String> cmd = new ArrayList<String>();
-	        cmd.add(tessPath + "/tesseract");
+	        cmd.add(this.appInvoking);
 	        cmd.add(""); // placeholder for inputfile
 	        cmd.add(outputFileName);
-	        if (OCRUtil.isStringOk(this.currentLanguage)) {
-	        	cmd.add(LANG_OPTION);
-	        	cmd.add(this.currentLanguage);
-	        }
+        	cmd.add(LANG_OPTION);
+        	cmd.add(this.language);
 	        cmd.add(PSM_OPTION);
 	        cmd.add(psm);
 	       	cmd.add("+" + CONFIGS_FILE.getAbsoluteFile());
@@ -133,12 +149,27 @@ public class OCRTesseractEngine implements OCREngine {
     }
 
     // GETTERS AND SETTERS //
-	public String getCurrentLanguage() {
-		return currentLanguage;
+    /**
+     * Set complete String command to invoke the ocr engine.
+     * @param appInvoking
+     */
+    @Override
+    public void setAppInvoking(String appInvoking) {
+    	this.appInvoking = appInvoking;
+    }
+    
+	public String getAppInvoking() {
+		return appInvoking;
 	}
-	public void setCurrentLanguage(String currentLanguage) {
-		this.currentLanguage = currentLanguage;
+
+	public String getLanguage() {
+		return language;
 	}
+	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
 	/**
 	 * Get page segmentation mode.
 	 * @return
@@ -146,6 +177,7 @@ public class OCRTesseractEngine implements OCREngine {
 	public String getPsm() {
 		return psm;
 	}
+	
 	/**
 	 * Set page segmentation mode.
 	 * @return
