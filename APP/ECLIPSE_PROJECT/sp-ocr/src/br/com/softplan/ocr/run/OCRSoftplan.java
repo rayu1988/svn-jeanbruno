@@ -13,6 +13,9 @@ import java.util.Properties;
 
 import javax.imageio.IIOImage;
 
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
 import br.com.softplan.ocr.common.OCRConstant;
 import br.com.softplan.ocr.common.OCRImageIOHelper;
 import br.com.softplan.ocr.common.OCRUtil;
@@ -109,12 +112,25 @@ public class OCRSoftplan {
 	
 	public void extractToPDF(File pdfFile) {
 		this.validate();
+		
+		// TODO implements method
+		
 		throw new IllegalStateException("Method not implemented");
 	}
 	
-	public void extractToClearText(File pdfFile) {
+	public void extractToClearText(File txtFile) throws OCRExtractingException, IOException {
 		this.validate();
-		throw new IllegalStateException("Method not implemented");
+		
+		List<String> listHOCR = this.ocrEngine.run(this.getWorkingFiles());
+		PrintWriter printWriter = new PrintWriter(OCRUtil.getInstanceWriterUTF8(txtFile));
+		for (String hOCR : listHOCR) {
+			Source jchSource = new Source(hOCR);
+			jchSource.fullSequentialParse();
+			for (Element element : jchSource.getAllElements(HTMLElementName.P)) {
+				printWriter.println(element.getTextExtractor().setIncludeAttributes(false).toString());
+			}
+		}
+		printWriter.close();
 	}
 	
 	/**
