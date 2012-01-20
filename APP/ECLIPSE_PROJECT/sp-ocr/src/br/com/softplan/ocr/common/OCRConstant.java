@@ -30,4 +30,6 @@ public interface OCRConstant {
 	 * Possibly an environment variable that points to a valid file properties with certain configs to sp ocr.
 	 */
 	public static final String					CONFIG_ENVIRONMENT_VARIABLE = "SP_OCR_CONFIG_PROP";
+	public static final String					CONFIG_PROP_APP_HOME = "ocr_app_home";
+	public static final String					CONFIG_PROP_APP_NAME = "ocr_app_name";
 }

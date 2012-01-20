@@ -4,22 +4,37 @@
 package br.com.softplan.ocr.run;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
 import javax.imageio.IIOImage;
 
 import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
+
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDCcitt;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
+
 import br.com.softplan.ocr.common.OCRConstant;
+import br.com.softplan.ocr.common.OCRHOCRConstants;
 import br.com.softplan.ocr.common.OCRImageIOHelper;
 import br.com.softplan.ocr.common.OCRUtil;
 import br.com.softplan.ocr.entity.OCRImageEntity;
+import br.com.softplan.ocr.enumerator.OCRTypeExtension;
 import br.com.softplan.ocr.exception.OCRExtractingException;
 
 /**
@@ -33,6 +48,17 @@ public class OCRSoftplan {
 	private List<File> 			workingFiles;
 	private OCREngine 			ocrEngine;
 	private Properties 			configsProp;
+	private File 				fileImage;
+	
+	/**
+	 * This variable is used just to control a bit information of a type current image file.
+	 * A single bit information is used because we "currently" support two possibly type of file image, that is jpeg and/or tiff.
+	 * This limitation is defined by PDFBox, that is the current library to generate pdf file.
+	 * Thus, we can infer that;
+	 * 	true  : jpg
+	 *  false : tiff
+	 */
+	private boolean				controlTypeImage;
 	
 	/**
 	 * This constructor hopes that exist at the environment variables one that explict the configs file.
@@ -53,7 +79,7 @@ public class OCRSoftplan {
 	 * @param configsProp
 	 */
 	public OCRSoftplan(Properties configsProp) {
-		if (configsProp == null || !configsProp.containsKey("ocr_app_name") || !configsProp.containsKey("ocr_app_home")) {
+		if (configsProp == null || !configsProp.containsKey(OCRConstant.CONFIG_PROP_APP_NAME) || !configsProp.containsKey(OCRConstant.CONFIG_PROP_APP_HOME)) {
 			throw new IllegalArgumentException("There is some problem with argument configsProp.");
 		}
 		
@@ -86,63 +112,132 @@ public class OCRSoftplan {
 		this.ocrEngine = ocrEngine.newInstance();
 		this.ocrEngine.load(this.configsProp);
 		
-		String ocr_app_home = configsProp.getProperty("ocr_app_home");
+		String ocr_app_home = this.configsProp.getProperty(OCRConstant.CONFIG_PROP_APP_HOME);
 		if (!ocr_app_home.toString().endsWith("\\") && !ocr_app_home.toString().endsWith("/")) {
 			ocr_app_home += OCRConstant.FILE_SEPARATOR;
 		}
-		String ocr_app_name = configsProp.getProperty("ocr_app_name");
+		String ocr_app_name = this.configsProp.getProperty(OCRConstant.CONFIG_PROP_APP_NAME);
 		
 		this.ocrEngine.setAppInvoking(ocr_app_home + ocr_app_name);
 	}
 
 	/**
 	 * Set an image file to that will used as base to extract text from.
-	 * @param imageFile
+	 * @param fileImage
 	 * @throws IOException
 	 */
-	public void setImageFile(File imageFile) throws IOException {
-		if (imageFile == null || !imageFile.exists() || !imageFile.isFile()) {
+	public void setImageFile(File fileImage) throws IOException {
+		// validate if file exists
+		if (fileImage == null || !fileImage.exists() || !fileImage.isFile()) {
 			throw new IllegalArgumentException();
 		}
+		// validate if is a valid image
+		if (fileImage.getName().toLowerCase().endsWith(".jpg")) {
+			this.controlTypeImage = true;
+		} else if (fileImage.getName().toLowerCase().endsWith(".tif") || fileImage.getName().toLowerCase().endsWith(".tiff")) {
+			this.controlTypeImage = false;
+		} else {
+			throw new IOException( "Image type not supported:" + fileImage.getName() );
+		}
 		
-		this.iioImageList = OCRImageIOHelper.getIIOImageList(imageFile);
+		this.fileImage = fileImage;
+		this.iioImageList = OCRImageIOHelper.getIIOImageList(fileImage);
 		this.entity = new OCRImageEntity(this.iioImageList, 0, null);
 		this.entity.setScreenshotMode(false);
 	}
 	
-	public void extractToPDF(File pdfFile) {
-		this.validate();
+	public void save(OCRTypeExtension saveAs, File targetFile) throws OCRExtractingException, IOException, COSVisitorException {
+		if (saveAs == null || targetFile == null) {
+			throw new IllegalArgumentException("Arguments can't be null.");
+		}
 		
-		// TODO implements method
-		
-		throw new IllegalStateException("Method not implemented");
-	}
-	
-	public void extractToClearText(File txtFile) throws OCRExtractingException, IOException {
 		this.validate();
 		
 		List<String> listHOCR = this.ocrEngine.run(this.getWorkingFiles());
+		if (saveAs.equals(OCRTypeExtension.HOCR)) {
+			this.saveAsHOCR(listHOCR, targetFile);
+		} else if (saveAs.equals(OCRTypeExtension.TXT)) {
+			this.saveAsTXT(listHOCR, targetFile);
+		} else if (saveAs.equals(OCRTypeExtension.PDF)) {
+			this.saveAsPDF(listHOCR, targetFile);
+		}
+	}
+	
+	private void saveAsPDF(List<String> listHOCR, File pdfFile) throws IOException, COSVisitorException {
+		// PDF Box
+		PDDocument pdfDocument = new PDDocument();
+		
+		for (String hOCR : listHOCR) {
+			Source rootHOCR = new Source(hOCR);
+			rootHOCR.fullSequentialParse();
+			for (Element pageHOCR : rootHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_PAGE)) {
+				
+				PDXObjectImage pdfImage = null;
+				if (this.isJPG()) {
+					pdfImage = new PDJpeg(pdfDocument, new FileInputStream(this.fileImage));
+				} else if (this.isTIFF()) {
+					pdfImage = new PDCcitt(pdfDocument, new RandomAccessFile(this.fileImage,"r"));
+				} else {
+					throw new IllegalStateException();
+				}
+				
+				PDRectangle pdfRectangle = new PDRectangle(pdfImage.getWidth(), pdfImage.getHeight());
+				PDPage pdfPage = new PDPage(pdfRectangle);
+				pdfDocument.addPage(pdfPage);
+				PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, pdfPage);
+				
+				int defaultSize = 30;
+				contentStream.setFont(PDType1Font.HELVETICA, defaultSize);
+				
+				for (Element lineHOCR : pageHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_LINE)) {
+					for (Element wordHOCR : lineHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_WORD)) {
+						
+						String wordText = wordHOCR.getTextExtractor().setIncludeAttributes(false).toString();
+						
+						Matcher bboxWordMatcher = OCRHOCRConstants.B_BOX_PATTERN.matcher(wordHOCR.getAttributeValue(OCRHOCRConstants.HOCR_ATTRIBUTE_TITLE));
+						if (bboxWordMatcher.find()) {
+							Matcher bboxWordCoordinateMatcher = OCRHOCRConstants.B_BOX_COORDINATE_PATTERN.matcher(bboxWordMatcher.group());
+							bboxWordCoordinateMatcher.find();
+							
+							int x0 = Integer.parseInt((bboxWordCoordinateMatcher.group(1)));
+							int y0 = Integer.parseInt((bboxWordCoordinateMatcher.group(2)));
+							int x1 = Integer.parseInt((bboxWordCoordinateMatcher.group(3)));
+							int y1 = Integer.parseInt((bboxWordCoordinateMatcher.group(4)));
+							
+							contentStream.beginText();
+							contentStream.moveTextPositionByAmount(x0, pdfImage.getHeight() - y0);
+							contentStream.drawString(wordText);
+				            contentStream.endText();
+						}
+					}
+				}
+				
+				// print image at front end and close content stream to current page (page context)
+				contentStream.drawImage(pdfImage, 0, 0);
+				contentStream.close();
+			}
+		}
+		
+		// save and close pdf document
+		pdfDocument.save(pdfFile.getAbsolutePath().toString());
+		pdfDocument.close();
+	}
+	
+	private void saveAsTXT(List<String> listHOCR, File txtFile) throws UnsupportedEncodingException, FileNotFoundException {
 		PrintWriter printWriter = new PrintWriter(OCRUtil.getInstanceWriterUTF8(txtFile));
 		for (String hOCR : listHOCR) {
-			Source jchSource = new Source(hOCR);
-			jchSource.fullSequentialParse();
-			for (Element element : jchSource.getAllElements(HTMLElementName.P)) {
-				printWriter.println(element.getTextExtractor().setIncludeAttributes(false).toString());
+			Source rootHOCR = new Source(hOCR);
+			rootHOCR.fullSequentialParse();
+			for (Element pageHOCR : rootHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_PAGE)) {
+				for (Element lineHOCR : pageHOCR.getAllElementsByClass(OCRHOCRConstants.HOCR_CLASS_LINE)) {
+					printWriter.println(lineHOCR.getTextExtractor().setIncludeAttributes(false).toString());
+				}
 			}
 		}
 		printWriter.close();
 	}
 	
-	/**
-	 * 
-	 * @param hOCRFile
-	 * @throws OCRExtractingException
-	 * @throws IOException
-	 */
-	public void extractToHOCR(File hOCRFile) throws OCRExtractingException, IOException {
-		this.validate();
-		
-		List<String> listHOCR = this.ocrEngine.run(this.getWorkingFiles());
+	private void saveAsHOCR(List<String> listHOCR, File hOCRFile) throws UnsupportedEncodingException, FileNotFoundException {
 		PrintWriter printWriter = new PrintWriter(OCRUtil.getInstanceWriterUTF8(hOCRFile));
 		for (String hOCR : listHOCR) {
 			printWriter.print(hOCR);
@@ -161,5 +256,16 @@ public class OCRSoftplan {
 		if (this.ocrEngine == null) {
 			throw new IllegalStateException("There's no valid instance to ocrEngine.");
 		}
+		if (!OCRUtil.isCollectionOk(this.iioImageList)) {
+			throw new IllegalStateException("There's no valid image to be used to extracting from.");
+		}
+	}
+	
+	private boolean isJPG() {
+		return this.controlTypeImage == true;
+	}
+	
+	private boolean isTIFF() {
+		return this.controlTypeImage == false;
 	}
 }

@@ -1,5 +1,6 @@
 import java.io.File;
 
+import br.com.softplan.ocr.enumerator.OCRTypeExtension;
 import br.com.softplan.ocr.run.OCRSoftplan;
 import br.com.softplan.ocr.run.tesseract.OCRTesseractEngine;
 
@@ -16,18 +17,21 @@ public class SampleRun {
 //			Properties configsProp = OCRUtil.getLoadedProperties(fileConfigs);
 			
 			// image base with some text at
-			File imageBase = new File("C:\\OCR\\TESTES\\input\\email-text.tif");
+			File imageBase = new File("C:\\OCR\\TESTES\\input\\eng.arial.jpg");
 			
 			// preparing softplan ocr
 			OCRSoftplan ocrSoftplan = new OCRSoftplan();
 			ocrSoftplan.setOCREngine(OCRTesseractEngine.class);
 			ocrSoftplan.setImageFile(imageBase);
 			
-			// file to persist hOCR result
-			File hOCRFile = new File("C:\\OCR\\TESTES\\output\\hocr.html");
-			File txtFile = new File("C:\\OCR\\TESTES\\output\\hocr.txt");
+			File pdfFile = new File("C:\\OCR\\TESTES\\output\\hocr.pdf");
+			ocrSoftplan.save(OCRTypeExtension.PDF, pdfFile);
 			
-			ocrSoftplan.extractToClearText(txtFile);
+//			File hOCRFile = new File("C:\\OCR\\TESTES\\output\\hocr.html");
+//			ocrSoftplan.save(OCRTypeExtension.HOCR, hOCRFile);
+			
+//			File txtFile = new File("C:\\OCR\\TESTES\\output\\hocr.txt");
+//			ocrSoftplan.save(OCRTypeExtension.TXT, txtFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
