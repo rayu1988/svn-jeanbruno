@@ -144,7 +144,7 @@ public class OCRTesseractEngine implements OCREngine {
     		if (configsProp.containsKey("tesseract_file_configs")) {
     			this.configsFile = new File(configsProp.getProperty("tesseract_file_configs"));
     		} else {
-    			throw new IllegalStateException();
+    			throw new IllegalStateException("There is no valid String value to define property tesseract_file_configs at the configsProp.");
     		}
     	} else {
     		throw new IllegalArgumentException();

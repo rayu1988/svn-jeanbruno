@@ -8,7 +8,7 @@ import br.com.softplan.ocr.run.tesseract.OCRTesseractEngine;
  * @author jean.villete
  *
  */
-public class Main {
+public class SampleRun {
 	public static void main(String[] args) {
 		try {
 			// explicitly file configs
@@ -16,7 +16,7 @@ public class Main {
 //			Properties configsProp = OCRUtil.getLoadedProperties(fileConfigs);
 			
 			// image base with some text at
-			File imageBase = new File("C:\\OCR\\TESTES\\input\\mail-example.jpg");
+			File imageBase = new File("C:\\OCR\\TESTES\\input\\email-text.tif");
 			
 			// preparing softplan ocr
 			OCRSoftplan ocrSoftplan = new OCRSoftplan();
@@ -25,7 +25,9 @@ public class Main {
 			
 			// file to persist hOCR result
 			File hOCRFile = new File("C:\\OCR\\TESTES\\output\\hocr.html");
-			ocrSoftplan.extractToHOCR(hOCRFile);
+			File txtFile = new File("C:\\OCR\\TESTES\\output\\hocr.txt");
+			
+			ocrSoftplan.extractToClearText(txtFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
