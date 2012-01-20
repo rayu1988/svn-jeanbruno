@@ -5,6 +5,7 @@ package br.com.softplan.ocr.run;
 
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import br.com.softplan.ocr.exception.OCRExtractingException;
 
@@ -15,6 +16,12 @@ import br.com.softplan.ocr.exception.OCRExtractingException;
  *
  */
 public interface OCREngine {
+	
+	/**
+	 * Method to load some settings to current OCR Engine.
+	 * @param configsProp
+	 */
+	void load(Properties configsProp);
 	
 	/**
 	 * Method to invoke the tesseract engine to extract text contained at the image passed as parameter.

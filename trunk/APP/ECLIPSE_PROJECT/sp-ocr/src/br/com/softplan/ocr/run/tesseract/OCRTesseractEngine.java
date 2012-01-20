@@ -21,52 +21,31 @@ import br.com.softplan.ocr.run.OCREngine;
  */
 public class OCRTesseractEngine implements OCREngine {
 	
-	public static final String 				TESSERACT_ENGINE = "Tesseract Engine";
-	private static final String 			RESOURCE_CONFIGS;
-	public static final File 				CONFIGS_FILE;
+	public static final String 				TESSERACT_ENGINE;
 	private static final String 			OUTPUT_FILE_NAME;
 	private static final String 			FILE_EXTENSION_HOCR;
 	private static final String 			LANG_OPTION;
 	private static final String 			PSM_OPTION;
 	
 	static {
-		RESOURCE_CONFIGS = "tesseract_configs";
-		CONFIGS_FILE = new File(ClassLoader.getSystemResource(RESOURCE_CONFIGS).getFile());
+		TESSERACT_ENGINE = "Tesseract Engine";
 		OUTPUT_FILE_NAME = "TessOutput";
 		FILE_EXTENSION_HOCR = ".html";
 		LANG_OPTION = "-l";
 		PSM_OPTION = "-psm";
 	}
-	
-    private String language = "eng";
-    private String psm = "3"; // Fully automatic page segmentation, but no OSD (default)
-    private String appInvoking;
+
+	public File 							configsFile;
+    private String 							language = "eng";
+    private String 							psm = "3"; // Fully automatic page segmentation, but no OSD (default)
+    private String 							appInvoking;
     
     /**
      * Creates a new instance of OCRTesseractEngine.
-     * This constructor will gives a instance with its default values to psm (3) and language (eng).
-     * @param tesseractProperties
      */
-    public OCRTesseractEngine() {
-    	this(null);
-    }
-    
-    /**
-     * Creates a new instance of OCRTesseractEngine specifying some properties to tesseract, like psm and language.
-     * @param tesseractProperties
-     */
-    public OCRTesseractEngine(Properties tesseractProperties) {
-    	if (tesseractProperties != null) {
-    		if (tesseractProperties.containsKey("tesseract_psm")) {
-    			this.psm = tesseractProperties.getProperty("tesseract_psm");
-    		}
-    		if (tesseractProperties.containsKey("tesseract_language")) {
-    			this.language = tesseractProperties.getProperty("tesseract_language");
-    		}
-    	}
-    }
+    public OCRTesseractEngine() { }
 
-    /**
+	/**
      * Method to invoke the tesseract engine to extract text contained at the image passed as parameter.
      * The return is the string extracted formated as hOCR standard.
      * 
@@ -74,6 +53,7 @@ public class OCRTesseractEngine implements OCREngine {
      * @return To each imageFile passed as parameter, will there a String hOCR in the same index at the List returned. A list of hOCR String.
      * @throws OCRExtractingException 
      */
+    @Override
     public List<String> run(final List<File> tiffFiles) throws OCRExtractingException {
     	if (!OCRUtil.isStringOk(this.appInvoking)) {
     		throw new IllegalStateException("There's no valid value to appInvoking.");
@@ -92,7 +72,7 @@ public class OCRTesseractEngine implements OCREngine {
         	cmd.add(this.language);
 	        cmd.add(PSM_OPTION);
 	        cmd.add(psm);
-	       	cmd.add("+" + CONFIGS_FILE.getAbsoluteFile());
+	       	cmd.add("+" + this.configsFile.getAbsoluteFile());
 	
 	        ProcessBuilder pb = new ProcessBuilder();
 	        pb.directory(new File(System.getProperty("user.home")));
@@ -148,6 +128,29 @@ public class OCRTesseractEngine implements OCREngine {
 		}
     }
 
+    /**
+	 * Method to load some settings to current OCR Engine.
+	 * @param configsProp
+	 */
+    @Override
+	public void load(Properties configsProp) {
+    	if (configsProp != null) {
+    		if (configsProp.containsKey("tesseract_psm")) {
+    			this.psm = configsProp.getProperty("tesseract_psm");
+    		}
+    		if (configsProp.containsKey("tesseract_language")) {
+    			this.language = configsProp.getProperty("tesseract_language");
+    		}
+    		if (configsProp.containsKey("tesseract_file_configs")) {
+    			this.configsFile = new File(configsProp.getProperty("tesseract_file_configs"));
+    		} else {
+    			throw new IllegalStateException();
+    		}
+    	} else {
+    		throw new IllegalArgumentException();
+    	}
+	}
+    
     // GETTERS AND SETTERS //
     /**
      * Set complete String command to invoke the ocr engine.
