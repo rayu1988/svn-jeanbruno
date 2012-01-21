@@ -15,6 +15,8 @@ public interface OCRHOCRConstants {
 	// This pattern separates the coordinates of the bbox property
 	Pattern 				B_BOX_COORDINATE_PATTERN = Pattern.compile("(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)");
 	
+	Pattern 				IMAGE_PATTERN = Pattern.compile("image\\s+([^;]+)");
+	
 	String 					HOCR_CLASS_PAGE = "ocr_page";
 	String 					HOCR_CLASS_LINE = "ocr_line";
 	String 					HOCR_CLASS_WORD = "ocr_word";
