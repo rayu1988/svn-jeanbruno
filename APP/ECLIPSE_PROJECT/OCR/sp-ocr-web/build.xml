@@ -1,0 +1,17 @@
+<project name="sp-ocr-web" default="sp-ocr-web" basedir=".">
+	
+	<property name="sp-ocr-web" value="sp-ocr-web"/>
+	<property name="sp-ocr-web-home" value="../${sp-ocr-web}"/>
+	<property name="sp-ocr-web-lib" value="${sp-ocr-web-home}/web/WEB-INF/lib"/>
+	
+	<property name="sp-ocr" value="sp-ocr"/>
+	<property name="sp-ocr-home" value="../${sp-ocr}"/>
+
+	<import file="${sp-ocr-home}/build.xml"/>
+	
+	<target name="sp-ocr-web" depends="dist-sp-ocr">
+		
+		<delete dir="${sp-ocr-web-lib}/sp-ocr.jar" />
+		<copy file="${sp-ocr-jar}" todir="${sp-ocr-web-lib}"/>
+	</target>
+</project>
