@@ -1,0 +1,17 @@
+<project name="sp-ocr" default="dist-sp-ocr" basedir=".">
+	
+	<property name="sp-ocr" value="sp-ocr"/>
+	<property name="sp-ocr-home" value="../${sp-ocr}"/>
+	<property name="sp-ocr-home-dist" value="${sp-ocr-home}/dist"/>
+	<property name="sp-ocr-jar" value="${sp-ocr-home-dist}/${sp-ocr}.jar"/>
+	
+	<target name="dist-sp-ocr">
+		
+		<delete dir="${sp-ocr-home-dist}" />
+		<mkdir dir="${sp-ocr-home-dist}"/>
+		
+		<zip destfile="${sp-ocr-jar}">
+		    <zipfileset dir="${sp-ocr-home}/bin" />
+		</zip>
+	</target>
+</project>
