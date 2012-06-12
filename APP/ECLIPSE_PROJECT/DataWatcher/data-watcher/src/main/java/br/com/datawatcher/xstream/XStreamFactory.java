@@ -67,10 +67,13 @@ public class XStreamFactory {
 		xStream.useAttributeFor(TableMapping.class, "name");
 		xStream.useAttributeFor(CheckChange.class, "cronExpression");
 		xStream.useAttributeFor(Listener.class, "classname");
+		xStream.useAttributeFor(Listener.class, "asynchronous");
 		xStream.useAttributeFor(Column.class, "columnName");
 		xStream.useAttributeFor(Column.class, "columnType");
 		xStream.useAttributeFor(FolderMapping.class, "canonicalPath");
 		xStream.useAttributeFor(FolderMapping.class, "regexFilter");
+		
+		xStream.omitField(TableMapping.class, "tableState");
 		
 		xStream.registerConverter(new DataLoggingConverter());
 		xStream.registerConverter(new SqlStatementConverter());

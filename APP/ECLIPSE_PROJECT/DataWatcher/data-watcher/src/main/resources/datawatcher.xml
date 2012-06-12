@@ -1,54 +1,20 @@
 <datawatcher>
-	<!-- 
-	soon
-	<mail-mapping address-mail="mymail@mail.com">
-		<check-change cron-expression="* 1-1 0 *"/>
-		
-		<listeners>
-			<listener class-name="br.com.mail.MyClass1"/>
-			<listener class-name="br.com.mail.MyClass2"/>
-			<listener class-name="br.com.mail.MyClass3"/>
-		</listeners>
-	</mail-mapping>
-	 -->
-
-	<folder-mapping canonical-path="C:\myfolder\mappedfolder" regex-filter="*.pdf">
-		<check-change cron-expression="* 1-1 0 *"/>
-		<listeners>
-			<listener class-name="br.com.folder.MyClass1"/>
-			<listener class-name="br.com.folder.MyClass2"/>
-			<listener class-name="br.com.folder.MyClass3"/>
-		</listeners>
-	</folder-mapping>
-
-	<table-mapping table-name="myTable">
+	<table-mapping table-name="datawatcher">
 		<check-change cron-expression="* 1-1 0 *"/>
 		<jdbc-connection>
-			<driverclass-name>com.microsoft.sqlserver.jdbc.SQLServerDriver</driverclass-name>
-			<url>jdbc:sqlserver://192.168.200.251:1433;databaseName=docflow4_sebrae_go</url>
-			<username decrypt-class="br.com.decrypt.UserName">username</username>
-			<password decrypt-class="br.com.decrypt.Password">password</password>
+			<driverclass-name>com.mysql.jdbc.Driver</driverclass-name>
+			<url>jdbc:mysql://localhost/datawatcher</url>
+			<username>root</username>
+			<password>jean</password>
 		</jdbc-connection>
-		<declared-result>
-			<procedures>
-				<procedure> exec procedure1 </procedure>
-				<procedure> exec procedure2 </procedure>
-				<procedure> exec procedureN </procedure>
-			</procedures>
-			<query>
-				select * from myTable
-			</query>
-		</declared-result>
-		<id column-type="java.lang.Integer" column-name="ColumnNameId"/>
+		<id column-type="java.lang.Integer" column-name="id"/>
 		<columns>
-			<column column-type="java.lang.String" column-name="Column1"/>
-			<column column-type="java.lang.Integer" column-name="Column2"/>
-			<column column-type="java.util.Date" column-name="Column3"/>
+			<column column-type="java.lang.String" column-name="nome"/>
 		</columns>
 		<listeners>
-			<listener class-name="br.com.database.MyClass1"/>
-			<listener class-name="br.com.database.MyClass2"/>
-			<listener class-name="br.com.database.MyClass3"/>
+			<listener class-name="br.com.database.MyClass1" asynchronous="true"/>
+			<listener class-name="br.com.database.MyClass2" asynchronous="false"/>
+			<listener class-name="br.com.database.MyClass3" asynchronous="true"/>
 		</listeners>
 	</table-mapping>
 </datawatcher>

@@ -1,0 +1,81 @@
+DataWatcher
+
+A proposta é;
+
+A criação de um Watcher que possa fazer a verificações em tipos diferentes de dados que por sua vez estejam estruturados de diversas maneiras.
+
+O objetivo nasceu na vontade de ter um watcher para base de dados sem a necessidade de ser intrusivo a configurações do banco, como criação de triggers e enfim. Para entender melhor, esta tal necessidade nasceu quando eu queria um componente Java que verificasse possíveis modificações não estruturais, mas sim em linhas de determinada tabela da minha base de dados e para cada linha que tenha sofrido um INSERT, UPDATE ou DELETE, um evento Java que eu pudesse manipular fosse disparado.
+
+A idéia de primeira instância foi criar um espelho da tabela e de certas colunas e de tempo em tempo analisar a tabela original para verificar se houve alguma modificação, se houve INSERÇÕES, ATUALIZAÇÕES e/ou EXCLUSÕES.
+Isto pode ser caro em alguns termos, como por exemplo, levantar as informações da tabela origem e manter isto em memória enquanto continua o watching.
+
+Talvez uma solução com performance até melhor seria criar uma tabela temporária, e para a tabela origem colocar um Trigger mapeando as ações de INSERÇÃO, UPDATE e EXCLUSÃO salvando as informações da ação e das alterações nesta tabela temporária, ou ainda se fosse o maravilhoso mundo Windows, poderia ter esta base de dados no SQL Server e com o .net framework acionar o Trigger para invocar ações diversas.
+
+O meu problema é que sou desenvolvedor Java, e a promessa de 'write once run anywhere' é um desejo que me acompanha a todo momento, e não quero me preocupar com o ambiente (S.O.) onde está sendo executado a minha aplicação ou ter que configurar "agregações" (me desculpe o termo, mas foi o que achei) na base de dados, eu quero a base de dados só como base de dados, sem regras adicionais.
+
+Um outro problema que poderia me desanimar é que o watcher pode me colocar em risco dependendo da minha aplicação. Vamos assumir um watcher de um diretório e que ocorre uma verificação se há um novo arquivo neste diretório de minuto em minuto, se um novo arquivo for adicionado a este diretório então uma ação deve ser feita. O fato é que dentro de um minuto um arquivo pode ser adicionado e removido fazendo com que o Watcher nunca tenha conhecimento deste arquivo, e para o Watcher da base de dados por mim implementado o mesmo risco ocorre e se este risco não pode ser assumido a minha abordagem e implementação não deve ser utilizada. Poderia chamar então o Watcher de uma espécie de Check Change.
+
+O problema acima mencionado poderia ser driblado com a opção da Trigger na base de dados, pois o SGDB irá garantir no tempo BEFORE ou AFTER a cada modificação nas linhas de uma tabela (isto é uma possibilidade).
+
+Posso estar certo ou não, mas o desafio foi lançado e o objetivo é desenvolver aquela primeira idéia e posteriormente estender o DataWatcher a "folder watcher", "email watcher", entre outros, visto que por momento será somente para a base de dados mesmo.
+
+Arquitetura / Desenvolvimento;
+
+No passo arquitetural e desenvolvimento, o watcher deve receber um arquivo de configurações xml ou properties que indica ao mesmo as seguintes informações;
+@Classe Especialista
+A classe especialista da aplicação do cliente que implementa a interface DataWatchable
+
+@Tempo (todos os campos são de preenchimento obrigatório)
+* dias da semana separados por vírgula e/ou espaço e se quiser todos os dias coloca-se o asterisco (MON TUE WEN THU FRI SAT SUN)
+* horas do dia no formato 24 horas, pode ser definido uma faixa como 8-9 (das oito às nove da manhã), se quiser todas as horas coloca-se asterisco
+* minutos, pode ser definido uma faixa como 50-59 (dos 50 aos 59 minutos), se quiser todos os minutos coloca-se asterisco
+* segundos, pode ser definido uma faixa como 50-59 (dos 50 aos 59 segundos), se quiser todos os segundos coloca-se asterisco
+
+@Watcher em uma única Tabela
+* os dados para a conexão jdbc (url, user, password e driverclass)
+* a tabela a ser assistida (no primeiro desenvolvimento só pode ser uma tabela por watcher / por vez)
+* (opcional) os campos da tabela separados por vírgula e/ou espaços (se quiser todos os campos coloca-se o asterisco ou não indica a configuração para campos)
+
+@Watcher por Resultados (permitindo selects em várias tabelas em views e semelhantes)
+* os dados para a conexão jdbc (url, user, password e driverclass) 
+
+* a instrução SQL que deve retornar o resultado.
+
+* invocação de procedures
+
+* select simples ou composto
+
+* select em views
+
+* (opcional) delimitação de campos no resultado separados por vírgula e/ou espaços (se quiser todos os campos coloca-se o asterisco ou não indica a configuração para campos)
+
+
+@nota - Drivers; Os Driver Classes não são fornecidos pelo Watcher, portanto a aplicação final deverá colocar o devido driverclass no classpath da maneira apropriada.
+
+
+@Interface
+
+A interface principal da aplicação é a DataWatchable e define os métodos;
+
+* void delete(OldResultSet);
+* void insert(NewResultSet);
+* void update(OldResultSet, NewResultSet);
+Estes métodos são executados sempre que uma das modificações forem encontradas na base.
+
+@New Instance
+
+Para instanciar um novo Watcher deve-se passar as configurações por um file XML ou o conteúdo XML em uma String.
+
+
+Para o Final
+
+
+@WEB
+
+Possibilitar o instanciamento através de web-listeners (Factory + Listener) no web.xml.
+
+
+@GUI
+
+No final de tudo, o mesmo jar disponibilizado deverá ter a opção de executar de forma gráfica, possibilitando a criação do conteúdo do XML da configuração a partir de um Wizard.
+

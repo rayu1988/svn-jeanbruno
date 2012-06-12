@@ -1,6 +1,6 @@
 package br.com.datawatcher.test;
 
-import br.com.datawatcher.common.Decryptable;
+import br.com.datawatcher.interfaces.Decryptable;
 
 public class DecryptTest implements Decryptable {
 

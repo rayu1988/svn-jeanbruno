@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.datawatcher.common;
+package br.com.datawatcher.interfaces;
 
 /**
  * @author carrefour

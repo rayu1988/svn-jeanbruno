@@ -3,15 +3,20 @@ package br.com.datawatcher.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.datawatcher.exception.DataWatcherException;
+
 /**
  * 
  * @author carrefour
  *
  */
-public class DataMapping {
+public abstract class DataMapping {
 
 	private CheckChange checkChange;
 	private List<Listener> listeners = new ArrayList<Listener>();
+	
+	public abstract void startup() throws DataWatcherException;
+	public abstract void checkChange() throws DataWatcherException;
 	
 	public DataMapping addListeners(Listener listener) {
 		if (listener != null) {
