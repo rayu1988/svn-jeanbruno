@@ -19,6 +19,16 @@ public class FolderMapping extends DataMapping {
 		this.regexFilter = regexFilter;
 	}
 	
+	@Override
+	public void startup() {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void checkChange() {
+		// TODO Auto-generated method stub
+	}
+	
 	// GETTERS AND SETTERS //
 	public String getCanonicalPath() {
 		return canonicalPath;

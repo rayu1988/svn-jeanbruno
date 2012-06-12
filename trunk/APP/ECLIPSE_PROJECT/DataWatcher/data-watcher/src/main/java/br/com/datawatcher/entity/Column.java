@@ -19,17 +19,17 @@ public class Column {
 		this.columnName = columnName;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public Class getColumnClass() throws ClassNotFoundException {
+		return Class.forName(this.columnType);
+	}
+	
 	// GETTERS AND SETTERS //
-	public String getColumnType() {
-		return columnType;
-	}
-	public void setColumnType(String columnType) {
-		this.columnType = columnType;
-	}
 	public String getColumnName() {
 		return columnName;
 	}
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
+
+	public String getColumnType() {
+		return columnType;
 	}
 }

@@ -106,6 +106,8 @@ public class JdbcConnection {
 					this.stmt.setString(i, ((Character)parameter).toString());
 				} else if (parameter instanceof Integer) {
 					this.stmt.setInt(i, (Integer)parameter);
+				} else if (parameter instanceof Byte) {
+					this.stmt.setByte(i, (Byte)parameter);
 				} else if (parameter instanceof Long) {
 					this.stmt.setLong(i, (Long)parameter);
 				} else if (parameter instanceof BigDecimal) {
@@ -120,7 +122,7 @@ public class JdbcConnection {
 					this.stmt.setTimestamp(i, new Timestamp(((java.util.Date)parameter).getTime()));
 				} else if (parameter instanceof Timestamp) {
 					this.stmt.setTimestamp(i, (Timestamp)parameter);
-				}
+				} else throw new IllegalArgumentException("Unknown type.");
 			} else {
 				this.stmt.setNull(i, java.sql.Types.NULL);
 			}

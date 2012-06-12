@@ -3,9 +3,9 @@
  */
 package br.com.datawatcher.entity;
 
-import br.com.datawatcher.common.Decryptable;
 import br.com.datawatcher.common.Util;
 import br.com.datawatcher.exception.InterfaceNotImplemented;
+import br.com.datawatcher.interfaces.Decryptable;
 
 /**
  * @author carrefour

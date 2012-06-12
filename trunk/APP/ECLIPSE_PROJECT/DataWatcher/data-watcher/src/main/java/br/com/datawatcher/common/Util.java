@@ -21,6 +21,10 @@ public class Util {
 		return collection != null && !collection.isEmpty();
 	}
 	
+	public static boolean isBooleanOk(String str) {
+		return isStringOk(str) && (str.equals("true") || str.equals("1"));
+	}
+	
 	/**
 	 * A way to standard writters utf-8, centered.
 	 * @param outputFile
