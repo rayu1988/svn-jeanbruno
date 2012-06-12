@@ -14,11 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 import br.com.datawatcher.common.Util;
-import br.com.datawatcher.enumerators.EnumDataChangeable;
 import br.com.datawatcher.exception.DataWatcherException;
 import br.com.datawatcher.exception.InterfaceNotImplemented;
-import br.com.datawatcher.interfaces.DataChangeable;
-import br.com.datawatcher.interfaces.TableChangeable;
+import br.com.datawatcher.service.TableProcessListener;
 
 /**
  * @author carrefour
@@ -120,8 +118,8 @@ public class TableMapping extends DataMapping {
 		if (this.started) {
 			try {
 				ResultSet resultSet = this.processSelect();
-				CompareTuples compareTuples = new CompareTuples(this.buildResult(resultSet));
-				compareTuples.processComparing();
+				Set<Tuple> newTuples = this.buildResult(resultSet);
+				new CompareTuples(newTuples).processComparing();
 			} catch (Exception e) {
 				throw new DataWatcherException(e);
 			}
@@ -178,6 +176,7 @@ public class TableMapping extends DataMapping {
 				if (coupleTuple == null) {
 					coupleTuple = new CoupleTuple();
 				}
+				coupleTuple.addCurrentTuple(tuple);
 				this.tuples.put(tuple.hashCode(), coupleTuple);
 			}
 		}
@@ -196,45 +195,10 @@ public class TableMapping extends DataMapping {
 			}
 		}
 		
-		public void processComparing() throws DataWatcherException {
-			// TODO implementar invocação de TableChangeable em threads separadas (Runnable)
-			try {
-				for (CoupleTuple coupleTuple : this.tuples.values()) {
-					if (coupleTuple.isInsert()) {
-						
-					} else if (coupleTuple.isUpdate()) {
-						for (Listener listener : getListeners()) {
-							if (Util.isBooleanOk(listener.getAsynchronous())) {
-
-							} else {
-								((TableChangeable)Class.forName(listener.getClassname()).newInstance()).update(coupleTuple.getCurrentTuple(), coupleTuple.getNewTuple());
-							}
-						}
-					} else if (coupleTuple.isDelete()) {
-						
-					} else {
-						// change nothing
-					}
-				}
-			} catch (Exception e) {
-				throw new DataWatcherException(e);
-			}
+		protected void processComparing() throws DataWatcherException {
+			for (CoupleTuple coupleTuple : this.tuples.values())
+				for (Listener listener : getListeners())
+					new TableProcessListener(listener, coupleTuple).process();
 		}
-	}
-	
-	private class AsyncTableChangeable implements Runnable {
-
-		private TableChangeable tableChangeable;
-		private EnumDataChangeable dataChangeable;
-		
-		AsyncTableChangeable(TableChangeable tableChangeable, EnumDataChangeable dataChangeable) {
-			this.tableChangeable = tableChangeable;
-			this.dataChangeable = dataChangeable;
-		}
-		
-		@Override
-		public void run() {
-		}
-		
 	}
 }

@@ -7,14 +7,17 @@
 			<username>root</username>
 			<password>jean</password>
 		</jdbc-connection>
-		<id column-type="java.lang.Integer" column-name="id"/>
+		<declared-result>
+			<query>
+				select id as 'id_table', nome as 'nome_completo' from datawatcher
+			</query>
+		</declared-result>
+		<id column-type="java.lang.Integer" column-name="id_table"/>
 		<columns>
-			<column column-type="java.lang.String" column-name="nome"/>
+			<column column-type="java.lang.String" column-name="nome_completo"/>
 		</columns>
 		<listeners>
-			<listener class-name="br.com.database.MyClass1" asynchronous="true"/>
-			<listener class-name="br.com.database.MyClass2" asynchronous="false"/>
-			<listener class-name="br.com.database.MyClass3" asynchronous="true"/>
+			<listener class-name="ListenerImplTest" asynchronous="false"/>
 		</listeners>
 	</table-mapping>
 </datawatcher>

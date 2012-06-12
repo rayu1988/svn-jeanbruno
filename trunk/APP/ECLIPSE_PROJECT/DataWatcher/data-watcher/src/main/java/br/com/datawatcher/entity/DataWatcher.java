@@ -30,4 +30,10 @@ public class DataWatcher {
 			dataMapping.startup();
 		}
 	}
+	
+	public void checkChange() throws DataWatcherException {
+		for (DataMapping dataMapping : this.mappings) {
+			dataMapping.checkChange();
+		}
+	}
 }
