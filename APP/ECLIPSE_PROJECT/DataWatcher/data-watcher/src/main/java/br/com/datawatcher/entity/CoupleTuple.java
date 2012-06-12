@@ -25,7 +25,7 @@ public class CoupleTuple {
 	}
 	
 	public boolean isUpdate() {
-		return currentTuple != null && newTuple != null;
+		return (currentTuple != null && newTuple != null) && (currentTuple.hashTuple() != newTuple.hashTuple());
 	}
 	
 	public void addCurrentTuple(Tuple currentTuple) {

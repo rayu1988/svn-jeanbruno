@@ -41,4 +41,12 @@ public class Tuple {
 		}
 		return str.toString().hashCode();
 	}
+
+	public TupleId getTupleId() {
+		return tupleId;
+	}
+
+	public List<TupleField> getTupleFields() {
+		return tupleFields;
+	}
 }

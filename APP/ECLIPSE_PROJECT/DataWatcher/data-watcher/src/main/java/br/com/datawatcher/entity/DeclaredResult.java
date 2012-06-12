@@ -33,6 +33,7 @@ public class DeclaredResult {
 	
 	// GETTERS AND SETTERS //
 	public List<Procedure> getProcedures() {
+		if (procedures == null) procedures = new ArrayList<Procedure>();
 		return procedures;
 	}
 	public Query getQuery() {

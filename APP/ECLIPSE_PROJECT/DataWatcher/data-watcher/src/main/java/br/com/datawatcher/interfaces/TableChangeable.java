@@ -13,6 +13,6 @@ public interface TableChangeable extends DataChangeable {
 
 	void insert(Tuple newTuple);
 	void update(Tuple oldTuple, Tuple newTuple);
-	void delete(Tuple newTuple);
+	void delete(Tuple oldTuple);
 	
 }
