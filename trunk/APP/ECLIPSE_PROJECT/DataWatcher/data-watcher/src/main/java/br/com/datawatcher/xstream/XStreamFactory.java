@@ -64,6 +64,7 @@ public class XStreamFactory {
 		xStream.aliasField("canonical-path", FolderMapping.class, "canonicalPath");
 		xStream.aliasField("regex-filter", FolderMapping.class, "regexFilter");
 		
+		xStream.useAttributeFor(DataMapping.class, "identifier");
 		xStream.useAttributeFor(TableMapping.class, "name");
 		xStream.useAttributeFor(CheckChange.class, "cronExpression");
 		xStream.useAttributeFor(Listener.class, "classname");

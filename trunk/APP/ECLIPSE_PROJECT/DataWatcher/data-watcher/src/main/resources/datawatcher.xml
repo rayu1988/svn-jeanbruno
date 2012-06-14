@@ -1,23 +1,18 @@
 <datawatcher>
-	<table-mapping table-name="datawatcher">
-		<check-change cron-expression="* 1-1 0 *"/>
+	<table-mapping identifier="mydatawatchercron" table-name="datawatcher">
+		<check-change cron-expression="0/45 * * * * *"/>
 		<jdbc-connection>
 			<driverclass-name>com.mysql.jdbc.Driver</driverclass-name>
 			<url>jdbc:mysql://localhost/datawatcher</url>
 			<username>root</username>
 			<password>jean</password>
 		</jdbc-connection>
-		<declared-result>
-			<query>
-				select id as 'id_table', nome as 'nome_completo' from datawatcher
-			</query>
-		</declared-result>
-		<id column-type="java.lang.Integer" column-name="id_table"/>
+		<id column-type="java.lang.Integer" column-name="id"/>
 		<columns>
-			<column column-type="java.lang.String" column-name="nome_completo"/>
+			<column column-type="java.lang.String" column-name="nome"/>
 		</columns>
 		<listeners>
-			<listener class-name="ListenerImplTest" asynchronous="false"/>
+			<listener class-name="ListenerImplTest" asynchronous="true"/>
 		</listeners>
 	</table-mapping>
 </datawatcher>

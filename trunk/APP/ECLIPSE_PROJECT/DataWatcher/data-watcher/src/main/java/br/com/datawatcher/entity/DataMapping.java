@@ -12,6 +12,7 @@ import br.com.datawatcher.exception.DataWatcherException;
  */
 public abstract class DataMapping {
 
+	private String identifier;
 	private CheckChange checkChange;
 	private List<Listener> listeners = new ArrayList<Listener>();
 	
@@ -34,5 +35,11 @@ public abstract class DataMapping {
 	}
 	public List<Listener> getListeners() {
 		return listeners;
+	}
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 }
