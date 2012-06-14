@@ -15,8 +15,9 @@ import java.util.Set;
 
 import br.com.datawatcher.common.Util;
 import br.com.datawatcher.exception.DataWatcherException;
+import br.com.datawatcher.exception.DataWatcherRuntimeException;
 import br.com.datawatcher.exception.InterfaceNotImplemented;
-import br.com.datawatcher.service.TableProcessListener;
+import br.com.datawatcher.interfaces.TableChangeable;
 
 /**
  * @author carrefour
@@ -198,7 +199,49 @@ public class TableMapping extends DataMapping {
 		protected void processComparing() throws DataWatcherException {
 			for (CoupleTuple coupleTuple : this.tuples.values())
 				for (Listener listener : getListeners())
-					new TableProcessListener(listener, coupleTuple).process();
+					new ProcessListener(listener, coupleTuple).process();
 		}
+	}
+	
+	private class ProcessListener implements Runnable {
+
+		private Listener listener;
+		private CoupleTuple coupleTuple;
+		
+		protected ProcessListener(Listener listener, CoupleTuple coupleTuple) {
+			if (listener == null || coupleTuple == null) {
+				throw new IllegalArgumentException("param can't be null");
+			}
+			this.listener = listener;
+			this.coupleTuple = coupleTuple;
+		}
+		
+		protected void process() throws DataWatcherException {
+			if (Util.isBooleanOk(this.listener.getAsynchronous())) {
+				new Thread(this).start();
+			} else {
+				this.run();
+			}
+		}
+		
+		@Override
+		public void run() {
+			try {
+				if (this.coupleTuple.isUpdate()) {
+					tableState.remove(this.coupleTuple.getCurrentTuple());
+					tableState.add(this.coupleTuple.getNewTuple());
+					((TableChangeable)Class.forName(this.listener.getClassname()).newInstance()).update(this.coupleTuple.getCurrentTuple(), this.coupleTuple.getNewTuple());
+				} else if (this.coupleTuple.isDelete()) {
+					tableState.remove(this.coupleTuple.getCurrentTuple());
+					((TableChangeable)Class.forName(this.listener.getClassname()).newInstance()).delete(this.coupleTuple.getCurrentTuple());
+				} else if (this.coupleTuple.isInsert()) {
+					tableState.add(this.coupleTuple.getNewTuple());
+					((TableChangeable)Class.forName(this.listener.getClassname()).newInstance()).insert(this.coupleTuple.getNewTuple());
+				}
+			} catch (Exception e) {
+				throw new DataWatcherRuntimeException(e);
+			}
+		}
+		
 	}
 }

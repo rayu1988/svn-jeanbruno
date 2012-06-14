@@ -9,13 +9,13 @@ package br.com.datawatcher.entity;
  */
 public class CheckChange {
 
+	private String cronExpression;
+	
 	public CheckChange() { }
 	
 	public CheckChange(String cronExpression) {
 		this.cronExpression = cronExpression;
 	}
-	
-	private String cronExpression;
 
 	// GETTERS AND SETTERS //
 	public String getCronExpression() {
