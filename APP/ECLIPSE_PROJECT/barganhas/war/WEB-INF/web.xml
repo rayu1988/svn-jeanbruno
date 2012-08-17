@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<description>Barganhas ponto com</description>
+ 	<display-name>Barganhas.com</display-name>
+ 	
+ 	<!-- required initial parameters -->
+ 	<context-param>
+  		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  		<param-value>server</param-value>
+ 	</context-param>
+ 	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+ 	<context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+		<!-- the value Production is required even in development mode to GAE -->
+<!--         <param-value>Production</param-value> -->
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+ 		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+		<!-- AO PUBLICAR NO CLIENTE SETAR: -1 -->
+ 		<param-value>2</param-value>
+ 	</context-param>
+ 	<context-param>
+	    <param-name>javax.faces.CONFIG_FILES</param-name>
+	    <param-value>
+	    	/WEB-INF/jsf/faces-config.xml,
+	    	/WEB-INF/jsf/navigation-rules.xml,
+	    	/WEB-INF/jsf/componentes.xml
+	    </param-value>
+	</context-param>
+	<context-param>
+	    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+	<context-param>
+  		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+  		<param-value>
+  			/WEB-INF/tags/custom.taglib.xml;
+		</param-value>
+ 	</context-param>
+ 	<context-param>
+		<param-name>com.sun.faces.allowTextChildren</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- Disable use of threading for single-threaded environments such as
+     the Google AppEngine. -->
+	<context-param>
+		<param-name>com.sun.faces.enableThreading</param-name>
+		<param-value>false</param-value>
+		<description>
+			When enabled, the runtime initialization and default ResourceHandler 
+			implementation will use threads to perform their functions. Set this 
+			value to false if threads aren't desired (as in the case of running 
+			within the Google Application Engine).
+			
+			Note that when this option is disabled, the ResourceHandler will not 
+			pick up new versions of resources when ProjectStage is development.
+		</description>
+	</context-param>
+	
+	<!-- SERVLETS -->
+	<servlet>
+  		<servlet-name>FacesServlet</servlet-name>
+  		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+  		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+  		<servlet-name>FacesServlet</servlet-name>
+  		<url-pattern>/faces/*</url-pattern>
+		<url-pattern>*.jsf</url-pattern>
+ 	</servlet-mapping>
+ 	
+ 	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+ 	
+ 	<welcome-file-list>
+  		<welcome-file>index.jsp</welcome-file>
+ 	</welcome-file-list>
+ 	
+ 	<login-config>
+ 		<auth-method>BASIC</auth-method>
+ 	</login-config>
+ 	
+ <servlet>
+  <servlet-name>SystemServiceServlet</servlet-name>
+  <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+  <init-param>
+   <param-name>services</param-name>
+   <param-value/>
+  </init-param>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>SystemServiceServlet</servlet-name>
+  <url-pattern>/_ah/spi/*</url-pattern>
+ </servlet-mapping>
+</web-app>

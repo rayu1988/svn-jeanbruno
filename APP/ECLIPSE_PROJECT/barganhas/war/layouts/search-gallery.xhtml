@@ -1,0 +1,283 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<ui:define name="bodyNavigation">
+		<div id="searchNavigationBox">
+			<div id="searchFilter">
+				<div class="innerSearchBox" style="border-bottom: 1px solid #E5E5E5;">
+					<p class="searchFilterHeader">#{msg.searchFilter}</p>
+					
+					<div class="textSearchBox">
+						<p>Sony Vaio</p>
+						<a href="#" class="excludeTextSearchBox">x</a>
+					</div>
+				</div>
+				
+				<div class="innerSearchBox">
+					<p class="searchFilterHeader">#{msg.localizationRegion}</p>
+					<ul>
+						<li><a href="#">Sao Paulo</a></li>
+						<li><a href="#">Minas Gerais</a></li>
+						<li><a href="#">Parana</a></li>
+						<li><a href="#">Rio de Janeiro</a></li>
+						<li><a href="#">Distrito Federal</a></li>
+						<li><a href="#">Bahia</a></li>
+						<li><a href="#">Santa Catarina</a></li>
+						<li><a href="#">Rio Grande do Sul</a></li>
+						<li><a href="#">Goias</a></li>
+						<li><a href="#">Mais opcoes</a></li>
+					</ul>
+				</div>
+				
+				<div class="innerSearchBox">
+					<p class="searchFilterHeader">#{msg.rangeValues}</p>
+					<ul>
+						<li><a href="#">Ate R$850</a></li>
+						<li><a href="#">R$850 a R$1.500</a></li>
+						<li><a href="#">Mais de R$1.500</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div id="productsList">
+				<div class="filterGridOrList">
+					<img src="../images/list.png"/>
+					<img src="../images/grid.png"/>
+				</div>
+				<ul class="filterOrderBy">
+					<li style="border: 0;">Ordenado por:</li>
+					<li style="font-weight: bold;">Mais relevantes</li>
+					<li><a href="#">Menor preco</a></li>
+					<li style="border: 0;"><a href="#">Maior preco</a></li>
+				</ul>
+			
+				<ul class="unordenedSearchGalleryClearList" style="margin-left: 20px;">
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li style="border-right: 0;">
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li style="border-right: 0;">
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li style="border-right: 0;">
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li style="border-right: 0;">
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li>
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+					<li style="border-right: 0;">
+							<a href="#" ><img src="../images/note-prod.jpg"/></a>
+							<div >
+								<a class="descProduct-itensInList" href="#">Ultrabook Vaio Sony I3-2367m 320gb 4gb 11.6 Led Hdmi Vga</a>
+								<p class="furtherDesc">Novo Lacrado Na Caixa, Com Nota Fisal Em Seu Nome + Garantia De 2 Anos</p>
+							</div>
+							<p class="priceBox"><a href="#">R$ 9999,99</a></p>
+							<p>Troco por Iphone Xbox ou Galaxy Cellphone</p>
+					</li>
+					
+				</ul>
+				
+				<div style="padding: 10px; position: relative; text-align: center;">
+					<ul class="searchScroller">
+						<li>1</li>
+						<li>2</li>
+						<li>3</li>
+						<li>4</li>
+						<li>5</li>
+						<li>6</li>
+						<li>7</li>
+						<li>8</li>
+						<li>9</li>
+						<li>10</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
