@@ -87,13 +87,16 @@ input {
 }
 
 .unordenedSearchGalleryClearList li {
-	list-style-type:none;
 	display: inline;
 	float: left;
 	width: 215px;
 	padding: 40px 10px 60px 10px;
 	border-bottom: 1px solid #CCC;
 	border-right: 1px solid #CCC;
+}
+
+.unordenedSearchGalleryClearList li a:hover {
+	text-decoration: underline;
 }
 
 .unordenedClearList li {

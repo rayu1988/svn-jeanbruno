@@ -1,0 +1,102 @@
+body {
+	background-color: white;
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+	color: #333;
+	height: 100%;
+	min-width: 960px;
+	display: block;
+}
+
+body, div, img, form, p, a, ol, ul {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+#wrapper {
+	min-height: 100%;
+	height: auto !important;
+}
+
+#header {
+	margin:0;
+	padding: 0;
+	font-size: 20px;
+	font-weight: bold;
+	color: #888787;
+	padding: 15px 0 15px 90px;
+	border-bottom:  1px solid #CCC;
+	background-color: #F0F0F0;
+}
+
+#logoHeader {
+	float: left;
+	margin-right: 50px;
+}
+
+#headerPrivateLogin {
+	text-align: right;
+	margin-right: 80px;
+}
+
+#headerPrivateLogin img {
+	margin-right: 10px;
+}
+
+#loginBox {
+	width: 400px;
+	margin: auto;
+	margin-top: 100px;
+}
+
+#loginBoxHeader {
+	padding: 0.5em;;
+	border: 1px solid #CCC;
+	border-radius: 5px 5px 0 0;
+/* 	background-color: #F0F0F0; */
+
+	background: #829AA8;
+/* 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#829aa8', endColorstr='#405a6a')"; */
+	
+	font-size: 15px;
+	font-weight: bold;
+	color: #FFF;
+}
+
+#loginForm {
+	padding: 2em;
+	border: 1px solid #CCC;
+	border-radius: 0 0 5px 5px;
+	
+	border-top: 0;
+	
+	background-color: #E9F1F4;
+}
+
+.loginInputForm {
+	width: 23em;
+	padding: 5px;
+	border: 1px solid #D8DEE2;
+	margin: .2em 0 1em 0;
+	font-size: 110%;
+}
+
+.customButton {
+	border-radius: 5px;
+	font-size: 14px;
+	padding: .458em .833em;
+	background-color: #829AA8;
+	border: 1px solid #62658B;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	
+/* 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75); */
+/* 	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
+/* 	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
+}
