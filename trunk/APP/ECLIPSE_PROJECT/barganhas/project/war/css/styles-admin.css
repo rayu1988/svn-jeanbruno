@@ -31,6 +31,7 @@ ol, ul {
 	color: #888787;
 	padding: 15px 0 15px 90px;
 	border-bottom:  1px solid #CCC;
+	
 	background-color: #F0F0F0;
 }
 
@@ -58,14 +59,12 @@ ol, ul {
 	padding: 0.5em;;
 	border: 1px solid #CCC;
 	border-radius: 5px 5px 0 0;
-/* 	background-color: #F0F0F0; */
-
-	background: #829AA8;
-/* 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#829aa8', endColorstr='#405a6a')"; */
 	
 	font-size: 15px;
 	font-weight: bold;
 	color: #FFF;
+	
+	background: #6B99B4;
 }
 
 #loginForm {
@@ -86,17 +85,19 @@ ol, ul {
 	font-size: 110%;
 }
 
+/** CUSTOM_BUTTON **/
 .customButton {
-	border-radius: 5px;
+	border-radius: 3px;
 	font-size: 14px;
-	padding: .458em .833em;
-	background-color: #829AA8;
+	padding: 10px;
 	border: 1px solid #62658B;
 	color: white;
 	cursor: pointer;
 	font-weight: bold;
-	
-/* 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75); */
-/* 	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
-/* 	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
+	background-color: #6B99B4;
 }
+.customButton:hover {
+	background-color: #3C657C;
+	border: 1px solid #aaa;
+}
+/** CUSTOM_BUTTON **/
