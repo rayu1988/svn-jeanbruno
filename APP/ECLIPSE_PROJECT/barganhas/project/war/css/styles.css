@@ -59,17 +59,37 @@ input {
 }
 
 .customButton {
-	border-radius: 5px;
+	border-radius: 3px;
 	font-size: 12px;
-	padding: .458em .833em;
+	font-weight: bold;
+	padding: 10px;
 	background-color: #2C3176;
 	border: 1px solid #2C3176;
 	color: white;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
 	cursor: pointer;
 	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#283077);
 	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#283077);
 }
+
+.customButton:hover {
+	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#001AFF);
+	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#001AFF);
+}
+
+/* .customButton { */
+/* 	border-radius: 3px; */
+/* 	font-size: 14px; */
+/* 	padding: 10px; */
+/* 	border: 1px solid #62658B; */
+/* 	color: white; */
+/* 	cursor: pointer; */
+/* 	font-weight: bold; */
+/* 	background-color: #6B99B4; */
+/* } */
+/* .customButton:hover { */
+/* 	background-color: #3C657C; */
+/* 	border: 1px solid #aaa; */
+/* } */
 
 .userRating {
 	display: block;
