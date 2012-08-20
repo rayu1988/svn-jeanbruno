@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="C:/Program Files (x86)/IDE/eclipse-juno/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201206290132-rel-r42/gwt-2.4.0/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/IDE/eclipse-juno/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201206290132-rel-r42/gwt-2.4.0/validation-api-1.0.0.GA.jar" sourcepath="C:/Program Files (x86)/IDE/eclipse-juno/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201206290132-rel-r42/gwt-2.4.0/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
