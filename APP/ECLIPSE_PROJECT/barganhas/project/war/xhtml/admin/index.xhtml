@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   	xmlns:ui="http://java.sun.com/jsf/facelets"
+   	xmlns:h="http://java.sun.com/jsf/html"
+   	xmlns:c="http://java.sun.com/jsp/jstl/core"
+   	xmlns:f="http://java.sun.com/jsf/core"
+   	xmlns:rich="http://richfaces.org/rich">
+   	
+   	<f:view contentType="text/html">
+   		<f:loadBundle var="msg" basename="messages"/>
+   		<h:head>
+   			<title><h:outputText value="#{msg.privateAreaTitle}"/></title>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-admin.css" />
+   			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   		</h:head>
+   		
+   		<h:body>
+   			<div id="wrapper">
+				<div id="header">
+					<a href="#" id="logoHeader">
+						<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
+					</a>
+					<p id="headerPrivateLogin">
+						<img src="#{request.contextPath}/images/lock.png" />
+						<h:outputText value="brunopib"/>
+					</p>
+				</div>
+				
+				<h:form prependId="false">
+						<div id="menuTop">
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaAdminatrators}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemAdmin "/>
+							
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaCategories}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemCategories"/>
+							
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaUsers}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemUsers menuItemSelected"/>
+							
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaAdsenses}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemAdsense"/>
+							
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaComments}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemComments" />
+							
+							<h:commandLink action="#{administracaoBean.loadPage}"
+							               value="#{msg.privateAreaSales}"
+							               immediate="true"
+							               rendered="true"
+							               styleClass="menuItem menuItemSales"/>
+						</div>
+				</h:form>
+				
+				<div id="loginBox" style="width: auto; margin: 15px;">
+					<h:form id="loginForm" style="border: 1px solid #CCC; border-radius: 5px;">
+						<ol>
+							<li>
+								<div><label for="userName">#{msg.privateAreaLoginUser}</label></div>
+								<div><input type="text" class="loginInputForm" id="userName" name="userName" size="25"/></div>
+							</li>
+							<li>
+								<div><label for="userPassword">#{msg.privateAreaLoginPassword}</label></div>
+								<div><input type="password" class="loginInputForm" id="userPassword" name="userLastName" size="25"/></div>
+							</li>
+						</ol>
+						
+						<button class="customButton" id="registerUser" name="registerUser" type="submit">
+							#{msg.privateAreaLoginButton}
+						</button>
+					</h:form>
+					<script>
+						document.getElementById("userName").focus();
+					</script>
+				</div>
+	
+<!-- 				<div id="footer"> -->
+<!-- 				</div> -->
+			</div>
+   		</h:body>
+   	</f:view>
+</html>

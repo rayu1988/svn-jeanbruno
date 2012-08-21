@@ -19,8 +19,6 @@ ol, ul {
 }
 
 #wrapper {
-	min-height: 100%;
-	height: auto !important;
 }
 
 #header {
@@ -38,6 +36,7 @@ ol, ul {
 #logoHeader {
 	float: left;
 	margin-right: 50px;
+	margin-top: 4px;
 }
 
 #headerPrivateLogin {
@@ -90,14 +89,68 @@ ol, ul {
 	border-radius: 3px;
 	font-size: 14px;
 	padding: 10px;
-	border: 1px solid #62658B;
 	color: white;
 	cursor: pointer;
 	font-weight: bold;
-	background-color: #6B99B4;
-}
-.customButton:hover {
+	
 	background-color: #3C657C;
 	border: 1px solid #aaa;
 }
+.customButton:hover, .customButton:focus {
+	border: 1px solid #62658B;
+	background-color: #6B99B4;
+}
 /** CUSTOM_BUTTON **/
+
+#menuTop {
+	padding-top: 17px;
+	border-bottom:  1px solid #CCC;
+	margin: 15px 0 20px 0;
+}
+
+/** MENU ITEM **/
+.menuItem {
+	text-decoration: none;
+	margin-left: 15px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #888787;
+	
+	padding-top: 15px;
+	padding-left: 32px;
+	padding-right: 5px;
+	background-repeat: no-repeat;
+}
+.menuItem:hover, .menuItem:focus {
+	background-color: #EEE;
+}
+.menuItemSelected {
+	border-radius: 3px;
+	padding-bottom: 10px;
+	background-color: #6B99B4;
+	color: #FFF;
+	border: 1px solid #AAA;
+}
+.menuItemSelected:hover, .menuItemSelected:focus {
+	border: 1px solid #62658B;
+	background-color: #6B99B4;
+}
+.menuItemAdmin {
+	background-image: url(../images/admin.png);
+}
+.menuItemCategories {
+	background-image: url(../images/category_1.png);
+}
+.menuItemUsers {
+	background-image: url(../images/users.png);
+}
+.menuItemAdsense {
+	background-image: url(../images/adsense.png);
+}
+.menuItemComments {
+	background-image: url(../images/comment_1.png);
+}
+.menuItemSales {
+	background-image: url(../images/emblem-sales.png);
+}
+/** MENU ITEM **/
