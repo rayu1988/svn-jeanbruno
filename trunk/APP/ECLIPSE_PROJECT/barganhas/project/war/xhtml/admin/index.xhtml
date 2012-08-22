@@ -15,82 +15,87 @@
    		</h:head>
    		
    		<h:body>
-   			<div id="wrapper">
-				<div id="header">
+   			<h:panelGroup id="wrapper" layout="block">
+   				<h:panelGroup id="header" layout="block">
 					<a href="#" id="logoHeader">
 						<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
 					</a>
-					<p id="headerPrivateLogin">
-						<img src="#{request.contextPath}/images/lock.png" />
+					<h:panelGroup layout="block" id="headerPrivateLogin">
+						<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
 						<h:outputText value="brunopib"/>
-					</p>
-				</div>
+					</h:panelGroup>
+   				</h:panelGroup>
 				
 				<h:form prependId="false">
-						<div id="menuTop">
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaAdminatrators}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemAdmin "/>
-							
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaCategories}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemCategories"/>
-							
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaUsers}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemUsers menuItemSelected"/>
-							
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaAdsenses}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemAdsense"/>
-							
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaComments}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemComments" />
-							
-							<h:commandLink action="#{administracaoBean.loadPage}"
-							               value="#{msg.privateAreaSales}"
-							               immediate="true"
-							               rendered="true"
-							               styleClass="menuItem menuItemSales"/>
-						</div>
-				</h:form>
-				
-				<div id="loginBox" style="width: auto; margin: 15px;">
-					<h:form id="loginForm" style="border: 1px solid #CCC; border-radius: 5px;">
-						<ol>
-							<li>
-								<div><label for="userName">#{msg.privateAreaLoginUser}</label></div>
-								<div><input type="text" class="loginInputForm" id="userName" name="userName" size="25"/></div>
-							</li>
-							<li>
-								<div><label for="userPassword">#{msg.privateAreaLoginPassword}</label></div>
-								<div><input type="password" class="loginInputForm" id="userPassword" name="userLastName" size="25"/></div>
-							</li>
-						</ol>
+					<h:panelGroup id="menuTop" layout="block">
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaAdminatrators}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemAdmin"/>
 						
-						<button class="customButton" id="registerUser" name="registerUser" type="submit">
-							#{msg.privateAreaLoginButton}
-						</button>
-					</h:form>
-					<script>
-						document.getElementById("userName").focus();
-					</script>
-				</div>
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaCategories}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemCategories"/>
+						
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaUsers}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemUsers"/>
+						
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaAdsenses}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemAdsense"/>
+						
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaComments}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemComments" />
+						
+						<h:commandLink action="#{administracaoBean.loadPage}"
+						               value="#{msg.privateAreaSales}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemSales"/>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="mainFormBox" layout="block">
+						<h:panelGroup styleClass="mainFormHeader" layout="block">
+							<h:outputText value="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew}"/>
+						</h:panelGroup>
+						
+						<h:panelGroup styleClass="mainForm" layout="block">
+							<h:panelGrid columns="2" columnClasses="columnLabel, columnInput">
+								<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
+								<h:inputText id="userName" value="#{meuBean.userName}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+	
+								<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
+								<h:inputText id="userEmail" value="#{meuBean.userEmail}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+								
+								<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
+								<h:inputText id="userNickname" value="#{meuBean.userNickname}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+	
+								<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
+								<h:inputSecret id="userPassword" value="#{meuBean.userPassword}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+							</h:panelGrid>
+						</h:panelGroup>
+						
+						<h:panelGroup styleClass="mainFormBoxButtons" layout="block">
+							<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton buttonMainForm" />
+							<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" />
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:form>
 	
 <!-- 				<div id="footer"> -->
 <!-- 				</div> -->
-			</div>
+			</h:panelGroup>
    		</h:body>
    	</f:view>
 </html>
