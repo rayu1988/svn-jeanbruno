@@ -8,8 +8,8 @@
 		<from-view-id>/*</from-view-id>
 		
 		<navigation-case>
-			<from-outcome>dashBoard</from-outcome>
-	   		<to-view-id>/xhtml/docflow/principal/dashBoard.xhtml</to-view-id>
+			<from-outcome>administratorList</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorList.xhtml</to-view-id>
 		</navigation-case>
 		  
 	</navigation-rule>
