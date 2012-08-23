@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listAdministrators"
+						rendered="true"
+						rows="#{administratorBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{administratorBean.dataModel}"
+						var="administrator">
+			
+			<!-- user name -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginName}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.fullname}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- email -->	
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginEmail}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.email}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+
+			<!-- nickname -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginUser}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.nickname}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{administratorBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" />
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" />
+	</ui:define>
+	
+</ui:composition>
