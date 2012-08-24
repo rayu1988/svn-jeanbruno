@@ -1,11 +1,15 @@
 package br.com.barganhas.business.entities;
 
+import br.com.barganhas.business.entities.annotations.IdField;
+
 @SuppressWarnings("serial")
 public class AdministratorTO extends TransferObject {
 
+	@IdField
+	private String			nickname;
+
 	private String			fullname;
 	private String			email;
-	private String			nickname;
 	private String 			password;
 	
 	public String getFullname() {

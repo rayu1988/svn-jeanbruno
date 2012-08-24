@@ -5,31 +5,39 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 import br.com.barganhas.business.entities.AdministratorTO;
 
+@SuppressWarnings("serial")
 @Repository
-public class AdministratorPO {
+public class AdministratorPO extends AppPersistency {
 
-	List<AdministratorTO> listTemp = new ArrayList<AdministratorTO>();
-	
 	public List<AdministratorTO> list() {
-		
-		return listTemp;
+		return null;
 	}
 	
 	public void insert(AdministratorTO administrator) {
-		this.listTemp.add(administrator);
+		Entity entity = new Entity(this.getKey(administrator));
+		entity.setProperty("fullname", administrator.getFullname());
+		entity.setProperty("email", administrator.getEmail());
+		entity.setProperty("nickname", administrator.getNickname());
+		entity.setProperty("password", administrator.getPassword());
+		
+		this.getDataStoreService().put(entity);
 	}
 
 	public AdministratorTO consult(AdministratorTO administrator) {
-		return this.listTemp.get(this.listTemp.indexOf(administrator));
+		Entity entity = this.getEntity(administrator);
+		return null;
 	}
 	
 	public void save(AdministratorTO administrator) {
-		this.listTemp.set(this.listTemp.indexOf(administrator), administrator);
 	}
 
 	public void delete(AdministratorTO administrator) {
-		this.listTemp.remove(this.listTemp.indexOf(administrator));
 	}
 }
