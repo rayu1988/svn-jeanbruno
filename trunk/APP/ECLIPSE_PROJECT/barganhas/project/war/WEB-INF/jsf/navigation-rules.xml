@@ -11,6 +11,18 @@
 			<from-outcome>administratorList</from-outcome>
 	   		<to-view-id>/xhtml/admin/administrators/administratorList.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorConsult.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorEdit.xhtml</to-view-id>
+		</navigation-case>
 		  
 	</navigation-rule>
 </faces-config>

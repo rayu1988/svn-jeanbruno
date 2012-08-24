@@ -1,10 +1,14 @@
 package br.com.barganhas.web.beans;
 
+import java.util.List;
+
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.DataModel;
 
 import br.com.barganhas.business.entities.AdministratorTO;
+import br.com.barganhas.business.services.Administrator;
+import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
 @RequestScoped
@@ -14,14 +18,55 @@ public class AdministratorBean extends AppManagedBean {
 	private DataModel<Object>					dataModel;
 	
 	public String list() {
-		System.out.println("administratorList");
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		List<AdministratorTO> list = service.list();
+		
+		this.dataModel = new CustomDataModel(list);
+		
 		return "administratorList";
 	}
 	
+	public String prepareNew() {
+		this.administrator = new AdministratorTO();
+		
+		return "administratorPrepareNew";
+	}
+	
+	public String insert() {
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		service.insert(this.administrator);
+		
+		return this.list();
+	}
+	
+	public String edit() {
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		this.administrator = service.consult(this.administrator);
+		
+		return "administratorEdit";
+	}
+	
+	public String save() {
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		service.save(this.administrator);
+		
+		return this.consult();
+	}
+	
 	public String consult() {
-		return null;
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		this.administrator = service.consult(this.administrator);
+		
+		return "administratorConsult";
 	}
 
+	public String delete() {
+		Administrator service = this.getServiceBusinessFactory().getAdministrator();
+		service.delete(this.administrator);
+		
+		return this.list();
+	}
+	
 	// GETTERS AND SETTERS //
 	public AdministratorTO getAdministrator() {
 		return administrator;

@@ -6,6 +6,8 @@ import javax.faces.model.DataModel;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
 
+import br.com.barganhas.business.entities.TransferObject;
+
 public class CustomDataModel extends DataModel<Object> {
 	
 	private List<Object>				itens;
@@ -14,7 +16,7 @@ public class CustomDataModel extends DataModel<Object> {
 	private int 						totalRegisters;
 	private int 						currentPage;
 
-	public CustomDataModel(List<Object> list) {
+	public <T extends TransferObject> CustomDataModel(List<T> list) {
 		super();
 		this.setWrappedData(list);
 		this.totalRegisters = list.size();
