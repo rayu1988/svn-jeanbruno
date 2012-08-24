@@ -76,6 +76,20 @@
 		</description>
 	</context-param>
 	
+	<!-- spring framework -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/applicationContext.xml</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	</listener>
+	
+	<listener>
+		<listener-class>br.com.barganhas.web.beans.AppLoadListener</listener-class>
+  	</listener>
+	
 	<!-- SERVLETS -->
 	<servlet>
   		<servlet-name>FacesServlet</servlet-name>

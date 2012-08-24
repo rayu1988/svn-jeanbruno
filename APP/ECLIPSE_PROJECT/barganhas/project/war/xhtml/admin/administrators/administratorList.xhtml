@@ -14,11 +14,25 @@
 	
 	<ui:define name="formBody">
 		<rich:dataTable id="listAdministrators"
+						styleClass="tableFormList"
+						style="border: none;"
 						rendered="true"
 						rows="#{administratorBean.dataModel.itensPerPage}"
 						rowClasses="rowOdd, rowEven"
 						value="#{administratorBean.dataModel}"
 						var="administrator">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<h:commandLink action="#{administratorBean.edit}" >
+					<h:graphicImage value="#{request.contextPath}/images/configure.png"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+				<h:commandLink action="#{administratorBean.delete}" >
+					<h:graphicImage value="#{request.contextPath}/images/garbage.png"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
 			
 			<!-- user name -->
 			<rich:column >
@@ -61,8 +75,7 @@
 	</ui:define>
 	
 	<ui:define name="formButtons">
-		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" />
-		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" />
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{administratorBean.prepareNew}" immediate="true" />
 	</ui:define>
 	
 </ui:composition>

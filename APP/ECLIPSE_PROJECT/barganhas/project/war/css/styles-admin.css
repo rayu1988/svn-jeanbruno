@@ -18,6 +18,14 @@ ol, ul {
 	list-style: none;
 }
 
+a {
+	text-decoration: none;
+}
+
+table {
+	border: 0;
+}
+
 #wrapper {
 }
 
@@ -83,56 +91,6 @@ ol, ul {
 }
 /** LOGIN FORM **/
 
-/** MAIN FORM **/
-.mainFormBox {
-	width: auto;
-	margin: 35px 15px 0 15px;
-}
-.mainFormHeader {
-	padding: 0.5em;;
-	border: 1px solid #CCC;
-	border-radius: 5px 5px 0 0;
-	border-bottom: 0;
-	
-	background: #6B99B4;
-	font-size: 15px;
-	font-weight: bold;
-	color: #FFF;
-}
-.mainForm {
-	border-left: 1px solid #CCC;
-	border-right: 1px solid #CCC;
-	padding: 10px 25px;
-	background-color: #E9F1F4;
-}
-.mainFormBoxButtons {
-	border: 1px solid #CCC;
-	padding: 5px 20px;
-	border-radius: 0 0 5px 5px;
-}
-.inputMainForm {
-	padding: 5px;
-	border: 1px solid #D8DEE2;
-	font-size: 110%;
-}
-.bigInputMainForm {
-	width: 600px;
-}
-.mediumInputMainForm {
-	width: 300px;
-}
-.columnLabel {
-	text-align: right;
-	width: 100px;
-}
-.columnInput {
-	padding-left: 15px;
-}
-.buttonMainForm {
-	margin-right: 15px;
-}
-/** MAIN FORM **/
-
 /** CUSTOM_BUTTON **/
 .customButton {
 	border-radius: 3px;
@@ -159,7 +117,6 @@ ol, ul {
 
 /** MENU ITEM **/
 .menuItem {
-	text-decoration: none;
 	margin-left: 15px;
 	font-size: 15px;
 	font-weight: bold;
@@ -203,3 +160,105 @@ ol, ul {
 	background-image: url(../images/emblem-sales.png);
 }
 /** MENU ITEM **/
+
+
+/** MAIN FORM **/
+.mainFormBox {
+	width: auto;
+	margin: 35px 15px 0 15px;
+}
+.mainFormHeader {
+	padding: 0.5em;;
+	border: 1px solid #CCC;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 0;
+	
+	background: #6B99B4;
+	font-size: 15px;
+	font-weight: bold;
+	color: #FFF;
+}
+.mainForm {
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	background-color: #E9F1F4;
+}
+.mainFormBoxButtons {
+	border: 1px solid #CCC;
+	padding: 5px 20px;
+	border-radius: 0 0 5px 5px;
+}
+.inputMainForm {
+	padding: 5px;
+	border: 1px solid #D8DEE2;
+	font-size: 110%;
+}
+.bigInputMainForm {
+	width: 600px;
+}
+.mediumInputMainForm {
+	width: 300px;
+}
+.columnLabel {
+	text-align: right;
+	width: 100px;
+}
+.columnInput {
+	padding-left: 15px;
+}
+.buttonMainForm {
+	margin-right: 15px;
+}
+
+.tableInputForm {
+	padding: 10px 25px;
+}
+.tableFormList {
+	width: 100%;
+}
+.rowOdd {
+	background-color: #F8F8F8;
+}
+.rowOdd:hover {
+	background-color: #DFDFDF;
+}
+.rowEven {
+	background-color: #F1F1F1;
+}
+.rowEven:hover {
+	background-color: #DFDFDF;
+}
+.columnListActions {
+	width: 50px;
+	text-align: center;
+}
+.columnListActions img {
+	margin-right: 7px;
+}
+/** MAIN FORM **/
+
+
+/** RICHFACES STYLES **/
+.rf-dt-shdr {
+	background-color: #E9F1F4;
+}
+
+.rf-dt .rf-dt-shdr-c {
+	border: 0px none;
+	background: transparent;
+	text-align: left;
+	
+	font-size: 15px;
+	color: #585858;
+	padding: 8px 3px;
+}
+
+.rf-dt .rf-dt-c {
+	font-size: 13px;
+	border: 0px;
+}
+
+.rf-dt .rf-dt-c a {
+	font-size: 13px;
+}
+/** RICHFACES STYLES **/
