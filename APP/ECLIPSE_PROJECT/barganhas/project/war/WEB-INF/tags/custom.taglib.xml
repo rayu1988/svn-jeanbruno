@@ -6,4 +6,46 @@
 	
     <namespace>http://barganhas.com.br/barganhas</namespace>
     
+	<tag>
+    	<tag-name>commandListDelete</tag-name>
+    	<source>../tags/commandListDelete.xhtml</source>
+    	<attribute>
+    		<name>backingBean</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>action</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>propertyFrom</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>targetProperty</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
+    
+	<tag>
+    	<tag-name>commandListEdit</tag-name>
+    	<source>../tags/commandListEdit.xhtml</source>
+    	<attribute>
+    		<name>backingBean</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>action</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>propertyFrom</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>targetProperty</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
+    
 </facelet-taglib>

@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaCategories} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+			<!-- name -->
+			<h:outputLabel value="#{msg.privateAreaName}:" for="name"/>
+			<h:outputText id="name" value="#{categoryBean.category.name}" />
+
+			<!-- description -->
+			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+			<h:outputText id="description" value="#{categoryBean.category.description}" />
+		</h:panelGrid>
+		
+		<t:saveState value="#{categoryBean.category}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton buttonMainForm" action="#{categoryBean.edit}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{categoryBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{categoryBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

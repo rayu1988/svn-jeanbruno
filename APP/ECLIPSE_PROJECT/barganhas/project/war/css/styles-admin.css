@@ -150,7 +150,10 @@ table {
 .menuItemUsers {
 	background-image: url(../images/users.png);
 }
-.menuItemAdsense {
+.menuItemAdvertisementType {
+	background-image: url(../images/type.gif);
+}
+.menuItemAdvertisement {
 	background-image: url(../images/adsense.png);
 }
 .menuItemComments {

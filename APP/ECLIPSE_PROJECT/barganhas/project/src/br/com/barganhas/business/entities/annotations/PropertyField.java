@@ -7,5 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IdField {
+public @interface PropertyField {
+	boolean notNull() default false;
+	boolean allowEmpty() default true;
+	boolean unindexed() default false;
 }

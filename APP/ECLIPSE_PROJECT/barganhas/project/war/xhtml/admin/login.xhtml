@@ -33,20 +33,22 @@
 						<ol>
 							<li>
 								<div><label for="userName">#{msg.privateAreaLoginUser}</label></div>
-								<div><input type="text" class="loginInputForm" id="userName" name="userName" size="25"/></div>
+								<div><h:inputText id="userName" value="#{loginBean.user}" maxlength="50" styleClass="loginInputForm"/></div>
 							</li>
 							<li>
 								<div><label for="userPassword">#{msg.privateAreaLoginPassword}</label></div>
-								<div><input type="password" class="loginInputForm" id="userPassword" name="userLastName" size="25"/></div>
+								<div><h:inputSecret id="userPassword" value="#{loginBean.password}" maxlength="50" styleClass="loginInputForm"/></div>
 							</li>
 						</ol>
 						
-						<button class="customButton" id="registerUser" name="registerUser" type="submit">
-							#{msg.privateAreaLoginButton}
-						</button>
+						
+						<h:commandButton value="#{msg.privateAreaLoginButton}" styleClass="customButton buttonMainForm" action="#{loginBean.login}" immediate="false" />
+<!-- 						<button class="customButton" id="registerUser" name="registerUser" type="submit"> -->
+<!-- 							#{msg.privateAreaLoginButton} -->
+<!-- 						</button> -->
 					</h:form>
 					<script>
-						document.getElementById("userName").focus();
+						document.getElementById('userName').focus();
 					</script>
 				</div>
 	

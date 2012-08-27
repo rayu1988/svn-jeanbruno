@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaAdvertisementType} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listAdvertisementType"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{advertisementTypeBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{advertisementTypeBean.dataModel}"
+						var="advertisementType">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListEdit targetProperty="advertisementType" backingBean="#{advertisementTypeBean}" action="edit" propertyFrom="#{advertisementType}"/>
+				<bargas:commandListDelete targetProperty="advertisementType" backingBean="#{advertisementTypeBean}" action="delete" propertyFrom="#{advertisementType}"/>
+			</rich:column>
+			
+			<!-- title -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaTitle}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{advertisementTypeBean.consult}" >
+					<h:outputText value="#{advertisementType.title}"/>
+					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- currency -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} )"/>
+				</f:facet>
+			
+				<h:commandLink action="#{advertisementTypeBean.consult}" >
+					<h:outputText value="#{advertisementType.value}"/>
+					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{advertisementTypeBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.prepareNew}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

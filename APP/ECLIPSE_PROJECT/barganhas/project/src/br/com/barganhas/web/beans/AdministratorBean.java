@@ -2,8 +2,8 @@ package br.com.barganhas.web.beans;
 
 import java.util.List;
 
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 
 import br.com.barganhas.business.entities.AdministratorTO;
@@ -19,7 +19,7 @@ public class AdministratorBean extends AppManagedBean {
 	
 	public String list() {
 		Administrator service = this.getServiceBusinessFactory().getAdministrator();
-		List<AdministratorTO> list = service.list();
+		List<AdministratorTO> list = service.list(new AdministratorTO());
 		
 		this.dataModel = new CustomDataModel(list);
 		

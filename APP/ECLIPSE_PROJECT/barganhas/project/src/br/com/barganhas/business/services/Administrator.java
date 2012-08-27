@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.AdministratorTO;
 
 public interface Administrator {
 
-	List<AdministratorTO> list();
+	List<AdministratorTO> list(AdministratorTO administrator);
 	
 	void insert(AdministratorTO administrator);
 
@@ -15,4 +15,6 @@ public interface Administrator {
 	void save(AdministratorTO administrator);
 
 	void delete(AdministratorTO administrator);
+	
+	AdministratorTO validateLogin(AdministratorTO administrator);
 }
