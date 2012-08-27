@@ -1,0 +1,12 @@
+<!-- Indices written at Mon, 23 Jul 2012 23:29:31 BRT -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="auto">
+        <property name="id" direction="desc"/>
+        <property name="fullname" direction="desc"/>
+        <property name="nickname" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>
