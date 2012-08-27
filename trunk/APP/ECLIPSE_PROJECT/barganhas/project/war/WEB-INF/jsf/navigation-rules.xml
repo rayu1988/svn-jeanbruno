@@ -6,7 +6,13 @@
  
 	<navigation-rule>
 		<from-view-id>/*</from-view-id>
+
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/xhtml/admin/login.xhtml</to-view-id>
+		</navigation-case>
 		
+		<!-- ################ Administrators Use Case ################ -->
 		<navigation-case>
 			<from-outcome>administratorList</from-outcome>
 	   		<to-view-id>/xhtml/admin/administrators/administratorList.xhtml</to-view-id>
@@ -16,13 +22,67 @@
 	   		<to-view-id>/xhtml/admin/administrators/administratorNew.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>administratorConsult</from-outcome>
-	   		<to-view-id>/xhtml/admin/administrators/administratorConsult.xhtml</to-view-id>
+			<from-outcome>administratorEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorEdit.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>administratorConsult</from-outcome>
-	   		<to-view-id>/xhtml/admin/administrators/administratorEdit.xhtml</to-view-id>
+	   		<to-view-id>/xhtml/admin/administrators/administratorConsult.xhtml</to-view-id>
 		</navigation-case>
-		  
+		
+		<!-- ################ Advertisement Type Use Case ################ -->
+		<navigation-case>
+			<from-outcome>advertisementTypeList</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypePrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypeEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypeConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Sales Use Case ################ -->
+		<navigation-case>
+			<from-outcome>salesList</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Category Use Case ################ -->
+		<navigation-case>
+			<from-outcome>categoryList</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryConsult.xhtml</to-view-id>
+		</navigation-case>
+		
 	</navigation-rule>
 </faces-config>
