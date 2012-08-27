@@ -16,19 +16,22 @@
    		
    		<h:body>
    			<h:panelGroup id="wrapper" layout="block">
-   				<h:panelGroup id="header" layout="block">
-					<a href="#" id="logoHeader">
-						<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
-					</a>
-					<h:panelGroup layout="block" id="headerPrivateLogin">
-						<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
-						
-						<!-- TODO insert the current user together with the options to exit edit the user -->
-						<h:outputText value="brunopib"/>
-					</h:panelGroup>
-   				</h:panelGroup>
+   				<h:form prependId="false">
+	   				<h:panelGroup id="header" layout="block">
+						<a href="#" id="logoHeader">
+							<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
+						</a>
+						<h:panelGroup layout="block" id="headerPrivateLogin">
+							<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
+							
+							<!-- TODO insert the current user together with the options to exit edit the user -->
+							<h:outputText value="#{appSessionBean.administrator.nickname}"/>
+							<h:commandLink action="#{loginBean.logoff}">
+								sair
+							</h:commandLink>
+						</h:panelGroup>
+	   				</h:panelGroup>
 				
-				<h:form prependId="false">
 					<h:panelGroup id="menuTop" layout="block">
 						<h:commandLink action="#{administratorBean.list}"
 						               value="#{msg.privateAreaAdminatrators}"
@@ -37,11 +40,25 @@
 						               styleClass="menuItem menuItemAdmin">
 						</h:commandLink>
 						
-						<h:commandLink action="#{administracaoBean.loadPage}"
+						<h:commandLink action="#{categoryBean.list}"
 						               value="#{msg.privateAreaCategories}"
 						               immediate="true"
 						               rendered="true"
 						               styleClass="menuItem menuItemCategories">
+						</h:commandLink>
+						
+						<h:commandLink action="#{salesBean.list}"
+						               value="#{msg.privateAreaSales}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemSales">
+						</h:commandLink>
+						
+						<h:commandLink action="#{advertisementTypeBean.list}"
+						               value="#{msg.privateAreaAdvertisementType}"
+						               immediate="true"
+						               rendered="true"
+						               styleClass="menuItem menuItemAdvertisementType">
 						</h:commandLink>
 						
 						<h:commandLink action="#{administracaoBean.loadPage}"
@@ -52,10 +69,10 @@
 						</h:commandLink>
 						
 						<h:commandLink action="#{administracaoBean.loadPage}"
-						               value="#{msg.privateAreaAdsenses}"
+						               value="#{msg.privateAreaAdvertisement}"
 						               immediate="true"
 						               rendered="true"
-						               styleClass="menuItem menuItemAdsense">
+						               styleClass="menuItem menuItemAdvertisement">
 						</h:commandLink>
 						
 						<h:commandLink action="#{administracaoBean.loadPage}"
@@ -64,14 +81,7 @@
 						               rendered="true"
 						               styleClass="menuItem menuItemComments" >
 						</h:commandLink>
-						
-						<h:commandLink action="#{administracaoBean.loadPage}"
-						               value="#{msg.privateAreaSales}"
-						               immediate="true"
-						               rendered="true"
-						               styleClass="menuItem menuItemSales">
-						</h:commandLink>
-						
+
 					</h:panelGroup>
 
 					<h:panelGroup styleClass="mainFormBox" layout="block">

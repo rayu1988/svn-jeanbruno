@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaAdvertisementType} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<ui:include src="/xhtml/admin/advertisementType/advertisementTypeForm.xhtml"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.save}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.list}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

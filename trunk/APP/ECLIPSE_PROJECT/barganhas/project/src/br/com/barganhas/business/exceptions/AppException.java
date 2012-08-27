@@ -1,4 +1,4 @@
-package br.com.barganhas.commons;
+package br.com.barganhas.business.exceptions;
 
 @SuppressWarnings("serial")
 public class AppException extends RuntimeException {

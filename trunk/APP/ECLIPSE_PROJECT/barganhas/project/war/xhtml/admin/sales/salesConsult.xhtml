@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+			<!-- title -->
+			<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+			<h:outputText id="title" value="#{salesBean.sales.title}" />
+			
+			<!-- description -->
+			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+			<h:outputText id="description" value="#{salesBean.sales.description}" />
+			
+			<!-- salesCode -->
+			<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
+			<h:outputText id="salesCode" value="#{salesBean.sales.salesCode}" />
+		</h:panelGrid>
+		
+		<t:saveState value="#{salesBean.sales}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton buttonMainForm" action="#{salesBean.edit}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{salesBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{salesBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

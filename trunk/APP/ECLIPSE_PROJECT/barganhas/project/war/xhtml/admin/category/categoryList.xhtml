@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaCategories} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listCategories"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{categoryBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{categoryBean.dataModel}"
+						var="category">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListEdit targetProperty="category" backingBean="#{categoryBean}" action="edit" propertyFrom="#{category}"/>
+				<bargas:commandListDelete targetProperty="category" backingBean="#{categoryBean}" action="delete" propertyFrom="#{category}"/>
+			</rich:column>
+			
+			<!-- name -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaName}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{categoryBean.consult}" >
+					<h:outputText value="#{category.name}"/>
+					<f:setPropertyActionListener value="#{category}" target="#{categoryBean.category}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- description -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaDescription}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{categoryBean.consult}" >
+					<h:outputText value="#{category.description}"/>
+					<f:setPropertyActionListener value="#{category}" target="#{categoryBean.category}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{categoryBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{categoryBean.prepareNew}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

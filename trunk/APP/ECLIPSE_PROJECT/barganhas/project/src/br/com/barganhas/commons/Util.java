@@ -1,13 +1,6 @@
 package br.com.barganhas.commons;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import br.com.barganhas.business.entities.TransferObject;
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.IdFieldComparable;
+import java.util.Collection;
 
 public class Util {
 
@@ -15,24 +8,22 @@ public class Util {
 		return str != null && !str.isEmpty();
 	}
 	
-	public static List<IdFieldComparable> getIdFields(TransferObject transferObject) {
-		List<IdFieldComparable> fieldsToReturn = new ArrayList<IdFieldComparable>();
-		Field[] allFields = transferObject.getClass().getFields();
-		for (Field field : allFields) {
-			field.setAccessible(true);
-			if (field.isAnnotationPresent(IdField.class)) {
-				IdField idField = field.getAnnotation(IdField.class);
-				int sorting = idField.sorting();
-				
-				if (fieldsToReturn.get(sorting) != null) {
-					throw new IllegalStateException("be sure the fields are sorted properly, it seems have more the on sort to value :" + sorting);
-				}
-				
-				fieldsToReturn.add(sorting, new IdFieldComparable(sorting, field));
-			}
-		}
-		Collections.sort(fieldsToReturn);
-		return fieldsToReturn;
+	public static boolean isCollectionOk(Collection<?> list){
+		return ((list != null) && (!list.isEmpty()));
 	}
 	
+	public static void validateParameterNull(Object... parameters) {
+		for (Object param : parameters) {
+			if (param == null) {
+				throw new IllegalArgumentException("parameter " + parameters.getClass().getName() + " cann't be null");
+			}
+		}
+	}
+	
+	public static String getNameAsJavaBean(Class<?> classe){
+		String name = classe.getSimpleName();
+		String firstLatter = name.substring(0, 1);
+		String restOfTheName = name.substring(1, name.length());
+		return firstLatter.toLowerCase() + restOfTheName;
+	}
 }

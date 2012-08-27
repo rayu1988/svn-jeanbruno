@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listSales"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{salesBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{salesBean.dataModel}"
+						var="sales">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListEdit targetProperty="sales" backingBean="#{salesBean}" action="edit" propertyFrom="#{sales}"/>
+				<bargas:commandListDelete targetProperty="sales" backingBean="#{salesBean}" action="delete" propertyFrom="#{sales}"/>
+			</rich:column>
+			
+			<!-- title -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaTitle}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{salesBean.consult}" >
+					<h:outputText value="#{sales.title}"/>
+					<f:setPropertyActionListener value="#{sales}" target="#{salesBean.sales}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- description -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaDescription}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{salesBean.consult}" >
+					<h:outputText value="#{sales.description}"/>
+					<f:setPropertyActionListener value="#{sales}" target="#{salesBean.sales}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- salesCode -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaSalesCode}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{salesBean.consult}" >
+					<h:outputText value="#{sales.salesCode}"/>
+					<f:setPropertyActionListener value="#{sales}" target="#{salesBean.sales}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{salesBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{salesBean.prepareNew}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>
