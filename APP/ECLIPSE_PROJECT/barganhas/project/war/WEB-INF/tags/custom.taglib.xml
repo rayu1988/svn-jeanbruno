@@ -48,4 +48,22 @@
     	</attribute>
     </tag>
     
+	<tag>
+    	<tag-name>headForm</tag-name>
+    	<source>../tags/headForm.xhtml</source>
+    	<attribute>
+    		<name>headText</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
+    
+	<tag>
+    	<tag-name>headFormFilter</tag-name>
+    	<source>../tags/headFormFilter.xhtml</source>
+    	<attribute>
+    		<name>headText</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
+    
 </facelet-taglib>

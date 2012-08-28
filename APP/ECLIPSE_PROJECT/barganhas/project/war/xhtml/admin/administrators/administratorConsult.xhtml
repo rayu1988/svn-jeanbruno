@@ -1,13 +1,12 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	template="/xhtml/bases/adminbase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
-	<ui:define name="formDescription">
-		<h:outputText value="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	<ui:define name="headForm">
+		<bargas:headForm headText="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
 	</ui:define>
 	
 	<ui:define name="formBody">

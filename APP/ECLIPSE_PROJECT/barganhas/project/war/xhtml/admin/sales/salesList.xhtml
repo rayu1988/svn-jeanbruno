@@ -6,9 +6,13 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:bargas="http://barganhas.com.br/barganhas">
-	
-	<ui:define name="formDescription">
-		<h:outputText value="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+
+	<ui:define name="headForm">
+		<bargas:headFormFilter headText="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}">
+			<ui:define name="formFilter">
+				<ui:include src="/xhtml/admin/sales/salesFilter.xhtml"/>
+			</ui:define>
+		</bargas:headFormFilter>
 	</ui:define>
 	
 	<ui:define name="formBody">

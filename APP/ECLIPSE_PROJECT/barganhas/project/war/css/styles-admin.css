@@ -20,6 +20,10 @@ ol, ul {
 
 a {
 	text-decoration: none;
+	color: #415683;
+}
+a:hover {
+	text-decoration: underline;
 }
 
 table {
@@ -164,6 +168,19 @@ table {
 }
 /** MENU ITEM **/
 
+/** PANELGROUPIMGSEARCH **/
+#panelGroupImgSearch {
+	margin-right: 10px;
+	cursor: pointer;
+	width: 35px;
+	height: 25px;
+	padding: 0;
+	background-image: url(../images/search-1.png);
+}
+#panelGroupImgSearch:hover {
+	background-image: url(../images/search-2.png);
+}
+/** PANELGROUPIMGSEARCH **/
 
 /** MAIN FORM **/
 .mainFormBox {
@@ -237,6 +254,10 @@ table {
 }
 .columnListActions img {
 	margin-right: 7px;
+}
+.formFilter {
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
 }
 /** MAIN FORM **/
 
