@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:t="http://myfaces.apache.org/tomahawk"
+		xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<!-- name -->
+		<h:outputLabel value="#{msg.privateAreaName}:" for="name"/>
+		<h:inputText id="name" value="#{categoryBean.category.name}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+
+		<h:column />
+		<h:commandButton value="buscar" styleClass="customButton buttonMainForm" action="#{administratorBean.prepareNew}" immediate="true" />
+	</h:panelGrid>
+
+	<t:saveState value="#{categoryBean.category}"/>
+</ui:composition>

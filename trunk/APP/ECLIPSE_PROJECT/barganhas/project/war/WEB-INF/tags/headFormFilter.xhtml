@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+   	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<h:panelGroup styleClass="mainFormHeader" layout="block">
+		<h:panelGrid columns="2" id="toggleControls">
+			<rich:toggleControl event="click" targetPanel="filterPanel" targetItem="#{filterBean.activedItem eq 'fillable'?'blank':'fillable'}">
+				<h:outputLink disabled="true" style="cursor: pointer;">
+					<h:graphicImage value="#{request.contextPath}/images/search-1.png"/>
+				</h:outputLink>
+			</rich:toggleControl>
+		
+			<h:outputText value="#{headText}"/>
+		</h:panelGrid>
+	</h:panelGroup>
+	
+	<h:panelGroup class="formFilter" layout="block" >
+		<rich:togglePanel id="filterPanel" activeItem="#{filterBean.activedItem}" render="toggleControls" itemChangeListener="#{filterBean.toggleUp}">
+			<rich:togglePanelItem name="blank"/>
+	     	<rich:togglePanelItem name="fillable">
+				<ui:insert name="formFilter"/>
+	     	</rich:togglePanelItem>
+		</rich:togglePanel>
+	</h:panelGroup>
+	
+</ui:composition>

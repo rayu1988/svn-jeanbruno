@@ -2,10 +2,11 @@
 	template="/xhtml/bases/adminbase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
-	
-	<ui:define name="formDescription">
-		<h:outputText value="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="headForm">
+		<bargas:headForm headText="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
 	</ui:define>
 	
 	<ui:define name="formBody">

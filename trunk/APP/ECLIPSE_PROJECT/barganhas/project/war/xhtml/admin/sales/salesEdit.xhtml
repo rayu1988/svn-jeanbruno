@@ -1,10 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	template="/xhtml/bases/adminbase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
-	<ui:define name="formDescription">
-		<h:outputText value="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+	<ui:define name="headForm">
+		<bargas:headForm headText="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
 	</ui:define>
 	
 	<ui:define name="formBody">
@@ -13,7 +14,7 @@
 	
 	<ui:define name="formButtons">
 		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton buttonMainForm" action="#{salesBean.save}" immediate="false" />
-		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{salesBean.list}" immediate="true" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{salesBean.consult}" immediate="false" />
 	</ui:define>
 	
 </ui:composition>

@@ -8,6 +8,10 @@ import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.commons.Util;
 
 public class AppManagedBean {
+	
+	public String goToIndex() {
+		return this.getManagedBean(AdministratorBean.class).list();
+	}
 
 	protected ServiceBusinessFactory getServiceBusinessFactory() {
 		return ServiceBusinessFactory.getInstance();

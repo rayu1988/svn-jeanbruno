@@ -1,8 +1,8 @@
-<ui:composition	xmlns="http://www.w3.org/1999/xhtml" 
-				xmlns:ui="http://java.sun.com/jsf/facelets"
-				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:t="http://myfaces.apache.org/tomahawk">
-				
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:t="http://myfaces.apache.org/tomahawk"
+		xmlns:h="http://java.sun.com/jsf/html">
+
 	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
 		<!-- title -->
 		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
@@ -11,6 +11,9 @@
 		<!-- currency -->
 		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
 		<h:inputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<h:column />
+		<h:commandButton value="buscar" styleClass="customButton buttonMainForm" action="#{administratorBean.prepareNew}" immediate="true" />
 	</h:panelGrid>
 
 	<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

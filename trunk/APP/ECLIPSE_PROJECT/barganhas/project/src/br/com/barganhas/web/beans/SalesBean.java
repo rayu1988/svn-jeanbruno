@@ -22,12 +22,14 @@ public class SalesBean extends AppManagedBean {
 		List<SalesTO> list = service.list(new SalesTO());
 		
 		this.dataModel = new CustomDataModel(list);
+		this.sales = new SalesTO();
 		
 		return "salesList";
 	}
 	
 	public String prepareNew() {
 		this.sales = new SalesTO();
+		this.sales.setSalesCode("$" + (System.currentTimeMillis() + "barganhas").hashCode()  );
 		
 		return "salesPrepareNew";
 	}

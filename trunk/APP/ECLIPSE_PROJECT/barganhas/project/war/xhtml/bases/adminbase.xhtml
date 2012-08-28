@@ -2,9 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
    	xmlns:ui="http://java.sun.com/jsf/facelets"
    	xmlns:h="http://java.sun.com/jsf/html"
-   	xmlns:c="http://java.sun.com/jsp/jstl/core"
-   	xmlns:f="http://java.sun.com/jsf/core"
-   	xmlns:rich="http://richfaces.org/rich">
+   	xmlns:f="http://java.sun.com/jsf/core">
    	
    	<f:view contentType="text/html">
    		<f:loadBundle var="msg" basename="messages"/>
@@ -18,17 +16,13 @@
    			<h:panelGroup id="wrapper" layout="block">
    				<h:form prependId="false">
 	   				<h:panelGroup id="header" layout="block">
-						<a href="#" id="logoHeader">
-							<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
-						</a>
+	   					<h:commandLink id="logoHeader" action="#{loginBean.goToIndex}">
+	   						<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
+	   					</h:commandLink>
 						<h:panelGroup layout="block" id="headerPrivateLogin">
 							<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
-							
-							<!-- TODO insert the current user together with the options to exit edit the user -->
 							<h:outputText value="#{appSessionBean.administrator.nickname}"/>
-							<h:commandLink action="#{loginBean.logoff}">
-								sair
-							</h:commandLink>
+							<h:commandLink value="#{msg.logoffMsg}" action="#{loginBean.logoff}" style="margin-left: 10px;" />
 						</h:panelGroup>
 	   				</h:panelGroup>
 				
@@ -85,9 +79,7 @@
 					</h:panelGroup>
 
 					<h:panelGroup styleClass="mainFormBox" layout="block">
-						<h:panelGroup styleClass="mainFormHeader" layout="block">
-							<ui:insert name="formDescription"/>
-						</h:panelGroup>
+						<ui:insert name="headForm"/>
 						
 						<h:panelGroup styleClass="mainForm" layout="block">
 							<ui:insert name="formBody"/>
@@ -98,9 +90,6 @@
 						</h:panelGroup>
 					</h:panelGroup>
 				</h:form>
-	
-<!-- 				<div id="footer"> -->
-<!-- 				</div> -->
 			</h:panelGroup>
    		</h:body>
    	</f:view>

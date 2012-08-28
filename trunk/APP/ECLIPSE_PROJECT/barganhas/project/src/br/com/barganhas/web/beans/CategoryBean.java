@@ -22,6 +22,7 @@ public class CategoryBean extends AppManagedBean {
 		List<CategoryTO> list = service.list(new CategoryTO());
 		
 		this.dataModel = new CustomDataModel(list);
+		this.category = new CategoryTO();
 		
 		return "categoryList";
 	}

@@ -27,7 +27,7 @@ public class LoginBean extends AppManagedBean {
 			sessionBean.setAdministrator(administrator);
 		}
 		
-		return this.getManagedBean(AdministratorBean.class).list();
+		return this.goToIndex();
 	}
 	
 	public String logoff() {
@@ -45,7 +45,7 @@ public class LoginBean extends AppManagedBean {
 		
 		return "login";
 	}
-
+	
 	public String getUser() {
 		return user;
 	}
