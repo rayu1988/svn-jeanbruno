@@ -14,6 +14,19 @@
    		</h:head>
    		
    		<h:body>
+   			<div class="wrapperMessages" onclick="this.style.display = 'none'">
+   				<div class="messages">
+	   				<a href="#" class="closePopupMessage">
+	   					<h:graphicImage value="#{request.contextPath}/images/close.png" />
+					</a>
+	   				<ul class="listmessages">
+	   					<li class="textmessage successmessage">mensagem de sucesso mensagem de sucesso mensagem de sucesso mensagem de sucesso mensagem de sucesso </li>
+	   					<li class="textmessage warningmessage">mensagem de warning mensagem de warning mensagem de warning mensagem de warning mensagem de warning mensagem de warning </li>
+	   					<li class="textmessage errormessage">mensagem de erro mensagem de erro mensagem de erro mensagem de erro mensagem de erro mensagem de erro </li>
+	   				</ul>
+   				</div>
+   			</div>
+   			
    			<div id="wrapper">
 				<div id="header">
 					<a href="#" id="logoHeader">
