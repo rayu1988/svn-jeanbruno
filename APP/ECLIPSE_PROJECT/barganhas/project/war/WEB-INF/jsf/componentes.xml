@@ -5,6 +5,10 @@
 	version="2.0">
 	
 	<!-- validators -->
+	<validator>
+		<validator-id>EmailValidator</validator-id>
+		<validator-class>br.com.barganhas.web.validators.EmailValidator</validator-class>
+	</validator>
 	
 	<!-- converters -->
 	<converter>
