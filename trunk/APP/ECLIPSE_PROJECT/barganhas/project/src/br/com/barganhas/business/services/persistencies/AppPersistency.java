@@ -129,4 +129,11 @@ public abstract class AppPersistency implements Serializable {
 		}
 	}
 	
+	public <T extends TransferObject> int count(T transferObject) {
+		Query query = this.getQuery(transferObject);
+		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject), Long.class));
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults());
+	}
+	
 }
