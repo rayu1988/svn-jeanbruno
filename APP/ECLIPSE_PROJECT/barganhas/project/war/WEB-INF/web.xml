@@ -91,7 +91,6 @@
   	<!-- filter mappings -->
 	<filter-mapping>
 		<filter-name>AdmAccessFilter</filter-name>
-		<url-pattern>*.jsf</url-pattern>
 		<url-pattern>/xhtml/admin/*</url-pattern>
   	</filter-mapping>
 

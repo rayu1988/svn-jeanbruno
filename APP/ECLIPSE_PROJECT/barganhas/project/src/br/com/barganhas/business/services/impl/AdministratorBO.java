@@ -46,4 +46,18 @@ public class AdministratorBO implements Administrator {
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
 		return this.persistencyLayer.validateLogin(administrator);
 	}
+
+	@Override
+	public void registerFirstAdministrator() {
+		int totalAdministrators = this.persistencyLayer.count(new AdministratorTO());
+		if (totalAdministrators <= 0) {
+			AdministratorTO administrator = new AdministratorTO();
+			administrator.setFullname("Administrator Master");
+			administrator.setEmail("admin@mail.com");
+			administrator.setNickname("admin");
+			administrator.setPassword("admin");
+			
+			this.insert(administrator);
+		}
+	}
 }

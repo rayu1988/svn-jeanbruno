@@ -38,50 +38,30 @@ public class AdmAccessFilter implements Filter {
 			} else {
 				String url = httpServletRequest.getRequestURL().toString();
 				String targetPage = url.substring(url.lastIndexOf('/')+1, url.length());
-				if (Util.isStringOk(targetPage)) {
+				if (Util.isStringOk(targetPage) && targetPage.indexOf('.') >= 0) {
 					targetPage = targetPage.substring(0, targetPage.indexOf('.'));
 					targetPage = targetPage+".xhtml";
 					
 					if (targetPage.equals("login.xhtml")) {
 						filterChain.doFilter(request, response);
+					} else {
+						this.redirectToLogin(httpServletResponse, httpServletRequest);
 					}
-				} else if (httpServletRequest.getQueryString() != null) {
-					httpServletRequest.getSession().setAttribute("URL_REDIRECT", buildURLWithQueryParams(httpServletRequest));
-					httpServletResponse.sendRedirect(getServerAddr(httpServletRequest));
 				} else {
-					httpServletResponse.sendRedirect(getServerAddr(httpServletRequest) + "/xhtml/admin/login.jsf");
+					this.redirectToLogin(httpServletResponse, httpServletRequest);
 				}
 			}
 		} catch (Exception e) {
 			throw new AppException(e);
 		}
 	}
-
-	public static String getServerAddr(HttpServletRequest request) {
-		String hostAddr = request.getScheme().replaceFirst("https", "http") + "://" + request.getServerName() + getPort(request);
-		return hostAddr;
-	}
 	
-	public static String getPort(HttpServletRequest request) {
-		String port = null;
-		if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-			port = ":" + request.getServerPort();
-		} else {
-			port = "";
-		}
-		return port;
-	}
-	
-	public static String buildURLWithQueryParams(HttpServletRequest hRequest) {
-		String url = hRequest.getRequestURL().toString();
-		if (hRequest.getQueryString() != null && !hRequest.getQueryString().equals("")) {
-			url += "?" + hRequest.getQueryString();
-		}
-		return url;
+	private void redirectToLogin(HttpServletResponse response, HttpServletRequest request) throws IOException {
+		response.sendRedirect("/xhtml/admin/login.jsf");
 	}
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
-
+	
 }

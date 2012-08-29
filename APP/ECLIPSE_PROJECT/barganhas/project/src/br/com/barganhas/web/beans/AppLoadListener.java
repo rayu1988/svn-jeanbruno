@@ -7,6 +7,7 @@ import javax.servlet.ServletContextListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import br.com.barganhas.business.services.Administrator;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 
 public class AppLoadListener implements ServletContextListener {
@@ -16,6 +17,13 @@ public class AppLoadListener implements ServletContextListener {
 		ServletContext servletContext = event.getServletContext();
 		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 		ServiceBusinessFactory.getInstance().registerApplicationContext(webApplicationContext);
+		
+		this.registerFirstAdministrator();
+	}
+	
+	private void registerFirstAdministrator() {
+		Administrator service = ServiceBusinessFactory.getInstance().getAdministrator();
+		service.registerFirstAdministrator();
 	}
 
 	@Override

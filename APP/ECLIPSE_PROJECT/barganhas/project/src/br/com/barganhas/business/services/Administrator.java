@@ -17,4 +17,6 @@ public interface Administrator {
 	void delete(AdministratorTO administrator);
 	
 	AdministratorTO validateLogin(AdministratorTO administrator);
+	
+	void registerFirstAdministrator();
 }
