@@ -9,9 +9,7 @@
 		<h:inputText id="userName" value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 
 		<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
-		<h:inputText id="userEmail" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm">
-			<f:validator validatorId="EmailValidator" for="userEmail"/>
-		</h:inputText>
+		<h:inputText id="userEmail" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 		
 		<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
 		<h:inputText id="userNickname" value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
