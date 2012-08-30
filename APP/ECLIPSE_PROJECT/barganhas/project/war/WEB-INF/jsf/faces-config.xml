@@ -11,12 +11,4 @@
 		</locale-config>
 	</application>
 	
-	<render-kit>
-		<renderer>
-			<component-family>javax.faces.Messages</component-family>
-			<renderer-type>javax.faces.Messages</renderer-type>
-			<renderer-class>br.com.barganhas.web.messages.AppMessagesRenderer</renderer-class>
-		</renderer>
-	</render-kit>
-	 
 </faces-config>
