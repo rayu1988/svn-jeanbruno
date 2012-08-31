@@ -17,14 +17,14 @@ import com.google.appengine.api.datastore.Transaction;
 @Repository
 public class AdvertisementTypePO extends AppPersistency {
 
-	public List<AdvertisementTypeTO> list(AdvertisementTypeTO advertisementType) {
+	public List<AdvertisementTypeTO> list() {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			List<Entity> entities = this.getSimplePreparedQuery(advertisementType).asList(FetchOptions.Builder.withDefaults());
+			List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTypeTO.class).asList(FetchOptions.Builder.withDefaults());
 			
 			List<AdvertisementTypeTO> listReturn = new ArrayList<AdvertisementTypeTO>();
 			for (Entity entity : entities) {
-				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(new AdvertisementTypeTO(entity.getKey()), entity));
+				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTypeTO.class, entity));
 			}
 			
 			transaction.commit();
@@ -66,7 +66,7 @@ public class AdvertisementTypePO extends AppPersistency {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
 			Entity entity = this.getEntity(advertisementType);
-			advertisementType = AnnotationUtils.getTransferObjectFromEntity(new AdvertisementTypeTO(entity.getKey()), entity);
+			advertisementType = AnnotationUtils.getTransferObjectFromEntity(AdvertisementTypeTO.class, entity);
 			
 			transaction.commit();
 			return advertisementType;

@@ -3,22 +3,22 @@
 		xmlns:t="http://myfaces.apache.org/tomahawk"
 		xmlns:h="http://java.sun.com/jsf/html">
 		
-		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
-			<h:outputLabel value="#{msg.privateAreaLoginName}:" />
-			<h:inputText value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-	
-			<h:outputLabel value="#{msg.privateAreaLoginEmail}:" />
-			<h:inputText value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-			
-			<h:outputLabel value="#{msg.privateAreaLoginUser}:" />
-			<h:inputText value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
-			
-			<h:column />
-			<h:panelGrid columns="2">
-				<h:commandButton value="#{msg.buttonFind}" styleClass="customButton buttonMainForm" action="#{administratorBean.filter}" immediate="false" />
-				<h:commandButton value="#{msg.buttonClear}" styleClass="customButton buttonMainForm" action="#{administratorBean.list}" immediate="true" />
-			</h:panelGrid>
-		</h:panelGrid>
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<h:outputLabel value="#{msg.privateAreaLoginName}:" />
+		<h:inputText value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+
+		<h:outputLabel value="#{msg.privateAreaLoginEmail}:" />
+		<h:inputText value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 		
-		<t:saveState value="#{administratorBean.administrator}"/>
+		<h:outputLabel value="#{msg.privateAreaLoginUser}:" />
+		<h:inputText value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<h:column />
+		<h:panelGrid columns="2">
+			<h:commandButton value="#{msg.buttonFind}" styleClass="customButton buttonMainForm" action="#{administratorBean.filter}" immediate="false" />
+			<h:commandButton value="#{msg.buttonClear}" styleClass="customButton buttonMainForm" action="#{administratorBean.list}" immediate="true" />
+		</h:panelGrid>
+	</h:panelGrid>
+	
+	<t:saveState value="#{administratorBean.administrator}"/>
 </ui:composition>

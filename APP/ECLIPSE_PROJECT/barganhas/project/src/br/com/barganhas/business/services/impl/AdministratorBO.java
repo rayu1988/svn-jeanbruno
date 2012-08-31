@@ -18,8 +18,8 @@ public class AdministratorBO implements Administrator {
 	private AdministratorPO							persistencyLayer;
 	
 	@Override
-	public List<AdministratorTO> list(AdministratorTO administrator) {
-		return this.persistencyLayer.list(administrator);
+	public List<AdministratorTO> list() {
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class AdministratorBO implements Administrator {
 
 	@Override
 	public void registerFirstAdministrator() {
-		int totalAdministrators = this.persistencyLayer.count(new AdministratorTO());
+		int totalAdministrators = this.persistencyLayer.count(AdministratorTO.class);
 		if (totalAdministrators <= 0) {
 			AdministratorTO administrator = new AdministratorTO();
 			administrator.setFullname("Administrator Master");

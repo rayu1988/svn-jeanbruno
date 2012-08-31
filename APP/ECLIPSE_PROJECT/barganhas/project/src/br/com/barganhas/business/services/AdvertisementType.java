@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.AdvertisementTypeTO;
 
 public interface AdvertisementType {
 
-	List<AdvertisementTypeTO> list(AdvertisementTypeTO advertisementType);
+	List<AdvertisementTypeTO> list();
 	
 	void insert(AdvertisementTypeTO advertisementType);
 

@@ -21,11 +21,9 @@ public class SalesBean extends AppManagedBean {
 	
 	public String list() {
 		Sales service = this.getServiceBusinessFactory().getSales();
-		List<SalesTO> list = service.list(new SalesTO());
-		
-		this.dataModel = new CustomDataModel(list);
 		this.sales = new SalesTO();
-		
+		List<SalesTO> list = service.list();
+		this.dataModel = new CustomDataModel(list);
 		return "salesList";
 	}
 	

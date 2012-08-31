@@ -21,11 +21,9 @@ public class AdvertisementTypeBean extends AppManagedBean {
 	
 	public String list() {
 		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		List<AdvertisementTypeTO> list = service.list(new AdvertisementTypeTO());
-		
-		this.dataModel = new CustomDataModel(list);
 		this.advertisementType = new AdvertisementTypeTO();
-		
+		List<AdvertisementTypeTO> list = service.list();
+		this.dataModel = new CustomDataModel(list);
 		return "advertisementTypeList";
 	}
 	
