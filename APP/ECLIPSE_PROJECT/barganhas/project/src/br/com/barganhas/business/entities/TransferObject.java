@@ -16,7 +16,7 @@ public abstract class TransferObject implements Serializable {
 		}
 	}
 	
-	public String getKey() {
+	public final String getKey() {
 		return key;
 	}
 

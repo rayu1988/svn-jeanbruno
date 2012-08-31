@@ -22,18 +22,23 @@ public class AnnotationUtils {
 	 */
 	public static <T extends TransferObject> Field getIdField(Class<T> transferObject) {
 		Field fieldToReturn = null;
-		Field[] allFields = transferObject.getDeclaredFields();
-		for (Field field : allFields) {
-			field.setAccessible(true);
-			if (field.isAnnotationPresent(IdField.class)) {
-				if (fieldToReturn != null) {
-					throw new IllegalStateException("The class " + transferObject.getName() + " has more than 1 IdField, and itsn't allowed");
-				} else if (!field.getType().equals(Long.class)) {
-					throw new IllegalStateException("The IdField must be as Long type in the class " + transferObject.getName());
+		
+		Class<?> currentClass = null;
+		do {
+			currentClass = currentClass == null ? transferObject : currentClass.getSuperclass();
+			Field[] allFields = currentClass.getDeclaredFields();
+			for (Field field : allFields) {
+				field.setAccessible(true);
+				if (field.isAnnotationPresent(IdField.class)) {
+					if (fieldToReturn != null) {
+						throw new IllegalStateException("The class " + currentClass.getName() + " has more than 1 IdField, and itsn't allowed");
+					} else if (!field.getType().equals(Long.class)) {
+						throw new IllegalStateException("The IdField must be as Long type in the class " + currentClass.getName());
+					}
+					fieldToReturn = field;
 				}
-				fieldToReturn = field;
 			}
-		}
+		} while (!currentClass.equals(TransferObject.class));
 		
 		if (fieldToReturn == null) {
 			throw new IllegalStateException("There's no IdField present in the class " + transferObject.getName() + ", and this field is required");
@@ -63,24 +68,28 @@ public class AnnotationUtils {
 	 */
 	public static <T extends TransferObject> List<EntityPropertyPojo> getEntityProperties(T transferObject) throws IllegalArgumentException, IllegalAccessException {
 		List<EntityPropertyPojo> listToReturn = new ArrayList<EntityPropertyPojo>();
-		Field[] allFields = transferObject.getClass().getDeclaredFields();
-		for (Field field : allFields) {
-			field.setAccessible(true);
-			if (field.isAnnotationPresent(PropertyField.class)) {
-				PropertyField propertyField = field.getAnnotation(PropertyField.class);
-				Object proertyValue = field.get(transferObject);
-				if (propertyField.notNull() && proertyValue == null) {
-					throw new IllegalStateException("The field " + field.getName() + "in the class " + transferObject.getClass().getName() +
-							" is null and its annotation indicates that this cann't be null");
-				}
-				if (!propertyField.allowEmpty()) {
-					if (proertyValue instanceof String && !Util.isStringOk((String)proertyValue)) {
-						throw new IllegalStateException("The field " + field.getName() + " of the type java.lang.String cann't be empty");
+		Class<?> currentClass = null;
+		do {
+			currentClass = currentClass == null ? transferObject.getClass() : currentClass.getSuperclass();
+			Field[] allFields = currentClass.getDeclaredFields();
+			for (Field field : allFields) {
+				field.setAccessible(true);
+				if (field.isAnnotationPresent(PropertyField.class)) {
+					PropertyField propertyField = field.getAnnotation(PropertyField.class);
+					Object proertyValue = field.get(transferObject);
+					if (propertyField.notNull() && proertyValue == null) {
+						throw new IllegalStateException("The field " + field.getName() + "in the class " + transferObject.getClass().getName() +
+								" is null and its annotation indicates that this cann't be null");
 					}
+					if (!propertyField.allowEmpty()) {
+						if (proertyValue instanceof String && !Util.isStringOk((String)proertyValue)) {
+							throw new IllegalStateException("The field " + field.getName() + " of the type java.lang.String cann't be empty");
+						}
+					}
+					listToReturn.add(new EntityPropertyPojo(field.getName(), proertyValue, propertyField.unindexed()));
 				}
-				listToReturn.add(new EntityPropertyPojo(field.getName(), proertyValue, propertyField.unindexed()));
 			}
-		}
+		} while (!currentClass.equals(TransferObject.class));
 		return listToReturn;
 	}
 
@@ -99,17 +108,19 @@ public class AnnotationUtils {
 	 */
 	public static <T extends TransferObject> T getTransferObjectFromEntity(Class<T> targetTO, Entity entity) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, SecurityException, NoSuchMethodException {
 		Util.validateParameterNull(targetTO, entity);
-
 		Constructor<T> constructor = targetTO.getConstructor(Key.class);
 		T transferObject = constructor.newInstance(entity.getKey());
-		Field[] allFields = targetTO.getDeclaredFields();
-		for (Field field : allFields) {
-			field.setAccessible(true);
-			if (field.isAnnotationPresent(PropertyField.class)) {
-				field.set(transferObject, entity.getProperty(field.getName()));
+		Class<?> currentClass = null;
+		do {
+			currentClass = currentClass == null ? currentClass = targetTO : currentClass.getSuperclass();
+			Field[] allFields = currentClass.getDeclaredFields();
+			for (Field field : allFields) {
+				field.setAccessible(true);
+				if (field.isAnnotationPresent(PropertyField.class)) {
+					field.set(transferObject, entity.getProperty(field.getName()));
+				}
 			}
-		}
-		
+		} while (!currentClass.equals(TransferObject.class));
 		return transferObject;
 	}
 }

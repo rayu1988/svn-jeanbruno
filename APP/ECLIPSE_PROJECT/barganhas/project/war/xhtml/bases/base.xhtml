@@ -14,7 +14,6 @@
    		</h:head>
    		
    		<h:body>
-   			
    			<div id="site">
 				<div id="top" >
 					<div id="topLinks">
@@ -39,7 +38,7 @@
 <!-- 						</h:form> -->
 						<form id="searchform" action="" method="get">
 							<input id="searchField" name="searchField" type="text" placeholder="buscar barganhas" />
-							<button class="customButton" id="findButton" name="findButton" type="submit">#{msg.buttonFind}</button>
+							<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
 						</form>
 						
 	<!-- 					<div id="filterBox"> -->
