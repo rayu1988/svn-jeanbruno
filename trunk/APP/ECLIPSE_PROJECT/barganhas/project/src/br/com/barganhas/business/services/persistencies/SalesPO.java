@@ -17,14 +17,14 @@ import com.google.appengine.api.datastore.Transaction;
 @Repository
 public class SalesPO extends AppPersistency {
 
-	public List<SalesTO> list(SalesTO sales) {
+	public List<SalesTO> list() {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			List<Entity> entities = this.getSimplePreparedQuery(sales).asList(FetchOptions.Builder.withDefaults());
+			List<Entity> entities = this.getSimplePreparedQuery(SalesTO.class).asList(FetchOptions.Builder.withDefaults());
 			
 			List<SalesTO> listReturn = new ArrayList<SalesTO>();
 			for (Entity entity : entities) {
-				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(new SalesTO(entity.getKey()), entity));
+				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity));
 			}
 			
 			transaction.commit();
@@ -66,7 +66,7 @@ public class SalesPO extends AppPersistency {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
 			Entity entity = this.getEntity(sales);
-			sales = AnnotationUtils.getTransferObjectFromEntity(new SalesTO(entity.getKey()), entity);
+			sales = AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity);
 			
 			transaction.commit();
 			return sales;

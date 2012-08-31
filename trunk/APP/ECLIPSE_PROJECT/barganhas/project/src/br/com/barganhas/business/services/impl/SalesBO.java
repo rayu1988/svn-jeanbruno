@@ -18,8 +18,8 @@ public class SalesBO implements Sales {
 	private SalesPO									persistencyLayer;
 	
 	@Override
-	public List<SalesTO> list(SalesTO sales) {
-		return this.persistencyLayer.list(sales);
+	public List<SalesTO> list() {
+		return this.persistencyLayer.list();
 	}
 	
 	@Override

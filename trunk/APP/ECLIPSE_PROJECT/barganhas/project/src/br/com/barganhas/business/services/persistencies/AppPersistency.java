@@ -48,13 +48,13 @@ public abstract class AppPersistency implements Serializable {
 	private <T extends TransferObject> Long getNextId(T transferObject) {
 		Long nextId = (long) 1;
 		
-		Query query = this.getQuery(transferObject);
-		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject), Long.class));
-		query.addSort(AnnotationUtils.getIdFieldStringName(transferObject), SortDirection.DESCENDING);
+		Query query = this.getQuery(transferObject.getClass());
+		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Long.class));
+		query.addSort(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), SortDirection.DESCENDING);
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		List<Entity> listTmp = preparedQuery.asList(FetchOptions.Builder.withLimit(1));
 		if (Util.isCollectionOk(listTmp)) {
-			nextId = ((Long) listTmp.get(0).getProperty(AnnotationUtils.getIdFieldStringName(transferObject))) + 1;
+			nextId = ((Long) listTmp.get(0).getProperty(AnnotationUtils.getIdFieldStringName(transferObject.getClass()))) + 1;
 		}
 		
 		return nextId;
@@ -87,17 +87,17 @@ public abstract class AppPersistency implements Serializable {
 	
 	/**
 	 * Get a query object to retrieve data from database.
-	 * @param transferObject
+	 * @param targetTO
 	 * @return
 	 */
-	protected <T extends TransferObject> Query getQuery(T transferObject) {
-		Query query = new Query(transferObject.getClass().getName());
+	protected <T extends TransferObject> Query getQuery(Class<T> targetTO) {
+		Query query = new Query(targetTO.getName());
 		query.setAncestor(TRANSFER_OBJECT_ANCESTOR);
 		return query;
 	}
 	
-	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(T transferObject) {
-		return this.getDataStoreService().prepare(this.getQuery(transferObject));
+	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO) {
+		return this.getDataStoreService().prepare(this.getQuery(targetTO));
 	}
 	
 	/**
@@ -129,9 +129,9 @@ public abstract class AppPersistency implements Serializable {
 		}
 	}
 	
-	public <T extends TransferObject> int count(T transferObject) {
-		Query query = this.getQuery(transferObject);
-		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject), Long.class));
+	public <T extends TransferObject> int count(Class<T> targetTO) {
+		Query query = this.getQuery(targetTO);
+		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(targetTO), Long.class));
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults());
 	}

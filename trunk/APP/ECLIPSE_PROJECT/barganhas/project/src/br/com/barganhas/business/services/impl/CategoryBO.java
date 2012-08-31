@@ -18,8 +18,8 @@ public class CategoryBO implements Category {
 	private CategoryPO								persistencyLayer;
 	
 	@Override
-	public List<CategoryTO> list(CategoryTO category) {
-		return this.persistencyLayer.list(category);
+	public List<CategoryTO> list() {
+		return this.persistencyLayer.list();
 	}
 	
 	@Override

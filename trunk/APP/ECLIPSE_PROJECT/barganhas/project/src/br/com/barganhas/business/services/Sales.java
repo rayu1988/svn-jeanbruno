@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.SalesTO;
 
 public interface Sales {
 
-	List<SalesTO> list(SalesTO sales);
+	List<SalesTO> list();
 	
 	void insert(SalesTO sales);
 

@@ -13,7 +13,10 @@
 		<h:inputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
 		
 		<h:column />
-		<h:commandButton value="buscar" styleClass="customButton buttonMainForm" action="#{administratorBean.prepareNew}" immediate="true" />
+		<h:panelGrid columns="2">
+			<h:commandButton value="#{msg.buttonFind}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.filter}" immediate="false" />
+			<h:commandButton value="#{msg.buttonClear}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.list}" immediate="true" />
+		</h:panelGrid>
 	</h:panelGrid>
 
 	<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

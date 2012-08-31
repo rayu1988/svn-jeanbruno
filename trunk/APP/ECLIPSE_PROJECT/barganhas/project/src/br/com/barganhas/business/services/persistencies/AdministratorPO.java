@@ -24,14 +24,14 @@ import com.google.appengine.api.datastore.Transaction;
 @Repository
 public class AdministratorPO extends AppPersistency {
 
-	public List<AdministratorTO> list(AdministratorTO administrator) {
+	public List<AdministratorTO> list() {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			List<Entity> entities = this.getSimplePreparedQuery(administrator).asList(FetchOptions.Builder.withDefaults());
+			List<Entity> entities = this.getSimplePreparedQuery(AdministratorTO.class).asList(FetchOptions.Builder.withDefaults());
 			
 			List<AdministratorTO> listReturn = new ArrayList<AdministratorTO>();
 			for (Entity entity : entities) {
-				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity));
+				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity));
 			}
 			
 			transaction.commit();
@@ -48,7 +48,7 @@ public class AdministratorPO extends AppPersistency {
 	public List<AdministratorTO> filter(AdministratorTO administrator) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Query query = this.getQuery(administrator);
+			Query query = this.getQuery(AdministratorTO.class);
 			
 			List<Filter> filters = new ArrayList<Query.Filter>();
 			if (Util.isStringOk(administrator.getFullname())) {
@@ -62,7 +62,7 @@ public class AdministratorPO extends AppPersistency {
 			}
 			
 			if (!Util.isCollectionOk(filters)) {
-				return this.list(administrator);
+				return this.list();
 			} else if (filters.size() == 1) {
 				query.setFilter(filters.get(0));
 			} else if (filters.size() > 1) {
@@ -73,7 +73,7 @@ public class AdministratorPO extends AppPersistency {
 			List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
 			List<AdministratorTO> listReturn = new ArrayList<AdministratorTO>();
 			for (Entity entity : entities) {
-				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity));
+				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity));
 			}
 			
 			transaction.commit();
@@ -120,7 +120,7 @@ public class AdministratorPO extends AppPersistency {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
 			Entity entity = this.getEntity(administrator);
-			administrator = AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity);
+			administrator = AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity);
 			
 			transaction.commit();
 			return administrator;
@@ -147,7 +147,7 @@ public class AdministratorPO extends AppPersistency {
 	
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
 		try {
-			Query query = this.getQuery(administrator);
+			Query query = this.getQuery(AdministratorTO.class);
 			query.setFilter(CompositeFilterOperator.and(
 					new FilterPredicate("nickname", Query.FilterOperator.EQUAL, administrator.getNickname()),
 					new FilterPredicate("password", Query.FilterOperator.EQUAL, administrator.getPassword())
@@ -159,7 +159,7 @@ public class AdministratorPO extends AppPersistency {
 				throw new AppException("loginErrorUserNotFound");
 			}
 
-			return AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity);
+			return AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity);
 		} catch (Exception e) {
 			throw new AppException(e);
 		}

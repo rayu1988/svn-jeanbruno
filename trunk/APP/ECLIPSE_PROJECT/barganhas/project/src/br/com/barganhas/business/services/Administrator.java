@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.AdministratorTO;
 
 public interface Administrator {
 
-	List<AdministratorTO> list(AdministratorTO administrator);
+	List<AdministratorTO> list();
 
 	List<AdministratorTO> filter(AdministratorTO administrator);
 	

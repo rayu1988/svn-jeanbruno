@@ -1,14 +1,17 @@
 package br.com.barganhas.commons;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.appengine.api.datastore.Entity;
 
 import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.entities.annotations.IdField;
 import br.com.barganhas.business.entities.annotations.PropertyField;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 
 public class AnnotationUtils {
 
@@ -50,15 +53,6 @@ public class AnnotationUtils {
 	}
 	
 	/**
-	 * Method to get the string name of the IdField in the class passed as parameter
-	 * @param transferObject Instance
-	 * @return
-	 */
-	public static <T extends TransferObject> String getIdFieldStringName(T transferObject) {
-		return getIdFieldStringName(transferObject.getClass());
-	}
-	
-	/**
 	 * Method to build a list with the properties of a transferObject.
 	 * These properties will be used to build and persist an entity in the after time.
 	 * 
@@ -93,16 +87,22 @@ public class AnnotationUtils {
 	/**
 	 * Method to build an TransferObject from an entity.
 	 * 
-	 * @param transferObject
+	 * @param targetTO
 	 * @param entity
 	 * @return
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
+	 * @throws InstantiationException 
+	 * @throws InvocationTargetException 
+	 * @throws NoSuchMethodException 
+	 * @throws SecurityException 
 	 */
-	public static <T extends TransferObject> T getTransferObjectFromEntity(T transferObject, Entity entity) throws IllegalArgumentException, IllegalAccessException {
-		Util.validateParameterNull(transferObject, entity);
+	public static <T extends TransferObject> T getTransferObjectFromEntity(Class<T> targetTO, Entity entity) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, SecurityException, NoSuchMethodException {
+		Util.validateParameterNull(targetTO, entity);
 
-		Field[] allFields = transferObject.getClass().getDeclaredFields();
+		Constructor<T> constructor = targetTO.getConstructor(Key.class);
+		T transferObject = constructor.newInstance(entity.getKey());
+		Field[] allFields = targetTO.getDeclaredFields();
 		for (Field field : allFields) {
 			field.setAccessible(true);
 			if (field.isAnnotationPresent(PropertyField.class)) {

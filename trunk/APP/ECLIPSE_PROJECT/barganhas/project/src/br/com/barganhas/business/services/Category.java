@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.CategoryTO;
 
 public interface Category {
 
-	List<CategoryTO> list(CategoryTO category);
+	List<CategoryTO> list();
 	
 	void insert(CategoryTO category);
 

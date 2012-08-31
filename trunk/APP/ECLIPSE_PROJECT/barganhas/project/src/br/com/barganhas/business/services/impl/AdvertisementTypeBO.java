@@ -18,8 +18,8 @@ public class AdvertisementTypeBO implements AdvertisementType {
 	private AdvertisementTypePO						persistencyLayer;
 	
 	@Override
-	public List<AdvertisementTypeTO> list(AdvertisementTypeTO advertisementType) {
-		return this.persistencyLayer.list(advertisementType);
+	public List<AdvertisementTypeTO> list() {
+		return this.persistencyLayer.list();
 	}
 	
 	@Override

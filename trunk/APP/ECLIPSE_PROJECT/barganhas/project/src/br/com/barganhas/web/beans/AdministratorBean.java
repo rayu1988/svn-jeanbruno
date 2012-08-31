@@ -25,7 +25,7 @@ public class AdministratorBean extends AppManagedBean {
 	public String list() {
 		Administrator service = this.getServiceBusinessFactory().getAdministrator();
 		this.administrator = new AdministratorTO();
-		List<AdministratorTO> list = service.list(this.administrator);
+		List<AdministratorTO> list = service.list();
 		this.dataModel = new CustomDataModel(list);
 		return "administratorList";
 	}
