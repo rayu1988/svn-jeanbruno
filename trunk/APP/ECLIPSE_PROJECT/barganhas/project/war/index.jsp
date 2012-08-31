@@ -3,6 +3,6 @@
 		<title>redirecting</title>
 	</head>
 	<body>
-		<% response.sendRedirect("layouts/index.jsf"); %>
+		<% response.sendRedirect("xhtml/index.jsf"); %>
 	<body>
 </html>
