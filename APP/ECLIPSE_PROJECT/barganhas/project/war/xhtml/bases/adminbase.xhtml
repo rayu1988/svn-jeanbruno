@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
    	xmlns:ui="http://java.sun.com/jsf/facelets"
    	xmlns:h="http://java.sun.com/jsf/html"
-   	xmlns:f="http://java.sun.com/jsf/core">
+   	xmlns:f="http://java.sun.com/jsf/core"
+   	xmlns:bargas="http://barganhas.com.br/barganhas">
    	
    	<f:view contentType="text/html">
    		<f:loadBundle var="msg" basename="messages"/>
@@ -10,6 +11,7 @@
    			<title><h:outputText value="#{msg.privateAreaTitle}"/></title>
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-admin.css" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    		</h:head>
    		
    		<h:body>
@@ -88,6 +90,8 @@
 							<ui:insert name="formButtons"/>
 						</h:panelGroup>
 					</h:panelGroup>
+					
+					<bargas:messages />
 				</h:form>
 			</h:panelGroup>
    		</h:body>

@@ -8,6 +8,8 @@ import javax.faces.model.DataModel;
 
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.services.AdvertisementType;
+import br.com.barganhas.commons.RequestMessage;
+import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
@@ -37,6 +39,7 @@ public class AdvertisementTypeBean extends AppManagedBean {
 		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
 		service.insert(this.advertisementType);
 		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
 	}
 	
@@ -51,6 +54,7 @@ public class AdvertisementTypeBean extends AppManagedBean {
 		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
 		service.save(this.advertisementType);
 		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.consult();
 	}
 	
@@ -65,6 +69,7 @@ public class AdvertisementTypeBean extends AppManagedBean {
 		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
 		service.delete(this.advertisementType);
 		
+		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
 	}
 	

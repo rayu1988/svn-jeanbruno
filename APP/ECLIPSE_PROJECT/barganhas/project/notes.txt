@@ -1,0 +1,2 @@
+# use the following argument (parameter) to run server without tries check update
+--disable_update_check

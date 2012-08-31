@@ -23,6 +23,11 @@ public class AdministratorBO implements Administrator {
 	}
 	
 	@Override
+	public List<AdministratorTO> filter(AdministratorTO administrator) {
+		return this.persistencyLayer.filter(administrator);
+	}
+	
+	@Override
 	public void insert(AdministratorTO administrator) {
 		this.persistencyLayer.insert(administrator);
 	}

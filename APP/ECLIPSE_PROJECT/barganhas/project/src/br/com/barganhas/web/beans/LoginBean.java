@@ -5,7 +5,10 @@ import javax.faces.bean.RequestScoped;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.barganhas.business.entities.AdministratorTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Administrator;
+import br.com.barganhas.commons.RequestMessage;
+import br.com.barganhas.enums.SeverityMessage;
 
 @ManagedBean
 @RequestScoped
@@ -17,17 +20,24 @@ public class LoginBean extends AppManagedBean {
 	
 	
 	public String login() {
-		Administrator service = this.getServiceBusinessFactory().getAdministrator();
-		this.administrator = new AdministratorTO();
-		this.administrator.setNickname(this.user);
-		this.administrator.setPassword(this.password);
-		AdministratorTO administrator = service.validateLogin(this.administrator);
-		if (administrator != null) {
-			AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
-			sessionBean.setAdministrator(administrator);
+		try {
+			Administrator service = this.getServiceBusinessFactory().getAdministrator();
+			this.administrator = new AdministratorTO();
+			this.administrator.setNickname(this.user);
+			this.administrator.setPassword(this.password);
+			AdministratorTO administrator = service.validateLogin(this.administrator);
+			if (administrator != null) {
+				AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
+				sessionBean.setAdministrator(administrator);
+			}
+			
+			return this.goToIndex();
+		} catch (AppException e) {
+			this.setRequestMessage(new RequestMessage("loginErrorUserNotFound", SeverityMessage.ERROR));
+			return null;
+		} catch (Exception e) {
+			return this.trateExceptionMessage(e);
 		}
-		
-		return this.goToIndex();
 	}
 	
 	public String logoff() {
