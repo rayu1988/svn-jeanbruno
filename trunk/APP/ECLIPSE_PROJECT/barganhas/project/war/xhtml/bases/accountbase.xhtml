@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<ui:define name="bodyNavigation">
+		<h:panelGroup layout="block" styleClass="wrapperUserAccount">
+			<h:panelGrid columns="2" columnClasses="columnTop, columnTop" style="width: 100%">
+				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
+					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" id="boxAccountProfileImage"/>
+					
+					<ul style="text-align: left;">
+						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+						<li><h:commandLink value="#{msg.userAccountMyAdvertisements}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+						<li><h:commandLink value="#{msg.userAccountMyComments}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+					</ul>
+				</h:panelGroup>
+			
+				<h:panelGroup layout="block">
+					<ui:insert name="userAccountRightContent"/>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
