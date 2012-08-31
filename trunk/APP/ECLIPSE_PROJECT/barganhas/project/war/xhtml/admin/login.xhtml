@@ -3,7 +3,8 @@
    	xmlns:h="http://java.sun.com/jsf/html"
    	xmlns:ui="http://java.sun.com/jsf/facelets"
    	xmlns:c="http://java.sun.com/jsp/jstl/core"
-   	xmlns:f="http://java.sun.com/jsf/core">
+   	xmlns:f="http://java.sun.com/jsf/core"
+   	xmlns:bargas="http://barganhas.com.br/barganhas">
    	
    	<f:view contentType="text/html">
    		<f:loadBundle var="msg" basename="messages"/>
@@ -11,21 +12,11 @@
    			<title><h:outputText value="#{msg.privateAreaTitle}"/></title>
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-admin.css" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    		</h:head>
    		
    		<h:body>
-   			<div class="wrapperMessages" onclick="this.style.display = 'none'">
-   				<div class="messages">
-	   				<a href="#" class="closePopupMessage">
-	   					<h:graphicImage value="#{request.contextPath}/images/close.png" />
-					</a>
-	   				<ul class="listmessages">
-	   					<li class="textmessage successmessage">mensagem de sucesso mensagem de sucesso mensagem de sucesso mensagem de sucesso mensagem de sucesso </li>
-	   					<li class="textmessage warningmessage">mensagem de warning mensagem de warning mensagem de warning mensagem de warning mensagem de warning mensagem de warning </li>
-	   					<li class="textmessage errormessage">mensagem de erro mensagem de erro mensagem de erro mensagem de erro mensagem de erro mensagem de erro </li>
-	   				</ul>
-   				</div>
-   			</div>
+   			<bargas:messages />
    			
    			<div id="wrapper">
 				<div id="header">

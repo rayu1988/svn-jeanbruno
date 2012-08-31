@@ -15,6 +15,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 
@@ -40,6 +42,48 @@ public class AdministratorPO extends AppPersistency {
 			if (transaction.isActive()) {
 				transaction.rollback();
 		    }
+		}
+	}
+	
+	public List<AdministratorTO> filter(AdministratorTO administrator) {
+		Transaction transaction = this.getDataStoreService().beginTransaction();
+		try {
+			Query query = this.getQuery(administrator);
+			
+			List<Filter> filters = new ArrayList<Query.Filter>();
+			if (Util.isStringOk(administrator.getFullname())) {
+				filters.add(new FilterPredicate("fullname", FilterOperator.EQUAL, administrator.getFullname()));
+			}
+			if (Util.isStringOk(administrator.getNickname())) {
+				filters.add(new FilterPredicate("nickname", FilterOperator.EQUAL, administrator.getNickname()));
+			}
+			if (Util.isStringOk(administrator.getEmail())) {
+				filters.add(new FilterPredicate("email", FilterOperator.EQUAL, administrator.getEmail()));
+			}
+			
+			if (!Util.isCollectionOk(filters)) {
+				return this.list(administrator);
+			} else if (filters.size() == 1) {
+				query.setFilter(filters.get(0));
+			} else if (filters.size() > 1) {
+				query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
+			}
+			PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+			
+			List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
+			List<AdministratorTO> listReturn = new ArrayList<AdministratorTO>();
+			for (Entity entity : entities) {
+				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity));
+			}
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
 		}
 	}
 	
@@ -110,6 +154,10 @@ public class AdministratorPO extends AppPersistency {
 					));
 			PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 			Entity entity = preparedQuery.asSingleEntity();
+			
+			if (entity == null) {
+				throw new AppException("loginErrorUserNotFound");
+			}
 
 			return AnnotationUtils.getTransferObjectFromEntity(new AdministratorTO(entity.getKey()), entity);
 		} catch (Exception e) {

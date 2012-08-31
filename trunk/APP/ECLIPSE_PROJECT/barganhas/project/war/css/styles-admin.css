@@ -32,8 +32,9 @@ table {
 
 /** messages **/
 .wrapperMessages {
+	display: none;
 	position: absolute;
-	top: 60px;
+	top: 30px;
 	width: 100%;
 }
 .messages {

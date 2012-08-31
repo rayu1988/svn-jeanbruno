@@ -66,4 +66,9 @@
     	</attribute>
     </tag>
     
+	<tag>
+    	<tag-name>messages</tag-name>
+    	<source>../tags/messages.xhtml</source>
+    </tag>
+    
 </facelet-taglib>

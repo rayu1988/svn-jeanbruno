@@ -8,6 +8,8 @@ import javax.faces.model.DataModel;
 
 import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.services.Sales;
+import br.com.barganhas.commons.RequestMessage;
+import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
@@ -38,6 +40,7 @@ public class SalesBean extends AppManagedBean {
 		Sales service = this.getServiceBusinessFactory().getSales();
 		service.insert(this.sales);
 		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
 	}
 	
@@ -59,6 +62,7 @@ public class SalesBean extends AppManagedBean {
 		Sales service = this.getServiceBusinessFactory().getSales();
 		this.sales = service.consult(this.sales);
 		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return "salesConsult";
 	}
 
@@ -66,6 +70,7 @@ public class SalesBean extends AppManagedBean {
 		Sales service = this.getServiceBusinessFactory().getSales();
 		service.delete(this.sales);
 		
+		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
 	}
 	
