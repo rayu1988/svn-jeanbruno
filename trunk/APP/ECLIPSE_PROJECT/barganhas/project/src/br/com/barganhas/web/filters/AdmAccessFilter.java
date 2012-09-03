@@ -1,4 +1,4 @@
-package br.com.barganhas.web.converters;
+package br.com.barganhas.web.filters;
 
 import java.io.IOException;
 

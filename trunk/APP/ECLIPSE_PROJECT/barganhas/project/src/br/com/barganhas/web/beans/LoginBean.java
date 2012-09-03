@@ -22,16 +22,16 @@ public class LoginBean extends AppManagedBean {
 	public String login() {
 		try {
 			Administrator service = this.getServiceBusinessFactory().getAdministrator();
-			this.administrator = new AdministratorTO();
-			this.administrator.setNickname(this.user);
-			this.administrator.setPassword(this.password);
-			AdministratorTO administrator = service.validateLogin(this.administrator);
+			AdministratorTO administrator = new AdministratorTO();
+			administrator.setNickname(this.user);
+			administrator.setPassword(this.password);
+			administrator = service.validateLogin(administrator);
 			if (administrator != null) {
 				AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
 				sessionBean.setAdministrator(administrator);
 			}
 			
-			return this.goToIndex();
+			return this.getManagedBean(AdministratorBean.class).list();
 		} catch (AppException e) {
 			this.setRequestMessage(new RequestMessage("loginErrorUserNotFound", SeverityMessage.ERROR));
 			return null;

@@ -7,8 +7,9 @@
 	
 	<ui:define name="userAccountRightContent">
 		<h:panelGroup layout="block" styleClass="boxUserAccountForm boxUserAccountFormContext">
-			<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+			<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
 		</h:panelGroup>
+		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>

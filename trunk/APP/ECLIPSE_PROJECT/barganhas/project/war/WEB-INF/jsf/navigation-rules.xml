@@ -7,6 +7,19 @@
 	<navigation-rule>
 		<from-view-id>/*</from-view-id>
 
+		<!-- ################ Site ################ -->
+		<navigation-case>
+			<from-outcome>siteIndex</from-outcome>
+	   		<to-view-id>/xhtml/index.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ User Account ################ -->
+		<navigation-case>
+			<from-outcome>userAccountLogin</from-outcome>
+	   		<to-view-id>/xhtml/account/login.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Login Private Area ################ -->
 		<navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/xhtml/admin/login.xhtml</to-view-id>

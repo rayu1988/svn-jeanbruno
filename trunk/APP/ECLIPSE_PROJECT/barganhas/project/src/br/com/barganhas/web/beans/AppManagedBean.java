@@ -9,16 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.JSFunctionTimeRunning.JSFunctionBoxing;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 
 public class AppManagedBean {
 	
-	public String goToIndex() {
-		return this.getManagedBean(AdministratorBean.class).list();
-	}
-
 	protected ServiceBusinessFactory getServiceBusinessFactory() {
 		return ServiceBusinessFactory.getInstance();
 	}
@@ -60,5 +57,22 @@ public class AppManagedBean {
 	protected String trateExceptionMessage(Exception exception) {
 		this.setRequestMessage(new RequestMessage(exception.getMessage(), SeverityMessage.ERROR));
 		return null;
+	}
+	
+	protected void callJSFunction(JSFunctionBoxing timeRunning, String functionName, Object... params) {
+		if (!Util.isStringOk(functionName)) throw new IllegalArgumentException();
+		
+		StringBuilder jSFunction = new StringBuilder(functionName + "(");
+		for (Object param : params) {
+			if (param instanceof String) {
+				jSFunction.append("'").append(param.toString()).append("'");
+			} else if (param instanceof Integer) {
+				jSFunction.append(param.toString());
+			} else throw new IllegalStateException("Parameter data type not supported yet.");
+		}
+		jSFunction.append(");");
+		
+		this.setRequestParameter("JS_FUNCTION_CALLED", true);
+		this.setRequestParameter("NAME_JS_FUNCTION_CALLED", timeRunning.unBoxing(jSFunction.toString()));
 	}
 }

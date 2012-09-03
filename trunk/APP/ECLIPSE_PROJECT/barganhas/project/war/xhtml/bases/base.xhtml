@@ -3,49 +3,66 @@
    	xmlns:h="http://java.sun.com/jsf/html"
    	xmlns:ui="http://java.sun.com/jsf/facelets"
    	xmlns:c="http://java.sun.com/jsp/jstl/core"
-   	xmlns:f="http://java.sun.com/jsf/core">
+   	xmlns:f="http://java.sun.com/jsf/core"
+   	xmlns:rich="http://richfaces.org/rich"
+   	xmlns:a4j="http://richfaces.org/a4j"
+   	xmlns:bargas="http://barganhas.com.br/barganhas">
    	
    	<f:view contentType="text/html">
    		<f:loadBundle var="msg" basename="messages"/>
    		<h:head>
    			<title><h:outputText value="#{msg.appTitle}"/></title>
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles.css" />
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-messages.css" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    		</h:head>
    		
    		<h:body>
+   			<bargas:messages />
+   			
    			<div id="site">
 				<div id="top" >
-					<div id="topLinks">
-						<ul>
-							<li><a href="#">#{msg.registerYourSelf}</a></li>
-							<li><a href="#">#{msg.enterMsg}</a></li>
-							<li><a href="#">#{msg.myRegister}</a></li>
-							<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
-						</ul>
-					</div>
-					
-					<div id="searchBox">
-						<a href="#" id="logo" >
-							<img src="#{request.contextPath}/images/barganhas-logo-250x33-6.png" />
-						</a>
+					<h:form prependId="false">
+						<div id="topLinks">
+							<ul>
+								<li><a4j:commandLink actionListener="#{userAccountBean.prepareRegister}" immediate="true" rendered="true" value="#{msg.registerYourSelf}" render="accountNewPopupPanelGroup"/></li>
+								<li><h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}"/></li>
+								<li><a href="#">#{msg.myRegister}</a></li>
+								<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
+							</ul>
+						</div>
 						
-<!-- 						<h:form id="searchform" prependId="false"> -->
-<!-- 							<input id="searchField" name="searchField" type="text" placeholder="buscar barganhas" /> -->
-<!-- 							<button class="customButton" id="findButton" name="findButton" type="submit"> -->
-<!-- 								Buscar -->
-<!-- 							</button> -->
-<!-- 						</h:form> -->
-						<form id="searchform" action="" method="get">
-							<input id="searchField" name="searchField" type="text" placeholder="buscar barganhas" />
-							<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
-						</form>
-						
-	<!-- 					<div id="filterBox"> -->
-	<!-- 						<a href="#">filtro</a> -->
-	<!-- 					</div> -->
-					</div>
+						<div id="searchBox">
+							<a href="#{request.contextPath}/" id="logo" >
+								<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
+							</a>
+							
+	<!-- 						<h:form id="searchform" prependId="false"> -->
+	<!-- 							<input id="searchField" name="searchField" type="text" placeholder="buscar barganhas" /> -->
+	<!-- 							<button class="customButton" id="findButton" name="findButton" type="submit"> -->
+	<!-- 								Buscar -->
+	<!-- 							</button> -->
+	<!-- 						</h:form> -->
+							<h:panelGroup layout="block" id="searchform">
+								<input id="searchField" name="searchField" type="text"/>
+								<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
+							</h:panelGroup>
+							
+		<!-- 					<div id="filterBox"> -->
+		<!-- 						<a href="#">filtro</a> -->
+		<!-- 					</div> -->
+						</div>
+					</h:form>
 				</div>
+				
+				<!-- popup register your self -->
+				<h:panelGroup rendered="true">
+					<ui:decorate template="/xhtml/account/accountNewPopup.xhtml"/>
+					<ui:decorate template="/xhtml/account/accountNewRegisterSuccessPopup.xhtml"/>
+				</h:panelGroup>
+				
+				<bargas:jsFunction />
 				
 				<h:form prependId="false" id="formNavigation">
 					<ui:insert name="bodyNavigation"/>
