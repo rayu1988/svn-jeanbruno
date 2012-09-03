@@ -86,7 +86,7 @@ public class AdministratorBean extends AppManagedBean {
 		}
 		if (!Util.isStringOk(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("administratorRequiredFieldEmail", SeverityMessage.WARNING));
-		} else if (!EmailValidator.validaEmail(this.administrator.getEmail())) {
+		} else if (!EmailValidator.validatingEmail(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("wrongEmailAddress", SeverityMessage.WARNING));
 		}
 		if (!Util.isStringOk(this.administrator.getNickname())) {

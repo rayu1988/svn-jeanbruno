@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:rich="http://richfaces.org/rich"
+				xmlns:a4j="http://richfaces.org/a4j"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:t="http://myfaces.apache.org/tomahawk"
+				xmlns:f="http://java.sun.com/jsf/core">
+	
+	<a4j:jsFunction name="userAccountNewRegisterSuccessfully"
+				render="accountNewRegisterSuccessPopupPanelGroup" 
+				oncomplete="closePopup('accountNewPopupPanel'); openPopup('accountNewRegisterSuccessPopupPanel');"/>
+	
+	<rich:popupPanel id="accountNewPopupPanel"
+				styleClass="appStyle"
+				modal="true"
+				moveable="false"
+				autosized="true"
+				resizeable="false"
+				header="#{msg.registerYourSelf}">
+				
+		<f:facet name="controls">
+			<div class="closeModal" onclick="closePopup('accountNewPopupPanel');">
+			</div>
+		</f:facet>
+		
+		<h:form id="accountNewPopupForm" prependId="false">
+			<h:panelGroup id="accountNewPopupPanelGroup">
+				<h:panelGroup rendered="#{userAccountBean.returnMessage.inUse}" layout="block">
+					<h:panelGroup layout="block" rendered="#{not userAccountBean.returnMessage.success}" styleClass="popupErrorMessage">
+						<ul>
+							<ui:repeat var="message" value="#{userAccountBean.returnMessage.messages}">
+								<li>#{message}</li>
+							</ui:repeat>
+						</ul>
+					</h:panelGroup>
+				</h:panelGroup>
+			
+				<h:panelGrid styleClass="tableInputFormUserAccount" 
+						columns="2" 
+						columnClasses="columnLabel, columnInput">
+						
+					<!-- fullname -->
+					<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userNamePopupForm"/>
+					<h:inputText id="userNamePopupForm" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+					
+					<!-- email -->
+					<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmailPopupForm"/>
+					<h:inputText id="userEmailPopupForm" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+					
+					<!-- confirm email -->
+					<h:outputLabel value="#{msg.privateAreaLoginConfirmEmail}:" for="userConfirmEmailPopupForm"/>
+					<h:inputText id="userConfirmEmailPopupForm" value="#{userAccountBean.confirmEmail}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+					
+					<!-- nickname -->
+					<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNicknamePopupForm"/>
+					<h:inputText id="userNicknamePopupForm" value="#{userAccountBean.userAccount.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+					
+					<!-- password -->
+					<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPasswordPopupForm"/>
+					<h:inputSecret id="userPasswordPopupForm" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+					
+					<!-- confirm password -->
+					<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPasswordPopupForm"/>
+					<h:inputSecret id="userConfirmPasswordPopupForm" value="#{userAccountBean.confirmPassword}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+				</h:panelGrid>
+			</h:panelGroup>
+			
+			<h:panelGrid styleClass="tableInputFormUserAccount"
+					columns="2" 
+					columnClasses="columnLabel, columnInput">
+					
+				<h:column />
+				<a4j:commandButton style="margin-top: 30px;" 
+							execute="@form" 
+							value="#{msg.applyRegistering}"
+							styleClass="customButton2 buttonMainForm"
+							actionListener="#{userAccountBean.registerUser}" 
+							immediate="false"
+							render="accountNewPopupPanelGroup"/>
+			</h:panelGrid>
+			
+			<t:saveState value="#{userAccountBean.returnMessage}"/>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

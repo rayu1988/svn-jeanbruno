@@ -8,6 +8,7 @@ import br.com.barganhas.business.services.impl.AdministratorBO;
 import br.com.barganhas.business.services.impl.AdvertisementTypeBO;
 import br.com.barganhas.business.services.impl.CategoryBO;
 import br.com.barganhas.business.services.impl.SalesBO;
+import br.com.barganhas.business.services.impl.UserAccountBO;
 
 @SuppressWarnings("serial")
 public class ServiceBusinessFactory implements Serializable {
@@ -40,6 +41,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public Category getCategory() {
 		return (Category) this.applicationContext.getBean(CategoryBO.BEAN_ALIAS);
+	}
+	
+	public UserAccount getUserAccount() {
+		return (UserAccount) this.applicationContext.getBean(UserAccountBO.BEAN_ALIAS);
 	}
 	
 }

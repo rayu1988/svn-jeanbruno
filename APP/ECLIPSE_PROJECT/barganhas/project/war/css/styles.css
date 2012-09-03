@@ -496,7 +496,7 @@ input {
 #userRegisterLogin {
 	text-align: right;
 	padding-right: 5px;
-	margin-top: 5px;
+	margin-top: 10px;
 }
 .wrapperUserAccount {
 	border-top: 1px solid #CCC;
@@ -511,6 +511,9 @@ input {
 	border: 1px solid #D8DEE2;
 	font-size: 110%;
 	height: 23px;
+}
+.inputLogin {
+	width: 400px;
 }
 .bigInputMainForm {
 	width: 600px;
@@ -527,6 +530,8 @@ input {
 .columnLabel {
 	text-align: right;
 	width: 100px;
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 1.4;
 }
 .columnInput {
 	padding-left: 15px;
@@ -547,7 +552,7 @@ input {
 #boxAccountProfileImage {
 	background-color: #FFF;
 	position: relative;
-	border: 1px solid #CC6600;
+	border: 1px solid #CCC;
 	margin-bottom: 30px;
 	min-width: 128px;
 	min-height: 128px;
@@ -568,30 +573,64 @@ input {
 	font: 13px Helvetica, arial, freesans, clean, sans-serif;
 	line-height: 1.4;
 	color: #CC6600;
-	border: 1px solid #CC6600;
 	background-color: #F7F7F7;
+
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
 }
 .boxUserAccountFormContext {
 	padding-top: 10px;
 	padding-bottom: 10px;
-	border-left: 1px solid #CC6600;
-	border-right: 1px solid #CC6600;
-	border-top: 1px solid #CC6600;
+	
+	border: 1px solid #CC6600;
 	border-radius: 5px 5px 0 0;
 	
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
 	font-size: 15px;
-	font-weight: bold;
 	color: #CC6600;
+}
+#boxAccountProfileLeftSide a {
+	text-decoration: none;
+}
+#boxAccountProfileLeftSide a:hover {
+	text-decoration: underline;
 }
 .mainFormAccountUserBoxButtons {
 	padding-top: 10px;
 	padding-bottom: 10px;
-	border-left: 1px solid #CC6600;
-	border-right: 1px solid #CC6600;
-	border-bottom: 1px solid #CC6600;
+
+	border: 1px solid #CC6600;
 	border-radius: 0 0 5px 5px;
 }
+.popupErrorMessage {
+	background-color:#FFE7E7;
+	padding: 10px;
+}
+.popupSuccessMessage {
+	max-width: 786px;
+	font-size: 15px;
+}
+.userAccountLoginMsg {
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+	font-size: 15px;
+	width: 600px;
+	margin: 20px auto;
+}
+.userAccountLoginWrapper {
+	padding: 30px;
+	margin: 0 auto;
+}
 /** USER ACCOUNT **/
+
+/** POPUP PANEL **/
+.closeModal {
+	width: 32px;
+	height: 32px;
+	background: url("../images/close-modal-on.png") no-repeat center center ;
+	border: none;
+	cursor: pointer;
+}
+/** POPUP PANEL **/
 
 /** FOOTER **/
 #footer {
@@ -621,3 +660,18 @@ input {
 	font-size: 11px;
 }
 /** FOOTER **/
+
+/** RICHFACES STYLES **/
+.rf-pp-hdr {
+	background:url("../images/b.gif") repeat-x scroll left top #FFF !important;
+}
+.rf-pp-hdr-cnt {
+	font-family: Helvetica, arial, freesans, clean, sans-serif !important;
+	font-size: 15px !important;
+	padding: 10px !important;
+}
+.rf-pp-cntr {
+	border: 0 !important;
+	border-radius: 5px;
+}
+/** RICHFACES STYLES **/

@@ -16,12 +16,12 @@ public class EmailValidator implements Validator {
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		String emailValue = (String)value;
-		if (!validaEmail(emailValue)) {
+		if (!validatingEmail(emailValue)) {
 			throw new ValidatorException(new FacesMessage(Util.getMessageResourceString("errorInvalidEmailAddress")));
 		}
 	}
 	
-	public static boolean validaEmail(String email) {
+	public static boolean validatingEmail(String email) {
 		Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
 		Matcher m = pattern.matcher(email);
 		return m.matches();

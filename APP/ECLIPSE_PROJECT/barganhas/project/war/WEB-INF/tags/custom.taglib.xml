@@ -71,4 +71,9 @@
     	<source>../tags/messages.xhtml</source>
     </tag>
     
+	<tag>
+    	<tag-name>jsFunction</tag-name>
+    	<source>../tags/jsFunction.xhtml</source>
+    </tag>
+    
 </facelet-taglib>

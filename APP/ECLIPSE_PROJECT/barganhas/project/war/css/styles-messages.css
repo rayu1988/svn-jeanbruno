@@ -1,0 +1,36 @@
+/** messages **/
+.wrapperMessages {
+	display: none;
+	position: absolute;
+	top: 30px;
+	width: 100%;
+	z-index: 999;
+}
+.messages {
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	
+	margin: 0px auto;
+	width: 600px;
+	padding: 10px;
+	background-color: #FFF2C8;
+}
+.closePopupMessage {
+	text-align: right;
+	float: right;
+}
+.textmessage {
+	margin-top: 5px;
+	padding: 0 25px;
+	background-repeat: no-repeat;
+}
+.successmessage {
+	background-image: url(../images/successmessage-16x16.png);
+}
+.warningmessage {
+	background-image: url(../images/warningmessage-16x16.png);
+}
+.errormessage {
+	background-image: url(../images/errormessage-16x16.png);
+}
+/** messages **/

@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="bodyNavigation">
+		<h:panelGroup layout="block" styleClass="userAccountLoginWrapper">
+			<h:panelGroup layout="block" styleClass="userAccountLoginMsg">
+				<h:outputText value="#{msg.loginAtBarganhas}" />
+			</h:panelGroup>
+		
+			<h:panelGrid columns="2" columnClasses="columnLabel, columnInput" style="margin: 50px auto;">
+				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
+				<h:inputText id="userNickname" value="#{userAccountBean.nickname}" maxlength="50" styleClass="inputMainForm inputLogin"/>
+				
+				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
+				<h:inputSecret id="userPassword" value="#{userAccountBean.password}" maxlength="50" styleClass="inputMainForm inputLogin"/>
+				
+				<h:column />
+				<h:commandButton value="#{msg.enterMsg}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.login}" immediate="false" style="margin-top: 35px;"/>
+			</h:panelGrid>
+		</h:panelGroup>
+		
+		<t:saveState value="#{userAccountBean.nickname}"/>
+		<t:saveState value="#{userAccountBean.password}"/>
+	</ui:define>
+</ui:composition>
