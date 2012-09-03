@@ -18,6 +18,10 @@
 			<from-outcome>userAccountLogin</from-outcome>
 	   		<to-view-id>/xhtml/account/login.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountConsult</from-outcome>
+	   		<to-view-id>/xhtml/account/accountConsult.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ Login Private Area ################ -->
 		<navigation-case>
