@@ -1,6 +1,9 @@
 package br.com.barganhas.business.entities;
 
+import java.util.Date;
+
 import br.com.barganhas.business.entities.annotations.PropertyField;
+import br.com.barganhas.enums.UserAccountStatus;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
@@ -9,10 +12,16 @@ import com.google.appengine.api.datastore.Key;
 public class UserAccountTO extends User {
 
 	@PropertyField
-	private String			contacts;
+	private Date					sinceDate;
 	
 	@PropertyField
-	private Blob			profileImage;
+	private UserAccountStatus 		status;
+	
+	@PropertyField
+	private String					contacts;
+	
+	@PropertyField
+	private Blob					profileImage;
 	
 	public UserAccountTO() {
 		super(null);
@@ -36,6 +45,22 @@ public class UserAccountTO extends User {
 
 	public void setContacts(String contacts) {
 		this.contacts = contacts;
+	}
+
+	public UserAccountStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserAccountStatus status) {
+		this.status = status;
+	}
+
+	public Date getSinceDate() {
+		return sinceDate;
+	}
+
+	public void setSinceDate(Date sinceDate) {
+		this.sinceDate = sinceDate;
 	}
 	
 }

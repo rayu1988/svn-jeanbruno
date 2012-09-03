@@ -31,7 +31,7 @@ public class ConverterCurrencyReal implements Converter {
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value)throws ConverterException {
+	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		String stringValue = "";
 		if (value != null) {
 			stringValue = this.formatarDecimal((Integer)value, 2);

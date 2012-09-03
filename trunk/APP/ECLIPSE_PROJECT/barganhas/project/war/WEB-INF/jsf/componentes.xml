@@ -15,5 +15,13 @@
 		<converter-id>ConverterCurrencyReal</converter-id>
 		<converter-class>br.com.barganhas.web.converters.ConverterCurrencyReal</converter-class>
 	</converter>
+	<converter>
+		<converter-id>ConverterUserAccountStatus</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterUserAccountStatus</converter-class>
+	</converter>
+	<converter>
+		<converter-id>ConverterUserAccountSinceDate</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterUserAccountSinceDate</converter-class>
+	</converter>
 	
 </faces-config>
