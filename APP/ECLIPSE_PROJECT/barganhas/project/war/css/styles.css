@@ -523,6 +523,7 @@ input {
 }
 .inputDisable {
 	background-color: #F7F7F7;
+	border: 0;
 }
 /** INPUT TEXT **/
 
@@ -535,6 +536,7 @@ input {
 }
 .columnInput {
 	padding-left: 15px;
+	color: #000;
 }
 .columnTop {
 	vertical-align: top;

@@ -22,5 +22,7 @@ public interface UserAccount {
 	
 	boolean emailAlreadyExist(UserAccountTO userAccount);
 	
+	void registerNewUser();
+	
 	UserAccountTO validateLogin(UserAccountTO userAccount);
 }

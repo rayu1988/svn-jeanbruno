@@ -76,23 +76,26 @@ public class AnnotationUtils {
 				field.setAccessible(true);
 				if (field.isAnnotationPresent(PropertyField.class)) {
 					PropertyField propertyField = field.getAnnotation(PropertyField.class);
-					Object proertyValue = field.get(transferObject);
-					if (propertyField.notNull() && proertyValue == null) {
+					Object propertyValue = field.get(transferObject);
+					if (propertyField.notNull() && propertyValue == null) {
 						throw new IllegalStateException("The field " + field.getName() + "in the class " + transferObject.getClass().getName() +
 								" is null and its annotation indicates that this cann't be null");
 					}
 					if (!propertyField.allowEmpty()) {
-						if (proertyValue instanceof String && !Util.isStringOk((String)proertyValue)) {
+						if (propertyValue instanceof String && !Util.isStringOk((String)propertyValue)) {
 							throw new IllegalStateException("The field " + field.getName() + " of the type java.lang.String cann't be empty");
 						}
 					}
-					listToReturn.add(new EntityPropertyPojo(field.getName(), proertyValue, propertyField.unindexed()));
+					if (field.getType().isEnum()) { //if the current field is an enumerator, let's save the value as String
+						propertyValue = propertyValue.toString();
+					}
+					listToReturn.add(new EntityPropertyPojo(field.getName(), propertyValue, propertyField.unindexed()));
 				}
 			}
 		} while (!currentClass.equals(TransferObject.class));
 		return listToReturn;
 	}
-
+	
 	/**
 	 * Method to build an TransferObject from an entity.
 	 * 
@@ -106,6 +109,7 @@ public class AnnotationUtils {
 	 * @throws NoSuchMethodException 
 	 * @throws SecurityException 
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T extends TransferObject> T getTransferObjectFromEntity(Class<T> targetTO, Entity entity) throws IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, SecurityException, NoSuchMethodException {
 		Util.validateParameterNull(targetTO, entity);
 		Constructor<T> constructor = targetTO.getConstructor(Key.class);
@@ -117,7 +121,11 @@ public class AnnotationUtils {
 			for (Field field : allFields) {
 				field.setAccessible(true);
 				if (field.isAnnotationPresent(PropertyField.class)) {
-					field.set(transferObject, entity.getProperty(field.getName()));
+					Object propertyValue = entity.getProperty(field.getName());
+					if (propertyValue != null && field.getType().isEnum()) { //if the current field is an enumerator, let's get the Enum value from a String
+						propertyValue = Enum.valueOf((Class<Enum>) field.getType(), propertyValue.toString());
+					}
+					field.set(transferObject, propertyValue);
 				}
 			}
 		} while (!currentClass.equals(TransferObject.class));

@@ -12,20 +12,47 @@
 		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				<!-- status -->
+				<h:outputLabel value="#{msg.msgStatus}:" for="userStatus"/>
+				<h:inputText id="userStatus" value="#{userAccountBean.userAccount.status}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true">
+					<f:converter converterId="ConverterUserAccountStatus"/>
+				</h:inputText>
+
+				<!-- since date -->
+				<h:outputLabel value="#{msg.userAccountUserSinceDate}:" for="sinceDate"/>
+				<h:inputText id="sinceDate" value="#{userAccountBean.userAccount.sinceDate}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true">
+					<f:converter converterId="ConverterUserAccountSinceDate"/>
+				</h:inputText>
+
+				<!-- profile image -->
+				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
+				<h:commandLink id="profileImage" value="#{msg.userAccountChangeProfileImage}" action="#{userAccountBean.edit}"/>
+
+				<!-- fullname -->
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
-				<h:inputText id="userName" value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
+				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
 				
+				<!-- nickname -->
 				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
-				<h:inputText id="userNickname" value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
+				<h:inputText id="userNickname" value="#{userAccountBean.userAccount.nickname}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
 				
+				<!-- email -->
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
-				<h:inputText id="userEmail" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
+				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
 				
-				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<h:inputText id="infoContacts" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
-				
+				<!-- password -->
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
-				<h:commandLink value="#{msg.changePassword}" action="#{userAccountBean.edit}"/>
+				<h:commandLink id="userPassword" value="#{msg.changePassword}" action="#{userAccountBean.edit}"/>
+				
+				<!-- contacts -->
+				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
+				<h:inputText id="infoContacts" value="#{userAccountBean.userAccount.contacts}" maxlength="50"
+					styleClass="inputMainForm bigInputMainForm inputDisable" readonly="true"/>
 			</h:panelGrid>
 		</h:panelGroup>
 		<h:panelGroup styleClass="boxUserAccountForm mainFormAccountUserBoxButtons" layout="block">
