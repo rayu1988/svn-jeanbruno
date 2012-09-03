@@ -28,7 +28,7 @@
 							<ul>
 								<li><a4j:commandLink actionListener="#{userAccountBean.prepareRegister}" immediate="true" rendered="true" value="#{msg.registerYourSelf}" render="accountNewPopupPanelGroup"/></li>
 								<li><h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}"/></li>
-								<li><a href="#">#{msg.myRegister}</a></li>
+								<li><h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/></li>
 								<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
 							</ul>
 						</div>

@@ -78,8 +78,18 @@ public class UserAccountBean extends AppManagedBean {
 	}
 	
 	public String goToLogin() {
-		this.userAccount = new UserAccountTO();
 		return "userAccountLogin";
+	}
+	
+	public String consult() {
+		AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
+		UserAccountTO userAccount = sessionBean.getUserAccount();
+		if (userAccount == null) {
+			return this.goToLogin();
+		} else {
+			
+			return "userAccountConsult";
+		}
 	}
 	
 	public String login() {
