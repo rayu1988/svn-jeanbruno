@@ -30,11 +30,14 @@ public class UserAccountAccessFilter implements Filter {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 			Object appSessionBean = httpServletRequest.getSession().getAttribute(Util.getNameAsJavaBean(AppSessionBean.class));
+			
+			UserAccountTO userAccount = null;
 			if (appSessionBean != null) {
-				UserAccountTO UserAccount = (UserAccountTO) PropertyUtils.getProperty(appSessionBean, "userAccount");
-				if (UserAccount != null) {
-					filterChain.doFilter(request, response);
-				}
+				userAccount = (UserAccountTO) PropertyUtils.getProperty(appSessionBean, "userAccount");
+			}
+			
+			if (userAccount != null) {
+				filterChain.doFilter(request, response);
 			} else {
 				String url = httpServletRequest.getRequestURL().toString();
 				String targetPage = url.substring(url.lastIndexOf('/')+1, url.length());

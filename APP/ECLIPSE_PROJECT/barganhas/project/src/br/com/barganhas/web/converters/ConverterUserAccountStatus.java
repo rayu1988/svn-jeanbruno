@@ -17,7 +17,7 @@ public class ConverterUserAccountStatus implements Converter {
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value)throws ConverterException {
-		String userAccountStatus = (String) value;
+		UserAccountStatus userAccountStatus = (UserAccountStatus) value;
 		String stringValue = "";
 		
 		if (userAccountStatus.equals(UserAccountStatus.ACTIVE)) {

@@ -1,5 +1,6 @@
 package br.com.barganhas.business.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.UserAccountPO;
+import br.com.barganhas.enums.UserAccountStatus;
 
 @Service("userAccountBO")
 public class UserAccountBO implements UserAccount {
@@ -60,6 +62,14 @@ public class UserAccountBO implements UserAccount {
 	@Override
 	public UserAccountTO validateLogin(UserAccountTO userAccount) {
 		return this.persistencyLayer.validateLogin(userAccount);
+	}
+
+	@Override
+	public void registerNewUser(UserAccountTO userAccount) {
+		userAccount.setSinceDate(new Date());
+		//TODO replace the ACTIVE value to PENDING because when the user is registered he must confirm his register by email, and so will be ACTIVE
+		userAccount.setStatus(UserAccountStatus.ACTIVE);
+		this.persistencyLayer.insert(userAccount);
 	}
 
 }
