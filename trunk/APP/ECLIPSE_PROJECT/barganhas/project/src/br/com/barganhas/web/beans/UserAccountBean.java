@@ -1,7 +1,5 @@
 package br.com.barganhas.web.beans;
 
-import java.util.Date;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
@@ -16,7 +14,6 @@ import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.ReturnMessagePojo;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
-import br.com.barganhas.enums.UserAccountStatus;
 import br.com.barganhas.web.validators.EmailValidator;
 
 @ManagedBean
@@ -64,9 +61,7 @@ public class UserAccountBean extends AppManagedBean {
 			}
 			
 			if (!this.returnMessage.hasMessage()) {
-				this.userAccount.setSinceDate(new Date());
-				this.userAccount.setStatus(UserAccountStatus.ACTIVE);
-				service.insert(this.userAccount);
+				service.registerNewUser(this.userAccount);
 				this.returnMessage = new ReturnMessagePojo(true);
 				this.returnMessage.addMessage(Util.getMessageResourceString("registerDoneSuccessfullyConfirmEmail", this.userAccount.getEmail()));
 

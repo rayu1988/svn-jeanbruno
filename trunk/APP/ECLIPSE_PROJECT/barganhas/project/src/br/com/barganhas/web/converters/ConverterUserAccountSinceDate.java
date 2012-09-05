@@ -30,9 +30,9 @@ public class ConverterUserAccountSinceDate implements Converter {
 		
 		if (value != null) {
 			StringBuffer buffer = new StringBuffer();
-			buffer.append(new SimpleDateFormat("dd/MM/yyyy").format(value));
+			buffer.append(new SimpleDateFormat("dd/MM/yyyy").format(value) + " ");
 			buffer.append(Util.getMessageResourceString("atHours"));
-			buffer.append(new SimpleDateFormat("HH:mm").format(value));
+			buffer.append(" " + new SimpleDateFormat("HH:mm").format(value));
 			
 			stringValue = buffer.toString(); 
 		}

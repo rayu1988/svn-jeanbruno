@@ -30,11 +30,14 @@ public class AdmAccessFilter implements Filter {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 			Object appSessionBean = httpServletRequest.getSession().getAttribute(Util.getNameAsJavaBean(AppSessionBean.class));
+			
+			AdministratorTO administrator = null;
 			if (appSessionBean != null) {
-				AdministratorTO administrator = (AdministratorTO) PropertyUtils.getProperty(appSessionBean, "administrator");
-				if (administrator != null) {
-					filterChain.doFilter(request, response);
-				}
+				administrator = (AdministratorTO) PropertyUtils.getProperty(appSessionBean, "administrator");
+			}
+			
+			if (administrator != null) {
+				filterChain.doFilter(request, response);
 			} else {
 				String url = httpServletRequest.getRequestURL().toString();
 				String targetPage = url.substring(url.lastIndexOf('/')+1, url.length());
