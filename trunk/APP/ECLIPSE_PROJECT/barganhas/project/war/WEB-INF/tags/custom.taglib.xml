@@ -76,4 +76,42 @@
     	<source>../tags/jsFunction.xhtml</source>
     </tag>
     
+	<tag>
+    	<tag-name>outputText</tag-name>
+    	<source>../tags/outputText.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>value</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>styleClass</name>
+    		<required>false</required>
+    	</attribute>
+    </tag>
+    
+	<tag>
+    	<tag-name>outputTextConverted</tag-name>
+    	<source>../tags/outputTextConverted.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>value</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>converterId</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>styleClass</name>
+    		<required>false</required>
+    	</attribute>
+    </tag>
+    
 </facelet-taglib>
