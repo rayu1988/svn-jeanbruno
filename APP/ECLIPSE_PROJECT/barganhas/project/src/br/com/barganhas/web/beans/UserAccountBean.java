@@ -82,6 +82,13 @@ public class UserAccountBean extends AppManagedBean {
 		return "userAccountLogin";
 	}
 	
+	public String edit() {
+		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+		this.userAccount = service.consult(this.userAccount);
+		
+		return "userAccountEdit";
+	}
+	
 	public String consult() {
 		AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
 		UserAccountTO userAccount = sessionBean.getUserAccount();

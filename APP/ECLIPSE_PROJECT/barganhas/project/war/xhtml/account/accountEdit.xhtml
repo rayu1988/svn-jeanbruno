@@ -13,27 +13,27 @@
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
-				<h:inputText id="userName" value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
-				<h:inputText id="userNickname" value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<h:inputText id="userNickname" value="#{userAccountBean.userAccount.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
-				<h:inputText id="userEmail" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<h:inputText id="infoContacts" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<h:inputText id="infoContacts" value="#{userAccountBean.userAccount.contacts}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
-				<h:inputSecret id="userPassword" value="#{administratorBean.administrator.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+				<h:inputSecret id="userPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPassword"/>
-				<h:inputSecret id="userConfirmPassword" value="#{administratorBean.administrator.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+				<h:inputSecret id="userConfirmPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 			</h:panelGrid>
 		</h:panelGroup>
 		<h:panelGroup styleClass="boxUserAccountForm mainFormAccountUserBoxButtons" layout="block">
-			<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{administratorBean.insert}" immediate="false" />
-			<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{administratorBean.list}" immediate="true"/>
+			<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.insert}" immediate="false" />
+			<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.consult}" immediate="true"/>
 		</h:panelGroup>
 	</ui:define>
 </ui:composition>
