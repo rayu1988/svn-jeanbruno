@@ -7,6 +7,12 @@ import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 
+import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.Transform;
+
 public class Util {
 
 	public static boolean isStringOk(String str) {
@@ -64,5 +70,27 @@ public class Util {
 		} else {
 			return new Locale("pt", "pt_BR");
 		}
+	}
+	
+	public static Blob transformBlobImage(Blob baseImage, int maxHeight, int maxWidth) {
+		ImagesService imagesService = ImagesServiceFactory.getImagesService();
+		Image oldImage = ImagesServiceFactory.makeImage(baseImage.getBytes());
+		
+		double height = oldImage.getHeight();
+		double width = oldImage.getWidth();
+		
+		if (height > maxHeight) {
+			width = maxWidth / (height / width);
+			height = maxHeight;
+		}
+		
+		if (width > maxWidth) {
+			height = maxHeight / (width / height);
+			width = maxWidth;
+		}
+		
+		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);
+		Image newImage = imagesService.applyTransform(transform, oldImage);
+		return new Blob(newImage.getImageData());
 	}
 }

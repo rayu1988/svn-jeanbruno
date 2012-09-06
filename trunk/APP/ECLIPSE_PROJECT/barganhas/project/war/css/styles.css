@@ -512,6 +512,11 @@ input {
 	font-size: 110%;
 	height: 23px;
 }
+.inputTextAreaMainForm {
+	padding: 5px;
+	border: 1px solid #D8DEE2;
+	font-size: 110%;
+}
 .inputLogin {
 	width: 400px;
 }
@@ -551,7 +556,7 @@ input {
 	background-color: #F7F7F7;
 	text-align: center;
 }
-#boxAccountProfileImage {
+.boxAccountProfileImage {
 	background-color: #FFF;
 	position: relative;
 	border: 1px solid #CCC;

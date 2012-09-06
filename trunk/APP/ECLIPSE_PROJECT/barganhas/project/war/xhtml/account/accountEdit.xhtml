@@ -3,7 +3,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich">
 	
 	<ui:define name="userAccountRightContent">
 		<h:panelGroup layout="block" styleClass="boxUserAccountForm boxUserAccountFormContext">
@@ -12,6 +14,16 @@
 		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
+				<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
+								acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
+								clearAllLabel="limpar todos" clearLabel="limpar"
+								deleteLabel="excluir" uploadLabel="carregar"
+								sizeExceededLabel="arquivo muito grande"
+								maxFilesQuantity="1"
+								doneLabel="concluido">
+				</rich:fileUpload>
+				
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
 				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
@@ -21,19 +33,22 @@
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
 				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
-				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<h:inputText id="infoContacts" value="#{userAccountBean.userAccount.contacts}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-				
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
 				<h:inputSecret id="userPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPassword"/>
 				<h:inputSecret id="userConfirmPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+				
+				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
+				<h:inputTextarea id="infoContacts" value="#{userAccountBean.userAccount.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+				</h:inputTextarea>
 			</h:panelGrid>
 		</h:panelGroup>
 		<h:panelGroup styleClass="boxUserAccountForm mainFormAccountUserBoxButtons" layout="block">
-			<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.insert}" immediate="false" />
-			<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.consult}" immediate="true"/>
+			<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.save}" immediate="false" />
+			<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.consult}" immediate="false"/>
 		</h:panelGroup>
+		
+		<t:saveState value="#{userAccountBean.profileImage}" />
 	</ui:define>
 </ui:composition>

@@ -103,11 +103,6 @@ public class UserAccountPO extends AppPersistency {
 	public void save(UserAccountTO userAccount) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			if (!Util.isStringOk(userAccount.getPassword())) {
-				UserAccountTO syncronizedTO = this.consult(userAccount);
-				userAccount.setPassword(syncronizedTO.getPassword());
-			}
-			
 			this.persist(userAccount);
 			transaction.commit();
 		} finally {
