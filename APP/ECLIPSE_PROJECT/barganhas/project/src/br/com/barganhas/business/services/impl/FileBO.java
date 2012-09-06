@@ -42,9 +42,4 @@ public class FileBO implements File {
 		this.persistencyLayer.delete(file);
 	}
 	
-	@Override
-	public FileTO serverFile(Long id) {
-		return this.persistencyLayer.serverFile(id);
-	}
-	
 }

@@ -119,8 +119,7 @@ public class AdministratorPO extends AppPersistency {
 	public AdministratorTO consult(AdministratorTO administrator) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Entity entity = this.getEntity(administrator);
-			administrator = AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity);
+			administrator = this.consultEntityById(administrator);
 			
 			transaction.commit();
 			return administrator;

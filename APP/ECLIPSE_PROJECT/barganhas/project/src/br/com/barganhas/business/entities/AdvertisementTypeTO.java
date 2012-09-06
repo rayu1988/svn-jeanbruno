@@ -22,17 +22,25 @@ public class AdvertisementTypeTO extends TransferObject {
 		super(null);
 	}
 	
+	public AdvertisementTypeTO(Long id) {
+		super(null);
+		this.setId(id);
+	}
+	
 	public AdvertisementTypeTO(Key key) {
 		super(key);
 	}
 
-	// GETTERS AND SETTERS //
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
+	@Override
 	public Long getId() {
 		return id;
 	}
+	
+	// GETTERS AND SETTERS //
 	public String getTitle() {
 		return title;
 	}

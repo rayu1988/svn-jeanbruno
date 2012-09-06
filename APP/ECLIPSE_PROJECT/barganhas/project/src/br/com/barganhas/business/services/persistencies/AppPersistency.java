@@ -1,6 +1,7 @@
 package br.com.barganhas.business.services.persistencies;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import br.com.barganhas.business.entities.TransferObject;
@@ -79,6 +80,26 @@ public abstract class AppPersistency implements Serializable {
 		} catch (Exception e) {
 			throw new AppException(e);
 		}
+	}
+
+	/**
+	 * Get a syncronized TransferObject from the database using as base the 'id' property from the TransferObject passed as parameter. 
+	 * @param transferObject
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T extends TransferObject> T consultEntityById(T transferObject) throws IllegalArgumentException, SecurityException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+		Query query = this.getQuery(transferObject.getClass());
+		query.setFilter(new Query.FilterPredicate(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Query.FilterOperator.EQUAL, transferObject.getId()));
+		Entity entity = this.getDataStoreService().prepare(query).asSingleEntity();
+		
+		return (T) AnnotationUtils.getTransferObjectFromEntity(transferObject.getClass(), entity);
 	}
 	
 	protected <T extends TransferObject> void deleteEntity(T transferObject) {

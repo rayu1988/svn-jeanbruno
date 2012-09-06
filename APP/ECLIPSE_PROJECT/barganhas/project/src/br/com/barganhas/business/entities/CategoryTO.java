@@ -21,19 +21,26 @@ public class CategoryTO extends TransferObject {
 	public CategoryTO() {
 		super(null);
 	}
+
+	public CategoryTO(Long id) {
+		super(null);
+		this.setId(id);
+	}
 	
 	public CategoryTO(Key key) {
 		super(key);
 	}
 
-	// GETTERS AND SETTERS //
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
+	@Override
 	public Long getId() {
 		return id;
 	}
-
+	
+	// GETTERS AND SETTERS //
 	public String getName() {
 		return name;
 	}

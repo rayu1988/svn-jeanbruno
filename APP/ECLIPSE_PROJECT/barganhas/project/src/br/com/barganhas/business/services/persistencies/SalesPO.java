@@ -65,8 +65,7 @@ public class SalesPO extends AppPersistency {
 	public SalesTO consult(SalesTO sales) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Entity entity = this.getEntity(sales);
-			sales = AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity);
+			sales = this.consultEntityById(sales);
 			
 			transaction.commit();
 			return sales;

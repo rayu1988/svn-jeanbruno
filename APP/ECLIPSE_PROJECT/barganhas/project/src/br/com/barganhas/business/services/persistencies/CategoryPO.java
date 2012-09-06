@@ -65,8 +65,7 @@ public class CategoryPO extends AppPersistency {
 	public CategoryTO consult(CategoryTO category) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Entity entity = this.getEntity(category);
-			category = AnnotationUtils.getTransferObjectFromEntity(CategoryTO.class, entity);
+			category = this.consultEntityById(category);
 			
 			transaction.commit();
 			return category;

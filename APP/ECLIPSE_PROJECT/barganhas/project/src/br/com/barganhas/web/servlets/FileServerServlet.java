@@ -30,7 +30,7 @@ public class FileServerServlet extends HttpServlet {
 		if (Util.isStringOk(query)) {
 			ServiceBusinessFactory serviceBusinessFactory = ServiceBusinessFactory.getInstance();
 			File serivce = serviceBusinessFactory.getFile();
-			FileTO file = serivce.serverFile(new Long(query));
+			FileTO file = serivce.consult(new FileTO(new Long(query)));
 			
 			resp.setContentType(file.getContentType());
 			resp.getOutputStream().write(file.getData().getBytes());

@@ -32,7 +32,11 @@ public abstract class UserTO extends TransferObject {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	@Override
+	public Long getId() {
+		return id;
+	}
+	
 	// GETTERS AND SETTERS //
 	public String getNickname() {
 		return nickname;
@@ -64,9 +68,5 @@ public abstract class UserTO extends TransferObject {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Long getId() {
-		return id;
 	}
 }

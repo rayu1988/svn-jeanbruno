@@ -115,8 +115,7 @@ public class UserAccountPO extends AppPersistency {
 	public UserAccountTO consult(UserAccountTO userAccount) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Entity entity = this.getEntity(userAccount);
-			userAccount = AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity);
+			userAccount = this.consultEntityById(userAccount);
 			
 			transaction.commit();
 			return userAccount;
