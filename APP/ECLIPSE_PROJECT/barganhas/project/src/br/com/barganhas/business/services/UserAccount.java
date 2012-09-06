@@ -2,6 +2,7 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
+import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 
 public interface UserAccount {
@@ -15,6 +16,8 @@ public interface UserAccount {
 	UserAccountTO consult(UserAccountTO userAccount);
 	
 	void save(UserAccountTO userAccount);
+
+	void save(UserAccountTO userAccount, FileTO fileImage);
 
 	void delete(UserAccountTO userAccount);
 

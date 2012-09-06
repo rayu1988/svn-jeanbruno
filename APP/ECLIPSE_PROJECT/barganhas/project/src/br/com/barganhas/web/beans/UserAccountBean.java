@@ -6,6 +6,12 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.servlet.http.HttpServletResponse;
 
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
+
+import com.google.appengine.api.datastore.Blob;
+
+import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.UserAccount;
@@ -28,6 +34,8 @@ public class UserAccountBean extends AppManagedBean {
 
 	private String								nickname;
 	private String								password;
+	
+	private UploadedFile 						profileImage;
 	
 	private DataModel<Object>					dataModel;
 
@@ -89,9 +97,37 @@ public class UserAccountBean extends AppManagedBean {
 		return "userAccountEdit";
 	}
 	
+	public void uploadFile(FileUploadEvent event) {
+		this.profileImage = event.getUploadedFile();
+	}
+	
+	public String save() {
+		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+		if (this.profileImage != null) {
+			FileTO file = new FileTO();
+			file.setContentType(this.profileImage.getContentType());
+			file.setFileName(this.profileImage.getName());
+
+			byte[] bytes = this.profileImage.getData();
+			file.setData(new Blob(bytes));
+			
+			service.save(this.userAccount, file);
+		} else {
+			service.save(this.userAccount);
+		}
+		
+		return this.consult();
+	}
+	
 	public String consult() {
-		AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
-		UserAccountTO userAccount = sessionBean.getUserAccount();
+		UserAccountTO userAccount = null;
+		if (this.userAccount != null && this.userAccount.getId() != null) {
+			userAccount = this.userAccount;
+		} else {
+			AppSessionBean sessionBean = this.getManagedBean(AppSessionBean.class);
+			userAccount = sessionBean.getUserAccount();
+		}
+		
 		if (userAccount == null) {
 			return this.goToLogin();
 		} else {
@@ -193,5 +229,13 @@ public class UserAccountBean extends AppManagedBean {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public UploadedFile getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(UploadedFile profileImage) {
+		this.profileImage = profileImage;
 	}
 }

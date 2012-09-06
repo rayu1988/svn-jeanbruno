@@ -5,11 +5,10 @@ import java.util.Date;
 import br.com.barganhas.business.entities.annotations.PropertyField;
 import br.com.barganhas.enums.UserAccountStatus;
 
-import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("serial")
-public class UserAccountTO extends User {
+public class UserAccountTO extends UserTO {
 
 	@PropertyField
 	private Date					sinceDate;
@@ -21,7 +20,7 @@ public class UserAccountTO extends User {
 	private String					contacts;
 	
 	@PropertyField
-	private Blob					profileImage;
+	private Long					profileImage;
 	
 	public UserAccountTO() {
 		super(null);
@@ -31,14 +30,7 @@ public class UserAccountTO extends User {
 		super(key);
 	}
 
-	public Blob getProfileImage() {
-		return profileImage;
-	}
-
-	public void setProfileImage(Blob profileImage) {
-		this.profileImage = profileImage;
-	}
-
+	// GETTERS AND SETTERS //
 	public String getContacts() {
 		return contacts;
 	}
@@ -61,6 +53,14 @@ public class UserAccountTO extends User {
 
 	public void setSinceDate(Date sinceDate) {
 		this.sinceDate = sinceDate;
+	}
+
+	public Long getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(Long profileImage) {
+		this.profileImage = profileImage;
 	}
 	
 }

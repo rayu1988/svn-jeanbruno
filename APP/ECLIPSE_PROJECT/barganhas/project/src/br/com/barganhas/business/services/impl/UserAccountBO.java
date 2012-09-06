@@ -6,18 +6,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.UserAccountPO;
+import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.UserAccountStatus;
+
+import com.google.appengine.api.datastore.Blob;
 
 @Service("userAccountBO")
 public class UserAccountBO implements UserAccount {
 
 	public static final String						BEAN_ALIAS = "userAccountBO";
 
+	public static final int							MAX_WIDTH_IMG_PROFILE = 128;
+	public static final int							MAX_HEIGHT_IMG_PROFILE = 128;
+	
 	@Autowired
 	private UserAccountPO							persistencyLayer;
+	
+	@Autowired
+	private File									fileService;
 	
 	@Override
 	public List<UserAccountTO> list() {
@@ -41,7 +52,28 @@ public class UserAccountBO implements UserAccount {
 	
 	@Override
 	public void save(UserAccountTO userAccount) {
+		UserAccountTO syncronized = this.consult(userAccount);
+		if (syncronized.getProfileImage() != null) {
+			FileTO file = this.fileService.serverFile(syncronized.getProfileImage());
+			this.fileService.delete(file);
+		}
+		if (!Util.isStringOk(userAccount.getPassword())) {
+			userAccount.setPassword(syncronized.getPassword());
+		}
+		
 		this.persistencyLayer.save(userAccount);
+	}
+	
+	@Override
+	public void save(UserAccountTO userAccount, FileTO fileImage) {
+		if (fileImage != null) {
+			Blob profileImage = Util.transformBlobImage(fileImage.getData(), MAX_HEIGHT_IMG_PROFILE, MAX_WIDTH_IMG_PROFILE);
+			fileImage.setData(profileImage);
+			this.fileService.insert(fileImage);
+			userAccount.setProfileImage(fileImage.getId());
+		}
+		
+		this.save(userAccount);
 	}
 
 	@Override

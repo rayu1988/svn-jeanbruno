@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import br.com.barganhas.business.services.impl.AdministratorBO;
 import br.com.barganhas.business.services.impl.AdvertisementTypeBO;
 import br.com.barganhas.business.services.impl.CategoryBO;
+import br.com.barganhas.business.services.impl.FileBO;
 import br.com.barganhas.business.services.impl.SalesBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
 
@@ -45,6 +46,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public UserAccount getUserAccount() {
 		return (UserAccount) this.applicationContext.getBean(UserAccountBO.BEAN_ALIAS);
+	}
+	
+	public File getFile() {
+		return (File) this.applicationContext.getBean(FileBO.BEAN_ALIAS);
 	}
 	
 }

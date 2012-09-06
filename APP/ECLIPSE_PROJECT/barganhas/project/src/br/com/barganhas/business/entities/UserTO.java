@@ -6,7 +6,7 @@ import br.com.barganhas.business.entities.annotations.PropertyField;
 import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("serial")
-public abstract class User extends TransferObject {
+public abstract class UserTO extends TransferObject {
 
 	@IdField
 	@PropertyField
@@ -24,7 +24,7 @@ public abstract class User extends TransferObject {
 	@PropertyField(notNull=true, allowEmpty=false)
 	private String 			password;
 	
-	public User(Key key) {
+	public UserTO(Key key) {
 		super(key);
 	}
 

@@ -3,7 +3,7 @@ package br.com.barganhas.business.entities;
 import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("serial")
-public class AdministratorTO extends User {
+public class AdministratorTO extends UserTO {
 	
 	public AdministratorTO() {
 		super(null);
