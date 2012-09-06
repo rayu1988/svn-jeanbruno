@@ -53,10 +53,6 @@ public class UserAccountBO implements UserAccount {
 	@Override
 	public void save(UserAccountTO userAccount) {
 		UserAccountTO syncronized = this.consult(userAccount);
-		if (syncronized.getProfileImage() != null) {
-			FileTO file = this.fileService.serverFile(syncronized.getProfileImage());
-			this.fileService.delete(file);
-		}
 		if (!Util.isStringOk(userAccount.getPassword())) {
 			userAccount.setPassword(syncronized.getPassword());
 		}
@@ -71,6 +67,12 @@ public class UserAccountBO implements UserAccount {
 			fileImage.setData(profileImage);
 			this.fileService.insert(fileImage);
 			userAccount.setProfileImage(fileImage.getId());
+			
+			UserAccountTO syncronized = this.consult(userAccount);
+			if (syncronized.getProfileImage() != null) {
+				FileTO file = this.fileService.consult(new FileTO(syncronized.getProfileImage()));
+				this.fileService.delete(file);
+			}
 		}
 		
 		this.save(userAccount);

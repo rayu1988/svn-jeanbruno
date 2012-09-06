@@ -26,6 +26,11 @@ public class FileTO extends TransferObject {
 		super(null);
 	}
 	
+	public FileTO(Long id) {
+		super(null);
+		this.setId(id);
+	}
+	
 	public FileTO(Key key) {
 		super(key);
 	}
@@ -34,12 +39,12 @@ public class FileTO extends TransferObject {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	// GETTERS AND SETTERS //
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	// GETTERS AND SETTERS //
 	public Blob getData() {
 		return data;
 	}

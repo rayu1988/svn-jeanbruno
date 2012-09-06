@@ -21,4 +21,5 @@ public abstract class TransferObject implements Serializable {
 	}
 
 	public abstract void setId(Long id);
+	public abstract Long getId();
 }

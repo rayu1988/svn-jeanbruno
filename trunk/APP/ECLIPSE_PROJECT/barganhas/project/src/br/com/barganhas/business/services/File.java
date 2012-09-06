@@ -16,6 +16,4 @@ public interface File {
 
 	void delete(FileTO file);
 
-	FileTO serverFile(Long id);
-
 }

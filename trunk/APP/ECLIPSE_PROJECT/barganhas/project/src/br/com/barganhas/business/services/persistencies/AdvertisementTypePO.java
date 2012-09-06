@@ -65,8 +65,7 @@ public class AdvertisementTypePO extends AppPersistency {
 	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			Entity entity = this.getEntity(advertisementType);
-			advertisementType = AnnotationUtils.getTransferObjectFromEntity(AdvertisementTypeTO.class, entity);
+			advertisementType = this.consultEntityById(advertisementType);
 			
 			transaction.commit();
 			return advertisementType;

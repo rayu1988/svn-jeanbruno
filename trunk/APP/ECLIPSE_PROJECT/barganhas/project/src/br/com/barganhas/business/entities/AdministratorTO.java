@@ -9,6 +9,12 @@ public class AdministratorTO extends UserTO {
 		super(null);
 	}
 	
+	public AdministratorTO(Long id) {
+		super(null);
+		this.setId(id);
+	}
+	
+	
 	public AdministratorTO(Key key) {
 		super(key);
 	}

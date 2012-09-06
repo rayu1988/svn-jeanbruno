@@ -53,6 +53,7 @@ public class SalesBean extends AppManagedBean {
 		Sales service = this.getServiceBusinessFactory().getSales();
 		service.save(this.sales);
 		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.consult();
 	}
 	
@@ -60,7 +61,6 @@ public class SalesBean extends AppManagedBean {
 		Sales service = this.getServiceBusinessFactory().getSales();
 		this.sales = service.consult(this.sales);
 		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return "salesConsult";
 	}
 
