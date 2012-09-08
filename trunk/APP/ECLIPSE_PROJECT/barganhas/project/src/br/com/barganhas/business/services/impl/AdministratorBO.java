@@ -28,8 +28,8 @@ public class AdministratorBO implements Administrator {
 	}
 	
 	@Override
-	public void insert(AdministratorTO administrator) {
-		this.persistencyLayer.insert(administrator);
+	public AdministratorTO insert(AdministratorTO administrator) {
+		return this.persistencyLayer.insert(administrator);
 	}
 	
 	@Override
@@ -38,8 +38,8 @@ public class AdministratorBO implements Administrator {
 	}
 	
 	@Override
-	public void save(AdministratorTO administrator) {
-		this.persistencyLayer.save(administrator);
+	public AdministratorTO save(AdministratorTO administrator) {
+		return this.persistencyLayer.save(administrator);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.FileTO;
+import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
 
@@ -38,11 +39,11 @@ public class FilePO extends AppPersistency {
 		}
 	}
 	
-	public void insert(FileTO file) {
+	public FileTO insert(FileTO file, TransferObject ancestorTO) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(file);
 			transaction.commit();
+			return this.persist(file, ancestorTO);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -50,11 +51,11 @@ public class FilePO extends AppPersistency {
 		}
 	}
 	
-	public void save(FileTO file) {
+	public FileTO save(FileTO file) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(file);
 			transaction.commit();
+			return this.persist(file);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -65,10 +66,9 @@ public class FilePO extends AppPersistency {
 	public FileTO consult(FileTO file) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			file = this.consultEntityById(file);
-			
+			Entity entity = this.getDataStoreService().get(file.getKey());
 			transaction.commit();
-			return file;
+			return AnnotationUtils.getTransferObjectFromEntity(FileTO.class, entity);
 		} catch (Exception e) {
 			throw new AppException(e);
 		} finally {

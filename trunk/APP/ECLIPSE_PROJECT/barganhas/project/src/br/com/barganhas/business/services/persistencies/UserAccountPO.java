@@ -88,11 +88,11 @@ public class UserAccountPO extends AppPersistency {
 		}
 	}
 	
-	public void insert(UserAccountTO userAccount) {
+	public UserAccountTO insert(UserAccountTO userAccount) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(userAccount);
 			transaction.commit();
+			return this.persist(userAccount);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -100,11 +100,11 @@ public class UserAccountPO extends AppPersistency {
 		}
 	}
 	
-	public void save(UserAccountTO userAccount) {
+	public UserAccountTO save(UserAccountTO userAccount) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(userAccount);
 			transaction.commit();
+			return this.persist(userAccount);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

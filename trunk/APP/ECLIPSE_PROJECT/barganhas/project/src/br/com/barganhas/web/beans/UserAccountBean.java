@@ -10,6 +10,7 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
 import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
@@ -172,6 +173,13 @@ public class UserAccountBean extends AppManagedBean {
 		response.setDateHeader("Expires", 1);
 		
 		return this.getManagedBean(SiteBean.class).goToIndex();
+	}
+	
+	public String getCurrentKeyProfileImage() {
+		if (this.userAccount != null && this.userAccount.getKeyProfileImage() != null) {
+			return KeyFactory.keyToString(this.userAccount.getKeyProfileImage());
+		}
+		return null;
 	}
 	
 	// GETTERS AND SETTERS //

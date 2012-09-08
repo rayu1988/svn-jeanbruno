@@ -11,13 +11,13 @@ public interface UserAccount {
 
 	List<UserAccountTO> filter(UserAccountTO userAccount);
 	
-	void insert(UserAccountTO userAccount);
+	UserAccountTO insert(UserAccountTO userAccount);
 
 	UserAccountTO consult(UserAccountTO userAccount);
 	
-	void save(UserAccountTO userAccount);
+	UserAccountTO save(UserAccountTO userAccount);
 
-	void save(UserAccountTO userAccount, FileTO fileImage);
+	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage);
 
 	void delete(UserAccountTO userAccount);
 

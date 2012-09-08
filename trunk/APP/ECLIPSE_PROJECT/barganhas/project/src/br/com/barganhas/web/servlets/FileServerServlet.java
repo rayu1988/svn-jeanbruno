@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.KeyFactory;
+
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
@@ -30,7 +32,7 @@ public class FileServerServlet extends HttpServlet {
 		if (Util.isStringOk(query)) {
 			ServiceBusinessFactory serviceBusinessFactory = ServiceBusinessFactory.getInstance();
 			File serivce = serviceBusinessFactory.getFile();
-			FileTO file = serivce.consult(new FileTO(new Long(query)));
+			FileTO file = serivce.consult(new FileTO(KeyFactory.stringToKey(query)));
 			
 			resp.setContentType(file.getContentType());
 			resp.getOutputStream().write(file.getData().getBytes());

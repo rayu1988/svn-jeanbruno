@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.barganhas.business.entities.FileTO;
+import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.persistencies.FilePO;
 
@@ -23,8 +24,8 @@ public class FileBO implements File {
 	}
 	
 	@Override
-	public void insert(FileTO file) {
-		this.persistencyLayer.insert(file);
+	public FileTO insert(FileTO file, TransferObject ancestorTO) {
+		return this.persistencyLayer.insert(file, ancestorTO);
 	}
 	
 	@Override
@@ -33,8 +34,8 @@ public class FileBO implements File {
 	}
 	
 	@Override
-	public void save(FileTO file) {
-		this.persistencyLayer.save(file);
+	public FileTO save(FileTO file) {
+		return this.persistencyLayer.save(file);
 	}
 	
 	@Override

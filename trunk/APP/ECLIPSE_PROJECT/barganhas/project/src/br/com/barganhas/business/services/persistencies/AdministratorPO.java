@@ -87,11 +87,11 @@ public class AdministratorPO extends AppPersistency {
 		}
 	}
 	
-	public void insert(AdministratorTO administrator) {
+	public AdministratorTO insert(AdministratorTO administrator) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(administrator);
 			transaction.commit();
+			return this.persist(administrator);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -99,7 +99,7 @@ public class AdministratorPO extends AppPersistency {
 		}
 	}
 	
-	public void save(AdministratorTO administrator) {
+	public AdministratorTO save(AdministratorTO administrator) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
 			if (!Util.isStringOk(administrator.getPassword())) {
@@ -107,8 +107,8 @@ public class AdministratorPO extends AppPersistency {
 				administrator.setPassword(syncronizedTO.getPassword());
 			}
 			
-			this.persist(administrator);
 			transaction.commit();
+			return this.persist(administrator);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
