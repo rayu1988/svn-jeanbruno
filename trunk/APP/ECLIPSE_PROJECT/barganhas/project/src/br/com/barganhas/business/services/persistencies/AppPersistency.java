@@ -31,25 +31,62 @@ public abstract class AppPersistency implements Serializable {
 		return DatastoreServiceFactory.getDatastoreService();
 	}
 	
+	/**
+	 * Method to get the correct ancestor.
+	 * If the parameter passed to this method is null the defeult ancestor is returned that is the key of Transfer Object (class).
+	 * Otherwise, the value returned is the key of the ancestor passed as parameter.
+	 * 
+	 * @param ancestor
+	 * @return
+	 */
+	private <T extends TransferObject> Key getAncestor(T ancestor) {
+		return ancestor != null && Util.isStringOk(ancestor.getKey()) ? KeyFactory.stringToKey(ancestor.getKey()) : TRANSFER_OBJECT_ANCESTOR;
+	}
+	
+	/**
+	 * Method to get the default key of the transferObject passed as parameter, that is the key of the Transfer Object (Class).
+	 * @param transferObject
+	 * @return
+	 */
 	protected <T extends TransferObject> Key getKey(T transferObject) {
+		return this.getKey(transferObject, null);
+	}
+	
+	/**
+	 * Method to get the key of the transferObject passed as parameter and that have the ancestor passed as parameter.
+	 * The ancestor passed as parameter can be null, and if it's truth the key returned is the default key that is of the Transfer Object (Class).
+	 * 
+	 * @param transferObject
+	 * @param ancestorTO
+	 * @return
+	 */
+	protected <T extends TransferObject> Key getKey(T transferObject, T ancestorTO) {
 		Util.validateParameterNull(transferObject);
 		try {
 			if (Util.isStringOk(transferObject.getKey())) { // save an edit/update
 				return KeyFactory.stringToKey(transferObject.getKey());
 			} else { // save an insert
-				Long nextId = this.getNextId(transferObject);
-				this.getDataStoreService().allocateIds(transferObject.getClass().getName(), nextId);
-				return KeyFactory.createKey(TRANSFER_OBJECT_ANCESTOR, transferObject.getClass().getName(), nextId);
+				Key ancestor = this.getAncestor(ancestorTO);
+				Long nextId = this.getNextId(transferObject, ancestorTO);
+				this.getDataStoreService().allocateIds(ancestor, transferObject.getClass().getName(), nextId);
+				return KeyFactory.createKey(ancestor, transferObject.getClass().getName(), nextId);
 			}
 		} catch (Exception e) {
 			throw new AppException(e);
 		}
 	}
 	
-	private <T extends TransferObject> Long getNextId(T transferObject) {
+	/**
+	 * Method to get the next id to transferObject passed as parameter that has the ancestorTO (passed as parameter) as ancestor.
+	 * 
+	 * @param transferObject
+	 * @param ancestorTO
+	 * @return
+	 */
+	private <T extends TransferObject> Long getNextId(T transferObject, T ancestorTO) {
 		Long nextId = (long) 1;
 		
-		Query query = this.getQuery(transferObject.getClass());
+		Query query = this.getQuery(transferObject.getClass(), ancestorTO);
 		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Long.class));
 		query.addSort(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), SortDirection.DESCENDING);
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
@@ -62,17 +99,58 @@ public abstract class AppPersistency implements Serializable {
 	}
 	
 	/**
-	 * Method used to get an Entity instance and if the current transferObject passed as parameter already exists in the database, the returned instance is this, from database
-	 * otherwise if the transferObject exist not in the database, the instance returned is an Entity prepared (with its Key) to be persisted in the database.
+	 * Get a query object to retrieve data from database, this query object should be used to the targetTO passed as parameter.
+	 * It's so important note that the query object returned by this method has the default ancestor, that is the key of Transfer Object (Class).
+	 * 
+	 * @param targetTO
+	 * @return
+	 */
+	protected <T extends TransferObject> Query getQuery(Class<T> targetTO) {
+		return this.getQuery(targetTO, null);
+	}
+	
+	/**
+	 * Get a query object to retrieve data from database, this query object should be used to the targetTO passed as parameter and as well 
+	 * using the ancestorTO as ancestor passed as parameter.
+	 * 
+	 * @param targetTO
+	 * @param ancestorTO
+	 * @return
+	 */
+	protected <T extends TransferObject> Query getQuery(Class<? extends TransferObject> targetTO, T ancestorTO) {
+		Query query = new Query(targetTO.getName());
+		query.setAncestor(this.getAncestor(ancestorTO));
+		return query;
+	}
+	
+	/**
+	 * Method used to get an Entity instance and if the current transferObject passed as parameter already exists in the database will be returnd this method
+	 * sycronized from database otherwise if the transferObject exist not in the database, the instance returned is an Entity prepared (with its Key) to be 
+	 * persisted in the database.
+	 * 
 	 * @param transferObject
 	 * @return
 	 */
 	protected <T extends TransferObject> Entity getEntity(T transferObject) {
+		return this.getEntity(transferObject, null);
+	}
+	
+	/**
+	 * Method used to get an Entity instance and if the current transferObject passed as parameter already exists in the database will be returnd this method
+	 * sycronized from database otherwise if the transferObject exist not in the database, the instance returned is an Entity prepared (with its Key) to be 
+	 * persisted in the database.
+	 * 
+	 * @param transferObject
+	 * @param ancestorTO
+	 * @return
+	 */
+	protected <T extends TransferObject> Entity getEntity(T transferObject, T ancestorTO) {
 		try {
-			Key key = this.getKey(transferObject);
+			Key key = this.getKey(transferObject, ancestorTO);
 			try {
 				return this.getDataStoreService().get(key);
 			} catch (EntityNotFoundException e) {
+				//if an EntityNotFoundException was launched it means that a new entity must be created and later will be persisted.
 				Entity entity = new Entity(key);
 				transferObject.setId(key.getId());
 				return entity;
@@ -82,6 +160,30 @@ public abstract class AppPersistency implements Serializable {
 		}
 	}
 
+	/**
+	 * Method used to get the count number of objects persisted of the Transfer Object's type passed as parameter.
+	 * It's so important note that the count number returned by this method has the default ancestor, that is the key of Transfer Object (Class).
+	 * 
+	 * @param targetTO
+	 * @return
+	 */
+	public <T extends TransferObject> int count(Class<T> targetTO) {
+		return this.count(targetTO, null);
+	}
+	
+	/**
+	 * Method used to get the count number of objects persisted of the Transfer Object's type passed as parameter and as well the ancestorTO type passed as parameter.
+	 * 
+	 * @param targetTO
+	 * @return
+	 */
+	public <T extends TransferObject> int count(Class<T> targetTO, T ancestorTO) {
+		Query query = this.getQuery(targetTO, ancestorTO);
+		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(targetTO), Long.class));
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults());
+	}
+	
 	/**
 	 * Get a syncronized TransferObject from the database using as base the 'id' property from the TransferObject passed as parameter. 
 	 * @param transferObject
@@ -93,32 +195,67 @@ public abstract class AppPersistency implements Serializable {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
-	@SuppressWarnings("unchecked")
 	protected <T extends TransferObject> T consultEntityById(T transferObject) throws IllegalArgumentException, SecurityException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		Query query = this.getQuery(transferObject.getClass());
+		return this.consultEntityById(transferObject, null);
+	}
+
+	/**
+	 * Get a syncronized TransferObject from the database using as base the 'id' property from the TransferObject passed as parameter.
+	 * 
+	 * @param transferObject
+	 * @param ancestorTO
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T extends TransferObject> T consultEntityById(T transferObject, T ancestorTO) 
+	throws IllegalArgumentException, SecurityException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+		Query query = this.getQuery(transferObject.getClass(), ancestorTO);
 		query.setFilter(new Query.FilterPredicate(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Query.FilterOperator.EQUAL, transferObject.getId()));
 		Entity entity = this.getDataStoreService().prepare(query).asSingleEntity();
 		
 		return (T) AnnotationUtils.getTransferObjectFromEntity(transferObject.getClass(), entity);
 	}
 	
-	protected <T extends TransferObject> void deleteEntity(T transferObject) {
-		this.getDataStoreService().delete(this.getKey(transferObject));
-	}
-	
 	/**
-	 * Get a query object to retrieve data from database.
+	 * Method to get a simple PreparedQuery object without filters.
+	 * It's so important not that the targetTO Transfer Object passed as parameter should has as ancestor the Transfer Object (Class).
+	 * 
 	 * @param targetTO
 	 * @return
 	 */
-	protected <T extends TransferObject> Query getQuery(Class<T> targetTO) {
-		Query query = new Query(targetTO.getName());
-		query.setAncestor(TRANSFER_OBJECT_ANCESTOR);
-		return query;
+	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO) {
+		return this.getSimplePreparedQuery(targetTO, null);
 	}
 	
-	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO) {
-		return this.getDataStoreService().prepare(this.getQuery(targetTO));
+	/**
+	 * Method to get a simple PreparedQuery object without filters.
+	 * The returned PreparedQuery is to transferTO Class passed as parameter as well to ancestorTO ancestor passed as parameter.
+	 * 
+	 * @param targetTO
+	 * @param ancestorTO
+	 * @return
+	 */
+	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO, T ancestorTO) {
+		return this.getDataStoreService().prepare(this.getQuery(targetTO, ancestorTO));
+	}
+
+	/**
+	 * Method used to delete the transferObject passed as parameter.
+	 * 
+	 * @param transferObject
+	 */
+	protected <T extends TransferObject> void deleteEntity(T transferObject) {
+		Util.validateParameterNull(transferObject);
+		if (!Util.isStringOk(transferObject.getKey())) {
+			throw new IllegalStateException("The transferObject passed as parameter must has its key property as a String valid value.");
+		}
+		this.getDataStoreService().delete(this.getKey(transferObject));
 	}
 	
 	/**
@@ -128,11 +265,21 @@ public abstract class AppPersistency implements Serializable {
 	 * @param transferObject
 	 */
 	protected void persist(TransferObject transferObject) {
+		this.persist(transferObject, null);
+	}
+	
+	/**
+	 * Method used to persist the current transferObject in the database.
+	 * 
+	 * @param transferObject
+	 * @param ancestorTO
+	 */
+	protected <T extends TransferObject> void persist(T transferObject, T ancestorTO) {
 		Entity entity = null;
 		if (Util.isStringOk(transferObject.getKey())) {
 			entity = new Entity(this.getKey(transferObject));
 		} else {
-			entity = this.getEntity(transferObject);
+			entity = this.getEntity(transferObject, ancestorTO);
 		}
 		
 		try {
@@ -148,13 +295,6 @@ public abstract class AppPersistency implements Serializable {
 		} catch (Exception e) {
 			throw new AppException(e);
 		}
-	}
-	
-	public <T extends TransferObject> int count(Class<T> targetTO) {
-		Query query = this.getQuery(targetTO);
-		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(targetTO), Long.class));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults());
 	}
 	
 }

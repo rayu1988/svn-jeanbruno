@@ -1,4 +1,4 @@
-<!-- Indices written at Wed, 29 Aug 2012 11:53:54 BRT -->
+<!-- Indices written at Sat, 8 Sep 2012 00:48:46 BRT -->
 
 <datastore-indexes>
 
@@ -9,6 +9,11 @@
 
     <!-- Used 1 time in query history -->
     <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="auto">
+        <property name="id" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true" source="auto">
         <property name="id" direction="desc"/>
     </datastore-index>
 
