@@ -11,9 +11,9 @@
 			<h:panelGrid columns="2" columnClasses="columnTop, columnTop" style="width: 100%">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
-								rendered="#{userAccountBean.userAccount.profileImage eq null}"/>
-					<h:graphicImage value="/fileserver?q=#{userAccountBean.userAccount.profileImage}" styleClass="boxAccountProfileImage"
-								rendered="#{userAccountBean.userAccount.profileImage ne null}"/>
+								rendered="#{userAccountBean.userAccount.keyProfileImage eq null}"/>
+					<h:graphicImage value="/fileserver?q=#{userAccountBean.currentKeyProfileImage}" styleClass="boxAccountProfileImage"
+								rendered="#{userAccountBean.userAccount.keyProfileImage ne null}"/>
 					
 					<ul style="text-align: left;">
 						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.consult}" immediate="false" styleClass="menuOptionUserAccount"/></li>

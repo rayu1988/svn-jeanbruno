@@ -10,11 +10,11 @@ public interface Administrator {
 
 	List<AdministratorTO> filter(AdministratorTO administrator);
 	
-	void insert(AdministratorTO administrator);
+	AdministratorTO insert(AdministratorTO administrator);
 
 	AdministratorTO consult(AdministratorTO administrator);
 	
-	void save(AdministratorTO administrator);
+	AdministratorTO save(AdministratorTO administrator);
 
 	void delete(AdministratorTO administrator);
 	

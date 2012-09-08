@@ -23,8 +23,8 @@ public class AdvertisementTypeBO implements AdvertisementType {
 	}
 	
 	@Override
-	public void insert(AdvertisementTypeTO advertisementType) {
-		this.persistencyLayer.insert(advertisementType);
+	public AdvertisementTypeTO insert(AdvertisementTypeTO advertisementType) {
+		return this.persistencyLayer.insert(advertisementType);
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class AdvertisementTypeBO implements AdvertisementType {
 	}
 	
 	@Override
-	public void save(AdvertisementTypeTO advertisementType) {
-		this.persistencyLayer.save(advertisementType);
+	public AdvertisementTypeTO save(AdvertisementTypeTO advertisementType) {
+		return this.persistencyLayer.save(advertisementType);
 	}
 
 	@Override

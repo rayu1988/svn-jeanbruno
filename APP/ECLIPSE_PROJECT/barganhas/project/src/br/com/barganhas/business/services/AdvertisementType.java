@@ -8,11 +8,11 @@ public interface AdvertisementType {
 
 	List<AdvertisementTypeTO> list();
 	
-	void insert(AdvertisementTypeTO advertisementType);
+	AdvertisementTypeTO insert(AdvertisementTypeTO advertisementType);
 
 	AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType);
 	
-	void save(AdvertisementTypeTO advertisementType);
+	AdvertisementTypeTO save(AdvertisementTypeTO advertisementType);
 
 	void delete(AdvertisementTypeTO advertisementType);
 }

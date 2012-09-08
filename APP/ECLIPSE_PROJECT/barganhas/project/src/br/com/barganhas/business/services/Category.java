@@ -8,11 +8,11 @@ public interface Category {
 
 	List<CategoryTO> list();
 	
-	void insert(CategoryTO category);
+	CategoryTO insert(CategoryTO category);
 
 	CategoryTO consult(CategoryTO category);
 	
-	void save(CategoryTO category);
+	CategoryTO save(CategoryTO category);
 
 	void delete(CategoryTO category);
 }

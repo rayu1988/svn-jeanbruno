@@ -23,8 +23,8 @@ public class SalesBO implements Sales {
 	}
 	
 	@Override
-	public void insert(SalesTO sales) {
-		this.persistencyLayer.insert(sales);
+	public SalesTO insert(SalesTO sales) {
+		return this.persistencyLayer.insert(sales);
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class SalesBO implements Sales {
 	}
 	
 	@Override
-	public void save(SalesTO sales) {
-		this.persistencyLayer.save(sales);
+	public SalesTO save(SalesTO sales) {
+		return this.persistencyLayer.save(sales);
 	}
 
 	@Override

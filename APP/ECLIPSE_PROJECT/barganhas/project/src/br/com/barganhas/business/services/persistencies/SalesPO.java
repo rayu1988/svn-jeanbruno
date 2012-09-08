@@ -38,11 +38,11 @@ public class SalesPO extends AppPersistency {
 		}
 	}
 	
-	public void insert(SalesTO sales) {
+	public SalesTO insert(SalesTO sales) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(sales);
 			transaction.commit();
+			return this.persist(sales);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -50,11 +50,11 @@ public class SalesPO extends AppPersistency {
 		}
 	}
 	
-	public void save(SalesTO sales) {
+	public SalesTO save(SalesTO sales) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(sales);
 			transaction.commit();
+			return this.persist(sales);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

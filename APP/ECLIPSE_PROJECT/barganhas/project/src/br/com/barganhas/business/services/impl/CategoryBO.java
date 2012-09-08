@@ -23,8 +23,8 @@ public class CategoryBO implements Category {
 	}
 	
 	@Override
-	public void insert(CategoryTO category) {
-		this.persistencyLayer.insert(category);
+	public CategoryTO insert(CategoryTO category) {
+		return this.persistencyLayer.insert(category);
 	}
 	
 	@Override
@@ -33,8 +33,8 @@ public class CategoryBO implements Category {
 	}
 	
 	@Override
-	public void save(CategoryTO category) {
-		this.persistencyLayer.save(category);
+	public CategoryTO save(CategoryTO category) {
+		return this.persistencyLayer.save(category);
 	}
 
 	@Override

@@ -41,8 +41,8 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
-	public void insert(UserAccountTO userAccount) {
-		this.persistencyLayer.insert(userAccount);
+	public UserAccountTO insert(UserAccountTO userAccount) {
+		return this.persistencyLayer.insert(userAccount);
 	}
 	
 	@Override
@@ -51,31 +51,33 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
-	public void save(UserAccountTO userAccount) {
+	public UserAccountTO save(UserAccountTO userAccount) {
 		UserAccountTO syncronized = this.consult(userAccount);
 		if (!Util.isStringOk(userAccount.getPassword())) {
 			userAccount.setPassword(syncronized.getPassword());
 		}
 		
-		this.persistencyLayer.save(userAccount);
+		return this.persistencyLayer.save(userAccount);
 	}
 	
 	@Override
-	public void save(UserAccountTO userAccount, FileTO fileImage) {
+	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) {
 		if (fileImage != null) {
 			Blob profileImage = Util.transformBlobImage(fileImage.getData(), MAX_HEIGHT_IMG_PROFILE, MAX_WIDTH_IMG_PROFILE);
-			fileImage.setData(profileImage);
-			this.fileService.insert(fileImage);
-			userAccount.setProfileImage(fileImage.getId());
-			
-			UserAccountTO syncronized = this.consult(userAccount);
-			if (syncronized.getProfileImage() != null) {
-				FileTO file = this.fileService.consult(new FileTO(syncronized.getProfileImage()));
-				this.fileService.delete(file);
+			if (userAccount.getKeyProfileImage() == null) {
+				fileImage.setData(profileImage);
+				fileImage = this.fileService.insert(fileImage, userAccount);
+				userAccount.setKeyProfileImage(fileImage.getKey());
+			} else {
+				FileTO synchronizedProfileImage = this.fileService.consult(new FileTO(userAccount.getKeyProfileImage()));
+				synchronizedProfileImage.setContentType(fileImage.getContentType());
+				synchronizedProfileImage.setFileName(fileImage.getFileName());
+				synchronizedProfileImage.setData(profileImage);
+				this.fileService.save(synchronizedProfileImage);
 			}
 		}
 		
-		this.save(userAccount);
+		return this.save(userAccount);
 	}
 
 	@Override

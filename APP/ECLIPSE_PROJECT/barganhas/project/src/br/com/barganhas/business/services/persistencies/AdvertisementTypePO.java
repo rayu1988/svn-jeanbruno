@@ -38,11 +38,11 @@ public class AdvertisementTypePO extends AppPersistency {
 		}
 	}
 	
-	public void insert(AdvertisementTypeTO advertisementType) {
+	public AdvertisementTypeTO insert(AdvertisementTypeTO advertisementType) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(advertisementType);
 			transaction.commit();
+			return this.persist(advertisementType);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -50,11 +50,11 @@ public class AdvertisementTypePO extends AppPersistency {
 		}
 	}
 	
-	public void save(AdvertisementTypeTO advertisementType) {
+	public AdvertisementTypeTO save(AdvertisementTypeTO advertisementType) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(advertisementType);
 			transaction.commit();
+			return this.persist(advertisementType);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

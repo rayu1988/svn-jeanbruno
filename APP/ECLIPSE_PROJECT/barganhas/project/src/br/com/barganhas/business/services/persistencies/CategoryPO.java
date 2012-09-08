@@ -38,11 +38,11 @@ public class CategoryPO extends AppPersistency {
 		}
 	}
 	
-	public void insert(CategoryTO category) {
+	public CategoryTO insert(CategoryTO category) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(category);
 			transaction.commit();
+			return this.persist(category);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -50,11 +50,11 @@ public class CategoryPO extends AppPersistency {
 		}
 	}
 	
-	public void save(CategoryTO category) {
+	public CategoryTO save(CategoryTO category) {
 		Transaction transaction = this.getDataStoreService().beginTransaction();
 		try {
-			this.persist(category);
 			transaction.commit();
+			return this.persist(category);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

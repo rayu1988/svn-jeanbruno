@@ -40,7 +40,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	private <T extends TransferObject> Key getAncestor(T ancestor) {
-		return ancestor != null && Util.isStringOk(ancestor.getKey()) ? KeyFactory.stringToKey(ancestor.getKey()) : TRANSFER_OBJECT_ANCESTOR;
+		return ancestor != null && Util.isStringOk(ancestor.getKeyAsString()) ? KeyFactory.stringToKey(ancestor.getKeyAsString()) : TRANSFER_OBJECT_ANCESTOR;
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public abstract class AppPersistency implements Serializable {
 	protected <T extends TransferObject> Key getKey(T transferObject, T ancestorTO) {
 		Util.validateParameterNull(transferObject);
 		try {
-			if (Util.isStringOk(transferObject.getKey())) { // save an edit/update
-				return KeyFactory.stringToKey(transferObject.getKey());
+			if (Util.isStringOk(transferObject.getKeyAsString())) { // save an edit/update
+				return KeyFactory.stringToKey(transferObject.getKeyAsString());
 			} else { // save an insert
 				Key ancestor = this.getAncestor(ancestorTO);
 				Long nextId = this.getNextId(transferObject, ancestorTO);
@@ -252,7 +252,7 @@ public abstract class AppPersistency implements Serializable {
 	 */
 	protected <T extends TransferObject> void deleteEntity(T transferObject) {
 		Util.validateParameterNull(transferObject);
-		if (!Util.isStringOk(transferObject.getKey())) {
+		if (!Util.isStringOk(transferObject.getKeyAsString())) {
 			throw new IllegalStateException("The transferObject passed as parameter must has its key property as a String valid value.");
 		}
 		this.getDataStoreService().delete(this.getKey(transferObject));
@@ -264,8 +264,8 @@ public abstract class AppPersistency implements Serializable {
 	 * 
 	 * @param transferObject
 	 */
-	protected void persist(TransferObject transferObject) {
-		this.persist(transferObject, null);
+	protected <T extends TransferObject> T persist(T transferObject) {
+		return this.persist(transferObject, null);
 	}
 	
 	/**
@@ -274,9 +274,10 @@ public abstract class AppPersistency implements Serializable {
 	 * @param transferObject
 	 * @param ancestorTO
 	 */
-	protected <T extends TransferObject> void persist(T transferObject, T ancestorTO) {
+	@SuppressWarnings("unchecked")
+	protected <T extends TransferObject> T persist(T transferObject, TransferObject ancestorTO) {
 		Entity entity = null;
-		if (Util.isStringOk(transferObject.getKey())) {
+		if (Util.isStringOk(transferObject.getKeyAsString())) {
 			entity = new Entity(this.getKey(transferObject));
 		} else {
 			entity = this.getEntity(transferObject, ancestorTO);
@@ -292,6 +293,8 @@ public abstract class AppPersistency implements Serializable {
 				}
 			}
 			this.getDataStoreService().put(entity);
+			
+			return (T) AnnotationUtils.getTransferObjectFromEntity(transferObject.getClass(), entity);
 		} catch (Exception e) {
 			throw new AppException(e);
 		}

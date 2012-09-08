@@ -20,7 +20,7 @@ public class UserAccountTO extends UserTO {
 	private String					contacts;
 	
 	@PropertyField
-	private Long					profileImage;
+	private Key						keyProfileImage;
 	
 	public UserAccountTO() {
 		super(null);
@@ -60,12 +60,12 @@ public class UserAccountTO extends UserTO {
 		this.sinceDate = sinceDate;
 	}
 
-	public Long getProfileImage() {
-		return profileImage;
+	public Key getKeyProfileImage() {
+		return keyProfileImage;
 	}
 
-	public void setProfileImage(Long profileImage) {
-		this.profileImage = profileImage;
+	public void setKeyProfileImage(Key keyProfileImage) {
+		this.keyProfileImage = keyProfileImage;
 	}
 	
 }
