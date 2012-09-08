@@ -229,7 +229,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @param targetTO
 	 * @return
 	 */
-	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO) {
+	protected PreparedQuery getSimplePreparedQuery(Class<? extends TransferObject> targetTO) {
 		return this.getSimplePreparedQuery(targetTO, null);
 	}
 	
@@ -241,7 +241,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @param ancestorTO
 	 * @return
 	 */
-	protected <T extends TransferObject> PreparedQuery getSimplePreparedQuery(Class<T> targetTO, T ancestorTO) {
+	protected PreparedQuery getSimplePreparedQuery(Class<? extends TransferObject> targetTO, TransferObject ancestorTO) {
 		return this.getDataStoreService().prepare(this.getQuery(targetTO, ancestorTO));
 	}
 
