@@ -18,6 +18,14 @@
 			<!-- currency -->
 			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
 			<h:outputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" />
+			
+			<!-- advertisiment score -->
+			<h:outputLabel value="#{msg.privateAreaAdvertisementScore}:" for="advertisementScore"/>
+			<h:outputText id="advertisementScore" value="#{advertisementTypeBean.advertisementType.advertisementScore}"/>
+			
+			<!-- total pictures -->
+			<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
+			<h:outputText id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}"/>
 		</h:panelGrid>
 		
 		<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

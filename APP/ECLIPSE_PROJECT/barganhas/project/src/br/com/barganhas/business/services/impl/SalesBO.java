@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.appengine.api.datastore.Transaction;
+
 import br.com.barganhas.business.entities.SalesTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.SalesPO;
 
@@ -19,26 +22,85 @@ public class SalesBO implements Sales {
 	
 	@Override
 	public List<SalesTO> list() {
-		return this.persistencyLayer.list();
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<SalesTO> listReturn = this.persistencyLayer.list();
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public SalesTO insert(SalesTO sales) {
-		return this.persistencyLayer.insert(sales);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			sales = this.persistencyLayer.insert(sales);
+			
+			transaction.commit();
+			return sales;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public SalesTO consult(SalesTO sales) {
-		return this.persistencyLayer.consult(sales);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			sales = this.persistencyLayer.consult(sales);
+			
+			transaction.commit();
+			return sales;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public SalesTO save(SalesTO sales) {
-		return this.persistencyLayer.save(sales);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			sales = this.persistencyLayer.save(sales);
+			
+			transaction.commit();
+			return sales;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 
 	@Override
 	public void delete(SalesTO sales) {
-		this.persistencyLayer.delete(sales);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			this.persistencyLayer.delete(sales);
+			
+			transaction.commit();
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 }

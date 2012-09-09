@@ -259,29 +259,3 @@ table {
 	border-right: 1px solid #CCC;
 }
 /** MAIN FORM **/
-
-
-/** RICHFACES STYLES **/
-.rf-dt-shdr {
-	background-color: #E9F1F4;
-}
-
-.rf-dt .rf-dt-shdr-c {
-	border: 0px none;
-	background: transparent;
-	text-align: left;
-	
-	font-size: 15px;
-	color: #585858;
-	padding: 8px 3px;
-}
-
-.rf-dt .rf-dt-c {
-	font-size: 13px;
-	border: 0px;
-}
-
-.rf-dt .rf-dt-c a {
-	font-size: 13px;
-}
-/** RICHFACES STYLES **/

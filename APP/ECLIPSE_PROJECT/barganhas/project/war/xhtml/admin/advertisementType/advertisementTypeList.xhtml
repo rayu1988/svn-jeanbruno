@@ -54,6 +54,30 @@
 					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
 				</h:commandLink>
 			</rich:column>
+			
+			<!-- advertisiment score -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaAdvertisementScore}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{advertisementTypeBean.consult}" >
+					<h:outputText value="#{advertisementType.advertisementScore}"/>
+					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- total pictures -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaTotalImages}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{advertisementTypeBean.consult}" >
+					<h:outputText value="#{advertisementType.totalPictures}"/>
+					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
+				</h:commandLink>
+			</rich:column>
 		</rich:dataTable>
 		
 		<t:saveState value="#{advertisementTypeBean.dataModel}"/>
