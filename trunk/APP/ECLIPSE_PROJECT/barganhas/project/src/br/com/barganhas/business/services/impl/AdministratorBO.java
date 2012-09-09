@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.appengine.api.datastore.Transaction;
+
 import br.com.barganhas.business.entities.AdministratorTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Administrator;
 import br.com.barganhas.business.services.persistencies.AdministratorPO;
 
@@ -19,50 +22,142 @@ public class AdministratorBO implements Administrator {
 	
 	@Override
 	public List<AdministratorTO> list() {
-		return this.persistencyLayer.list();
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdministratorTO> listReturn = this.persistencyLayer.list();
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public List<AdministratorTO> filter(AdministratorTO administrator) {
-		return this.persistencyLayer.filter(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdministratorTO> listReturn = this.persistencyLayer.filter(administrator);
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public AdministratorTO insert(AdministratorTO administrator) {
-		return this.persistencyLayer.insert(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			administrator = this.persistencyLayer.insert(administrator);
+			
+			transaction.commit();
+			return administrator;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public AdministratorTO consult(AdministratorTO administrator) {
-		return this.persistencyLayer.consult(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			administrator = this.persistencyLayer.consult(administrator);
+			
+			transaction.commit();
+			return administrator;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 	
 	@Override
 	public AdministratorTO save(AdministratorTO administrator) {
-		return this.persistencyLayer.save(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			administrator = this.persistencyLayer.save(administrator);
+			
+			transaction.commit();
+			return administrator;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 
 	@Override
 	public void delete(AdministratorTO administrator) {
-		this.persistencyLayer.delete(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			this.persistencyLayer.delete(administrator);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 
 	@Override
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
-		return this.persistencyLayer.validateLogin(administrator);
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			administrator = this.persistencyLayer.validateLogin(administrator);
+			transaction.commit();
+			return administrator;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
 	}
 
 	@Override
 	public void registerFirstAdministrator() {
-		int totalAdministrators = this.persistencyLayer.count(AdministratorTO.class);
-		if (totalAdministrators <= 0) {
-			AdministratorTO administrator = new AdministratorTO();
-			administrator.setFullname("Administrator Master");
-			administrator.setEmail("admin@mail.com");
-			administrator.setNickname("admin");
-			administrator.setPassword("admin");
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			int totalAdministrators = this.persistencyLayer.count(AdministratorTO.class);
+			if (totalAdministrators <= 0) {
+				AdministratorTO administrator = new AdministratorTO();
+				administrator.setFullname("Administrator Master");
+				administrator.setEmail("admin@mail.com");
+				administrator.setNickname("admin");
+				administrator.setPassword("admin");
+				
+				this.insert(administrator);
+			}
 			
-			this.insert(administrator);
+			transaction.commit();
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
 		}
 	}
 }

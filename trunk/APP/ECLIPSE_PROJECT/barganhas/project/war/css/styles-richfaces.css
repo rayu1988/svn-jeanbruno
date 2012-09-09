@@ -1,0 +1,51 @@
+/** RICHFACES STYLES **/
+.rf-dt-shdr {
+	background-color: #E9F1F4;
+}
+
+.rf-dt .rf-dt-shdr-c {
+	border: 0px none;
+	background: transparent;
+	text-align: left;
+	
+	font-size: 15px;
+	color: #585858;
+	padding: 8px 3px;
+}
+
+.rf-dt .rf-dt-c {
+	font-size: 13px;
+	border: 0px;
+}
+
+.rf-dt .rf-dt-c a {
+	font-size: 13px;
+}
+
+.rf-insp-inc {
+	background-image: url("../images/spinner-down.png") !important;
+	cursor: pointer !important;
+	height: 13px !important;
+	width: 25px !important;
+}
+
+.rf-insp-dec {
+	background-image: url("../images/spinner-up.png") !important;
+	cursor: pointer !important;
+	height: 13px !important;
+	width: 25px !important;
+}
+
+.rf-insp {
+	border: 1px solid #D8DEE2 !important;
+}
+
+.rf-insp-inp {
+	width: 300px !important;
+	font-size: 110% !important;
+	padding: 5px !important;
+	
+	color: #333333 !important;
+    font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif !important;
+}
+/** RICHFACES STYLES **/

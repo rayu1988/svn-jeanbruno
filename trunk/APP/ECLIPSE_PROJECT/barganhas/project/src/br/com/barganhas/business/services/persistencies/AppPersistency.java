@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Transaction;
 
 @SuppressWarnings("serial")
 public abstract class AppPersistency implements Serializable {
@@ -29,6 +30,10 @@ public abstract class AppPersistency implements Serializable {
 	
 	protected DatastoreService getDataStoreService() {
 		return DatastoreServiceFactory.getDatastoreService();
+	}
+	
+	public Transaction beginTransaction() {
+		return this.getDataStoreService().beginTransaction();
 	}
 	
 	/**
@@ -195,7 +200,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
-	protected <T extends TransferObject> T consultEntityById(T transferObject) throws IllegalArgumentException, SecurityException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+	protected <T extends TransferObject> T consultEntityById(T transferObject) {
 		return this.consultEntityById(transferObject, null);
 	}
 
@@ -213,8 +218,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @throws NoSuchMethodException
 	 */
 	@SuppressWarnings("unchecked")
-	protected <T extends TransferObject> T consultEntityById(T transferObject, T ancestorTO) 
-	throws IllegalArgumentException, SecurityException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+	protected <T extends TransferObject> T consultEntityById(T transferObject, T ancestorTO) {
 		Query query = this.getQuery(transferObject.getClass(), ancestorTO);
 		query.setFilter(new Query.FilterPredicate(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Query.FilterOperator.EQUAL, transferObject.getId()));
 		Entity entity = this.getDataStoreService().prepare(query).asSingleEntity();

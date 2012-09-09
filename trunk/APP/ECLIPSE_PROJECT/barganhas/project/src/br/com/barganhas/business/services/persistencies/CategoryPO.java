@@ -6,87 +6,39 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Transaction;
 
 @SuppressWarnings("serial")
 @Repository
 public class CategoryPO extends AppPersistency {
 
 	public List<CategoryTO> list() {
-		Transaction transaction = this.getDataStoreService().beginTransaction();
-		try {
-			List<Entity> entities = this.getSimplePreparedQuery(CategoryTO.class).asList(FetchOptions.Builder.withDefaults());
-			
-			List<CategoryTO> listReturn = new ArrayList<CategoryTO>();
-			for (Entity entity : entities) {
-				listReturn.add(AnnotationUtils.getTransferObjectFromEntity(CategoryTO.class, entity));
-			}
-			
-			transaction.commit();
-			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
+		List<Entity> entities = this.getSimplePreparedQuery(CategoryTO.class).asList(FetchOptions.Builder.withDefaults());
+		
+		List<CategoryTO> listReturn = new ArrayList<CategoryTO>();
+		for (Entity entity : entities) {
+			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(CategoryTO.class, entity));
 		}
+		
+		return listReturn;
 	}
 	
 	public CategoryTO insert(CategoryTO category) {
-		Transaction transaction = this.getDataStoreService().beginTransaction();
-		try {
-			transaction.commit();
-			return this.persist(category);
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persist(category);
 	}
 	
 	public CategoryTO save(CategoryTO category) {
-		Transaction transaction = this.getDataStoreService().beginTransaction();
-		try {
-			transaction.commit();
-			return this.persist(category);
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persist(category);
 	}
 
 	public CategoryTO consult(CategoryTO category) {
-		Transaction transaction = this.getDataStoreService().beginTransaction();
-		try {
-			category = this.consultEntityById(category);
-			
-			transaction.commit();
-			return category;
-		} catch (Exception e) {
-			throw new AppException(e);
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.consultEntityById(category);
 	}
 
 	public void delete(CategoryTO category) {
-		Transaction transaction = this.getDataStoreService().beginTransaction();
-		try {
-			this.deleteEntity(category);
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.deleteEntity(category);
 	}
 }

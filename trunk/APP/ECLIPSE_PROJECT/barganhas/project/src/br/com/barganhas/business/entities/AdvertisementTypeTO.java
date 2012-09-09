@@ -18,6 +18,12 @@ public class AdvertisementTypeTO extends TransferObject {
 	@PropertyField(notNull=true, allowEmpty=false)
 	private String			value;
 	
+	@PropertyField(notNull=true)
+	private Long			advertisementScore;
+	
+	@PropertyField(notNull=true)
+	private Long			totalPictures;
+	
 	public AdvertisementTypeTO() {
 		super(null);
 	}
@@ -55,6 +61,22 @@ public class AdvertisementTypeTO extends TransferObject {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Long getAdvertisementScore() {
+		return advertisementScore;
+	}
+
+	public Long getTotalPictures() {
+		return totalPictures;
+	}
+
+	public void setAdvertisementScore(Long advertisementScore) {
+		this.advertisementScore = advertisementScore;
+	}
+
+	public void setTotalPictures(Long totalPictures) {
+		this.totalPictures = totalPictures;
 	}
 
 }
