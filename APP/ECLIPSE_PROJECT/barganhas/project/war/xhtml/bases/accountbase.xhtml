@@ -8,7 +8,7 @@
 	
 	<ui:define name="bodyNavigation">
 		<h:panelGroup layout="block" styleClass="wrapperUserAccount">
-			<h:panelGrid columns="2" columnClasses="columnTop, columnTop" style="width: 100%">
+			<h:panelGrid columns="2" columnClasses="userAccountColumn1, userAccountColumn2" style="width: 100%">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
 								rendered="#{userAccountBean.userAccount.keyProfileImage eq null}"/>
@@ -17,13 +17,24 @@
 					
 					<ul style="text-align: left;">
 						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.consult}" immediate="false" styleClass="menuOptionUserAccount"/></li>
-						<li><h:commandLink value="#{msg.userAccountMyAdvertisements}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+						<li><h:commandLink value="#{msg.userAccountMyAdvertisements}" action="#{advertisementBean.list}" immediate="true" styleClass="menuOptionUserAccount"/></li>
 						<li><h:commandLink value="#{msg.userAccountMyComments}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
 					</ul>
 				</h:panelGroup>
 			
 				<h:panelGroup layout="block">
-					<ui:insert name="userAccountRightContent"/>
+					<!-- content header -->
+					<h:panelGroup layout="block" styleClass="boxUserAccountForm boxUserAccountFormContext">
+						<ui:insert name="accountHeader"/>
+					</h:panelGroup>
+					
+					<!-- content -->
+					<ui:insert name="userAccountContent"/>
+					
+					<!-- content bottom butons -->
+					<h:panelGroup styleClass="boxUserAccountForm mainFormAccountUserBoxButtons" layout="block">
+						<ui:insert name="accountBottomButtons"/>
+					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGroup>

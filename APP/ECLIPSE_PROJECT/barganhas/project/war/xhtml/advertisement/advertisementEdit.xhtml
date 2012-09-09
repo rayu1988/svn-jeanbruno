@@ -8,22 +8,35 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	<ui:define name="accountHeader">
-		<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
 	</ui:define>
 	
 	<ui:define name="userAccountContent">
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
-			
+				
+				<!-- advertisement type -->
+				<h:selectOneMenu id="advertisementType" value="#{}">
+				
+				</h:selectOneMenu>
+				
+				<!-- title -->
+				<!-- description -->
+				<!-- contacts -->
+				<!-- value -->
+				<!-- list exchange by -->
+				<!-- pictures -->
+				
+				
+				
 				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
 				<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
 								acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
 								clearAllLabel="limpar todos" clearLabel="limpar"
 								deleteLabel="excluir" uploadLabel="carregar"
 								sizeExceededLabel="arquivo muito grande"
-								maxFilesQuantity="one"
-								doneLabel="concluido"
-								limitRender="1">
+								maxFilesQuantity="1"
+								doneLabel="concluido">
 				</rich:fileUpload>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>

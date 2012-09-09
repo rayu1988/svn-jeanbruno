@@ -6,18 +6,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
-	<ui:define name="userAccountRightContent">
-		<h:panelGroup layout="block" styleClass="boxUserAccountForm boxUserAccountFormContext">
-			<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
-		</h:panelGroup>
-		
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="userAccountContent">
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
 				<!-- status -->
 				<h:outputLabel value="#{msg.msgStatus}:" for="userStatus"/>
 				<bargas:outputTextConverted id="userStatus" value="#{userAccountBean.userAccount.status}"
 						styleClass="inputMainForm bigInputMainForm inputDisable" converterId="ConverterUserAccountStatus"/>
-
+	
 				<!-- since date -->
 				<h:outputLabel value="#{msg.userAccountUserSinceDate}:" for="sinceDate"/>
 				<bargas:outputTextConverted id="sinceDate" value="#{userAccountBean.userAccount.sinceDate}" 
@@ -26,7 +26,7 @@
 				<!-- profile image -->
 				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
 				<h:commandLink id="profileImage" value="#{msg.userAccountChangeProfileImage}" action="#{userAccountBean.edit}"/>
-
+	
 				<!-- fullname -->
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
 				<bargas:outputText id="userName" value="#{userAccountBean.userAccount.fullname}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
@@ -48,8 +48,10 @@
 				<bargas:outputText id="infoContacts" value="#{userAccountBean.userAccount.contacts}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
 			</h:panelGrid>
 		</h:panelGroup>
-		<h:panelGroup styleClass="boxUserAccountForm mainFormAccountUserBoxButtons" layout="block">
-			<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.edit}" immediate="false" />
-		</h:panelGroup>
 	</ui:define>
+	
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.edit}" immediate="false" />
+	</ui:define>
+	
 </ui:composition>

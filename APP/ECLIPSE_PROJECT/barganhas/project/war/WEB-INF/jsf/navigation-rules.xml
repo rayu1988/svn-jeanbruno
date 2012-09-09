@@ -27,6 +27,20 @@
 	   		<to-view-id>/xhtml/account/accountEdit.xhtml</to-view-id>
 		</navigation-case>
 		
+		<!-- ################ Advertisement ################ -->
+		<navigation-case>
+			<from-outcome>advertisementList</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementEdit</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementEdit.xhtml</to-view-id>
+		</navigation-case>
+		
 		<!-- ################ Login Private Area ################ -->
 		<navigation-case>
 			<from-outcome>login</from-outcome>

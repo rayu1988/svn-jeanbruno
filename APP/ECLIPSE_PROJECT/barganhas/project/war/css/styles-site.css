@@ -512,6 +512,10 @@ input {
 	font-size: 110%;
 	height: 23px;
 }
+.inputuMainFormSelectMenu {
+	height: 35px;
+	width: 611px !important;
+}
 .inputTextAreaMainForm {
 	padding: 5px;
 	border: 1px solid #D8DEE2;
@@ -538,31 +542,39 @@ input {
 	width: 100px;
 	font: 13px Helvetica, arial, freesans, clean, sans-serif;
 	line-height: 1.4;
+	vertical-align: top;
 }
 .columnInput {
 	padding-left: 15px;
 	color: #000;
-}
-.columnTop {
 	vertical-align: top;
 }
 /** TABLE COLUMN **/
 
 /** USER ACCOUNT **/
+.userAccountColumn1 {
+	vertical-align: top;
+	width: 15%;
+}
+.userAccountColumn2 {
+	vertical-align: top;
+	width: 80%;
+}
 #boxAccountProfileLeftSide {
 	border-radius: 3px;
 	padding: 25px 15px;
 	border: 1px solid #CC6600;
 	background-color: #F7F7F7;
 	text-align: center;
+	width: 160px;
 }
 .boxAccountProfileImage {
 	background-color: #FFF;
 	position: relative;
 	border: 1px solid #CCC;
 	margin-bottom: 30px;
-	min-width: 128px;
-	min-height: 128px;
+	max-width: 128px;
+	max-height: 128px;
 }
 .tableInputFormUserAccount {
 	padding: 10px 25px;
@@ -626,6 +638,10 @@ input {
 .userAccountLoginWrapper {
 	padding: 30px;
 	margin: 0 auto;
+}
+.userAccountPanelList {
+	margin-left: 30px;
+	background-color: #F7F7F7;
 }
 /** USER ACCOUNT **/
 
