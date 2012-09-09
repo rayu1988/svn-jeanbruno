@@ -232,28 +232,6 @@ table {
 .tableInputForm {
 	padding: 10px 25px;
 }
-.tableFormList {
-	width: 100%;
-}
-.rowOdd {
-	background-color: #F8F8F8;
-}
-.rowOdd:hover {
-	background-color: #DFDFDF;
-}
-.rowEven {
-	background-color: #F1F1F1;
-}
-.rowEven:hover {
-	background-color: #DFDFDF;
-}
-.columnListActions {
-	width: 50px;
-	text-align: center;
-}
-.columnListActions img {
-	margin-right: 7px;
-}
 .formFilter {
 	border-left: 1px solid #CCC;
 	border-right: 1px solid #CCC;

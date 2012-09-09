@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+		<!-- advertisement type -->
+		<h:outputLabel value="#{msg.advertisementAdvertisementType}:" for="advertisementType"/>
+		<h:selectOneMenu id="advertisementType" value="#{advertisementBean.keyAdvertisementType}" styleClass="inputMainForm inputuMainFormSelectMenu bigInputMainForm">
+			<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=""/>
+			<f:selectItems value="#{advertisementBean.listAdvertisementType}"/>
+		</h:selectOneMenu>
+		
+		<!-- title -->
+		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+		<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<!-- description -->
+		<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+		<h:inputTextarea id="description" value="#{advertisementBean.advertisement.description}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+		</h:inputTextarea>
+		
+		<!-- contacts -->
+		<h:outputLabel value="#{msg.advertisementContacts}:" for="contacts"/>
+		<h:inputTextarea id="contacts" value="#{advertisementBean.advertisement.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+		</h:inputTextarea>
+		
+		<!-- value -->
+		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue"/>
+		<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<!-- list exchange by -->
+		<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
+		<h:inputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<!-- pictures -->
+		<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
+		<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
+						limitRender="1"
+						acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
+						clearAllLabel="limpar todos" clearLabel="limpar"
+						deleteLabel="excluir" uploadLabel="carregar"
+						sizeExceededLabel="arquivo muito grande"
+						maxFilesQuantity="1"
+						doneLabel="concluido">
+		</rich:fileUpload>
+		
+	</h:panelGrid>
+	
+	<t:saveState value="#{advertisementBean.advertisement}"/>
+	<t:saveState value="#{advertisementBean.listAdvertisementType}"/>
+	<t:saveState value="#{advertisementBean.keyAdvertisementType}"/>
+</ui:composition>
