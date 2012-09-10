@@ -9,7 +9,7 @@ import javax.faces.convert.ConverterException;
 
 import br.com.barganhas.commons.Util;
 
-public class ConverterUserAccountSinceDate implements Converter {
+public class ConverterSinceDate implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {

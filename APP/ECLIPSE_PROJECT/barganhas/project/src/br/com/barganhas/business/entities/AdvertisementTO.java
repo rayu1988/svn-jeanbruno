@@ -1,10 +1,11 @@
 package br.com.barganhas.business.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.barganhas.business.entities.annotations.IdField;
 import br.com.barganhas.business.entities.annotations.PropertyField;
-import br.com.barganhas.enums.AdivertisementStatus;
+import br.com.barganhas.enums.AdvertisementStatus;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -14,6 +15,9 @@ public class AdvertisementTO extends TransferObject {
 	@IdField
 	@PropertyField
 	private Long						id;
+	
+	@PropertyField(notNull=true)
+	private Date						sinceDate;
 
 	@PropertyField(notNull=true, allowEmpty=false)
 	private String						title;
@@ -28,7 +32,7 @@ public class AdvertisementTO extends TransferObject {
 	private String						value;
 
 	@PropertyField(notNull=true)
-	private AdivertisementStatus		status;
+	private AdvertisementStatus			status;
 	
 	@PropertyField(notNull=true)
 	private Key							keyAdvertisementType;
@@ -100,11 +104,11 @@ public class AdvertisementTO extends TransferObject {
 		this.value = value;
 	}
 
-	public AdivertisementStatus getStatus() {
+	public AdvertisementStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(AdivertisementStatus status) {
+	public void setStatus(AdvertisementStatus status) {
 		this.status = status;
 	}
 
@@ -154,5 +158,13 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setUserAccount(UserAccountTO userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	public Date getSinceDate() {
+		return sinceDate;
+	}
+
+	public void setSinceDate(Date sinceDate) {
+		this.sinceDate = sinceDate;
 	}
 }

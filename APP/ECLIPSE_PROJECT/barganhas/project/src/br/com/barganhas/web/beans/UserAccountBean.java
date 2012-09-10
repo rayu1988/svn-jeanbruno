@@ -108,7 +108,7 @@ public class UserAccountBean extends AppManagedBean {
 			FileTO file = new FileTO();
 			file.setContentType(this.profileImage.getContentType());
 			file.setFileName(this.profileImage.getName());
-
+			
 			byte[] bytes = this.profileImage.getData();
 			file.setData(new Blob(bytes));
 			
