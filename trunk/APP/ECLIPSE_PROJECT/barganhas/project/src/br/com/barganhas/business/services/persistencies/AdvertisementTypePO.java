@@ -9,6 +9,7 @@ import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 
 @SuppressWarnings("serial")
@@ -34,8 +35,9 @@ public class AdvertisementTypePO extends AppPersistency {
 		return this.persist(advertisementType);
 	}
 
-	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) {
-		return this.consultEntityById(advertisementType);
+	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) throws EntityNotFoundException {
+		Entity entity = this.getDataStoreService().get(advertisementType.getKey());
+		return AnnotationUtils.getTransferObjectFromEntity(AdvertisementTypeTO.class, entity);
 	}
 
 	public void delete(AdvertisementTypeTO advertisementType) {

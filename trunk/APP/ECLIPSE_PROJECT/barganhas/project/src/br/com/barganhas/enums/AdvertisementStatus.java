@@ -1,7 +1,8 @@
 package br.com.barganhas.enums;
 
-public enum AdivertisementStatus {
+public enum AdvertisementStatus {
 	PENDING,
 	ENABLED,
-	DISABLED
+	DISABLED,
+	EXPIRED
 }
