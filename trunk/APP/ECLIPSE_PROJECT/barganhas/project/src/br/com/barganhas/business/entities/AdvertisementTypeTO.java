@@ -16,6 +16,9 @@ public class AdvertisementTypeTO extends TransferObject {
 	private String			title;
 	
 	@PropertyField(notNull=true, allowEmpty=false)
+	private String			description;
+	
+	@PropertyField(notNull=true, allowEmpty=false)
 	private String			value;
 	
 	@PropertyField(notNull=true)
@@ -77,6 +80,14 @@ public class AdvertisementTypeTO extends TransferObject {
 
 	public void setTotalPictures(Long totalPictures) {
 		this.totalPictures = totalPictures;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

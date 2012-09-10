@@ -9,6 +9,11 @@
 		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
 		<h:inputText id="title" value="#{advertisementTypeBean.advertisementType.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 		
+		<!-- description -->
+		<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+		<h:inputTextarea id="description" value="#{advertisementTypeBean.advertisementType.description}" rows="3" styleClass="inputMainForm mediumInputMainForm">
+		</h:inputTextarea>
+		
 		<!-- currency -->
 		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
 		<h:inputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
@@ -21,7 +26,7 @@
 		<!-- total pictures -->
 		<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
 		<rich:inputNumberSpinner id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}" 
-				minValue="0" maxValue="10"/>
+				minValue="1" maxValue="50"/>
 	</h:panelGrid>
 
 	<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

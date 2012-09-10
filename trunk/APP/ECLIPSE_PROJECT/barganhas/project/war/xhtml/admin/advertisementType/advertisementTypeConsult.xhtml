@@ -15,6 +15,10 @@
 			<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
 			<h:outputText id="title" value="#{advertisementTypeBean.advertisementType.title}" />
 			
+			<!-- description -->
+			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+			<h:outputText id="description" value="#{advertisementTypeBean.advertisementType.description}" />
+			
 			<!-- currency -->
 			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
 			<h:outputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" />
