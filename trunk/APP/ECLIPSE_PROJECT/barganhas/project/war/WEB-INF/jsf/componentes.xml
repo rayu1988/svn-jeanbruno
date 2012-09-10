@@ -20,8 +20,12 @@
 		<converter-class>br.com.barganhas.web.converters.ConverterUserAccountStatus</converter-class>
 	</converter>
 	<converter>
-		<converter-id>ConverterUserAccountSinceDate</converter-id>
-		<converter-class>br.com.barganhas.web.converters.ConverterUserAccountSinceDate</converter-class>
+		<converter-id>ConverterSinceDate</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterSinceDate</converter-class>
+	</converter>
+	<converter>
+		<converter-id>ConverterAdvertisementStatus</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterAdvertisementStatus</converter-class>
 	</converter>
 	
 </faces-config>

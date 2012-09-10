@@ -15,7 +15,7 @@
 		
 		<!-- title -->
 		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
-		<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm" required="true"/>
 		
 		<!-- description -->
 		<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
@@ -28,25 +28,12 @@
 		</h:inputTextarea>
 		
 		<!-- value -->
-		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue"/>
-		<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
+		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
+		<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm" required="true"/>
 		
 		<!-- list exchange by -->
 		<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
 		<h:inputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-		
-		<!-- pictures -->
-		<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
-		<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
-						limitRender="1"
-						acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
-						clearAllLabel="limpar todos" clearLabel="limpar"
-						deleteLabel="excluir" uploadLabel="carregar"
-						sizeExceededLabel="arquivo muito grande"
-						maxFilesQuantity="1"
-						doneLabel="concluido">
-		</rich:fileUpload>
-		
 	</h:panelGrid>
 	
 	<t:saveState value="#{advertisementBean.advertisement}"/>
