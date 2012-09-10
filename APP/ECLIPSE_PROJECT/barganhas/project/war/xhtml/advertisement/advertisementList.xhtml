@@ -15,7 +15,7 @@
 		<h:panelGroup layout="block" styleClass="userAccountPanelList">
 			<rich:dataTable id="listAdvertisements"
 							styleClass="tableFormList"
-							style="border: none;"
+							style="border-bottom: 0; border-top: 0;"
 							rendered="true"
 							rows="#{advertisementBean.dataModel.itensPerPage}"
 							rowClasses="rowOdd, rowEven"
@@ -59,14 +59,16 @@
 					</f:facet>
 					
 					<h:commandLink action="#{advertisementBean.consult}" >
-						<h:outputText value="#{advertisement.status}"/>
+						<h:outputText value="#{advertisement.status}">
+							<f:converter converterId="ConverterAdvertisementStatus"/>
+						</h:outputText>
 						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
 					</h:commandLink>
 				</rich:column>
 			</rich:dataTable>
 		</h:panelGroup>
 		
-		<t:saveState value="#{administratorBean.dataModel}"/>
+		<t:saveState value="#{advertisementBean.dataModel}"/>
 	</ui:define>
 	
 	<ui:define name="accountBottomButtons">

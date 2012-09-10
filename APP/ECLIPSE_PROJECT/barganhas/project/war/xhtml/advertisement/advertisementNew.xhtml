@@ -1,4 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	template="/xhtml/bases/accountbase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -7,7 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	<ui:define name="accountHeader">
-		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew}"/>
 	</ui:define>
 	
 	<ui:define name="userAccountContent">
@@ -17,7 +17,7 @@
 	</ui:define>
 	
 	<ui:define name="accountBottomButtons">
-		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.save}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.insert}" immediate="false" />
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>
 	

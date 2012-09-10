@@ -40,6 +40,10 @@
 			<from-outcome>advertisementEdit</from-outcome>
 	   		<to-view-id>/xhtml/advertisement/advertisementEdit.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementConsult</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementConsult.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ Login Private Area ################ -->
 		<navigation-case>
