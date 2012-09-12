@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-  <application>barganhas-app</application>
-  <!-- 
-  v100-b primeira versão, não aprovada com primeira impressão de index com os itens em lista
-  v101-b versão baseada no mercado livre - current version
-   -->
-  <version>v101-b</version>
-  <sessions-enabled>true</sessions-enabled>
-  <threadsafe>true</threadsafe>
-
-  <!-- Configure serving/caching of GWT files -->
-<!--   <static-files> -->
-<!--     <include path="**" /> -->
-
-    <!-- The following line requires App Engine 1.3.2 SDK -->
-<!--     <include path="**.nocache.*" expiration="0s" /> -->
-<!--     <include path="**.cache.*" expiration="365d" /> -->
-<!--     <exclude path="**.gwt.rpc" /> -->
-<!--   </static-files> -->
+	<application>barganhas-app</application>
+	<version>v101-b</version>
+	<sessions-enabled>true</sessions-enabled>
+	<threadsafe>true</threadsafe>
 
   <!-- Configure java.util.logging -->
   <system-properties>
