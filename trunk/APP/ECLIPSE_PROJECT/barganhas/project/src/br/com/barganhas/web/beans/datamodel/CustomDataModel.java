@@ -1,5 +1,6 @@
 package br.com.barganhas.web.beans.datamodel;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.model.DataModel;
@@ -8,7 +9,8 @@ import javax.faces.model.DataModelListener;
 
 import br.com.barganhas.business.entities.TransferObject;
 
-public class CustomDataModel extends DataModel<Object> {
+@SuppressWarnings("serial")
+public class CustomDataModel extends DataModel<Object> implements Serializable{
 	
 	private List<Object>				itens;
 	private int							index = -1;

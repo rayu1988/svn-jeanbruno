@@ -36,7 +36,7 @@ public class UserAccountBean extends AppManagedBean {
 	private String								nickname;
 	private String								password;
 	
-	private UploadedFile 						profileImage;
+	private FileTO		 						profileImage;
 	
 	private DataModel<Object>					dataModel;
 
@@ -99,20 +99,23 @@ public class UserAccountBean extends AppManagedBean {
 	}
 	
 	public void uploadFile(FileUploadEvent event) {
-		this.profileImage = event.getUploadedFile();
+		UploadedFile uploadedFile = event.getUploadedFile();
+		if (uploadedFile != null) {
+			byte[] bytes = uploadedFile.getData();
+			
+			this.profileImage = new FileTO();
+			this.profileImage.setData(new Blob(bytes));
+			this.profileImage.setContentType(uploadedFile.getContentType());
+			this.profileImage.setFileName(uploadedFile.getName());
+		} else {
+			this.profileImage = null;
+		}
 	}
 	
 	public String save() {
 		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 		if (this.profileImage != null) {
-			FileTO file = new FileTO();
-			file.setContentType(this.profileImage.getContentType());
-			file.setFileName(this.profileImage.getName());
-			
-			byte[] bytes = this.profileImage.getData();
-			file.setData(new Blob(bytes));
-			
-			service.save(this.userAccount, file);
+			service.save(this.userAccount, this.profileImage);
 		} else {
 			service.save(this.userAccount);
 		}
@@ -239,11 +242,11 @@ public class UserAccountBean extends AppManagedBean {
 		this.password = password;
 	}
 
-	public UploadedFile getProfileImage() {
+	public FileTO getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(UploadedFile profileImage) {
+	public void setProfileImage(FileTO profileImage) {
 		this.profileImage = profileImage;
 	}
 }
