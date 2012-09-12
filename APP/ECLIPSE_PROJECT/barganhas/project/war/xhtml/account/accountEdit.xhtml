@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 	
 	<ui:define name="accountHeader">
 		<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
@@ -17,12 +18,17 @@
 			
 				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
 				<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
-								acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
-								clearAllLabel="limpar todos" clearLabel="limpar"
-								deleteLabel="excluir" uploadLabel="carregar"
-								sizeExceededLabel="arquivo muito grande"
-								maxFilesQuantity="one"
-								doneLabel="concluido"
+								acceptedTypes="png, jpg, jpeg"
+								noDuplicate="true"
+								addLabel="#{msg.fileUploadAddLabel}"
+								clearAllLabel="#{msg.fileUploadClearLabel}"
+								clearLabel="#{msg.fileUploadDeleteLabel}"
+								deleteLabel="#{msg.fileUploadDeleteLabel}"
+								uploadLabel="#{msg.fileUploadUploadLabel}"
+								sizeExceededLabel="#{msg.fileUploadSizeExceededLabel}"
+								doneLabel="#{msg.fileUploadDoneLabel}"
+								listHeight="60px"
+								maxFilesQuantity="1"
 								limitRender="1">
 				</rich:fileUpload>
 				
