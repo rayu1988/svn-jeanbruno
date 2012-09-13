@@ -8,16 +8,17 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
+import org.omnifaces.util.selectitems.SelectItemsBuilder;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import com.google.appengine.api.datastore.KeyFactory;
-
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
+import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementType;
+import br.com.barganhas.business.services.Category;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
@@ -31,7 +32,10 @@ public class AdvertisementBean extends AppManagedBean {
 	private DataModel<Object>					dataModel;
 	
 	private List<SelectItem>					listAdvertisementType;
-	private String								keyAdvertisementType;
+	private AdvertisementTypeTO					selectedAdvertisementType;
+	private List<SelectItem>					listCategories;
+	private CategoryTO							selectedCategory;
+	
 	private List<UploadedFile>					listAdvertisementPictures;
 	
 	public String list() {
@@ -45,6 +49,7 @@ public class AdvertisementBean extends AppManagedBean {
 	public String prepareNew() {
 		this.advertisement = new AdvertisementTO();
 		this.prepareListAdvertisementType();
+		this.prepareListCategories();
 		
 		return "advertisementPrepareNew";
 	}
@@ -53,7 +58,23 @@ public class AdvertisementBean extends AppManagedBean {
 		if (!Util.isCollectionOk(this.listAdvertisementType)) {
 			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
 			List<AdvertisementTypeTO> listTemp = service.list();
-			this.listAdvertisementType = Util.createListSelectItens(listTemp, "keyAsString", "title");
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			for (AdvertisementTypeTO advertisementType : listTemp) {
+				selectItemsBuilder.add(advertisementType, advertisementType.getTitle());
+			}
+			this.listAdvertisementType = selectItemsBuilder.buildList();
+		}
+	}
+	
+	private void prepareListCategories() {
+		if (!Util.isCollectionOk(this.listCategories)) {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			List<CategoryTO> listTemp = service.list();
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			for (CategoryTO category : listTemp) {
+				selectItemsBuilder.add(category, category.getName());
+			}
+			this.listCategories = selectItemsBuilder.buildList();
 		}
 	}
 	
@@ -76,7 +97,8 @@ public class AdvertisementBean extends AppManagedBean {
 		UserAccountTO userAccountLogged = this.getManagedBean(AppSessionBean.class).getUserAccount();
 		
 		this.advertisement.setKeyUserAccount(userAccountLogged.getKey());
-		this.advertisement.setKeyAdvertisementType(KeyFactory.stringToKey(this.keyAdvertisementType));
+		this.advertisement.setKeyCategory(this.selectedCategory.getKey());
+		this.advertisement.setKeyAdvertisementType(this.selectedAdvertisementType.getKey());
 		this.advertisement = service.insert(this.advertisement);
 		
 		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
@@ -110,7 +132,7 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	private List<RequestMessage> validate() {
 		List<RequestMessage> messages = new ArrayList<RequestMessage>();
-		if (!Util.isStringOk(this.keyAdvertisementType)) {
+		if (this.selectedAdvertisementType == null) {
 			messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
 		}
 		if (!Util.isStringOk(this.advertisement.getTitle())) {
@@ -119,9 +141,9 @@ public class AdvertisementBean extends AppManagedBean {
 		if (!Util.isStringOk(this.advertisement.getValue())) {
 			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
 		}
-//		if (!Util.isCollectionOk(this.listAdvertisementPictures)) {
-//			messages.add(new RequestMessage("advertisementPicturesRequiredField", SeverityMessage.ERROR));
-//		}
+		if (!Util.isCollectionOk(this.listCategories)) {
+			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
+		}
 		return messages;
 	}
 	
@@ -165,14 +187,6 @@ public class AdvertisementBean extends AppManagedBean {
 		this.listAdvertisementType = listAdvertisementType;
 	}
 
-	public String getKeyAdvertisementType() {
-		return keyAdvertisementType;
-	}
-
-	public void setKeyAdvertisementType(String keyAdvertisementType) {
-		this.keyAdvertisementType = keyAdvertisementType;
-	}
-
 	public List<UploadedFile> getListAdvertisementPictures() {
 		return listAdvertisementPictures;
 	}
@@ -180,5 +194,30 @@ public class AdvertisementBean extends AppManagedBean {
 	public void setListAdvertisementPictures(
 			List<UploadedFile> listAdvertisementPictures) {
 		this.listAdvertisementPictures = listAdvertisementPictures;
+	}
+
+	public AdvertisementTypeTO getSelectedAdvertisementType() {
+		return selectedAdvertisementType;
+	}
+
+	public void setSelectedAdvertisementType(
+			AdvertisementTypeTO selectedAdvertisementType) {
+		this.selectedAdvertisementType = selectedAdvertisementType;
+	}
+
+	public List<SelectItem> getListCategories() {
+		return listCategories;
+	}
+
+	public void setListCategories(List<SelectItem> listCategories) {
+		this.listCategories = listCategories;
+	}
+
+	public CategoryTO getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	public void setSelectedCategory(CategoryTO selectedCategory) {
+		this.selectedCategory = selectedCategory;
 	}
 }

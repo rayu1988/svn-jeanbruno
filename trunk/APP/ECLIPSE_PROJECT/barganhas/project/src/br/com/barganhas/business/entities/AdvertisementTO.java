@@ -42,6 +42,14 @@ public class AdvertisementTO extends TransferObject {
 	private Key							keyUserAccount;
 	private UserAccountTO				userAccount;
 	
+	@PropertyField(notNull=true)
+	private Key							keyCategory;
+	private CategoryTO					category;
+	
+	@PropertyField
+	private Key							keySales;
+	private SalesTO						sales;
+	
 	@PropertyField
 	private String						listExchangeBy;
 	
@@ -166,5 +174,37 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setSinceDate(Date sinceDate) {
 		this.sinceDate = sinceDate;
+	}
+
+	public Key getKeyCategory() {
+		return keyCategory;
+	}
+
+	public void setKeyCategory(Key keyCategory) {
+		this.keyCategory = keyCategory;
+	}
+
+	public CategoryTO getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryTO category) {
+		this.category = category;
+	}
+
+	public Key getKeySales() {
+		return keySales;
+	}
+
+	public void setKeySales(Key keySales) {
+		this.keySales = keySales;
+	}
+
+	public SalesTO getSales() {
+		return sales;
+	}
+
+	public void setSales(SalesTO sales) {
+		this.sales = sales;
 	}
 }

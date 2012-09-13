@@ -1,19 +1,11 @@
 package br.com.barganhas.commons;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
-import br.com.barganhas.business.entities.TransferObject;
-import br.com.barganhas.business.exceptions.AppException;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.images.Image;
@@ -101,17 +93,4 @@ public class Util {
 		Image newImage = imagesService.applyTransform(transform, oldImage);
 		return new Blob(newImage.getImageData());
 	}
-	
-	public static List<SelectItem> createListSelectItens(List<? extends TransferObject> fromList, String key, String value){
-		try{
-	    	List<SelectItem> itens = new ArrayList<SelectItem>();
-	    	for(TransferObject transferObject : fromList){
-				SelectItem item = new SelectItem(PropertyUtils.getNestedProperty(transferObject, key).toString(), PropertyUtils.getNestedProperty(transferObject, value).toString());
-				itens.add(item);
-	    	}
-	    	return itens;
-		}catch (Exception e) {
-			throw new AppException(e);
-		}
-    }
 }
