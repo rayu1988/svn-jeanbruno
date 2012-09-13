@@ -4,9 +4,32 @@
 	<version>v101-b</version>
 	<sessions-enabled>true</sessions-enabled>
 	<threadsafe>true</threadsafe>
+	
+    <precompilation-enabled>true</precompilation-enabled>
+    <warmup-requests-enabled>true</warmup-requests-enabled>
+    
+	<static-files>
+        <include path="/css/**.css" />
+        <include path="/images/**.png" />
+        <include path="/images/**.jpg" />
+        <include path="/javascript/**.js" />
+        
+        <exclude path="/notes.txt" />
+    </static-files>
+    
+    <resource-files>
+        <include path="/index.jsp" />
+        <include path="/xhtml/**.xhtml" />
+        <include path="/layouts/**.xhtml" />
+        
+        <exclude path="/WEB-INF/appengine-generated/local_db.bin" />
+    </resource-files>
 
-  <!-- Configure java.util.logging -->
-  <system-properties>
-    <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-  </system-properties>
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+	</system-properties>
+	
+	<admin-console>
+		<page name="Administration" url="/xhtml/admin" />
+	 </admin-console>
 </appengine-web-app>
