@@ -1,25 +1,10 @@
-<!-- Indices written at Sat, 8 Sep 2012 23:07:37 BRT -->
+<!-- Indices written at Wed, 12 Sep 2012 15:29:07 BRT -->
 
 <datastore-indexes>
 
     <!-- Used 1 time in query history -->
     <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="auto">
         <property name="id" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="auto">
-        <property name="id" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true" source="auto">
-        <property name="id" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true" source="auto">
-        <property name="id" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>
