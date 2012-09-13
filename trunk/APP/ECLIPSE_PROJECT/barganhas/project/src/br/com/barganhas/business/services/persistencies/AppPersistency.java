@@ -3,6 +3,8 @@ package br.com.barganhas.business.services.persistencies;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.exceptions.AppException;
@@ -26,6 +28,7 @@ import com.google.appengine.api.datastore.Transaction;
 @SuppressWarnings("serial")
 public abstract class AppPersistency implements Serializable {
 
+	private static final Logger 		logger = Logger.getLogger(AppPersistency.class.getCanonicalName());
 	private static final Key 			TRANSFER_OBJECT_ANCESTOR = KeyFactory.createKey(TransferObject.class.getName(), TransferObject.class.getName());
 	
 	protected DatastoreService getDataStoreService() {
@@ -45,7 +48,10 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	private <T extends TransferObject> Key getAncestor(T ancestor) {
-		return ancestor != null && Util.isStringOk(ancestor.getKeyAsString()) ? KeyFactory.stringToKey(ancestor.getKeyAsString()) : TRANSFER_OBJECT_ANCESTOR;
+		logger.log(Level.INFO, "Starting the getting key.");
+		Key key = ancestor != null && Util.isStringOk(ancestor.getKeyAsString()) ? KeyFactory.stringToKey(ancestor.getKeyAsString()) : TRANSFER_OBJECT_ANCESTOR;
+		logger.log(Level.INFO, "The returned key found was to Kind: " + key.getKind());
+		return key;
 	}
 	
 	/**
@@ -123,8 +129,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	protected <T extends TransferObject> Query getQuery(Class<? extends TransferObject> targetTO, T ancestorTO) {
-		Query query = new Query(targetTO.getName());
-		query.setAncestor(this.getAncestor(ancestorTO));
+		Query query = new Query(targetTO.getName(), this.getAncestor(ancestorTO));
 		return query;
 	}
 	
@@ -183,9 +188,15 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	public <T extends TransferObject> int count(Class<T> targetTO, T ancestorTO) {
+		logger.log(Level.INFO, "Initializing the process of count to the Kind: " + targetTO.getCanonicalName());
+		
+		logger.log(Level.INFO, "Getting the Query object.");
 		Query query = this.getQuery(targetTO, ancestorTO);
+		logger.log(Level.INFO, "Adding the projection.");
 		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(targetTO), Long.class));
+		logger.log(Level.INFO, "Getting the PreparedQuery.");
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		logger.log(Level.INFO, "Returning the count entities.");
 		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults());
 	}
 	

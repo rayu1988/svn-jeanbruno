@@ -1,2 +1,8 @@
 # use the following argument (parameter) to run server without tries check update
 --disable_update_check
+
+Index Configurations
+It's a good idea to occasionally move index configuration from datastore-indexes-auto.xml to datastore-indexes.xml, 
+then disable automatic index configuration and test your app in the development server. 
+This makes it easy to maintain indexes without having to manage two files, and ensures that your testing will 
+reproduce errors caused by missing index configuration.
