@@ -144,6 +144,11 @@
 	
 	<!-- SERVLETS -->
 	<servlet>
+  		<servlet-name>_ah_warmup</servlet-name>
+  		<servlet-class>br.com.barganhas.web.servlets.WarmupServlet</servlet-class>
+  		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
   		<servlet-name>FacesServlet</servlet-name>
   		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
   		<load-on-startup>1</load-on-startup>
