@@ -351,6 +351,12 @@ input {
 }
 /** SEARCH_FILTER **/
 
+.panelDetailsWarning{
+	border: 1px solid #CCCCCC;
+	background-color:#FFFFB8;
+	width: 100%;
+}
+
 #productsList {
 	width: 100%;
 	float: left;
@@ -584,7 +590,7 @@ input {
 	cursor: pointer;
 }
 .boxUserAccountForm {
-	margin-left: 30px;
+	margin-left: 15px;
 	position: relative;
 	padding: 30px 25px;
 }
@@ -640,7 +646,7 @@ input {
 	margin: 0 auto;
 }
 .userAccountPanelList {
-	margin-left: 30px;
+	margin-left: 15px;
 	background-color: #F7F7F7;
 }
 /** USER ACCOUNT **/
