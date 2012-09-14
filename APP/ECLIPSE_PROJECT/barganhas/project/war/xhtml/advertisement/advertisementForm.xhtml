@@ -56,7 +56,8 @@
 		
 		<!-- list exchange by -->
 		<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
-		<h:inputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+		</h:inputTextarea>
 	</h:panelGrid>
 	
 	<t:saveState value="#{advertisementBean.advertisement}"/>
