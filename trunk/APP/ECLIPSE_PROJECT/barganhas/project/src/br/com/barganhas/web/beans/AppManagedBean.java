@@ -1,5 +1,6 @@
 package br.com.barganhas.web.beans;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,13 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.barganhas.business.entities.AdministratorTO;
+import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.commons.JSFunctionTimeRunning.JSFunctionBoxing;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 
-public class AppManagedBean {
+public class AppManagedBean implements Serializable {
+	
+	private static final long 		serialVersionUID = 5997769430729017199L;
 	
 	protected ServiceBusinessFactory getServiceBusinessFactory() {
 		return ServiceBusinessFactory.getInstance();
@@ -74,5 +79,13 @@ public class AppManagedBean {
 		
 		this.setRequestParameter("JS_FUNCTION_CALLED", true);
 		this.setRequestParameter("NAME_JS_FUNCTION_CALLED", timeRunning.unBoxing(jSFunction.toString()));
+	}
+	
+	protected UserAccountTO getUserAccountLogged() {
+		return this.getManagedBean(AppSessionBean.class).getUserAccount();
+	}
+	
+	protected AdministratorTO getAdministratorLogged() {
+		return this.getManagedBean(AppSessionBean.class).getAdministrator();
 	}
 }

@@ -1,9 +1,11 @@
 package br.com.barganhas.commons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReturnMessagePojo {
+@SuppressWarnings("serial")
+public class ReturnMessagePojo implements Serializable {
 
 	private Boolean				success;
 	private Boolean				inUse = false;

@@ -20,7 +20,7 @@ import com.google.appengine.api.datastore.Transaction;
 
 @Service("userAccountBO")
 public class UserAccountBO implements UserAccount {
-
+	
 	public static final String						BEAN_ALIAS = "userAccountBO";
 
 	public static final int							MAX_WIDTH_IMG_PROFILE = 128;
@@ -226,7 +226,7 @@ public class UserAccountBO implements UserAccount {
 			//TODO replace the ACTIVE value to PENDING because when the user is registered he must confirm his register by email, and so will be ACTIVE
 			userAccount.setStatus(UserAccountStatus.ACTIVE);
 			userAccount = this.persistencyLayer.insert(userAccount);
-
+			
 			transaction.commit();
 		} catch (Exception e) {
 			throw new AppException(e);

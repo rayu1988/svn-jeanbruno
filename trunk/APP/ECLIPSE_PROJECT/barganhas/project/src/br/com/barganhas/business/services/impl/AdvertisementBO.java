@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
+import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementType;
@@ -45,13 +46,30 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public AdvertisementTO insert(AdvertisementTO advertisement) {
+	public List<AdvertisementTO> list(UserAccountTO userAccount) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.list(userAccount);
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
+	}
+	
+	@Override
+	public AdvertisementTO insert(AdvertisementTO advertisement, UserAccountTO userAccount) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			// TODO when set production, set AdvertisementStatus.PENDING
 			advertisement.setStatus(AdvertisementStatus.ENABLED);
 			advertisement.setSinceDate(new Date());
-			advertisement = this.persistencyLayer.insert(advertisement);
+			advertisement = this.persistencyLayer.insert(advertisement, userAccount);
 			
 			transaction.commit();
 			return advertisement;

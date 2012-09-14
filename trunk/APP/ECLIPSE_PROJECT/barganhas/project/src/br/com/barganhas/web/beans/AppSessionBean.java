@@ -8,6 +8,7 @@ import br.com.barganhas.business.entities.UserAccountTO;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("serial")
 public class AppSessionBean extends AppManagedBean {
 	
 	private AdministratorTO						administrator=null;

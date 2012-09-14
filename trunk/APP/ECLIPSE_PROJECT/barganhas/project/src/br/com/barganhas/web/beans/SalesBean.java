@@ -14,6 +14,7 @@ import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class SalesBean extends AppManagedBean {
 	
 	private SalesTO								sales;
@@ -29,7 +30,7 @@ public class SalesBean extends AppManagedBean {
 	
 	public String prepareNew() {
 		this.sales = new SalesTO();
-		this.sales.setSalesCode("$" + (System.currentTimeMillis() + "barganhas").hashCode()  );
+		this.sales.setSalesCode("$" + Math.abs((System.currentTimeMillis() + "barganhas").hashCode()));
 		
 		return "salesPrepareNew";
 	}

@@ -26,6 +26,7 @@ import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class AdvertisementBean extends AppManagedBean {
 	
 	private AdvertisementTO						advertisement;
@@ -39,9 +40,10 @@ public class AdvertisementBean extends AppManagedBean {
 	private List<UploadedFile>					listAdvertisementPictures;
 	
 	public String list() {
+		UserAccountTO loggedUserAccount = this.getUserAccountLogged();
 		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 		this.advertisement = new AdvertisementTO();
-		List<AdvertisementTO> list = service.list();
+		List<AdvertisementTO> list = service.list(loggedUserAccount);
 		this.dataModel = new CustomDataModel(list);
 		return "advertisementList";
 	}
@@ -94,12 +96,12 @@ public class AdvertisementBean extends AppManagedBean {
 		
 		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 		
-		UserAccountTO userAccountLogged = this.getManagedBean(AppSessionBean.class).getUserAccount();
+		UserAccountTO userAccountLogged = this.getUserAccountLogged();
 		
 		this.advertisement.setKeyUserAccount(userAccountLogged.getKey());
 		this.advertisement.setKeyCategory(this.selectedCategory.getKey());
 		this.advertisement.setKeyAdvertisementType(this.selectedAdvertisementType.getKey());
-		this.advertisement = service.insert(this.advertisement);
+		this.advertisement = service.insert(this.advertisement, userAccountLogged);
 		
 		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
@@ -119,8 +121,8 @@ public class AdvertisementBean extends AppManagedBean {
 			return null;
 		}
 
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		service.insert(this.advertisement);
+//		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+//		service.insert(this.advertisement);
 		
 //		
 //		Administrator service = this.getServiceBusinessFactory().getAdministrator();
