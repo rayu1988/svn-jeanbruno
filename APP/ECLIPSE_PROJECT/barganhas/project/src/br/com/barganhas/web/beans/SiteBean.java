@@ -6,6 +6,7 @@ import javax.faces.model.DataModel;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class SiteBean extends AppManagedBean {
 	
 	private DataModel<Object>					dataModel;

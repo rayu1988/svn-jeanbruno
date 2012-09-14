@@ -17,6 +17,7 @@ import br.com.barganhas.web.validators.EmailValidator;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class AdministratorBean extends AppManagedBean {
 	
 	private AdministratorTO						administrator;

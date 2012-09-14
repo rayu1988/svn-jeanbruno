@@ -12,6 +12,7 @@ import br.com.barganhas.enums.SeverityMessage;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class LoginBean extends AppManagedBean {
 	
 	private AdministratorTO						administrator;

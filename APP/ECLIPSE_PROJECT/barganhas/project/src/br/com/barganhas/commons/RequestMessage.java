@@ -1,8 +1,11 @@
 package br.com.barganhas.commons;
 
+import java.io.Serializable;
+
 import br.com.barganhas.enums.SeverityMessage;
 
-public class RequestMessage {
+@SuppressWarnings("serial")
+public class RequestMessage implements Serializable {
 
 	private String 					textMessage;
 	private SeverityMessage 		severityMessage;

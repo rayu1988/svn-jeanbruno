@@ -7,6 +7,7 @@ import org.richfaces.event.ItemChangeEvent;
 
 @ManagedBean
 @SessionScoped
+@SuppressWarnings("serial")
 public class FilterBean extends AppManagedBean {
 
 	private static final String			BLANK = "blank";

@@ -13,7 +13,6 @@ import br.com.barganhas.commons.Util;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -23,7 +22,7 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 @SuppressWarnings("serial")
 @Repository
 public class UserAccountPO extends AppPersistency {
-
+	
 	public List<UserAccountTO> list() {
 		List<Entity> entities = this.getSimplePreparedQuery(UserAccountTO.class).asList(FetchOptions.Builder.withDefaults());
 		
@@ -86,7 +85,6 @@ public class UserAccountPO extends AppPersistency {
 	public boolean nicknameAlreadyExist(UserAccountTO userAccount) {
 		Query query = this.getQuery(UserAccountTO.class);
 		query.setFilter(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getEmail()));
-		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(UserAccountTO.class), Long.class));
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults()) > 0;
 	}
@@ -94,7 +92,6 @@ public class UserAccountPO extends AppPersistency {
 	public boolean emailAlreadyExist(UserAccountTO userAccount) {
 		Query query = this.getQuery(UserAccountTO.class);
 		query.setFilter(new FilterPredicate("email", FilterOperator.EQUAL, userAccount.getEmail()));
-		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(UserAccountTO.class), Long.class));
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults()) > 0;
 	}

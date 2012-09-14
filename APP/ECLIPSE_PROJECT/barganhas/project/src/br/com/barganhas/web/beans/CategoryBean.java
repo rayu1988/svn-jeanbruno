@@ -14,6 +14,7 @@ import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
 @ManagedBean
 @RequestScoped
+@SuppressWarnings("serial")
 public class CategoryBean extends AppManagedBean {
 	
 	private CategoryTO							category;
