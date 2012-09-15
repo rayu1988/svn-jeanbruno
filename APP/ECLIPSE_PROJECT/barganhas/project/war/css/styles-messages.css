@@ -2,22 +2,25 @@
 .wrapperMessages {
 	display: none;
 	position: absolute;
-	top: 30px;
+	top: 50px;
 	width: 100%;
 	z-index: 999;
 }
 .messages {
-	border: 1px solid #CCC;
+	border: 2px solid #2D7096;
 	border-radius: 5px;
 	
 	margin: 0px auto;
 	width: 600px;
 	padding: 10px;
 	background-color: #FFF2C8;
+	
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
 }
 .closePopupMessage {
 	text-align: right;
 	float: right;
+	cursor: pointer;
 }
 .textmessage {
 	margin-top: 5px;
