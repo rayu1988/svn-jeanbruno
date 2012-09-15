@@ -56,6 +56,23 @@ div {
 input {
 	margin: 0;
 	padding: 0;
+/* 	border: 1px solid #999; */
+	border: 1px solid #D8DEE2;
+}
+input:FOCUS {
+	border: 1px solid #CC6600;
+}
+select {
+	border: 1px solid #D8DEE2;
+}
+select:FOCUS {
+	border: 1px solid #CC6600;
+}
+textarea {
+	border: 1px solid #D8DEE2;
+}
+textarea:FOCUS {
+	border: 1px solid #CC6600;
 }
 
 .title {
@@ -205,7 +222,6 @@ input {
 #searchField {
 	padding: 5px 4px;
 	width: 50%;
-	border: 1px solid #999;
 }
 
 /** TOP **/
@@ -354,7 +370,7 @@ input {
 .panelDetailsWarning{
 	border: 1px solid #CCCCCC;
 	background-color:#FFFFB8;
-	width: 100%;
+	width: 611px !important;
 }
 
 #productsList {
@@ -494,7 +510,6 @@ input {
 #registerBox fieldset ol li input {
 	width: 195px;
 	padding: 3px;
-	border: 1px solid #999;
 	font-size: 11px;
 }
 
@@ -513,7 +528,6 @@ input {
 /** INPUT TEXT **/
 .inputMainForm {
 	padding: 5px;
-	border: 1px solid #D8DEE2;
 	font-size: 110%;
 	height: 23px;
 }

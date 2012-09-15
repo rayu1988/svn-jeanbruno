@@ -1,3 +1,5 @@
+$j = jQuery.noConflict();
+
 /** POPUP **/
 function openPopup(id) {
 //	var winW = jQuery(window).width();
@@ -13,6 +15,9 @@ function openPopup(id) {
 //	RichFaces.$(id).options.width = width;
 //	RichFaces.$(id).options.height = height;
 	RichFaces.$(id).show();
+	$('input[TabIndex="-1"]').each(function(){
+		$(this).removeAttr('tabindex');
+	});
 }
 function closePopup(id) {
 	RichFaces.$(id).hide();
