@@ -24,11 +24,12 @@ public class ReturnMessagePojo implements Serializable {
 		return Util.isCollectionOk(this.messages);
 	}
 	
-	public void addMessage(String message) {
+	public ReturnMessagePojo addMessage(String message) {
 		if (Util.isStringOk(message)) {
 			this.messages.add(message);
 			this.inUse = true;
 		}
+		return this;
 	}
 	
 	public String getMessage() {

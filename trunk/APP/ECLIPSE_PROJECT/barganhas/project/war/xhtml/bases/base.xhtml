@@ -22,14 +22,36 @@
    		
    		<h:body>
    			<bargas:messages />
+			<bargas:jsFunction />
+			
+			<h:panelGroup rendered="true">
+				<ui:decorate template="/xhtml/account/accountNewPopup.xhtml"/>
+			</h:panelGroup>
    			
    			<div id="site">
 				<div id="top" >
 					<h:form prependId="false">
 						<div id="topLinks">
 							<ul>
-								<li><a4j:commandLink actionListener="#{userAccountBean.prepareRegister}" immediate="true" rendered="true" value="#{msg.registerYourSelf}" render="accountNewPopupPanelGroup"/></li>
-								<li><h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}"/></li>
+								<c:choose>
+									<c:when test="#{appSessionBean.userAccount eq null}">
+										<li>
+											<a4j:commandLink actionListener="#{userAccountBean.prepareRegister}"
+												immediate="true"
+												value="#{msg.registerYourSelf}"
+												render="accountNewPopupForm"/>
+										</li>
+										<li>
+											<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li>
+											<h:outputText value="#{msg.loginWelcomeMsg} #{appSessionBean.userAccount.nickname}"/>
+											<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
+										</li>
+									</c:otherwise>
+								</c:choose>
 								<li><h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/></li>
 								<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
 							</ul>
@@ -57,14 +79,6 @@
 						</div>
 					</h:form>
 				</div>
-				
-				<!-- popup register your self -->
-				<h:panelGroup rendered="true">
-					<ui:decorate template="/xhtml/account/accountNewPopup.xhtml"/>
-					<ui:decorate template="/xhtml/account/accountNewRegisterSuccessPopup.xhtml"/>
-				</h:panelGroup>
-				
-				<bargas:jsFunction />
 				
 				<h:form prependId="false" id="formNavigation">
 					<ui:insert name="bodyNavigation"/>
