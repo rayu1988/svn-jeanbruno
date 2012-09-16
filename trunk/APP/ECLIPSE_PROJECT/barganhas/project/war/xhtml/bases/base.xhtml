@@ -50,6 +50,9 @@
 											<h:outputText value="#{msg.loginWelcomeMsg} #{appSessionBean.userAccount.nickname}"/>
 											<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
 										</li>
+										<li>
+											<h:commandLink action="#{advertisementBean.prepareNew}" value="#{msg.advertisementNewAdvertisement}" />
+										</li>
 									</c:otherwise>
 								</c:choose>
 								<li><h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/></li>
