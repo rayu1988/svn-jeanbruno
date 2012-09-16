@@ -41,7 +41,7 @@
 			
 			<div id="productsList">
 				<h:panelGroup layout="block" id="bannerSite" style="text-align: center;">
-					<h:graphicImage value="#{request.contextPath}/images/banner/banner-site-1.jpg"/>
+					<h:graphicImage value="#{request.contextPath}/images/banner/banner-site-2.jpg"/>
 				</h:panelGroup>
 				
 				<div id="lastUpdates">
@@ -279,7 +279,7 @@
 									value="#{msg.registerYourSelf}"
 									immediate="false"
 									execute="registerBox"
-									render="accountNewPopupPanelGroup"
+									render="accountNewPopupForm"
 									style="margin-right: 10px;"/>
 									
 						<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>

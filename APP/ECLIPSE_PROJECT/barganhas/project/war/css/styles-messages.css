@@ -37,3 +37,16 @@
 	background-image: url(../images/errormessage-16x16.png);
 }
 /** messages **/
+
+/** popup messages **/
+.popupMessage {
+	padding: 10px;
+	width: 740px;
+}
+.popupErrorMessage {
+	background-color:#FFE7E7;
+}
+.popupSuccessMessage {
+	background-color:#CEFFC2;
+}
+/** popup messages **/

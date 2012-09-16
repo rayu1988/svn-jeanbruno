@@ -78,13 +78,9 @@ public class UserAccountBean extends AppManagedBean {
 				
 				this.returnMessage = new ReturnMessagePojo(true);
 				this.returnMessage.addMessage(Util.getMessageResourceString("registerDoneSuccessfullyConfirmEmail", this.userAccount.getEmail()));
-
-				this.callJSFunction(JSFunctionTimeRunning.onLoad(), "userAccountNewRegisterSuccessfully");
 			}
 		} catch (Exception e) {
-			this.returnMessage = new ReturnMessagePojo(false);
-			this.returnMessage.addMessage(e.getMessage());
-			
+			this.returnMessage = new ReturnMessagePojo(false).addMessage(e.getMessage());
 			this.trateExceptionMessage(e);
 		}
 	}

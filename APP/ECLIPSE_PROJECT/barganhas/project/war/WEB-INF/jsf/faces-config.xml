@@ -10,5 +10,10 @@
 		 	<default-locale>pt_BR</default-locale>
 		</locale-config>
 	</application>
-	
+
+	<lifecycle>
+		<phase-listener>
+			br.com.barganhas.web.phaselistener.AppPhaseListener	
+		</phase-listener>
+	</lifecycle>
 </faces-config>

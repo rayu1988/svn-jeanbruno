@@ -199,7 +199,7 @@ textarea:FOCUS {
 	list-style-type:none;
 	display: inline;
 	line-height: 18px;
-	margin-left: 3px;
+	margin: 0 2px 0 5px;
 	padding: 0 5px 0 0;
 	border-right: 1px solid #999;
 }
@@ -640,14 +640,6 @@ textarea:FOCUS {
 	border: 1px solid #CC6600;
 	border-radius: 0 0 5px 5px;
 }
-.popupErrorMessage {
-	background-color:#FFE7E7;
-	padding: 10px;
-}
-.popupSuccessMessage {
-	max-width: 786px;
-	font-size: 15px;
-}
 .userAccountLoginMsg {
 	font-family: Helvetica, arial, freesans, clean, sans-serif;
 	font-size: 15px;
@@ -702,6 +694,26 @@ textarea:FOCUS {
 	font-size: 11px;
 }
 /** FOOTER **/
+
+/** EXPIRED SESSION **/
+#panelExpiredException {
+	margin: 150px;
+	text-align: center;
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+}
+.columnLeftExpiredException {
+	width: 40%;
+	text-align: right;
+}
+.columnRightExpiredException {
+	text-align: left;
+}
+.expiredExceptionGoHome {
+	font-size: 16px;
+	margin-right: 5px;
+	font-weight: bold;
+}
+/** EXPIRED SESSION **/
 
 /** RICHFACES STYLES **/
 .rf-pp-hdr {
