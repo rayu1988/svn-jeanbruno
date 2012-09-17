@@ -41,10 +41,6 @@
 		</param-value>
  	</context-param>
     <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-    <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 <!--         <param-value>client</param-value> -->
         <param-value>server</param-value>
@@ -101,6 +97,18 @@
         <param-name>org.richfaces.fileUpload.createTempFiles</param-name>
         <param-value>false</param-value>
     </context-param>
+    <context-param>
+    	<!--
+    		To limit the maximum size of the uploaded files, define the byte size with the
+    		org.richfaces.fileUpload.maxRequestSizes
+    	-->
+        <param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
+        <param-value>5242880</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.richfaces.resourceOptimization.enabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
  	
  	<!-- ajax 4 jsf (a4j) -->
     <context-param>
@@ -132,6 +140,7 @@
 	<filter-mapping>
 		<filter-name>UserAccountAccessFilter</filter-name>
 		<url-pattern>/xhtml/account/*</url-pattern>
+		<url-pattern>/xhtml/advertisement/*</url-pattern>
   	</filter-mapping>
 
 	<!-- listeners -->	
