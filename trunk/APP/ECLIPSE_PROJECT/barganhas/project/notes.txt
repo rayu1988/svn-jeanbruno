@@ -6,3 +6,5 @@ It's a good idea to occasionally move index configuration from datastore-indexes
 then disable automatic index configuration and test your app in the development server. 
 This makes it easy to maintain indexes without having to manage two files, and ensures that your testing will 
 reproduce errors caused by missing index configuration.
+
+appcfg -e brunopib@gmail.com -A vendasebarganhas -V default update war
