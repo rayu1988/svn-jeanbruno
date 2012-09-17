@@ -97,6 +97,15 @@
         <param-name>org.richfaces.fileUpload.createTempFiles</param-name>
         <param-value>false</param-value>
     </context-param>
+    <!-- 
+    	required parameter even with empty value to tempFilesDirectory, because without it
+    	the default behavior of the richfaces file upload is try get the user home directory (System.getProperty(uesr.dir))
+    	wich makes use of java.io.File that is restricted by GAE. 
+    -->
+    <context-param>
+        <param-name>org.richfaces.fileUpload.tempFilesDirectory</param-name>
+        <param-value></param-value>
+    </context-param>
     <context-param>
     	<!--
     		To limit the maximum size of the uploaded files, define the byte size with the
