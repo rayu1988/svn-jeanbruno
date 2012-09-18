@@ -30,7 +30,7 @@
 		
 		<!-- title -->
 		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
-		<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm" required="true"/>
+		<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 		
 		<!-- description -->
 		<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
@@ -52,12 +52,18 @@
 		
 		<!-- value -->
 		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
-		<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm" required="true"/>
+		<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
 		
 		<!-- list exchange by -->
 		<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
-		<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
-		</h:inputTextarea>
+		<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+			<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+			</h:inputTextarea>
+			
+			<h:graphicImage id="listExchangeByInfo" value="#{request.contextPath}/images/help.png" style="margin-left: 10px;">
+				<rich:tooltip target="listExchangeByInfo" attached="true" direction="auto" followMouse="true" showDelay="500" value="#{msg.advertisementExchangeByInfo}"/>
+			</h:graphicImage>
+		</h:panelGrid>
 	</h:panelGrid>
 	
 	<t:saveState value="#{advertisementBean.advertisement}"/>

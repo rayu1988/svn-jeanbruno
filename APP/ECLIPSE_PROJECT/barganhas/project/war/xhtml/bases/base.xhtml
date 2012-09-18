@@ -24,9 +24,9 @@
    			<bargas:messages />
 			<bargas:jsFunction />
 			
-			<h:panelGroup rendered="true">
+			<c:if test="#{appSessionBean.userAccount eq null}">
 				<ui:decorate template="/xhtml/account/accountNewPopup.xhtml"/>
-			</h:panelGroup>
+			</c:if>
    			
    			<div id="site">
 				<div id="top" >
@@ -47,7 +47,8 @@
 									</c:when>
 									<c:otherwise>
 										<li>
-											<h:outputText value="#{msg.loginWelcomeMsg} #{appSessionBean.userAccount.nickname}"/>
+											<h:outputText styleClass="welcomeMsg" value="#{msg.loginWelcomeMsg} "/>
+											<h:outputText styleClass="welcomeMsg" value="#{appSessionBean.userAccount.nickname}"/>
 											<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
 										</li>
 										<li>

@@ -181,10 +181,7 @@ public class UserAccountBean extends AppManagedBean {
 	}
 	
 	public String getCurrentKeyProfileImage() {
-		if (this.userAccount != null && this.userAccount.getKeyProfileImage() != null) {
-			return KeyFactory.keyToString(this.userAccount.getKeyProfileImage());
-		}
-		return null;
+		return KeyFactory.keyToString(this.getUserAccountLogged().getKeyProfileImage());
 	}
 	
 	// GETTERS AND SETTERS //

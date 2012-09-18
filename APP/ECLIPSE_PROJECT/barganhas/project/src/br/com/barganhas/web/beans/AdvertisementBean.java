@@ -50,6 +50,7 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String prepareNew() {
 		this.advertisement = new AdvertisementTO();
+		this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
 		this.prepareListAdvertisementType();
 		this.prepareListCategories();
 		

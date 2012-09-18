@@ -11,14 +11,14 @@
 			<h:panelGrid columns="2" columnClasses="userAccountColumn1, userAccountColumn2" style="width: 100%">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
-								rendered="#{userAccountBean.userAccount.keyProfileImage eq null}"/>
+								rendered="#{appSessionBean.userAccount.keyProfileImage eq null}"/>
 					<h:graphicImage value="/fileserver?q=#{userAccountBean.currentKeyProfileImage}" styleClass="boxAccountProfileImage"
-								rendered="#{userAccountBean.userAccount.keyProfileImage ne null}"/>
+								rendered="#{appSessionBean.userAccount.keyProfileImage ne null}"/>
 					
 					<ul style="text-align: left;">
-						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.consult}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.consult}" immediate="true" styleClass="menuOptionUserAccount"/></li>
 						<li><h:commandLink value="#{msg.userAccountMyAdvertisements}" action="#{advertisementBean.list}" immediate="true" styleClass="menuOptionUserAccount"/></li>
-						<li><h:commandLink value="#{msg.userAccountMyComments}" action="#{userAccountBean.myAccount}" immediate="false" styleClass="menuOptionUserAccount"/></li>
+						<li><h:commandLink value="#{msg.userAccountMyComments}" action="#{userAccountBean.myAccount}" immediate="true" styleClass="menuOptionUserAccount"/></li>
 					</ul>
 				</h:panelGroup>
 			
