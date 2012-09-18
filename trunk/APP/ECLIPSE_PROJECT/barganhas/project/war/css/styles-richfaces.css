@@ -52,4 +52,9 @@
 .rf-fu-lst {
 /* 	height: 1px !important; */
 }
+
+.rf-tt-cntr {
+	border: 1px solid #C60 !important;
+	font: 13px Helvetica, arial, freesans, clean, sans-serif !important;
+}
 /** RICHFACES STYLES **/
