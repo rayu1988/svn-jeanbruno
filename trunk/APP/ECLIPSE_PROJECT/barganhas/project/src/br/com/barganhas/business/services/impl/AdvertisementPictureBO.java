@@ -1,5 +1,7 @@
 package br.com.barganhas.business.services.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +33,20 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 		try {
 			AdvertisementPictureTO advertisementPicture = new AdvertisementPictureTO();
 
+			// instanciate the current date to file temp
+			Date currentDate = new Date();
+			
 			FileTempTO thumbnail = new FileTempTO();
 			thumbnail.setContentType(imageBase.getContentType());
 			thumbnail.setFileName(imageBase.getFileName());
 			thumbnail.setData(Util.transformBlobImage(imageBase.getData(), MAX_HEIGHT_THUMBNAIL, MAX_WIDTH_THUMBNAIL));
+			thumbnail.setPersistedDate(currentDate);
 			
 			FileTempTO picture = new FileTempTO();
 			picture.setContentType(imageBase.getContentType());
 			picture.setFileName(imageBase.getFileName());
 			picture.setData(Util.transformBlobImage(imageBase.getData(), MAX_HEIGHT_PICTURE, MAX_WIDTH_PICTURE));
+			picture.setPersistedDate(currentDate);
 
 			thumbnail = (FileTempTO) fileService.insert(thumbnail, null);
 			picture = (FileTempTO) fileService.insert(picture, null);

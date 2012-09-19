@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/cronjobs/cleartempfiles</url>
+    <description>
+    	Scheduled jobs to clear the file temps present in the data base. 
+    	Clear every 30 minutes from 2:00 to 4:00, that is, 5 times per day (tonight).
+    </description>
+    <schedule>every 30 minutes from 2:00 to 4:00</schedule>
+    <timezone>America/Sao_Paulo</timezone>
+  </cron>
+</cronentries>

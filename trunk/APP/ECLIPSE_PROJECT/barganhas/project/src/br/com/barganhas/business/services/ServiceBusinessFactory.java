@@ -10,6 +10,7 @@ import br.com.barganhas.business.services.impl.AdvertisementPictureBO;
 import br.com.barganhas.business.services.impl.AdvertisementTypeBO;
 import br.com.barganhas.business.services.impl.CategoryBO;
 import br.com.barganhas.business.services.impl.FileBO;
+import br.com.barganhas.business.services.impl.FileTempBO;
 import br.com.barganhas.business.services.impl.SalesBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
 
@@ -52,6 +53,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public File getFile() {
 		return (File) this.applicationContext.getBean(FileBO.BEAN_ALIAS);
+	}
+	
+	public FileTemp getFileTemp() {
+		return (FileTemp) this.applicationContext.getBean(FileTempBO.BEAN_ALIAS);
 	}
 	
 	public Advertisement getAdvertisement() {

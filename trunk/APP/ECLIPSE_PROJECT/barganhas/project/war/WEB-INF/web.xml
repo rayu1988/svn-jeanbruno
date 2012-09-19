@@ -180,6 +180,10 @@
   		<servlet-name>FileServerServlet</servlet-name>
   		<servlet-class>br.com.barganhas.web.servlets.FileServerServlet</servlet-class>
 	</servlet>
+	<servlet>
+  		<servlet-name>ClearTempFilesServlet</servlet-name>
+  		<servlet-class>br.com.barganhas.web.servlets.ClearTempFilesServlet</servlet-class>
+	</servlet>
 	
 	<!-- SERVLET MAPPINGS -->
 	<servlet-mapping>
@@ -193,6 +197,10 @@
 	<servlet-mapping>
   		<servlet-name>FileServerServlet</servlet-name>
 		<url-pattern>/fileserver</url-pattern>
+ 	</servlet-mapping>
+	<servlet-mapping>
+  		<servlet-name>ClearTempFilesServlet</servlet-name>
+		<url-pattern>/cronjobs/cleartempfiles</url-pattern>
  	</servlet-mapping>
  	
  	<session-config>
