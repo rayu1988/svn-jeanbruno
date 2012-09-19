@@ -26,11 +26,6 @@ public class FileTO extends TransferObject {
 		super(null);
 	}
 	
-	public FileTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
 	public FileTO(Key key) {
 		super(key);
 	}

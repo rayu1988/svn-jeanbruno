@@ -25,11 +25,6 @@ public class SalesTO extends TransferObject {
 		super(null);
 	}
 
-	public SalesTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
 	public SalesTO(Key key) {
 		super(key);
 	}

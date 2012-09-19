@@ -23,11 +23,6 @@ public class AdvertisementPictureTO extends TransferObject {
 	public AdvertisementPictureTO() {
 		super(null);
 	}
-
-	public AdvertisementPictureTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
 	
 	public AdvertisementPictureTO(Key key) {
 		super(key);

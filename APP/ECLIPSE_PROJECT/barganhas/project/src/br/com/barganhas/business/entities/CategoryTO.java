@@ -22,11 +22,6 @@ public class CategoryTO extends TransferObject {
 		super(null);
 	}
 
-	public CategoryTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
 	public CategoryTO(Key key) {
 		super(key);
 	}

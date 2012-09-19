@@ -47,12 +47,20 @@
 	</datastore-index>
 	 
 	<!-- FileTO -->
-    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
     </datastore-index>
+    
+    <!-- FileTempTO -->
+	<datastore-index kind="br.com.barganhas.business.entities.FileTempTO" ancestor="true" source="manual">
+		<property name="id" direction="desc"/>
+	</datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.FileTempTO" ancestor="true" source="manual">
+		<property name="id" direction="asc"/>
+	</datastore-index>
 
 	<!-- SalesTO -->
 	<datastore-index kind="br.com.barganhas.business.entities.SalesTO" ancestor="true" source="manual">

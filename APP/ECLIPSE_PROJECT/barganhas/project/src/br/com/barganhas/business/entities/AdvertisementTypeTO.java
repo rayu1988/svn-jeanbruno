@@ -30,12 +30,7 @@ public class AdvertisementTypeTO extends TransferObject {
 	public AdvertisementTypeTO() {
 		super(null);
 	}
-	
-	public AdvertisementTypeTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
+
 	public AdvertisementTypeTO(Key key) {
 		super(key);
 	}
