@@ -14,9 +14,11 @@ public class AdvertisementPictureTO extends TransferObject {
 	
 	@PropertyField(notNull=true)
 	private Key					keyThumbnail;
+	private FileTO				thumbnail;
 	
 	@PropertyField(notNull=true)
 	private Key					keyPicture;
+	private FileTO				picture;
 	
 	public AdvertisementPictureTO() {
 		super(null);
@@ -55,5 +57,21 @@ public class AdvertisementPictureTO extends TransferObject {
 
 	public void setKeyPicture(Key keyPicture) {
 		this.keyPicture = keyPicture;
+	}
+
+	public FileTO getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(FileTO thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public FileTO getPicture() {
+		return picture;
+	}
+
+	public void setPicture(FileTO picture) {
+		this.picture = picture;
 	}
 }

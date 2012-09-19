@@ -23,9 +23,6 @@ public class UserAccountBO implements UserAccount {
 	
 	public static final String						BEAN_ALIAS = "userAccountBO";
 
-	public static final int							MAX_WIDTH_IMG_PROFILE = 128;
-	public static final int							MAX_HEIGHT_IMG_PROFILE = 128;
-	
 	@Autowired
 	private UserAccountPO							persistencyLayer;
 	

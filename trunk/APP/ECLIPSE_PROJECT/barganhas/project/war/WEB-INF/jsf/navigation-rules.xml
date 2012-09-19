@@ -33,8 +33,16 @@
 	   		<to-view-id>/xhtml/advertisement/advertisementList.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>advertisementPrepareNew</from-outcome>
-	   		<to-view-id>/xhtml/advertisement/advertisementNew.xhtml</to-view-id>
+			<from-outcome>advertisementPrepareNewStepOne</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepOne.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNewStepTwo</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepTwo.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNewStepThree</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepThree.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>advertisementEdit</from-outcome>
