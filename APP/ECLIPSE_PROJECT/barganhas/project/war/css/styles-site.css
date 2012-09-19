@@ -725,3 +725,11 @@ textarea:FOCUS {
 	font-weight: bold;
 }
 /** EXPIRED SESSION **/
+
+/** table select one radio **/
+.tableSelectOneRadio {
+}
+.tableSelectOneRadio tr {
+	height: 83px;
+}
+/** table select one radio **/

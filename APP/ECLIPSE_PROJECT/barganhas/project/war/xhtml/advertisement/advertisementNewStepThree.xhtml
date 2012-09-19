@@ -17,22 +17,27 @@
 	<ui:define name="advertisementFormBody">
 		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
-			
-			<h:panelGroup layout="block">
-				<h:panelGrid columns="1" style="float: left;">
-					<c:forEach items="#{advertisementBean.listAdvertisementPictures}" var="currentPicture">
-						<h:graphicImage value="/fileserver?q=#{currentPicture.value.thumbnail.keyAsString}"/>
-					</c:forEach>
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				
+				<!-- sheet of the advertisement -->
+				<h:outputLabel value="#{msg.advertisementSheet}:" for="showListAdvertisementPictures"/>
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1" styleClass="tableSelectOneRadio">
+						<c:forEach items="#{advertisementBean.listAdvertisementPictures}" var="currentPicture">
+							<h:graphicImage value="/fileserver?q=#{currentPicture.value.thumbnail.keyAsString}"/>
+						</c:forEach>
+					</h:panelGrid>
+					
+					<h:selectOneRadio id="showListAdvertisementPictures"  
+							value="#{advertisementBean.selectedSheetPicture}" 
+							converter="omnifaces.SelectItemsConverter"
+							layout="pageDirection"
+							styleClass="tableSelectOneRadio">
+						<f:selectItems value="#{advertisementBean.listAdvertisementPictures}" />
+					</h:selectOneRadio>
 				</h:panelGrid>
 				
-				<h:selectOneRadio id="showListAdvertisementPictures"  
-						value="#{advertisementBean.selectedSheetPicture}" 
-						converter="omnifaces.SelectItemsConverter"
-						layout="pageDirection">
-					<f:selectItems value="#{advertisementBean.listAdvertisementPictures}" />
-				</h:selectOneRadio>
-			</h:panelGroup>
-			
+			</h:panelGrid>
 		</h:panelGroup>
 		
 		<t:saveState value="#{advertisementBean.selectedSheetPicture}"/>
