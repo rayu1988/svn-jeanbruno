@@ -12,8 +12,6 @@ import org.omnifaces.util.selectitems.SelectItemsBuilder;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import com.google.appengine.api.datastore.Blob;
-
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
@@ -29,6 +27,8 @@ import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
+import com.google.appengine.api.datastore.Blob;
+
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
@@ -42,7 +42,8 @@ public class AdvertisementBean extends AppManagedBean {
 	private List<SelectItem>					listCategories;
 	private CategoryTO							selectedCategory;
 	
-	private List<AdvertisementPictureTO>						listAdvertisementPictures;
+	private List<SelectItem>		listAdvertisementPictures;
+	private AdvertisementPictureTO				selectedSheetPicture;
 	
 	public String list() {
 		UserAccountTO loggedUserAccount = this.getUserAccountLogged();
@@ -140,7 +141,14 @@ public class AdvertisementBean extends AppManagedBean {
 			AdvertisementPicture service = this.getServiceBusinessFactory().getAdvertisementPicture();
 			AdvertisementPictureTO advertisementPicture = service.newAdvertisementPicture(picture);
 			
-			this.listAdvertisementPictures.add(advertisementPicture);
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			for (SelectItem selectItem : this.listAdvertisementPictures) {
+				AdvertisementPictureTO currentPicture = (AdvertisementPictureTO) selectItem.getValue();
+				selectItemsBuilder.add(currentPicture, currentPicture.getThumbnail().getFileName());
+			}
+			selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
+			
+			this.listAdvertisementPictures = selectItemsBuilder.buildList();
 		}
 	}
 	
@@ -217,14 +225,14 @@ public class AdvertisementBean extends AppManagedBean {
 		this.listAdvertisementType = listAdvertisementType;
 	}
 
-	public List<AdvertisementPictureTO> getListAdvertisementPictures() {
+	public List<SelectItem> getListAdvertisementPictures() {
 		if (listAdvertisementPictures == null) {
-			listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+			listAdvertisementPictures = new ArrayList<SelectItem>();
 		}
 		return listAdvertisementPictures;
 	}
 
-	public void setListAdvertisementPictures(List<AdvertisementPictureTO> listAdvertisementPictures) {
+	public void setListAdvertisementPictures(List<SelectItem> listAdvertisementPictures) {
 		this.listAdvertisementPictures = listAdvertisementPictures;
 	}
 
@@ -251,5 +259,13 @@ public class AdvertisementBean extends AppManagedBean {
 
 	public void setSelectedCategory(CategoryTO selectedCategory) {
 		this.selectedCategory = selectedCategory;
+	}
+
+	public AdvertisementPictureTO getSelectedSheetPicture() {
+		return selectedSheetPicture;
+	}
+
+	public void setSelectedSheetPicture(AdvertisementPictureTO selectedSheetPicture) {
+		this.selectedSheetPicture = selectedSheetPicture;
 	}
 }

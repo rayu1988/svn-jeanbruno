@@ -3,13 +3,13 @@ package br.com.barganhas.business.entities;
 import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("serial")
-public class AdministratorTO extends UserTO {
-	
-	public AdministratorTO() {
+public class FileTempTO extends FileTO {
+
+	public FileTempTO() {
 		super(null);
 	}
 	
-	public AdministratorTO(Key key) {
+	public FileTempTO(Key key) {
 		super(key);
 	}
 

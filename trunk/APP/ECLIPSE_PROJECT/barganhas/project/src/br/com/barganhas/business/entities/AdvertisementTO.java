@@ -60,11 +60,6 @@ public class AdvertisementTO extends TransferObject {
 		super(null);
 	}
 
-	public AdvertisementTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
 	public AdvertisementTO(Key key) {
 		super(key);
 	}

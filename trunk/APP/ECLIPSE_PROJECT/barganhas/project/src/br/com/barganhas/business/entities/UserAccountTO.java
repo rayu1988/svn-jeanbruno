@@ -26,11 +26,6 @@ public class UserAccountTO extends UserTO {
 		super(null);
 	}
 	
-	public UserAccountTO(Long id) {
-		super(null);
-		this.setId(id);
-	}
-	
 	public UserAccountTO(Key key) {
 		super(key);
 	}
