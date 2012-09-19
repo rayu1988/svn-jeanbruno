@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/advertisement/advertisementNewBase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew} ( #{msg.advertisementHeaderStepTwo} ) "/>
+	</ui:define>
+	
+	<!-- defining the scope of advertisementNewBase -->
+	<ui:define name="advertisementFormBody">
+		
+		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				
+				<!-- list advertisement pictures -->
+				<h:outputLabel value="#{msg.advertisementPictures}:" for="listAdvertisementPictures"/>
+				<rich:fileUpload id="listAdvertisementPictures" fileUploadListener="#{advertisementBean.uploadFile}"
+								acceptedTypes="png, jpg, jpeg"
+								noDuplicate="true"
+								addLabel="#{msg.fileUploadAddLabel}"
+								clearAllLabel="#{msg.fileUploadClearLabel}"
+								clearLabel="#{msg.fileUploadDeleteLabel}"
+								deleteLabel="#{msg.fileUploadDeleteLabel}"
+								uploadLabel="#{msg.fileUploadUploadLabel}"
+								sizeExceededLabel="#{msg.fileUploadSizeExceededLabel}"
+								doneLabel="#{msg.fileUploadDoneLabel}"
+								maxFilesQuantity="#{advertisementBean.selectedAdvertisementType.totalPictures}">
+				</rich:fileUpload>
+			
+			</h:panelGrid>
+		</h:panelGroup>
+	</ui:define>
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.msgGoNext}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.prepareNewStepThree}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

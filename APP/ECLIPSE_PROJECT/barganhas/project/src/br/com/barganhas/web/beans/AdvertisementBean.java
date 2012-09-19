@@ -12,11 +12,16 @@ import org.omnifaces.util.selectitems.SelectItemsBuilder;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
+import com.google.appengine.api.datastore.Blob;
+
+import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.entities.CategoryTO;
+import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
+import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.commons.RequestMessage;
@@ -37,7 +42,7 @@ public class AdvertisementBean extends AppManagedBean {
 	private List<SelectItem>					listCategories;
 	private CategoryTO							selectedCategory;
 	
-	private List<UploadedFile>					listAdvertisementPictures;
+	private List<AdvertisementPictureTO>						listAdvertisementPictures;
 	
 	public String list() {
 		UserAccountTO loggedUserAccount = this.getUserAccountLogged();
@@ -48,13 +53,54 @@ public class AdvertisementBean extends AppManagedBean {
 		return "advertisementList";
 	}
 	
-	public String prepareNew() {
+	public String prepareNewStepOne() {
 		this.advertisement = new AdvertisementTO();
 		this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
 		this.prepareListAdvertisementType();
 		this.prepareListCategories();
 		
-		return "advertisementPrepareNew";
+		return "advertisementPrepareNewStepOne";
+	}
+	
+	public String prepareNewStepTwo() {
+		// start validate block
+		List<RequestMessage> messages = new ArrayList<RequestMessage>();
+		if (this.selectedAdvertisementType == null) {
+			messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
+		}
+		if (this.selectedCategory == null) {
+			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
+		}
+		if (!Util.isStringOk(this.advertisement.getTitle())) {
+			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
+		}
+		if (!Util.isStringOk(this.advertisement.getValue())) {
+			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
+		}
+		if (Util.isCollectionOk(messages)) {
+			this.setRequestMessages(messages);
+			return null;
+		}
+		// ends validate block
+		
+		return "advertisementPrepareNewStepTwo";
+	}
+	
+	public String prepareNewStepThree() {
+		// start validate block
+		List<RequestMessage> messages = new ArrayList<RequestMessage>();
+		if (!Util.isCollectionOk(this.listAdvertisementPictures)) {
+			messages.add(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
+		}
+		if (Util.isCollectionOk(messages)) {
+			this.setRequestMessages(messages);
+			return null;
+		}
+		// ends validate block
+		
+		
+		
+		return "advertisementPrepareNewStepThree";
 	}
 	
 	private void prepareListAdvertisementType() {
@@ -82,19 +128,23 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	public void uploadFile(FileUploadEvent event) {
-		if (this.listAdvertisementPictures == null) {
-			this.listAdvertisementPictures = new ArrayList<UploadedFile>();
+		UploadedFile uploadedFile = event.getUploadedFile();
+		if (uploadedFile != null) {
+			byte[] bytes = uploadedFile.getData();
+			
+			FileTO picture = new FileTO();
+			picture.setData(new Blob(bytes));
+			picture.setContentType(uploadedFile.getContentType());
+			picture.setFileName(uploadedFile.getName());
+			
+			AdvertisementPicture service = this.getServiceBusinessFactory().getAdvertisementPicture();
+			AdvertisementPictureTO advertisementPicture = service.newAdvertisementPicture(picture);
+			
+			this.listAdvertisementPictures.add(advertisementPicture);
 		}
-		this.listAdvertisementPictures.add(event.getUploadedFile());
 	}
 	
 	public String insert() {
-		List<RequestMessage> messagesValidate = this.validate();
-		if (Util.isCollectionOk(messagesValidate)) {
-			this.setRequestMessages(messagesValidate);
-			return null;
-		}
-		
 		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 		
 		UserAccountTO userAccountLogged = this.getUserAccountLogged();
@@ -116,12 +166,6 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	public String save() {
-		List<RequestMessage> messagesValidate = this.validate();
-		if (Util.isCollectionOk(messagesValidate)) {
-			this.setRequestMessages(messagesValidate);
-			return null;
-		}
-
 //		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 //		service.insert(this.advertisement);
 		
@@ -131,23 +175,6 @@ public class AdvertisementBean extends AppManagedBean {
 //		
 //		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.consult();
-	}
-	
-	private List<RequestMessage> validate() {
-		List<RequestMessage> messages = new ArrayList<RequestMessage>();
-		if (this.selectedAdvertisementType == null) {
-			messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
-		}
-		if (!Util.isStringOk(this.advertisement.getTitle())) {
-			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
-		}
-		if (!Util.isStringOk(this.advertisement.getValue())) {
-			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
-		}
-		if (!Util.isCollectionOk(this.listCategories)) {
-			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
-		}
-		return messages;
 	}
 	
 	public String consult() {
@@ -190,12 +217,14 @@ public class AdvertisementBean extends AppManagedBean {
 		this.listAdvertisementType = listAdvertisementType;
 	}
 
-	public List<UploadedFile> getListAdvertisementPictures() {
+	public List<AdvertisementPictureTO> getListAdvertisementPictures() {
+		if (listAdvertisementPictures == null) {
+			listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+		}
 		return listAdvertisementPictures;
 	}
 
-	public void setListAdvertisementPictures(
-			List<UploadedFile> listAdvertisementPictures) {
+	public void setListAdvertisementPictures(List<AdvertisementPictureTO> listAdvertisementPictures) {
 		this.listAdvertisementPictures = listAdvertisementPictures;
 	}
 

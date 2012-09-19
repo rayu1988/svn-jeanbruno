@@ -8,6 +8,8 @@ body {
 	
 	outline: 0;
 	vertical-align: baseline;
+	
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 
 fieldset {
@@ -58,18 +60,21 @@ input {
 	padding: 0;
 /* 	border: 1px solid #999; */
 	border: 1px solid #D8DEE2;
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 input:FOCUS {
 	border: 1px solid #CC6600;
 }
 select {
 	border: 1px solid #D8DEE2;
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 select:FOCUS {
 	border: 1px solid #CC6600;
 }
 textarea {
 	border: 1px solid #D8DEE2;
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 textarea:FOCUS {
 	border: 1px solid #CC6600;
@@ -720,18 +725,3 @@ textarea:FOCUS {
 	font-weight: bold;
 }
 /** EXPIRED SESSION **/
-
-/** RICHFACES STYLES **/
-.rf-pp-hdr {
-	background:url("../images/b.gif") repeat-x scroll left top #FFF !important;
-}
-.rf-pp-hdr-cnt {
-	font-family: Helvetica, arial, freesans, clean, sans-serif !important;
-	font-size: 15px !important;
-	padding: 10px !important;
-}
-.rf-pp-cntr {
-	border: 0 !important;
-	border-radius: 5px;
-}
-/** RICHFACES STYLES **/

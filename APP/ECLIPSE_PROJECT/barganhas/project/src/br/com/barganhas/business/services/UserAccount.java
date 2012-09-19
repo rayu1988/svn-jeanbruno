@@ -7,6 +7,9 @@ import br.com.barganhas.business.entities.UserAccountTO;
 
 public interface UserAccount {
 
+	int 	MAX_WIDTH_IMG_PROFILE = 128;
+	int 	MAX_HEIGHT_IMG_PROFILE = 128;
+	
 	List<UserAccountTO> list();
 
 	List<UserAccountTO> filter(UserAccountTO userAccount);

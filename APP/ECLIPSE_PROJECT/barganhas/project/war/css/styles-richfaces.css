@@ -49,12 +49,26 @@
     font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif !important;
 }
 
-.rf-fu-lst {
-/* 	height: 1px !important; */
+.rf-fu {
+	width: 610px !important;
+	border-color: #D8DEE2 !important;
 }
 
 .rf-tt-cntr {
 	border: 1px solid #C60 !important;
 	font: 13px Helvetica, arial, freesans, clean, sans-serif !important;
+}
+
+.rf-pp-hdr {
+	background:url("../images/b.gif") repeat-x scroll left top #FFF !important;
+}
+.rf-pp-hdr-cnt {
+	font-family: Helvetica, arial, freesans, clean, sans-serif !important;
+	font-size: 15px !important;
+	padding: 10px !important;
+}
+.rf-pp-cntr {
+	border: 0 !important;
+	border-radius: 5px;
 }
 /** RICHFACES STYLES **/

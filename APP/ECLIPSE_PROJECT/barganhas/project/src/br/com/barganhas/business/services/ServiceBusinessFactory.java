@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import br.com.barganhas.business.services.impl.AdministratorBO;
 import br.com.barganhas.business.services.impl.AdvertisementBO;
+import br.com.barganhas.business.services.impl.AdvertisementPictureBO;
 import br.com.barganhas.business.services.impl.AdvertisementTypeBO;
 import br.com.barganhas.business.services.impl.CategoryBO;
 import br.com.barganhas.business.services.impl.FileBO;
@@ -55,6 +56,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public Advertisement getAdvertisement() {
 		return (Advertisement) this.applicationContext.getBean(AdvertisementBO.BEAN_ALIAS);
+	}
+	
+	public AdvertisementPicture getAdvertisementPicture() {
+		return (AdvertisementPicture) this.applicationContext.getBean(AdvertisementPictureBO.BEAN_ALIAS);
 	}
 	
 }
