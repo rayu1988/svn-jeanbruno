@@ -39,6 +39,23 @@ public class FileBO implements File {
 	}
 	
 	@Override
+	public FileTO insert(FileTO file) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			file = this.persistencyLayer.insert(file);
+			
+			transaction.commit();
+			return file;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
 	public FileTO insert(FileTO file, TransferObject ancestorTO) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {

@@ -11,7 +11,7 @@ public interface Advertisement {
 
 	List<AdvertisementTO> list(UserAccountTO userAccount);
 
-	AdvertisementTO insert(AdvertisementTO advertisement, UserAccountTO userAccount);
+	AdvertisementTO insert(AdvertisementTO advertisement);
 
 	AdvertisementTO consult(AdvertisementTO advertisement);
 	

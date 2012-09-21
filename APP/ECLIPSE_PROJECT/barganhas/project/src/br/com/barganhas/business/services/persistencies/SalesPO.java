@@ -6,10 +6,14 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.SalesTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
 @SuppressWarnings("serial")
 @Repository
@@ -40,5 +44,18 @@ public class SalesPO extends AppPersistency {
 
 	public void delete(SalesTO sales) {
 		this.deleteEntity(sales);
+	}
+	
+	public SalesTO consultBySalesCode(String salesCode) {
+		Query query = this.getQuery(SalesTO.class);
+		query.setFilter(new Query.FilterPredicate("salesCode", FilterOperator.EQUAL, salesCode.trim()));
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		Entity entity = preparedQuery.asSingleEntity();
+		
+		if (entity == null) {
+			throw new AppException("advertisementInvalidSalesCode");
+		}
+		
+		return (SalesTO) AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity);
 	}
 }

@@ -9,6 +9,8 @@ public interface File {
 
 	List<FileTO> list();
 
+	FileTO insert(FileTO file);
+	
 	FileTO insert(FileTO file, TransferObject ancestorTO);
 
 	FileTO consult(FileTO file);

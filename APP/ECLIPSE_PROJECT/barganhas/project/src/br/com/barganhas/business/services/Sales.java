@@ -12,6 +12,8 @@ public interface Sales {
 
 	SalesTO consult(SalesTO sales);
 	
+	SalesTO consultBySalesCode(String salesCode);
+	
 	SalesTO save(SalesTO sales);
 
 	void delete(SalesTO sales);
