@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.datastore.Transaction;
-
 import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.SalesPO;
+
+import com.google.appengine.api.datastore.Transaction;
 
 @Service("salesBO")
 public class SalesBO implements Sales {
@@ -101,6 +101,23 @@ public class SalesBO implements Sales {
 			if (transaction.isActive()) {
 				transaction.rollback();
 		    }
+		}
+	}
+
+	@Override
+	public SalesTO consultBySalesCode(String salesCode) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			SalesTO sales = this.consultBySalesCode(salesCode);
+			transaction.commit();
+			
+			return sales;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
 		}
 	}
 }

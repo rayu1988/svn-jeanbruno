@@ -27,5 +27,9 @@
 		<converter-id>ConverterAdvertisementStatus</converter-id>
 		<converter-class>br.com.barganhas.web.converters.ConverterAdvertisementStatus</converter-class>
 	</converter>
+	<converter>
+		<converter-id>SelectAdvertisementSheetConverter</converter-id>
+		<converter-class>br.com.barganhas.web.converters.SelectAdvertisementSheetConverter</converter-class>
+	</converter>
 	
 </faces-config>

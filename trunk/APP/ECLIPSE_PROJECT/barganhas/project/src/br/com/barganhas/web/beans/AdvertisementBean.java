@@ -17,11 +17,13 @@ import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.entities.FileTO;
+import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
+import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
@@ -42,8 +44,10 @@ public class AdvertisementBean extends AppManagedBean {
 	private List<SelectItem>					listCategories;
 	private CategoryTO							selectedCategory;
 	
-	private List<SelectItem>		listAdvertisementPictures;
+	private List<SelectItem>					listAdvertisementPictures;
 	private AdvertisementPictureTO				selectedSheetPicture;
+	
+	private String								salesCode;
 	
 	public String list() {
 		UserAccountTO loggedUserAccount = this.getUserAccountLogged();
@@ -99,8 +103,6 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 		// ends validate block
 		
-		
-		
 		return "advertisementPrepareNewStepThree";
 	}
 	
@@ -153,14 +155,31 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	public String insert() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		if (Util.isStringOk(this.salesCode)) {
+			Sales serviceSales = this.getServiceBusinessFactory().getSales();
+			SalesTO sales = serviceSales.consultBySalesCode(this.salesCode);
+			this.advertisement.setSales(sales);
+		}
+		
+		// remove the sheet picture from list pictures
+		List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+		for (SelectItem selectItem : this.listAdvertisementPictures) {
+			AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
+			if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
+				listAdvertisementPictures.add(advertisementPicture);
+			}
+		}
+		this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+		this.advertisement.setSheetPicture(this.selectedSheetPicture);
 		
 		UserAccountTO userAccountLogged = this.getUserAccountLogged();
+		this.advertisement.setUserAccount(userAccountLogged);
 		
-		this.advertisement.setKeyUserAccount(userAccountLogged.getKey());
-		this.advertisement.setKeyCategory(this.selectedCategory.getKey());
-		this.advertisement.setKeyAdvertisementType(this.selectedAdvertisementType.getKey());
-		this.advertisement = service.insert(this.advertisement, userAccountLogged);
+		this.advertisement.setAdvertisementType(this.selectedAdvertisementType);
+		this.advertisement.setCategory(this.selectedCategory);
+		
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		this.advertisement = service.insert(this.advertisement);
 		
 		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
@@ -268,4 +287,13 @@ public class AdvertisementBean extends AppManagedBean {
 	public void setSelectedSheetPicture(AdvertisementPictureTO selectedSheetPicture) {
 		this.selectedSheetPicture = selectedSheetPicture;
 	}
+
+	public String getSalesCode() {
+		return salesCode;
+	}
+
+	public void setSalesCode(String salesCode) {
+		this.salesCode = salesCode;
+	}
+
 }

@@ -21,31 +21,43 @@
 				
 				<!-- sheet of the advertisement -->
 				<h:outputLabel value="#{msg.advertisementSheet}:" for="showListAdvertisementPictures"/>
-				<h:panelGrid columns="2">
-					<h:panelGrid columns="1" styleClass="tableSelectOneRadio">
-						<c:forEach items="#{advertisementBean.listAdvertisementPictures}" var="currentPicture">
-							<h:graphicImage value="/fileserver?q=#{currentPicture.value.thumbnail.keyAsString}"/>
-						</c:forEach>
-					</h:panelGrid>
-					
-					<h:selectOneRadio id="showListAdvertisementPictures"  
+				<h:panelGrid columns="2" styleClass="panelDetailsWarning" >
+					<t:selectOneRadio id="showListAdvertisementPictures"  
 							value="#{advertisementBean.selectedSheetPicture}" 
-							converter="omnifaces.SelectItemsConverter"
-							layout="pageDirection"
-							styleClass="tableSelectOneRadio">
+							converter="SelectAdvertisementSheetConverter"
+							layout="spread">
 						<f:selectItems value="#{advertisementBean.listAdvertisementPictures}" />
-					</h:selectOneRadio>
+					</t:selectOneRadio>
+					
+					<t:dataTable var="currentSelectItem" value="#{advertisementBean.listAdvertisementPictures}" rowIndexVar="indexSelectItem">
+						<h:column>
+							<h:graphicImage value="/fileserver?q=#{currentSelectItem.value.thumbnail.keyAsString}" />
+						</h:column>
+					
+						<h:column>
+							<t:radio for=":formNavigation:showListAdvertisementPictures" index="#{indexSelectItem}"/>
+						</h:column>
+					</t:dataTable>
 				</h:panelGrid>
+				
+				<!-- sales code -->
+				<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
+				<h:inputText id="salesCode" value="#{advertisementBean.salesCode}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				
+				<!-- pag seguro -->
+				<h:outputLabel value="#{msg.advertisementWaysToPay}:" />
+				<h:graphicImage value="#{request.contextPath}/images/pagseguro/todos_estatico_550_100.gif"/>
 				
 			</h:panelGrid>
 		</h:panelGroup>
 		
 		<t:saveState value="#{advertisementBean.selectedSheetPicture}"/>
+		<t:saveState value="#{advertisementBean.salesCode}"/>
 	</ui:define>
 	
 	<!-- defining the scope of accountbase -->
 	<ui:define name="accountBottomButtons">
-		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.insert}" immediate="false" />
+		<h:commandButton value="#{msg.advertisementPublishUp}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.insert}" immediate="false" />
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>
 	

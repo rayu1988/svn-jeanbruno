@@ -14,47 +14,52 @@ public class AdvertisementTO extends TransferObject {
 
 	@IdField
 	@PropertyField
-	private Long						id;
+	private Long								id;
 	
 	@PropertyField(notNull=true)
-	private Date						sinceDate;
+	private Date								sinceDate;
 
 	@PropertyField(notNull=true, allowEmpty=false)
-	private String						title;
+	private String								title;
 	
 	@PropertyField
-	private String						description;
+	private String								description;
 	
 	@PropertyField
-	private String						contacts;
+	private String								contacts;
 	
 	@PropertyField
-	private String						value;
+	private String								value;
 
 	@PropertyField(notNull=true)
-	private AdvertisementStatus			status;
+	private AdvertisementStatus					status;
 	
 	@PropertyField(notNull=true)
-	private Key							keyAdvertisementType;
-	private AdvertisementTypeTO			advertisementType;
+	private Key									keyAdvertisementType;
+	private AdvertisementTypeTO					advertisementType;
 	
 	@PropertyField(notNull=true)
-	private Key							keyUserAccount;
-	private UserAccountTO				userAccount;
+	private Key									keyUserAccount;
+	private UserAccountTO						userAccount;
 	
 	@PropertyField(notNull=true)
-	private Key							keyCategory;
-	private CategoryTO					category;
+	private Key									keyCategory;
+	private CategoryTO							category;
 	
 	@PropertyField
-	private Key							keySales;
-	private SalesTO						sales;
+	private Key									keySales;
+	private SalesTO								sales;
 	
 	@PropertyField
-	private String						listExchangeBy;
+	private String								listExchangeBy;
 	
 	@PropertyField
-	private List<Key>					pictures;
+	private List<Key>							pictures;
+	private List<AdvertisementPictureTO> 		listAdvertisementPictures;
+	
+	@PropertyField
+	private Key									keySheetPicture;
+	private AdvertisementPictureTO				sheetPicture;
 	
 	public AdvertisementTO() {
 		super(null);
@@ -201,5 +206,30 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setSales(SalesTO sales) {
 		this.sales = sales;
+	}
+
+	public List<AdvertisementPictureTO> getListAdvertisementPictures() {
+		return listAdvertisementPictures;
+	}
+
+	public void setListAdvertisementPictures(
+			List<AdvertisementPictureTO> listAdvertisementPictures) {
+		this.listAdvertisementPictures = listAdvertisementPictures;
+	}
+
+	public Key getKeySheetPicture() {
+		return keySheetPicture;
+	}
+
+	public void setKeySheetPicture(Key keySheetPicture) {
+		this.keySheetPicture = keySheetPicture;
+	}
+
+	public AdvertisementPictureTO getSheetPicture() {
+		return sheetPicture;
+	}
+
+	public void setSheetPicture(AdvertisementPictureTO sheetPicture) {
+		this.sheetPicture = sheetPicture;
 	}
 }

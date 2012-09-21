@@ -12,5 +12,7 @@ public interface AdvertisementPicture {
 	int 	MAX_HEIGHT_PICTURE = 441;
 	
 	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase);
+
+	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase);
 	
 }

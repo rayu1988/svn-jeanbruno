@@ -28,6 +28,10 @@ public class FilePO extends AppPersistency {
 		return listReturn;
 	}
 	
+	public FileTO insert(FileTO file) {
+		return this.persist(file);
+	}
+	
 	public FileTO insert(FileTO file, TransferObject ancestorTO) {
 		return this.persist(file, ancestorTO);
 	}
