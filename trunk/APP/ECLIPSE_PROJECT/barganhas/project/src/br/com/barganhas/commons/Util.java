@@ -8,12 +8,14 @@ import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 
 import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.Transform;
 
-public class Util {
+public final class Util {
 
 	public static boolean isStringOk(String str) {
 		return str != null && !str.isEmpty();
@@ -92,5 +94,9 @@ public class Util {
 		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);
 		Image newImage = imagesService.applyTransform(transform, oldImage);
 		return new Blob(newImage.getImageData());
+	}
+	
+	public static String getStringFromKey(Key keyBase) {
+		return KeyFactory.keyToString(keyBase);
 	}
 }

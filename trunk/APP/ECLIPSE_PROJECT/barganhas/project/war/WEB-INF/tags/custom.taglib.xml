@@ -6,6 +6,15 @@
 	
     <namespace>http://barganhas.com.br/barganhas</namespace>
     
+    <!-- start functions -->
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>getStringFromKey</function-name>
+    	<function-signature>java.lang.String getStringFromKey(com.google.appengine.api.datastore.Key)</function-signature>
+    </function>
+    <!-- ends functions -->
+    
+    <!-- start tags -->
 	<tag>
     	<tag-name>commandListDelete</tag-name>
     	<source>../tags/commandListDelete.xhtml</source>
@@ -113,5 +122,6 @@
     		<required>false</required>
     	</attribute>
     </tag>
+    <!-- ends tags -->
     
 </facelet-taglib>
