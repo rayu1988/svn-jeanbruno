@@ -21,7 +21,6 @@ import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.validators.EmailValidator;
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.KeyFactory;
 
 @ManagedBean
 @RequestScoped
@@ -57,8 +56,8 @@ public class UserAccountBean extends AppManagedBean {
 			if (!Util.isStringOk(this.userAccount.getNickname())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Usuário"));
 			}
-			if (!Util.isStringOk(this.userAccount.getPassword())) {
-				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Senha"));
+			if (!Util.isStringOk(this.userAccount.getPassword()) || this.userAccount.getPassword().length() < 8) {
+				this.returnMessage.addMessage(Util.getMessageResourceString("passwordRequiredFieldMsg"));
 			} else if (!this.userAccount.getPassword().equals(this.confirmPassword)) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("confirmFieldErrorMsg", "Senha", "Confirma Senha"));
 			}
@@ -118,7 +117,8 @@ public class UserAccountBean extends AppManagedBean {
 	public String save() {
 		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 		if (this.profileImage != null) {
-			service.save(this.userAccount, this.profileImage);
+			UserAccountTO userAccount = service.save(this.userAccount, this.profileImage);
+			this.getManagedBean(AppSessionBean.class).setUserAccount(userAccount);
 		} else {
 			service.save(this.userAccount);
 		}
@@ -178,10 +178,6 @@ public class UserAccountBean extends AppManagedBean {
 		response.setDateHeader("Expires", 1);
 		
 		return this.getManagedBean(SiteBean.class).goToIndex();
-	}
-	
-	public String getCurrentKeyProfileImage() {
-		return KeyFactory.keyToString(this.getUserAccountLogged().getKeyProfileImage());
 	}
 	
 	// GETTERS AND SETTERS //

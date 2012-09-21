@@ -4,7 +4,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="bodyNavigation">
 		<h:panelGroup layout="block" styleClass="wrapperUserAccount">
@@ -12,7 +13,7 @@
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
 								rendered="#{appSessionBean.userAccount.keyProfileImage eq null}"/>
-					<h:graphicImage value="/fileserver?q=#{userAccountBean.currentKeyProfileImage}" styleClass="boxAccountProfileImage"
+					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(appSessionBean.userAccount.keyProfileImage)}" styleClass="boxAccountProfileImage"
 								rendered="#{appSessionBean.userAccount.keyProfileImage ne null}"/>
 					
 					<ul style="text-align: left;">
