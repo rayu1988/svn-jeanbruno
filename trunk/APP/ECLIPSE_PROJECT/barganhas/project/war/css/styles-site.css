@@ -1,15 +1,19 @@
 body {
+	margin: 0px;
+	padding: 0px;
+	outline: 0;
+	vertical-align: baseline;
+	
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+}
+
+#bodySite {
 	padding: 0 30px;
 	display: block;
 	
 	min-width: 760px;
 	max-width: 1200px;
 	margin: 0 auto;
-	
-	outline: 0;
-	vertical-align: baseline;
-	
-	font-family: Helvetica, arial, freesans, clean, sans-serif;
 }
 
 fieldset {
