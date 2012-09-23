@@ -67,6 +67,8 @@ public class UserAccountBO implements UserAccount {
 	public UserAccountTO insert(UserAccountTO userAccount) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			this.beforePersist(userAccount);
+			
 			userAccount = this.persistencyLayer.insert(userAccount);
 			
 			transaction.commit();
@@ -101,6 +103,8 @@ public class UserAccountBO implements UserAccount {
 	public UserAccountTO save(UserAccountTO userAccount) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			this.beforePersist(userAccount);
+			
 			UserAccountTO syncronized = this.consult(userAccount);
 			if (!Util.isStringOk(userAccount.getPassword())) {
 				userAccount.setPassword(syncronized.getPassword());
@@ -122,6 +126,8 @@ public class UserAccountBO implements UserAccount {
 	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			this.beforePersist(userAccount);
+			
 			if (fileImage != null) {
 				Blob profileImage = Util.transformBlobImage(fileImage.getData(), MAX_HEIGHT_IMG_PROFILE, MAX_WIDTH_IMG_PROFILE);
 				if (userAccount.getKeyProfileImage() == null) {
@@ -231,6 +237,12 @@ public class UserAccountBO implements UserAccount {
 			if (transaction.isActive()) {
 				transaction.rollback();
 		    }
+		}
+	}
+	
+	private void beforePersist(UserAccountTO userAccount) {
+		if (userAccount.getPassword().length() < 8) {
+			throw new AppException("passphraseMinMessage");
 		}
 	}
 
