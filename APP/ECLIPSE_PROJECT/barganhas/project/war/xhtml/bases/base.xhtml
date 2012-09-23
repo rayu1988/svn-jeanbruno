@@ -28,84 +28,73 @@
 				<ui:decorate template="/xhtml/account/accountNewPopup.xhtml"/>
 			</c:if>
    			
-   			<div id="site">
-				<div id="top" >
-					<h:form prependId="false">
-						<div id="topLinks">
-							<ul>
-								<c:choose>
-									<c:when test="#{appSessionBean.userAccount eq null}">
-										<li>
-											<a4j:commandLink actionListener="#{userAccountBean.prepareRegister}"
-												immediate="true"
-												value="#{msg.registerYourSelf}"
-												render="accountNewPopupForm"/>
-										</li>
-										<li>
-											<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />
-										</li>
-									</c:when>
-									<c:otherwise>
-										<li>
-											<h:outputText styleClass="welcomeMsg" value="#{msg.loginWelcomeMsg} "/>
-											<h:outputText styleClass="welcomeMsg" value="#{appSessionBean.userAccount.nickname}"/>
-											<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
-										</li>
-										<li>
-											<h:commandLink action="#{advertisementBean.prepareNewStepOne}" value="#{msg.advertisementNewAdvertisement}" />
-										</li>
-									</c:otherwise>
-								</c:choose>
-								<li>
-									<h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/>
-								</li>
-								<li>
-									<h:commandLink action="#{siteBean.goToIndex}" value="#{msg.appStart}" />
-								</li>
-								<li style="border: 0px;">
-									<a href="#">#{msg.contact}</a>
-								</li>
-							</ul>
-						</div>
-						
-						<div id="searchBox">
-							<a href="#{request.contextPath}/" id="logo" >
-								<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
-							</a>
-							
-	<!-- 						<h:form id="searchform" prependId="false"> -->
-	<!-- 							<input id="searchField" name="searchField" type="text" placeholder="buscar barganhas" /> -->
-	<!-- 							<button class="customButton" id="findButton" name="findButton" type="submit"> -->
-	<!-- 								Buscar -->
-	<!-- 							</button> -->
-	<!-- 						</h:form> -->
-							<h:panelGroup layout="block" id="searchform">
-								<input id="searchField" name="searchField" type="text"/>
-								<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
+   			<h:panelGroup id="bodySite" layout="block">
+   				<h:form prependId="false" id="formNavigation">
+   					<h:panelGroup id="site" layout="block">
+		   				<h:panelGroup id="top" layout="block">
+		   					<h:panelGroup id="topLinks" layout="block">
+								<ul>
+									<c:choose>
+										<c:when test="#{appSessionBean.userAccount eq null}">
+											<li>
+												<a4j:commandLink actionListener="#{userAccountBean.prepareRegister}"
+													immediate="true"
+													value="#{msg.registerYourSelf}"
+													render="accountNewPopupForm"/>
+											</li>
+											<li>
+												<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li>
+												<h:outputText styleClass="welcomeMsg" value="#{msg.loginWelcomeMsg} "/>
+												<h:outputText styleClass="welcomeMsg" value="#{appSessionBean.userAccount.nickname}"/>
+												<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
+											</li>
+											<li>
+												<h:commandLink action="#{advertisementBean.prepareNewStepOne}" value="#{msg.advertisementNewAdvertisement}" />
+											</li>
+										</c:otherwise>
+									</c:choose>
+									<li>
+										<h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/>
+									</li>
+									<li>
+										<h:commandLink action="#{siteBean.goToIndex}" value="#{msg.appStart}" />
+									</li>
+									<li style="border: 0px;">
+										<a href="#">#{msg.contact}</a>
+									</li>
+								</ul>
 							</h:panelGroup>
 							
-		<!-- 					<div id="filterBox"> -->
-		<!-- 						<a href="#">filtro</a> -->
-		<!-- 					</div> -->
-						</div>
-					</h:form>
-				</div>
-				
-				<h:form prependId="false" id="formNavigation">
-					<ui:insert name="bodyNavigation"/>
+							<h:panelGroup id="searchBox" layout="block">
+								<a href="#{request.contextPath}/" id="logo" >
+									<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
+								</a>
+								<h:panelGroup layout="block" id="searchform">
+									<input id="searchField" name="searchField" type="text"/>
+									<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						
+						<ui:insert name="bodyNavigation"/>
+						
+						<h:panelGroup id="footer" layout="block">
+							<ul>
+								<li><a href="#">#{msg.aboutTheSite}</a></li>
+								<li><a href="#">#{msg.termsOfTheSite}</a></li>
+								<li><a href="#">#{msg.contact}</a></li>
+								<li style="border: 0px;"><a href="#">#{msg.mapOfTheSite}</a></li>
+							</ul>
+							
+							<p>#{msg.copyRightMsg}</p>
+						</h:panelGroup>
+					</h:panelGroup>
 				</h:form>
-				
-				<div id="footer">
-					<ul>
-						<li><a href="#">#{msg.aboutTheSite}</a></li>
-						<li><a href="#">#{msg.termsOfTheSite}</a></li>
-						<li><a href="#">#{msg.contact}</a></li>
-						<li style="border: 0px;"><a href="#">#{msg.mapOfTheSite}</a></li>
-					</ul>
-					
-					<p>#{msg.copyRightMsg}</p>
-				</div>
-			</div>
+   			</h:panelGroup>
    		</h:body>
    	</f:view>
 </html>
