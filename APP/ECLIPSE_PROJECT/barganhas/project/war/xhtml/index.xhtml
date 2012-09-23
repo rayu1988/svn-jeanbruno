@@ -7,8 +7,8 @@
 	xmlns:a4j="http://richfaces.org/a4j">
 	
 	<ui:define name="bodyNavigation">
-		<div id="indexNavigationBox">
-			<div id="categories">
+		<h:panelGroup id="indexNavigationBox" layout="block">
+			<h:panelGroup  id="categories" layout="blocl">
 				<p class="title">#{msg.categories}</p>
 				
 				<ul>
@@ -37,24 +37,23 @@
 					<li><a href="#">Saude e Beleza</a></li>
 					<li><a href="#">Mais Categorias</a></li>
 				</ul>
-			</div>
+			</h:panelGroup>
 			
-			<div id="productsList">
+			<h:panelGroup id="productsList" layout="block">
 				<h:panelGroup layout="block" id="bannerSite" style="text-align: center;">
 					<h:graphicImage value="#{request.contextPath}/images/banner/banner-site-2.jpg"/>
 				</h:panelGroup>
 				
-				<div id="lastUpdates">
+				<h:panelGroup id="lastUpdates" layout="block">
 					<p class="title">#{msg.lastAnnouncement}</p>
 					
-					<div class="carrosel">
-						<div class="carroselLeftArrow">
+					<h:panelGroup class="carrosel" layout="block">
+						<h:panelGroup class="carroselLeftArrow" layout="block">
 							<img src="../images/left-arrow-15x13.png"/>
-						</div>
+						</h:panelGroup>
 						
-						<div class="indexListItens">
+						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
-								
 								<li>
 									<a href="#">
 										<img src="../images/note-prod.jpg"/>
@@ -109,23 +108,23 @@
 									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
 								</li>
 							</ul>
-
-							<div class="carroselRightArrow">
+							
+							<h:panelGroup class="carroselRightArrow" layout="block">
 								<img src="../images/right-arrow-15x13.png"/>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div id="moreViewed">
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="moreViewed" layout="block">
 					<p class="title">#{msg.moreViewd}</p>
 					
-					<div class="carrosel">
-						<div class="carroselLeftArrow">
+					<h:panelGroup class="carrosel" layout="block">
+						<h:panelGroup class="carroselLeftArrow" layout="block">
 							<img src="../images/left-arrow-15x13.png"/>
-						</div>
-						
-						<div class="indexListItens">
+						</h:panelGroup>
+
+						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
 								
 								<li>
@@ -182,23 +181,23 @@
 									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
 								</li>
 							</ul>
-
-							<div class="carroselRightArrow">
+							
+							<h:panelGroup class="carroselRightArrow" layout="block">
 								<img src="../images/right-arrow-15x13.png"/>
-							</div>
-						</div>
-					</div>
-				</div>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
 				
-				<div id="betterReputations">
+				<h:panelGroup id="betterReputations" layout="block">
 					<p class="title">#{msg.betterReputations}</p>
 					
-					<div class="carrosel">
-						<div class="carroselLeftArrow">
+					<h:panelGroup class="carrosel" layout="block">
+						<h:panelGroup class="carroselLeftArrow" layout="block">
 							<img src="../images/left-arrow-15x13.png"/>
-						</div>
+						</h:panelGroup>
 						
-						<div class="indexListItens">
+						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
 								
 								<li>
@@ -246,16 +245,16 @@
 									<p class="userRating" style="width: 45px;"/>
 								</li>
 							</ul>
-
-							<div class="carroselRightArrow">
+							
+							<h:panelGroup class="carroselRightArrow" layout="block">
 								<img src="../images/right-arrow-15x13.png"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
 			
-			<div id="register">
+			<h:panelGroup id="register" layout="block">
 				<p class="title">#{msg.registerYourSelf}</p>
 				
 				<h:panelGroup layout="block" id="registerBox">
@@ -285,7 +284,7 @@
 						<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
 					</h:panelGroup>
 				</h:panelGroup>
-			</div>
-		</div>
+			</h:panelGroup>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>
