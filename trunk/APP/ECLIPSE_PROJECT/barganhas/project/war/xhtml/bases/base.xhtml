@@ -29,8 +29,8 @@
 			</c:if>
    			
    			<h:panelGroup id="bodySite" layout="block">
-   				<h:form prependId="false" id="formNavigation">
-   					<h:panelGroup id="site" layout="block">
+				<h:panelGroup id="site" layout="block">
+   					<h:form id="formTop" prependId="false">
 		   				<h:panelGroup id="top" layout="block">
 		   					<h:panelGroup id="topLinks" layout="block">
 								<ul>
@@ -79,21 +79,25 @@
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
-						
+   					</h:form>
+					
+					<h:form prependId="false" id="formNavigation">
 						<ui:insert name="bodyNavigation"/>
-						
+					</h:form>
+					
+					<h:form id="formFooter" prependId="false">
 						<h:panelGroup id="footer" layout="block">
-							<ul>
-								<li><a href="#">#{msg.aboutTheSite}</a></li>
-								<li><a href="#">#{msg.termsOfTheSite}</a></li>
-								<li><a href="#">#{msg.contact}</a></li>
-								<li style="border: 0px;"><a href="#">#{msg.mapOfTheSite}</a></li>
-							</ul>
-							
-							<p>#{msg.copyRightMsg}</p>
+								<ul>
+									<li><a href="#">#{msg.aboutTheSite}</a></li>
+									<li><a href="#">#{msg.termsOfTheSite}</a></li>
+									<li><a href="#">#{msg.contact}</a></li>
+									<li style="border: 0px;"><a href="#">#{msg.mapOfTheSite}</a></li>
+								</ul>
+								
+								<p>#{msg.copyRightMsg}</p>
 						</h:panelGroup>
-					</h:panelGroup>
-				</h:form>
+					</h:form>
+				</h:panelGroup>
    			</h:panelGroup>
    		</h:body>
    	</f:view>

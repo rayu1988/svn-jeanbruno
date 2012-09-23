@@ -6,7 +6,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:a4j="http://richfaces.org/a4j">
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="accountHeader">
 		<h:outputText value="#{msg.myRegister} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
@@ -35,7 +36,8 @@
 				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
-				<h:inputText id="userNickname" value="#{userAccountBean.userAccount.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<bargas:outputText id="userNickname" value="#{userAccountBean.userAccount.nickname}"
+							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
 				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>

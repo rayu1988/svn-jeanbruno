@@ -117,11 +117,11 @@ public class UserAccountBean extends AppManagedBean {
 	public String save() {
 		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 		if (this.profileImage != null) {
-			UserAccountTO userAccount = service.save(this.userAccount, this.profileImage);
-			this.getManagedBean(AppSessionBean.class).setUserAccount(userAccount);
+			this.userAccount = service.save(this.userAccount, this.profileImage);
 		} else {
-			service.save(this.userAccount);
+			this.userAccount = service.save(this.userAccount);
 		}
+		this.getManagedBean(AppSessionBean.class).setUserAccount(this.userAccount);
 		
 		return this.consult();
 	}
