@@ -9,6 +9,7 @@ import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 
 @SuppressWarnings("serial")
@@ -34,8 +35,8 @@ public class CategoryPO extends AppPersistency {
 		return this.persist(category);
 	}
 
-	public CategoryTO consult(CategoryTO category) {
-		return this.consultEntityById(category);
+	public CategoryTO consult(CategoryTO category) throws EntityNotFoundException {
+		return this.consultByKey(category);
 	}
 
 	public void delete(CategoryTO category) {

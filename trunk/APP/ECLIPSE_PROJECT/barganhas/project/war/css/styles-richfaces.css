@@ -71,4 +71,41 @@
 	border: 0 !important;
 	border-radius: 5px;
 }
+
+.rf-fu-hdr {
+	background-color: #F7F7F7 !important;
+	background-image: none !important;
+	border-color: #EEE !important;
+}
+
+.rf-fu-btn-add {
+	margin-left: 10px !important;
+	border-radius: 3px !important;
+	font-weight: bold !important;
+	padding: 7px 10px !important;
+	cursor: pointer !important;
+	border: 1px solid #aaa !important;
+}
+
+.rf-fu-btn-upl {
+	margin-left: 10px !important;
+	border-radius: 3px !important;
+	font-weight: bold !important;
+	padding: 7px 10px !important;
+	cursor: pointer !important;
+	border: 1px solid #aaa !important;
+}
+
+.rf-fu-btn-clr {
+	margin-left: 10px !important;
+	border-radius: 3px !important;
+	font-weight: bold !important;
+	padding: 7px 10px !important;
+	cursor: pointer !important;
+	border: 1px solid #aaa !important;
+}
+
+.rf-fu-inp {
+	cursor: pointer !important;
+}
 /** RICHFACES STYLES **/

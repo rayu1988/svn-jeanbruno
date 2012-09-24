@@ -98,5 +98,43 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 		    }
 		}
 	}
+
+	@Override
+	public AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			advertisementPicture = this.persistencyLayer.consult(advertisementPicture);
+			
+			transaction.commit();
+			
+			return advertisementPicture;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
+	}
+	
+	public void delete(AdvertisementPictureTO advertisementPicture) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			advertisementPicture = this.consult(advertisementPicture);
+			
+			this.fileService.delete(new FileTO(advertisementPicture.getKeyThumbnail()));
+			this.fileService.delete(new FileTO(advertisementPicture.getKeyPicture()));
+			
+			this.persistencyLayer.delete(advertisementPicture);
+			
+			transaction.commit();
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
+	}
 	
 }

@@ -10,6 +10,7 @@ import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -50,9 +51,8 @@ public class AdvertisementPO extends AppPersistency {
 		return this.persist(advertisement);
 	}
 
-	public AdvertisementTO consult(AdvertisementTO advertisement) {
-		advertisement = this.consultEntityById(advertisement);
-		return advertisement;
+	public AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException {
+		return this.consultByKey(advertisement);
 	}
 
 	public void delete(AdvertisementTO advertisement) {

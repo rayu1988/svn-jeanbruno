@@ -36,8 +36,7 @@ public class AdvertisementTypePO extends AppPersistency {
 	}
 
 	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) throws EntityNotFoundException {
-		Entity entity = this.getDataStoreService().get(advertisementType.getKey());
-		return AnnotationUtils.getTransferObjectFromEntity(AdvertisementTypeTO.class, entity);
+		return this.consultByKey(advertisementType);
 	}
 
 	public void delete(AdvertisementTypeTO advertisementType) {

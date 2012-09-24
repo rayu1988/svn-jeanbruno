@@ -58,6 +58,20 @@ public class AdvertisementBean extends AppManagedBean {
 		return "advertisementList";
 	}
 	
+	private List<RequestMessage> commonValidate() {
+		List<RequestMessage> messages = new ArrayList<RequestMessage>();
+		if (this.selectedCategory == null) {
+			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
+		}
+		if (!Util.isStringOk(this.advertisement.getTitle())) {
+			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
+		}
+		if (!Util.isStringOk(this.advertisement.getValue())) {
+			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
+		}
+		return messages;
+	}
+	
 	public String prepareNewStepOne() {
 		this.advertisement = new AdvertisementTO();
 		this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
@@ -69,18 +83,9 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String prepareNewStepTwo() {
 		// start validate block
-		List<RequestMessage> messages = new ArrayList<RequestMessage>();
+		List<RequestMessage> messages = this.commonValidate();
 		if (this.selectedAdvertisementType == null) {
 			messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
-		}
-		if (this.selectedCategory == null) {
-			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
-		}
-		if (!Util.isStringOk(this.advertisement.getTitle())) {
-			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
-		}
-		if (!Util.isStringOk(this.advertisement.getValue())) {
-			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
 		}
 		if (Util.isCollectionOk(messages)) {
 			this.setRequestMessages(messages);
@@ -182,25 +187,34 @@ public class AdvertisementBean extends AppManagedBean {
 		this.advertisement = service.insert(this.advertisement);
 		
 		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		return this.consult();
 	}
 	
 	public String edit() {
-//		Administrator service = this.getServiceBusinessFactory().getAdministrator();
-//		this.administrator = service.consult(this.administrator);
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		this.advertisement = service.consult(this.advertisement);
+		this.selectedCategory = this.advertisement.getCategory();
+		this.prepareListCategories();
 		
 		return "advertisementEdit";
 	}
 	
+	public String viewPublicAdvertisement() {
+		throw new IllegalStateException("method not implemented yet!");
+	}
+	
 	public String save() {
-//		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-//		service.insert(this.advertisement);
+		List<RequestMessage> messages = this.commonValidate();
+		if (Util.isCollectionOk(messages)) {
+			this.setRequestMessages(messages);
+			return null;
+		}
 		
-//		
-//		Administrator service = this.getServiceBusinessFactory().getAdministrator();
-//		service.save(this.administrator);
-//		
-//		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+		this.advertisement.setCategory(this.selectedCategory);
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		this.advertisement = service.save(this.advertisement);
+		
+		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 		return this.consult();
 	}
 	
@@ -212,10 +226,10 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 
 	public String delete() {
-//		Administrator service = this.getServiceBusinessFactory().getAdministrator();
-//		service.delete(this.administrator);
-//		
-//		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		service.delete(this.advertisement);
+		
+		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 		return this.list();
 	}
 	
