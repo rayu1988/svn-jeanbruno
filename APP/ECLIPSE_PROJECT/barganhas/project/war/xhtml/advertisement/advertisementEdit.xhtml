@@ -1,71 +1,76 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	template="/xhtml/bases/accountbase.xhtml"
+	template="/xhtml/advertisement/advertisementNewBase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
+	<!-- defining the scope of accountbase -->
 	<ui:define name="accountHeader">
 		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
 	</ui:define>
 	
-	<ui:define name="userAccountContent">
+	<!-- defining the scope of advertisementNewBase -->
+	<ui:define name="advertisementFormBody">
+		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
-				
 				<!-- advertisement type -->
-				<h:selectOneMenu id="advertisementType" value="#{}">
-				
-				</h:selectOneMenu>
+				<h:outputLabel value="#{msg.advertisementAdvertisementType}:" for="advertisementType"/>
+				<bargas:outputText id="advertisementType" value="#{advertisementBean.advertisement.advertisementType.title}"
+							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<!-- title -->
+				<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+				<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				
 				<!-- description -->
-				<!-- contacts -->
-				<!-- value -->
-				<!-- list exchange by -->
-				<!-- pictures -->
-				
-				
-				
-				<h:outputLabel value="#{msg.userAccountProfileImage}:" for="profileImage"/>
-				<rich:fileUpload id="profileImage" fileUploadListener="#{userAccountBean.uploadFile}"
-								acceptedTypes="png, jpg, jpeg" addLabel="Procurar" noDuplicate="true"
-								clearAllLabel="limpar todos" clearLabel="limpar"
-								deleteLabel="excluir" uploadLabel="carregar"
-								sizeExceededLabel="arquivo muito grande"
-								maxFilesQuantity="1"
-								doneLabel="concluido">
-				</rich:fileUpload>
-				
-				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
-				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-				
-				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
-				<h:inputText id="userNickname" value="#{userAccountBean.userAccount.nickname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-				
-				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
-				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
-				
-				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
-				<h:inputSecret id="userPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
-				
-				<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPassword"/>
-				<h:inputSecret id="userConfirmPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
-				
-				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<h:inputTextarea id="infoContacts" value="#{userAccountBean.userAccount.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+				<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+				<h:inputTextarea id="description" value="#{advertisementBean.advertisement.description}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
 				</h:inputTextarea>
+				
+				<!-- category -->
+				<h:outputLabel value="#{msg.advertisementCategory}:" for="category"/>
+				<h:selectOneMenu id="category" value="#{advertisementBean.selectedCategory}"
+					styleClass="inputMainForm inputuMainFormSelectMenu bigInputMainForm" converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+					<f:selectItems value="#{advertisementBean.listCategories}" />
+				</h:selectOneMenu>
+				
+				<!-- contacts -->
+				<h:outputLabel value="#{msg.advertisementContacts}:" for="contacts"/>
+				<h:inputTextarea id="contacts" value="#{advertisementBean.advertisement.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+				</h:inputTextarea>
+				
+				<!-- value -->
+				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
+				<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
+				
+				<!-- list exchange by -->
+				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+					<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+					</h:inputTextarea>
+					
+					<h:graphicImage id="listExchangeByInfo" value="#{request.contextPath}/images/help.png" style="margin-left: 10px;">
+						<rich:tooltip target="listExchangeByInfo" attached="true" direction="auto" followMouse="true" showDelay="500" value="#{msg.advertisementExchangeByInfo}"/>
+					</h:graphicImage>
+				</h:panelGrid>
 			</h:panelGrid>
 		</h:panelGroup>
 		
-		<t:saveState value="#{userAccountBean.profileImage}" />
+		<t:saveState value="#{advertisementBean.advertisement}"/>
+		<t:saveState value="#{advertisementBean.listCategories}"/>
+		<t:saveState value="#{advertisementBean.selectedCategory}"/>
 	</ui:define>
 	
+	<!-- defining the scope of accountbase -->
 	<ui:define name="accountBottomButtons">
-		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.save}" immediate="false" />
-		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.consult}" immediate="false"/>
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.save}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.consult}" immediate="false"/>
 	</ui:define>
 	
 </ui:composition>

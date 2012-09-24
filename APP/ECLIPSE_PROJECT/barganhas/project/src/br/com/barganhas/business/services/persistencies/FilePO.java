@@ -41,8 +41,7 @@ public class FilePO extends AppPersistency {
 	}
 
 	public FileTO consult(FileTO file) throws EntityNotFoundException {
-		Entity entity = this.getDataStoreService().get(file.getKey());
-		return AnnotationUtils.getTransferObjectFromEntity(FileTO.class, entity);
+		return this.consultByKey(file);
 	}
 
 	public void delete(FileTO file) {

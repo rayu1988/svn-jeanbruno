@@ -15,4 +15,7 @@ public interface AdvertisementPicture {
 
 	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase);
 	
+	AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture);
+	
+	void delete(AdvertisementPictureTO advertisementPicture);
 }

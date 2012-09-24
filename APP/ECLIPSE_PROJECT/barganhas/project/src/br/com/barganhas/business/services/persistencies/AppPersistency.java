@@ -1,7 +1,6 @@
 package br.com.barganhas.business.services.persistencies;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import br.com.barganhas.business.entities.TransferObject;
@@ -72,8 +71,8 @@ public abstract class AppPersistency implements Serializable {
 			if (Util.isStringOk(transferObject.getKeyAsString())) { // save an edit/update
 				return KeyFactory.stringToKey(transferObject.getKeyAsString());
 			} else { // save an insert
+				Long nextId = this.getNextId(transferObject);
 				Key ancestor = this.getAncestor(ancestorTO);
-				Long nextId = this.getNextId(transferObject, ancestorTO);
 				this.getDataStoreService().allocateIds(ancestor, transferObject.getClass().getName(), nextId);
 				return KeyFactory.createKey(ancestor, transferObject.getClass().getName(), nextId);
 			}
@@ -86,13 +85,12 @@ public abstract class AppPersistency implements Serializable {
 	 * Method to get the next id to transferObject passed as parameter that has the ancestorTO (passed as parameter) as ancestor.
 	 * 
 	 * @param transferObject
-	 * @param ancestorTO
 	 * @return
 	 */
-	private <T extends TransferObject> Long getNextId(T transferObject, T ancestorTO) {
+	private <T extends TransferObject> Long getNextId(T transferObject) {
 		Long nextId = (long) 1;
 		
-		Query query = this.getQuery(transferObject.getClass(), ancestorTO);
+		Query query = this.getQuery(transferObject.getClass());
 		query.addProjection(new PropertyProjection(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), Long.class));
 		query.addSort(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), SortDirection.DESCENDING);
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
@@ -189,15 +187,21 @@ public abstract class AppPersistency implements Serializable {
 	}
 	
 	/**
-	 * Get a syncronized TransferObject from the database using as base the 'id' property from the TransferObject passed as parameter. 
+	 * Get the syncronized TransferObject from the database using as base the 'key' property from the TransferObject passed as parameter.
 	 * @param transferObject
 	 * @return
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
+	 * @throws EntityNotFoundException
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T extends TransferObject> T consultByKey(T transferObject) throws EntityNotFoundException {
+		Entity entity = this.getDataStoreService().get(transferObject.getKey());
+		return (T) AnnotationUtils.getTransferObjectFromEntity(transferObject.getClass(), entity);
+	}
+	
+	/**
+	 * Get a syncronized TransferObject from the database using as base the 'id' property from the TransferObject passed as parameter. 
+	 * @param transferObject
+	 * @return transferObject
 	 */
 	protected <T extends TransferObject> T consultEntityById(T transferObject) {
 		return this.consultEntityById(transferObject, null);
@@ -209,12 +213,6 @@ public abstract class AppPersistency implements Serializable {
 	 * @param transferObject
 	 * @param ancestorTO
 	 * @return
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
 	 */
 	@SuppressWarnings("unchecked")
 	protected <T extends TransferObject> T consultEntityById(T transferObject, T ancestorTO) {

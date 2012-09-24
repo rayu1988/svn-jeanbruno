@@ -3,7 +3,8 @@
    	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 	
-	<h:panelGroup styleClass="#{styleClass}" layout="block">
+	<ui:param name="rendered" value="#{rendered eq null ? true : rendered}"></ui:param>
+	<h:panelGroup styleClass="#{styleClass}" layout="block" rendered="#{rendered}">
 		<h:outputText id="#{id}" value="#{value}" />
 	</h:panelGroup>
 	

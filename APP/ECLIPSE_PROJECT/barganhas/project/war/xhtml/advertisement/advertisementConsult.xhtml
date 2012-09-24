@@ -8,12 +8,14 @@
 	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="accountHeader">
-		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
 	</ui:define>
 	
 	<ui:define name="userAccountContent">
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
-			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+		
+			<!-- authomatic manged info -->
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput" style="border-bottom: 1px solid #CCCCCC">
 				<!-- status -->
 				<h:outputLabel value="#{msg.msgStatus}:" for="advertisementStatus"/>
 				<bargas:outputTextConverted id="advertisementStatus" value="#{advertisementBean.advertisement.status}"
@@ -23,7 +25,11 @@
 				<h:outputLabel value="#{msg.advertisementSinceDate}:" for="advertisementSinceDate"/>
 				<bargas:outputTextConverted id="advertisementSinceDate" value="#{advertisementBean.advertisement.sinceDate}" 
 						styleClass="inputMainForm bigInputMainForm inputDisable" converterId="ConverterSinceDate"/>
-				
+			
+			</h:panelGrid>
+			
+			<!-- info got in the step one -->
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput" style="border-bottom: 1px solid #CCCCCC">	
 				<!-- advertisement type -->
 				<h:outputLabel value="#{msg.advertisementAdvertisementType}:" for="advertisementType"/>
 				<bargas:outputText id="advertisementType" value="#{advertisementBean.advertisement.advertisementType.title}"
@@ -37,6 +43,11 @@
 				<!-- description -->
 				<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
 				<bargas:outputText id="description" value="#{advertisementBean.advertisement.description}"
+							styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				
+				<!-- category -->
+				<h:outputLabel value="#{msg.advertisementCategory}:" for="category"/>
+				<bargas:outputText id="category" value="#{advertisementBean.advertisement.category.name}"
 							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<!-- contacts -->
@@ -54,13 +65,39 @@
 				<bargas:outputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}"
 							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 			</h:panelGrid>
+			
+			<!-- pictures (info got in the step two) -->
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				<h:outputLabel value="#{msg.advertisementPictures}:" for="listAdvertisementPictures"/>
+				<h:panelGrid columns="1" styleClass="panelDetailsWarning" >
+					<!-- sheet picture -->
+					<h:panelGrid columns="2">
+						<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementBean.advertisement.sheetPicture.keyThumbnail)}" />
+						<h:outputText value="#{msg.advertisementSheet}"/>
+					</h:panelGrid>
+				
+					<!-- set pictures -->
+					<t:dataTable var="advertisementPicture" value="#{advertisementBean.advertisement.listAdvertisementPictures}" >
+						<h:column>
+							<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementPicture.keyThumbnail)}" />
+						</h:column>
+					</t:dataTable>
+				</h:panelGrid>
+				
+				<!-- sales code -->
+				<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode" rendered="#{advertisementBean.advertisement.sales != null}"/>
+				<bargas:outputText id="salesCode" value="#{advertisementBean.advertisement.sales.title}"
+							styleClass="inputMainForm bigInputMainForm inputDisable"
+							rendered="#{advertisementBean.advertisement.sales != null}"/>
+			</h:panelGrid>
 		</h:panelGroup>
 		
 		<t:saveState value="#{advertisementBean.advertisement}"/>
 	</ui:define>
 	
 	<ui:define name="accountBottomButtons">
-		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{userAccountBean.edit}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.edit}" immediate="false" />
+		<h:commandButton value="#{msg.advertisementViewPublic}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.viewPublicAdvertisement}" immediate="false" />
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>
 	

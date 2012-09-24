@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
+import br.com.barganhas.business.entities.CategoryTO;
+import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
+import br.com.barganhas.business.services.Category;
+import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.AdvertisementPO;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.AdvertisementStatus;
@@ -34,7 +38,13 @@ public class AdvertisementBO implements Advertisement {
 	private AdvertisementType						serviceAdvertisementType;
 	
 	@Autowired
+	private Category								serviceCategory;
+	
+	@Autowired
 	private AdvertisementPicture					serviceAdvertisementPicture;
+	
+	@Autowired
+	private Sales									serviceSales;
 	
 	@Override
 	public List<AdvertisementTO> list() {
@@ -126,6 +136,20 @@ public class AdvertisementBO implements Advertisement {
 			advertisement = this.persistencyLayer.consult(advertisement);
 			AdvertisementTypeTO advertisementType = this.serviceAdvertisementType.consult(new AdvertisementTypeTO(advertisement.getKeyAdvertisementType()));
 			advertisement.setAdvertisementType(advertisementType);
+			CategoryTO category = this.serviceCategory.consult(new CategoryTO(advertisement.getKeyCategory()));
+			advertisement.setCategory(category);
+			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+			advertisement.setSheetPicture(advertisementPicture);
+			
+			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+			for (Key key : advertisement.getPictures()) {
+				listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+			}
+			advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+			
+			if (advertisement.getKeySales() != null) {
+				advertisement.setSales(this.serviceSales.consult(new SalesTO(advertisement.getKeySales())));
+			}
 			
 			transaction.commit();
 			return advertisement;
@@ -159,7 +183,13 @@ public class AdvertisementBO implements Advertisement {
 	public void delete(AdvertisementTO advertisement) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+			for (Key keyAdvertisementPicture : advertisement.getPictures()) {
+				this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(keyAdvertisementPicture));
+			}
+			
 			this.persistencyLayer.delete(advertisement);
+			
 			transaction.commit();
 		} catch (Exception e) {
 			throw new AppException(e);

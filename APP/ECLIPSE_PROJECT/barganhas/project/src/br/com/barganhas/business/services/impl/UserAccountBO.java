@@ -103,12 +103,12 @@ public class UserAccountBO implements UserAccount {
 	public UserAccountTO save(UserAccountTO userAccount) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			this.beforePersist(userAccount);
-			
 			UserAccountTO syncronized = this.consult(userAccount);
 			if (!Util.isStringOk(userAccount.getPassword())) {
 				userAccount.setPassword(syncronized.getPassword());
 			}
+			
+			this.beforePersist(userAccount);
 			userAccount = this.persistencyLayer.save(userAccount);
 			
 			transaction.commit();
@@ -126,8 +126,6 @@ public class UserAccountBO implements UserAccount {
 	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			this.beforePersist(userAccount);
-			
 			if (fileImage != null) {
 				Blob profileImage = Util.transformBlobImage(fileImage.getData(), MAX_HEIGHT_IMG_PROFILE, MAX_WIDTH_IMG_PROFILE);
 				if (userAccount.getKeyProfileImage() == null) {
