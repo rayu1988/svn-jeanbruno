@@ -105,16 +105,12 @@ textarea:FOCUS {
 	color: white;
 	cursor: pointer;
 	
-	background-color: #3C657C;
+	background-color: #2976BB;
 	border: 1px solid #aaa;
-/* 	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
-/* 	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#283077); */
 }
-.customButton:hover {
+.customButton:hover, .customButton:focus {
 	border: 1px solid #62658B;
-	background-color: #6B99B4;
-/* 	background-image: -webkit-linear-gradient(top,#BACDFF,#4055A5 3%,#001AFF); */
-/* 	background-image: linear-gradient(top,#BACDFF,#4055A5 3%,#001AFF); */
+	background-color: #EA8C0F;
 }
 .customButton2 {
 	border-radius: 3px;
@@ -124,12 +120,12 @@ textarea:FOCUS {
 	cursor: pointer;
 	font-weight: bold;
 	
-	background-color: #3C657C;
+	background-color: #2976BB;
 	border: 1px solid #aaa;
 }
 .customButton2:hover, .customButton2:focus {
 	border: 1px solid #62658B;
-	background-color: #6B99B4;
+	background-color: #EA8C0F;
 }
 /** CUSTOM BUTTON **/
 
@@ -207,7 +203,7 @@ textarea:FOCUS {
 }
 
 #topLinks ul {
-	margin: 7px 0;
+	margin-top: 7px;
 }
 
 #topLinks ul li {
@@ -227,7 +223,7 @@ textarea:FOCUS {
 
 #searchform {
 	position: relative;
-	margin: 0 0 0 265px;
+/* 	margin: 0 0 0 265px; */
 	border: 1px solid #CCC;
 	border-radius: 5px;
 	padding: 5px;
@@ -239,12 +235,17 @@ textarea:FOCUS {
 	width: 50%;
 }
 
+.columnLogo {
+	width: 10%;
+}
+.columnSearchForm {
+	width: 90%;
+}
 /** TOP **/
 
 /** NAVIGATION **/
 #indexNavigationBox {
 	overflow: hidden;
-	margin-top: 30px;
 	padding: 0 325px 0 210px;
 }
 
@@ -494,7 +495,7 @@ textarea:FOCUS {
 	opacity: 0.45
 }
 
-#register {
+#leftSide {
 	position: relative;
 	width: 300px;
 	float: right;
@@ -526,6 +527,7 @@ textarea:FOCUS {
 	width: 195px;
 	padding: 3px;
 	font-size: 11px;
+	margin-left: 10px;
 }
 
 #userRegisterLogin {

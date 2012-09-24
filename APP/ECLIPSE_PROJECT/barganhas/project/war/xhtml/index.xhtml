@@ -12,36 +12,15 @@
 				<p class="title">#{msg.categories}</p>
 				
 				<ul>
-					<li><a href="#">Acessorios para Veiculos</a></li>
-					<li><a href="#">Agro, Industria e Comercio</a></li>
-					<li><a href="#">Animais</a></li>
-					<li><a href="#">Antiguidades</a></li>
-					<li><a href="#">Arte e Artesanato</a></li>
-					<li><a href="#">Bebes</a></li>
-					<li><a href="#">Brinquedos e Hobbies</a></li>
-					<li><a href="#">Calcados, Roupas e Bolsas</a></li>
-					<li><a href="#">Ccmeras e Acessorios</a></li>
-					<li><a href="#">Casa, Moveis e Decoracao</a></li>
-					<li><a href="#">Celulares e Telefones</a></li>
-					<li><a href="#">Colecoes e Comics</a></li>
-					<li><a href="#">Eletrodomesticos</a></li>
-					<li><a href="#">Eletronicos, Audio e Video</a></li>
-					<li><a href="#">Esportes e Fitness</a></li>
-					<li><a href="#">Filmes e Seriados</a></li>
-					<li><a href="#">Games</a></li>
-					<li><a href="#">Informatica</a></li>
-					<li><a href="#">Instrumentos Musicais</a></li>
-					<li><a href="#">Joias e Relogios</a></li>
-					<li><a href="#">Livros</a></li>
-					<li><a href="#">Musica</a></li>
-					<li><a href="#">Saude e Beleza</a></li>
-					<li><a href="#">Mais Categorias</a></li>
+					<ui:repeat var="category" value="#{siteBean.listCategories}">
+						<li><h:commandLink value="#{category.name}" action="#{siteBean.consultCategory}" /></li>
+					</ui:repeat>
 				</ul>
 			</h:panelGroup>
 			
 			<h:panelGroup id="productsList" layout="block">
 				<h:panelGroup layout="block" id="bannerSite" style="text-align: center;">
-					<h:graphicImage value="#{request.contextPath}/images/banner/banner-site-2.jpg"/>
+					<h:graphicImage value="#{request.contextPath}/images/banner/banner-550-403-2.jpg"/>
 				</h:panelGroup>
 				
 				<h:panelGroup id="lastUpdates" layout="block">
@@ -254,34 +233,38 @@
 				</h:panelGroup>
 			</h:panelGroup>
 			
-			<h:panelGroup id="register" layout="block">
-				<p class="title">#{msg.registerYourSelf}</p>
-				
-				<h:panelGroup layout="block" id="registerBox">
-					<fieldset>
-						<ol>
-							<li>
-								<h:outputLabel value="#{msg.registerName}:" for="userName" />
-								<h:inputText id="userName" size="25" value="#{userAccountBean.userAccount.fullname}"/>
-							</li>
-							<li>
-								<h:outputLabel value="#{msg.registerEmail}:" for="userEMail" />
-								<h:inputText id="userEMail" size="25" value="#{userAccountBean.userAccount.email}"/>
-							</li>
-						</ol>
-					</fieldset>
+			<h:panelGroup id="leftSide" layout="block">
+			
+				<!-- register yourself -->
+				<h:panelGroup layout="block" rendered="#{appSessionBean.userAccount eq null}">
+					<p class="title">#{msg.registerYourSelf}</p>
 					
-					<h:panelGroup id="userRegisterLogin" layout="block">
-						<a4j:commandButton actionListener="#{userAccountBean.prepareRegister}"
-									styleClass="customButton"
-									id="registerUser"
-									value="#{msg.registerYourSelf}"
-									immediate="false"
-									execute="registerBox"
-									render="accountNewPopupForm"
-									style="margin-right: 10px;"/>
-									
-						<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
+					<h:panelGroup layout="block" id="registerBox">
+						<fieldset>
+							<ol>
+								<li>
+									<h:outputLabel value="#{msg.registerName}:" for="userName" />
+									<h:inputText id="userName" size="25" value="#{userAccountBean.userAccount.fullname}"/>
+								</li>
+								<li>
+									<h:outputLabel value="#{msg.registerEmail}:" for="userEMail" />
+									<h:inputText id="userEMail" size="25" value="#{userAccountBean.userAccount.email}"/>
+								</li>
+							</ol>
+						</fieldset>
+						
+						<h:panelGroup id="userRegisterLogin" layout="block">
+							<a4j:commandButton actionListener="#{userAccountBean.prepareRegister}"
+										styleClass="customButton"
+										id="registerUser"
+										value="#{msg.registerYourSelf}"
+										immediate="false"
+										execute="registerBox"
+										render="accountNewPopupForm"
+										style="margin-right: 10px;"/>
+										
+							<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
+						</h:panelGroup>
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
