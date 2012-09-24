@@ -69,15 +69,21 @@
 								</ul>
 							</h:panelGroup>
 							
-							<h:panelGroup id="searchBox" layout="block">
-								<a href="#{request.contextPath}/" id="logo" >
-									<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
-								</a>
-								<h:panelGroup layout="block" id="searchform">
-									<input id="searchField" name="searchField" type="text"/>
-									<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
-								</h:panelGroup>
-							</h:panelGroup>
+							<h:panelGrid columns="2" columnClasses="columnLogo, columnSearchForm">
+								<h:column>
+									<a href="#{request.contextPath}/" id="logo" >
+										<h:graphicImage value="#{request.contextPath}/images/logo/logo2-rascunho2.png"/>
+									</a>
+								</h:column>
+							
+								<h:column>
+									<h:panelGroup layout="block" id="searchform">
+										<input id="searchField" name="searchField" type="text"/>
+										<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
+									</h:panelGroup>
+								</h:column>
+							</h:panelGrid>
+							
 						</h:panelGroup>
    					</h:form>
 					
