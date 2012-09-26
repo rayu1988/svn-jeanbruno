@@ -4,7 +4,9 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a4j="http://richfaces.org/a4j">
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="bodyNavigation">
 		<h:panelGroup id="indexNavigationBox" layout="block">
@@ -33,59 +35,20 @@
 						
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
+								<ui:repeat var="advertisement" value="#{siteBean.lastAdvertisements}">
+									<li>
+										<h:commandLink action="#{siteBean.consultAdvertisement}">
+											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+										</h:commandLink>
+										
+										<p class="descProduct">
+											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{bargas:truncateString(advertisement.title, 35)}"/>
+										</p>
+										<p class="priceBox">
+											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{msg.msgRealCurrency}  #{advertisement.value}"/>
+										</p>
+									</li>
+								</ui:repeat>
 							</ul>
 							
 							<h:panelGroup class="carroselRightArrow" layout="block">
@@ -95,8 +58,8 @@
 					</h:panelGroup>
 				</h:panelGroup>
 
-				<h:panelGroup id="moreViewed" layout="block">
-					<p class="title">#{msg.moreViewd}</p>
+				<h:panelGroup id="mostViewed" layout="block">
+					<p class="title">#{msg.mostViewed}</p>
 					
 					<h:panelGroup class="carrosel" layout="block">
 						<h:panelGroup class="carroselLeftArrow" layout="block">
@@ -105,60 +68,20 @@
 
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/note-prod.jpg"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Notebook Sony Vaio Vpceb44fx ...</a></p>
-									<p class="priceBox"><a href="#">R$ 9999,99</a></p>
-								</li>
+								<ui:repeat var="advertisement" value="#{siteBean.mostViewed}">
+									<li>
+										<h:commandLink action="#{siteBean.consultAdvertisement}">
+											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+										</h:commandLink>
+										
+										<p class="descProduct">
+											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{bargas:truncateString(advertisement.title, 35)}"/>
+										</p>
+										<p class="priceBox">
+											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{msg.msgRealCurrency}  #{advertisement.value}"/>
+										</p>
+									</li>
+								</ui:repeat>
 							</ul>
 							
 							<h:panelGroup class="carroselRightArrow" layout="block">
@@ -235,38 +158,74 @@
 			
 			<h:panelGroup id="leftSide" layout="block">
 			
-				<!-- register yourself -->
-				<h:panelGroup layout="block" rendered="#{appSessionBean.userAccount eq null}">
-					<p class="title">#{msg.registerYourSelf}</p>
-					
-					<h:panelGroup layout="block" id="registerBox">
-						<fieldset>
-							<ol>
-								<li>
-									<h:outputLabel value="#{msg.registerName}:" for="userName" />
-									<h:inputText id="userName" size="25" value="#{userAccountBean.userAccount.fullname}"/>
-								</li>
-								<li>
-									<h:outputLabel value="#{msg.registerEmail}:" for="userEMail" />
-									<h:inputText id="userEMail" size="25" value="#{userAccountBean.userAccount.email}"/>
-								</li>
-							</ol>
-						</fieldset>
+				<c:choose>
+					<!-- register yourself -->
+					<c:when test="#{appSessionBean.userAccount eq null}">
+						<p class="title">#{msg.registerYourSelf}</p>
 						
-						<h:panelGroup id="userRegisterLogin" layout="block">
-							<a4j:commandButton actionListener="#{userAccountBean.prepareRegister}"
-										styleClass="customButton"
-										id="registerUser"
-										value="#{msg.registerYourSelf}"
-										immediate="false"
-										execute="registerBox"
-										render="accountNewPopupForm"
-										style="margin-right: 10px;"/>
-										
-							<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
+						<h:panelGroup layout="block" id="registerBox" styleClass="boxLeftSide">
+							<fieldset>
+								<ol>
+									<li>
+										<h:outputLabel value="#{msg.registerName}:" for="userName" />
+										<h:inputText id="userName" size="25" value="#{userAccountBean.userAccount.fullname}"/>
+									</li>
+									<li>
+										<h:outputLabel value="#{msg.registerEmail}:" for="userEMail" />
+										<h:inputText id="userEMail" size="25" value="#{userAccountBean.userAccount.email}"/>
+									</li>
+								</ol>
+							</fieldset>
+							
+							<h:panelGroup id="userRegisterLogin" layout="block">
+								<a4j:commandButton actionListener="#{userAccountBean.prepareRegister}"
+											styleClass="customButton"
+											id="registerUser"
+											value="#{msg.registerYourSelf}"
+											immediate="false"
+											execute="registerBox"
+											render="accountNewPopupForm"
+											style="margin-right: 10px;"/>
+											
+								<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
+							</h:panelGroup>
 						</h:panelGroup>
-					</h:panelGroup>
-				</h:panelGroup>
+					</c:when>
+					<c:otherwise>
+						<h:panelGroup id="mylastAdvertisements" layout="block" styleClass="boxLeftSide">
+							<h:panelGroup layout="block" style="border-bottom: 2px solid #D5D5D5; padding: 0px 5px 5px 5px;">
+								<h:outputText value="#{msg.userAccountMyLastAdvertisements}"/>
+							</h:panelGroup>
+							
+							<c:choose>
+								<c:when test="#{bargas:isCollectionOk(siteBean.myLastAdvertisements)}">
+									<t:dataTable value="#{siteBean.myLastAdvertisements}" var="advertisement" style="width: 100%;">
+										<h:column>
+											<h:commandLink  action="#{advertisementBean.consult}">
+												<h:panelGrid styleClass="myLastAdvertisementOne" style="width: 100%;">
+													<!-- advertisement's description -->
+													<h:outputText value="#{advertisement.title}"/>
+	
+													<!-- advertisement's value -->
+													<h:outputText value="#{msg.msgRealCurrency} #{advertisement.value}"/>
+												</h:panelGrid>
+												
+												<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
+											</h:commandLink>
+										</h:column>
+									</t:dataTable>
+								</c:when>
+								<c:otherwise>
+									<h:panelGroup id="boxNoneAdvertisementMy" layout="block">
+										<h:outputText value=" #{msg.msgNoneAdvertisementToMe} "/>
+										<h:commandLink value="#{msg.msgClickHere}" action="#{advertisementBean.prepareNewStepOne}"/>
+										<h:outputText value=" #{msg.msgToCreateNewAdvertisement} "/>
+									</h:panelGroup>
+								</c:otherwise>
+							</c:choose>
+						</h:panelGroup>
+					</c:otherwise>
+				</c:choose>
 			</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>

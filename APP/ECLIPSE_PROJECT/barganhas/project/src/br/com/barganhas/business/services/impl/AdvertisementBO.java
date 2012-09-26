@@ -81,6 +81,67 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
+	public List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.myLastAdvertisements(userAccount);
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
+	public List<AdvertisementTO> lastAdvertisements() {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.lastAdvertisements();
+			
+			for (AdvertisementTO advertisement : listReturn) {
+				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+				advertisement.setSheetPicture(advertisementPicture);
+			}
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
+	public List<AdvertisementTO> lastMostViewed() {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.lastMostViewed();
+			
+			for (AdvertisementTO advertisement : listReturn) {
+				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+				advertisement.setSheetPicture(advertisementPicture);
+			}
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
 	public AdvertisementTO insert(AdvertisementTO advertisement) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
