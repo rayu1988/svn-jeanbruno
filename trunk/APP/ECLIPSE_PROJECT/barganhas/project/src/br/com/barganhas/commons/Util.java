@@ -99,4 +99,12 @@ public final class Util {
 	public static String getStringFromKey(Key keyBase) {
 		return KeyFactory.keyToString(keyBase);
 	}
+	
+	public static String truncateString(String strBase, int maxSize) {
+		String suspensionPoints = "...";
+		if (strBase.length() > (maxSize + suspensionPoints.length()) ) {
+			return strBase.substring(0, maxSize).concat(suspensionPoints);
+		}
+		return strBase;
+	}
 }

@@ -25,7 +25,8 @@
 				
 				<!-- title -->
 				<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
-				<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<bargas:outputText id="title" value="#{advertisementBean.advertisement.title}"
+							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<!-- description -->
 				<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>

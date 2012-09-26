@@ -12,6 +12,16 @@
     	<function-name>getStringFromKey</function-name>
     	<function-signature>java.lang.String getStringFromKey(com.google.appengine.api.datastore.Key)</function-signature>
     </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>isCollectionOk</function-name>
+    	<function-signature>boolean isCollectionOk(java.util.Collection)</function-signature>
+    </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>truncateString</function-name>
+    	<function-signature>java.lang.String truncateString(java.lang.String, int)</function-signature>
+    </function>
     <!-- ends functions -->
     
     <!-- start tags -->

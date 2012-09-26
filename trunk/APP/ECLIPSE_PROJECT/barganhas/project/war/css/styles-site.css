@@ -395,7 +395,7 @@ textarea:FOCUS {
 	position: relative;
 }
 
-#moreViewed {
+#mostViewed {
 	margin-top: 45px;
 }
 
@@ -502,11 +502,30 @@ textarea:FOCUS {
 	margin-right: -325px;
 }
 
-#registerBox {
+.boxLeftSide {
 	border: 1px solid #CCC;
 	border-radius: 5px;
 	background-color: #F0F0F0;
 	padding: 10px 5px;
+}
+
+.myLastAdvertisementOne {
+	padding: 3px 10px;
+}
+
+.myLastAdvertisementOne:hover {
+	background-color: #D8D8D8;
+}
+
+#mylastAdvertisements {
+	font-size: 13px;
+}
+
+#boxNoneAdvertisementMy {
+	padding: 50px;
+}
+
+#registerBox {
 }
 
 #registerBox fieldset ol {
