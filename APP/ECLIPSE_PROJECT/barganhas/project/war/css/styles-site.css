@@ -90,6 +90,15 @@ textarea:FOCUS {
 	font-weight: normal;
 }
 
+#formNavigation {
+	border-radius: 20px 20px 20px 20px;
+	-webkit-border-radius: 20px;
+    box-shadow: 0 0 10px #DDDDDD;
+    -webkit-box-shadow: 0px 0px 10px #DDD;
+    margin-top: 15px;
+    padding: 20px;
+}
+
 /** CUSTOM BUTTON **/
 .buttonMainForm {
 	margin-right: 15px;
@@ -555,9 +564,9 @@ textarea:FOCUS {
 	margin-top: 10px;
 }
 .wrapperUserAccount {
-	border-top: 1px solid #CCC;
+/* 	border-top: 1px solid #CCC; */
 	margin: 30px 0px;
-	padding-top: 30px;
+/* 	padding-top: 30px; */
 }
 /** NAVIGATION **/
 

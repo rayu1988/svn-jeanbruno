@@ -22,7 +22,7 @@
 					
 					<h:panelGroup id="advertisementBoxThumbnails" layout="block">
 						<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
-							<a4j:commandLink render="advertisementMainPicture">
+							<a4j:commandLink render="advertisementMainPicture" execute="@this">
 								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.advertisement.sheetPicture.keyThumbnail)}"/>
 								<f:setPropertyActionListener value="#{siteBean.advertisement.sheetPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
 							</a4j:commandLink>
@@ -30,7 +30,7 @@
 						
 						<ui:repeat var="advertisementPicture" value="#{siteBean.advertisement.listAdvertisementPictures}">
 							<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
-								<a4j:commandLink render="advertisementMainPicture">
+								<a4j:commandLink render="advertisementMainPicture" execute="@this">
 									<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementPicture.keyThumbnail)}"/>
 									<f:setPropertyActionListener value="#{advertisementPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
 								</a4j:commandLink>
