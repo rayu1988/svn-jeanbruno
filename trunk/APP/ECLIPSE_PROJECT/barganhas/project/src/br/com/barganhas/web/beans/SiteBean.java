@@ -11,6 +11,8 @@ import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.commons.Util;
 
+import com.google.appengine.api.datastore.Key;
+
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
@@ -21,10 +23,36 @@ public class SiteBean extends AppManagedBean {
 	private List<AdvertisementTO>				lastAdvertisements;
 	private List<AdvertisementTO>				mostViewed;
 	
+	private AdvertisementTO						advertisement;
+	private Key									advertisementPicture;
+	
+	private List<AdvertisementTO>				listRetrievied;
+	private String								searchText;
+	
 	public String goToIndex() {
 		this.prepareListCategories();
 		
 		return "siteIndex";
+	}
+	
+	/**
+	 * Method to make a public consult of an AdvertisementTO
+	 * @return
+	 */
+	public String publicAdvertisementConsult() {
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		this.advertisement = service.publicConsult(this.advertisement);
+
+		this.advertisementPicture = this.advertisement.getSheetPicture().getKeyPicture();
+		
+		return "publicAdvertisementConsult";
+	}
+	
+	public String search() {
+		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+		this.listRetrievied = service.publicSearch(this.searchText);
+		
+		return "search";
 	}
 	
 	private void prepareListCategories() {
@@ -90,5 +118,37 @@ public class SiteBean extends AppManagedBean {
 
 	public void setMostViewed(List<AdvertisementTO> mostViewed) {
 		this.mostViewed = mostViewed;
+	}
+
+	public AdvertisementTO getAdvertisement() {
+		return advertisement;
+	}
+
+	public void setAdvertisement(AdvertisementTO advertisement) {
+		this.advertisement = advertisement;
+	}
+
+	public Key getAdvertisementPicture() {
+		return advertisementPicture;
+	}
+
+	public void setAdvertisementPicture(Key advertisementPicture) {
+		this.advertisementPicture = advertisementPicture;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
+
+	public List<AdvertisementTO> getListRetrievied() {
+		return listRetrievied;
+	}
+
+	public void setListRetrievied(List<AdvertisementTO> listRetrievied) {
+		this.listRetrievied = listRetrievied;
 	}
 }

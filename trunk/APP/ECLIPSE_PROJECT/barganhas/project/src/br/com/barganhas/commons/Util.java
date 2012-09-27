@@ -81,14 +81,14 @@ public final class Util {
 		double height = oldImage.getHeight();
 		double width = oldImage.getWidth();
 		
-		if (height > maxHeight) {
-			width = maxWidth / (height / width);
-			height = maxHeight;
+		if (width > maxWidth) {
+			height = (maxWidth * 100 / width) * height / 100;
+			width = maxWidth;
 		}
 		
-		if (width > maxWidth) {
-			height = maxHeight / (width / height);
-			width = maxWidth;
+		if (height > maxHeight) {
+			width = (maxHeight * 100 / height) * width / 100;
+			height = maxHeight;
 		}
 		
 		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);

@@ -15,7 +15,7 @@ public class AdvertisementTypeTO extends TransferObject {
 	@PropertyField(notNull=true, allowEmpty=false)
 	private String			title;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@PropertyField
 	private String			description;
 	
 	@PropertyField(notNull=true, allowEmpty=false)

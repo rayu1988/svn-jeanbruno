@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 @SuppressWarnings("serial")
@@ -23,6 +24,26 @@ public class AdvertisementPO extends AppPersistency {
 	public List<AdvertisementTO> list() {
 		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTO.class).asList(FetchOptions.Builder.withDefaults());
 		
+		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
+		for (Entity entity : entities) {
+			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+		}
+		
+		return listReturn;
+	}
+	
+	public List<AdvertisementTO> publicSearch(String searchText) {
+		
+		List<Query.Filter> filter = new ArrayList<Query.Filter>();
+		filter.add(new Query.FilterPredicate("title", Query.FilterOperator.EQUAL, searchText));
+		filter.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
+		
+		Query query = this.getQuery(AdvertisementTO.class);
+		query.setFilter(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
+		
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
 		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
 		for (Entity entity : entities) {
 			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));

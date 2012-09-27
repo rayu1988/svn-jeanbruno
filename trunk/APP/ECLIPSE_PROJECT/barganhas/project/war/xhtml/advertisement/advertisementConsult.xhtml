@@ -97,7 +97,9 @@
 	
 	<ui:define name="accountBottomButtons">
 		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.edit}" immediate="false" />
-		<h:commandButton value="#{msg.advertisementViewPublic}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.viewPublicAdvertisement}" immediate="false" />
+		<h:commandButton value="#{msg.advertisementViewPublic}" styleClass="customButton2 buttonMainForm" action="#{siteBean.publicAdvertisementConsult}" immediate="false" >
+			<f:setPropertyActionListener value="#{advertisementBean.advertisement}" target="#{siteBean.advertisement}"/>
+		</h:commandButton>
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>
 	

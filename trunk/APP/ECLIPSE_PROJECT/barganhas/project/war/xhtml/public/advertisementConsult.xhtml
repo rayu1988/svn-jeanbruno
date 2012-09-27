@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="bodyNavigation">
+	
+		<h:panelGrid>
+			<h:panelGroup layout="block">
+				<h:outputText value="#{siteBean.advertisement.title}"/>
+			</h:panelGroup>
+		
+			<h:panelGrid columns="2">
+				<h:panelGrid>
+					<h:panelGroup id="advertisementMainPicture" layout="block">
+						<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.advertisementPicture)}"/>
+					</h:panelGroup>
+					
+					<h:panelGroup id="advertisementBoxThumbnails" layout="block">
+						<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
+							<a4j:commandLink render="advertisementMainPicture">
+								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.advertisement.sheetPicture.keyThumbnail)}"/>
+								<f:setPropertyActionListener value="#{siteBean.advertisement.sheetPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
+							</a4j:commandLink>
+						</h:panelGroup>
+						
+						<ui:repeat var="advertisementPicture" value="#{siteBean.advertisement.listAdvertisementPictures}">
+							<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
+								<a4j:commandLink render="advertisementMainPicture">
+									<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementPicture.keyThumbnail)}"/>
+									<f:setPropertyActionListener value="#{advertisementPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
+								</a4j:commandLink>
+							</h:panelGroup>
+						</ui:repeat>
+					</h:panelGroup>
+				</h:panelGrid>
+				
+				<h:panelGrid id="advertisementDetails">
+					<h:outputText value="#{siteBean.advertisement.title}"/>
+					<h:outputText value="#{siteBean.advertisement.description}"/>
+					<h:outputText value="#{msg.msgRealCurrency} #{siteBean.advertisement.value}"/>
+					<h:outputText value="#{siteBean.advertisement.contacts}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGrid>
+		
+		<t:saveState value="#{siteBean.advertisement}"/>
+		<t:saveState value="#{siteBean.advertisementPicture}"/>
+	</ui:define>
+</ui:composition>

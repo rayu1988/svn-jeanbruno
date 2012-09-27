@@ -224,6 +224,65 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
+	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			advertisement = this.persistencyLayer.consult(advertisement);
+			
+			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+			advertisement.setSheetPicture(advertisementPicture);
+			
+			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+			for (Key key : advertisement.getPictures()) {
+				listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+			}
+			advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+			
+			transaction.commit();
+			return advertisement;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
+	public List<AdvertisementTO> publicSearch(String searchText) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = null;
+			if (!Util.isStringOk(searchText)) {
+				listReturn = new ArrayList<AdvertisementTO>();
+			} else {
+				listReturn = this.persistencyLayer.publicSearch(searchText);
+				
+				for (AdvertisementTO advertisement : listReturn) {
+					AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+					advertisement.setSheetPicture(advertisementPicture);
+					
+					List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+					for (Key key : advertisement.getPictures()) {
+						listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+					}
+					advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+				}
+			}
+			
+			transaction.commit();
+			return listReturn;
+		} catch (Exception e) {
+			throw new AppException(e);
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
 	public AdvertisementTO save(AdvertisementTO advertisement) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
