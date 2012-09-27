@@ -110,9 +110,10 @@
     	<!--
     		To limit the maximum size of the uploaded files, define the byte size with the
     		org.richfaces.fileUpload.maxRequestSizes
+    		the value is gave as bytes, so 1048576 is to 1MB
     	-->
         <param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
-        <param-value>5242880</param-value>
+        <param-value>1048576</param-value>
     </context-param>
     <context-param>
         <param-name>org.richfaces.resourceOptimization.enabled</param-name>

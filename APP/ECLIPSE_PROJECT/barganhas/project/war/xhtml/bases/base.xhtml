@@ -6,6 +6,7 @@
    	xmlns:f="http://java.sun.com/jsf/core"
    	xmlns:rich="http://richfaces.org/rich"
    	xmlns:a4j="http://richfaces.org/a4j"
+   	xmlns:t="http://myfaces.apache.org/tomahawk"
    	xmlns:bargas="http://barganhas.com.br/barganhas">
    	
    	<f:view contentType="text/html">
@@ -75,15 +76,14 @@
 										<h:graphicImage value="#{request.contextPath}/images/logo/logo2-rascunho2.png"/>
 									</a>
 								</h:column>
-							
+								
 								<h:column>
 									<h:panelGroup layout="block" id="searchform">
-										<input id="searchField" name="searchField" type="text"/>
+										<h:inputText id="searchField" value="#{siteBean.searchText}"/>
 										<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
 									</h:panelGroup>
 								</h:column>
 							</h:panelGrid>
-							
 						</h:panelGroup>
    					</h:form>
 					

@@ -20,6 +20,10 @@ public interface Advertisement {
 	AdvertisementTO insert(AdvertisementTO advertisement);
 
 	AdvertisementTO consult(AdvertisementTO advertisement);
+
+	AdvertisementTO publicConsult(AdvertisementTO advertisement);
+	
+	List<AdvertisementTO> publicSearch(String searchText);
 	
 	AdvertisementTO save(AdvertisementTO advertisement);
 

@@ -12,6 +12,14 @@
 			<from-outcome>siteIndex</from-outcome>
 	   		<to-view-id>/xhtml/index.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>publicAdvertisementConsult</from-outcome>
+	   		<to-view-id>/xhtml/public/advertisementConsult.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>search</from-outcome>
+	   		<to-view-id>/xhtml/public/search.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ User Account ################ -->
 		<navigation-case>

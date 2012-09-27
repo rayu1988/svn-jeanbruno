@@ -30,29 +30,34 @@
 					
 					<h:panelGroup class="carrosel" layout="block">
 						<h:panelGroup class="carroselLeftArrow" layout="block">
-							<img src="../images/left-arrow-15x13.png"/>
+							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
 						</h:panelGroup>
 						
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
 								<ui:repeat var="advertisement" value="#{siteBean.lastAdvertisements}">
 									<li>
-										<h:commandLink action="#{siteBean.consultAdvertisement}">
+										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
 											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+											<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
 										</h:commandLink>
 										
 										<p class="descProduct">
-											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{bargas:truncateString(advertisement.title, 35)}"/>
+											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{bargas:truncateString(advertisement.title, 35)}">
+												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
+											</h:commandLink>
 										</p>
 										<p class="priceBox">
-											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{msg.msgRealCurrency}  #{advertisement.value}"/>
+											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{msg.msgRealCurrency}  #{advertisement.value}">
+												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
+											</h:commandLink>
 										</p>
 									</li>
 								</ui:repeat>
 							</ul>
 							
 							<h:panelGroup class="carroselRightArrow" layout="block">
-								<img src="../images/right-arrow-15x13.png"/>
+								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>
@@ -63,29 +68,34 @@
 					
 					<h:panelGroup class="carrosel" layout="block">
 						<h:panelGroup class="carroselLeftArrow" layout="block">
-							<img src="../images/left-arrow-15x13.png"/>
+							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
 						</h:panelGroup>
 
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
 								<ui:repeat var="advertisement" value="#{siteBean.mostViewed}">
 									<li>
-										<h:commandLink action="#{siteBean.consultAdvertisement}">
+										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
 											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+											<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
 										</h:commandLink>
 										
 										<p class="descProduct">
-											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{bargas:truncateString(advertisement.title, 35)}"/>
+											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{bargas:truncateString(advertisement.title, 35)}">
+												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
+											</h:commandLink>
 										</p>
 										<p class="priceBox">
-											<h:commandLink action="#{siteBean.consultAdvertisement}" value="#{msg.msgRealCurrency}  #{advertisement.value}"/>
+											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{msg.msgRealCurrency}  #{advertisement.value}">
+												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
+											</h:commandLink>
 										</p>
 									</li>
 								</ui:repeat>
 							</ul>
 							
 							<h:panelGroup class="carroselRightArrow" layout="block">
-								<img src="../images/right-arrow-15x13.png"/>
+								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>
@@ -96,7 +106,7 @@
 					
 					<h:panelGroup class="carrosel" layout="block">
 						<h:panelGroup class="carroselLeftArrow" layout="block">
-							<img src="../images/left-arrow-15x13.png"/>
+							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
 						</h:panelGroup>
 						
 						<h:panelGroup class="indexListItens" layout="block">
@@ -149,7 +159,7 @@
 							</ul>
 							
 							<h:panelGroup class="carroselRightArrow" layout="block">
-								<img src="../images/right-arrow-15x13.png"/>
+								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>

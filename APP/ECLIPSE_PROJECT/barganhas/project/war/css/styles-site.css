@@ -750,3 +750,16 @@ textarea:FOCUS {
 	font-weight: bold;
 }
 /** EXPIRED SESSION **/
+
+/** PUBLIC CONSULT **/
+#advertisementMainPicture {
+	width: 588px;
+	height: 448px;
+}
+.advertisementPictureThumbnail {
+	width: 110px;
+	height: 83px;
+	display: inline;
+	margin-right: 10px;
+}
+/** PUBLIC CONSULT **/
