@@ -141,6 +141,10 @@
 	  	<filter-name>UserAccountAccessFilter</filter-name>
 	  	<filter-class>br.com.barganhas.web.filters.UserAccountAccessFilter</filter-class>
   	</filter>
+	<filter>
+	  	<filter-name>CacheControl</filter-name>
+	  	<filter-class>br.com.barganhas.web.filters.CacheControl</filter-class>
+  	</filter>
   	
   	<!-- filter mappings -->
 	<filter-mapping>
@@ -151,6 +155,11 @@
 		<filter-name>UserAccountAccessFilter</filter-name>
 		<url-pattern>/xhtml/account/*</url-pattern>
 		<url-pattern>/xhtml/advertisement/*</url-pattern>
+  	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheControl</filter-name>
+		<url-pattern>/images/*</url-pattern>
+		<url-pattern>/fileserver/*</url-pattern>
   	</filter-mapping>
 
 	<!-- listeners -->	
