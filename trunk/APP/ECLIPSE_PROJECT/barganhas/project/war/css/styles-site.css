@@ -417,6 +417,7 @@ textarea:FOCUS {
 	height: 165px;
 	position: relative;
 	margin-left: 30px;
+	background-color: #FFFBAB;
 }
 
 .indexListItens ul {
