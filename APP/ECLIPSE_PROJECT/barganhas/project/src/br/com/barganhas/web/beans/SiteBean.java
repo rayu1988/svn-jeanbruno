@@ -30,9 +30,13 @@ public class SiteBean extends AppManagedBean {
 	private String								searchText;
 	
 	public String goToIndex() {
-		this.prepareListCategories();
-		
-		return "siteIndex";
+		try {
+			this.prepareListCategories();
+			
+			return "siteIndex";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	/**
@@ -40,19 +44,27 @@ public class SiteBean extends AppManagedBean {
 	 * @return
 	 */
 	public String publicAdvertisementConsult() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = service.publicConsult(this.advertisement);
-
-		this.advertisementPicture = this.advertisement.getSheetPicture().getKeyPicture();
-		
-		return "publicAdvertisementConsult";
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.publicConsult(this.advertisement);
+			
+			this.advertisementPicture = this.advertisement.getSheetPicture().getKeyPicture();
+			
+			return "publicAdvertisementConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String search() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.listRetrievied = service.publicSearch(this.searchText);
-		
-		return "search";
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.listRetrievied = service.publicSearch(this.searchText);
+			
+			return "search";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	private void prepareListCategories() {

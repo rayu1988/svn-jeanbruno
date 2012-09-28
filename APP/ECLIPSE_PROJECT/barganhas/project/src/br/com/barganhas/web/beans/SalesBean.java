@@ -21,56 +21,84 @@ public class SalesBean extends AppManagedBean {
 	private DataModel<Object>					dataModel;
 	
 	public String list() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		this.sales = new SalesTO();
-		List<SalesTO> list = service.list();
-		this.dataModel = new CustomDataModel(list);
-		return "salesList";
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			this.sales = new SalesTO();
+			List<SalesTO> list = service.list();
+			this.dataModel = new CustomDataModel(list);
+			return "salesList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String prepareNew() {
-		this.sales = new SalesTO();
-		this.sales.setSalesCode("$" + Math.abs((System.currentTimeMillis() + "barganhas").hashCode()));
-		
-		return "salesPrepareNew";
+		try {
+			this.sales = new SalesTO();
+			this.sales.setSalesCode("$" + Math.abs((System.currentTimeMillis() + "barganhas").hashCode()));
+			
+			return "salesPrepareNew";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String insert() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		service.insert(this.sales);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			service.insert(this.sales);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String edit() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		this.sales = service.consult(this.sales);
-		
-		return "salesEdit";
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			this.sales = service.consult(this.sales);
+			
+			return "salesEdit";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String save() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		service.save(this.sales);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.consult();
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			service.save(this.sales);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String consult() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		this.sales = service.consult(this.sales);
-		
-		return "salesConsult";
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			this.sales = service.consult(this.sales);
+			
+			return "salesConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 
 	public String delete() {
-		Sales service = this.getServiceBusinessFactory().getSales();
-		service.delete(this.sales);
-		
-		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			Sales service = this.getServiceBusinessFactory().getSales();
+			service.delete(this.sales);
+			
+			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	// GETTERS AND SETTERS //

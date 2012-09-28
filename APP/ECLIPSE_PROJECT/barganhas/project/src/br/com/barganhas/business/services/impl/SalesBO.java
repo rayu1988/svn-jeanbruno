@@ -108,7 +108,7 @@ public class SalesBO implements Sales {
 	public SalesTO consultBySalesCode(String salesCode) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			SalesTO sales = this.consultBySalesCode(salesCode);
+			SalesTO sales = this.persistencyLayer.consultBySalesCode(salesCode);
 			transaction.commit();
 			
 			return sales;

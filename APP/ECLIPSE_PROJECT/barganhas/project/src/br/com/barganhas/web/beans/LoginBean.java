@@ -5,10 +5,7 @@ import javax.faces.bean.RequestScoped;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.barganhas.business.entities.AdministratorTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Administrator;
-import br.com.barganhas.commons.RequestMessage;
-import br.com.barganhas.enums.SeverityMessage;
 
 @ManagedBean
 @RequestScoped
@@ -33,30 +30,32 @@ public class LoginBean extends AppManagedBean {
 			}
 			
 			return this.getManagedBean(AdministratorBean.class).list();
-		} catch (AppException e) {
-			this.setRequestMessage(new RequestMessage("loginErrorUserNotFound", SeverityMessage.ERROR));
-			return null;
 		} catch (Exception e) {
-			return this.trateExceptionMessage(e);
+			return this.manageException(e);
 		}
 	}
 	
 	public String logoff() {
-		this.destroyCurrentSession();
-		
-		HttpServletResponse response = this.getHttpServletResponse();
-		response.setHeader("Pragma", "no-Cache");
-		response.setHeader("Cache-Control", "no-cache,");
-		response.setHeader("Cache-Control", "no-store");
-		response.setHeader("Cache-Control", "private");
-		response.setHeader("Cache-Control", "must-revalidate");
-		response.setHeader("Cache-Control", "max-stale=0");
-		response.setHeader("Cache-Control", "max-age=0");
-		response.setDateHeader("Expires", 1);
-		
-		return "login";
+		try {
+			this.destroyCurrentSession();
+			
+			HttpServletResponse response = this.getHttpServletResponse();
+			response.setHeader("Pragma", "no-Cache");
+			response.setHeader("Cache-Control", "no-cache,");
+			response.setHeader("Cache-Control", "no-store");
+			response.setHeader("Cache-Control", "private");
+			response.setHeader("Cache-Control", "must-revalidate");
+			response.setHeader("Cache-Control", "max-stale=0");
+			response.setHeader("Cache-Control", "max-age=0");
+			response.setDateHeader("Expires", 1);
+			
+			return "login";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
+	// GETTERS AND SETTERS //
 	public String getUser() {
 		return user;
 	}

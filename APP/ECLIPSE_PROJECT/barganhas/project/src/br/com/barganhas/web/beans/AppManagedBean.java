@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.commons.JSFunctionTimeRunning.JSFunctionBoxing;
 import br.com.barganhas.commons.RequestMessage;
@@ -59,8 +60,15 @@ public class AppManagedBean implements Serializable {
 		this.setRequestParameter("SHOW_MESSAGE_BOX", Boolean.TRUE);
 	}
 	
-	protected String trateExceptionMessage(Exception exception) {
-		this.setRequestMessage(new RequestMessage(exception.getMessage(), SeverityMessage.ERROR));
+	protected String manageException(Exception exception) {
+		if (exception instanceof AppException) {
+			AppException appException = (AppException) exception;
+			this.setRequestMessages(appException.getMessages());
+		} else if (exception.getCause() != null) {
+			this.setRequestMessage(new RequestMessage(exception.getCause().getMessage(), SeverityMessage.ERROR));
+		} else {
+			this.setRequestMessage(new RequestMessage(exception.getMessage(), SeverityMessage.ERROR));
+		}
 		return null;
 	}
 	

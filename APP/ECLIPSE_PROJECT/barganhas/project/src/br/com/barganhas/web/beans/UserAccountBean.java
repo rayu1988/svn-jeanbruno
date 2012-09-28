@@ -11,13 +11,10 @@ import org.richfaces.model.UploadedFile;
 
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.JSFunctionTimeRunning;
-import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.ReturnMessagePojo;
 import br.com.barganhas.commons.Util;
-import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.validators.EmailValidator;
 
 import com.google.appengine.api.datastore.Blob;
@@ -80,7 +77,7 @@ public class UserAccountBean extends AppManagedBean {
 			}
 		} catch (Exception e) {
 			this.returnMessage = new ReturnMessagePojo(false).addMessage(e.getMessage());
-			this.trateExceptionMessage(e);
+			this.manageException(e);
 		}
 	}
 	
@@ -90,56 +87,76 @@ public class UserAccountBean extends AppManagedBean {
 	}
 	
 	public String goToLogin() {
-		return "userAccountLogin";
+		try {
+			return "userAccountLogin";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String edit() {
-		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-		this.userAccount = service.consult(this.userAccount);
-		
-		return "userAccountEdit";
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			this.userAccount = service.consult(this.userAccount);
+			
+			return "userAccountEdit";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public void uploadFile(FileUploadEvent event) {
-		UploadedFile uploadedFile = event.getUploadedFile();
-		if (uploadedFile != null) {
-			byte[] bytes = uploadedFile.getData();
-			
-			this.profileImage = new FileTO();
-			this.profileImage.setData(new Blob(bytes));
-			this.profileImage.setContentType(uploadedFile.getContentType());
-			this.profileImage.setFileName(uploadedFile.getName());
-		} else {
-			this.profileImage = null;
+		try {
+			UploadedFile uploadedFile = event.getUploadedFile();
+			if (uploadedFile != null) {
+				byte[] bytes = uploadedFile.getData();
+				
+				this.profileImage = new FileTO();
+				this.profileImage.setData(new Blob(bytes));
+				this.profileImage.setContentType(uploadedFile.getContentType());
+				this.profileImage.setFileName(uploadedFile.getName());
+			} else {
+				this.profileImage = null;
+			}
+		} catch (Exception e) {
+			this.manageException(e);
 		}
 	}
 	
 	public String save() {
-		UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-		if (this.profileImage != null) {
-			this.userAccount = service.save(this.userAccount, this.profileImage);
-		} else {
-			this.userAccount = service.save(this.userAccount);
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			if (this.profileImage != null) {
+				this.userAccount = service.save(this.userAccount, this.profileImage);
+			} else {
+				this.userAccount = service.save(this.userAccount);
+			}
+			this.getManagedBean(AppSessionBean.class).setUserAccount(this.userAccount);
+			
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
-		this.getManagedBean(AppSessionBean.class).setUserAccount(this.userAccount);
-		
-		return this.consult();
 	}
 	
 	public String consult() {
-		UserAccountTO userAccount = null;
-		if (this.userAccount != null && this.userAccount.getId() != null) {
-			userAccount = this.userAccount;
-		} else {
-			userAccount = this.getUserAccountLogged();
-		}
-		
-		if (userAccount == null) {
-			return this.goToLogin();
-		} else {
-			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-			this.userAccount = service.consult(userAccount);
-			return "userAccountConsult";
+		try {
+			UserAccountTO userAccount = null;
+			if (this.userAccount != null && this.userAccount.getId() != null) {
+				userAccount = this.userAccount;
+			} else {
+				userAccount = this.getUserAccountLogged();
+			}
+			
+			if (userAccount == null) {
+				return this.goToLogin();
+			} else {
+				UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+				this.userAccount = service.consult(userAccount);
+				return "userAccountConsult";
+			}
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
 	}
 	
@@ -156,28 +173,29 @@ public class UserAccountBean extends AppManagedBean {
 			}
 			
 			return this.getManagedBean(SiteBean.class).goToIndex();
-		} catch (AppException e) {
-			this.setRequestMessage(new RequestMessage("loginErrorUserNotFound", SeverityMessage.ERROR));
-			return null;
 		} catch (Exception e) {
-			return this.trateExceptionMessage(e);
+			return this.manageException(e);
 		}
 	}
 	
 	public String logoff() {
-		this.destroyCurrentSession();
-		
-		HttpServletResponse response = this.getHttpServletResponse();
-		response.setHeader("Pragma", "no-Cache");
-		response.setHeader("Cache-Control", "no-cache,");
-		response.setHeader("Cache-Control", "no-store");
-		response.setHeader("Cache-Control", "private");
-		response.setHeader("Cache-Control", "must-revalidate");
-		response.setHeader("Cache-Control", "max-stale=0");
-		response.setHeader("Cache-Control", "max-age=0");
-		response.setDateHeader("Expires", 1);
-		
-		return this.getManagedBean(SiteBean.class).goToIndex();
+		try {
+			this.destroyCurrentSession();
+			
+			HttpServletResponse response = this.getHttpServletResponse();
+			response.setHeader("Pragma", "no-Cache");
+			response.setHeader("Cache-Control", "no-cache,");
+			response.setHeader("Cache-Control", "no-store");
+			response.setHeader("Cache-Control", "private");
+			response.setHeader("Cache-Control", "must-revalidate");
+			response.setHeader("Cache-Control", "max-stale=0");
+			response.setHeader("Cache-Control", "max-age=0");
+			response.setDateHeader("Expires", 1);
+			
+			return this.getManagedBean(SiteBean.class).goToIndex();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	// GETTERS AND SETTERS //
