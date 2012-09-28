@@ -1,25 +1,28 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
-	
-	<div id="wrapperBoxMessages" class="wrapperMessages">
-		<div class="messages">
-			<h:graphicImage class="closePopupMessage" value="#{request.contextPath}/images/close-modal-on.png" onclick="hideMessageBox('wrapperBoxMessages');"/>
-			<ul class="listmessages">
-				<ui:repeat var="listMessages" value="#{LIST_TEXT_MESSAGES}">
-					<li class="textmessage #{listMessages.severityMessage eq 'SUCCESS' ? 'successmessage' : listMessages.severityMessage eq 'WARNING' ? 'warningmessage' : 'errormessage' }">
-						#{listMessages.textMessage} 
-					</li>
-				</ui:repeat>
-			</ul>
-		</div>
-	</div>
-	
-	<h:panelGroup rendered="#{SHOW_MESSAGE_BOX}">
-		<script>
-			window.onload = function() {
-				displayMessageBox('wrapperBoxMessages', 10000);
-			};
-		</script>
-	</h:panelGroup>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<a4j:outputPanel ajaxRendered="true" rendered="true">
+		<h:panelGroup id="wrapperBoxMessages" styleClass="wrapperMessages" layout="block">
+			<div class="messages">
+				<h:graphicImage class="closePopupMessage" value="#{request.contextPath}/images/close-modal-on.png" onclick="hideMessageBox('wrapperBoxMessages');"/>
+				<ul class="listmessages">
+					<ui:repeat var="listMessages" value="#{LIST_TEXT_MESSAGES}">
+						<li class="textmessage #{listMessages.severityMessage eq 'SUCCESS' ? 'successmessage' : listMessages.severityMessage eq 'WARNING' ? 'warningmessage' : 'errormessage' }">
+							#{listMessages.textMessage} 
+						</li>
+					</ui:repeat>
+				</ul>
+			</div>
+		</h:panelGroup>
+		
+		<h:panelGroup rendered="#{SHOW_MESSAGE_BOX}">
+			<script>
+				window.onload = function() {
+					displayMessageBox('wrapperBoxMessages', 10000);
+				};
+			</script>
+		</h:panelGroup>
+	</a4j:outputPanel>
 </ui:composition>

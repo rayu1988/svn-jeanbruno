@@ -21,55 +21,83 @@ public class AdvertisementTypeBean extends AppManagedBean {
 	private DataModel<Object>					dataModel;
 	
 	public String list() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		this.advertisementType = new AdvertisementTypeTO();
-		List<AdvertisementTypeTO> list = service.list();
-		this.dataModel = new CustomDataModel(list);
-		return "advertisementTypeList";
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			this.advertisementType = new AdvertisementTypeTO();
+			List<AdvertisementTypeTO> list = service.list();
+			this.dataModel = new CustomDataModel(list);
+			return "advertisementTypeList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String prepareNew() {
-		this.advertisementType = new AdvertisementTypeTO();
-		
-		return "advertisementTypePrepareNew";
+		try {
+			this.advertisementType = new AdvertisementTypeTO();
+			
+			return "advertisementTypePrepareNew";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String insert() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		service.insert(this.advertisementType);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			service.insert(this.advertisementType);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String edit() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		this.advertisementType = service.consult(this.advertisementType);
-		
-		return "advertisementTypeEdit";
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			this.advertisementType = service.consult(this.advertisementType);
+			
+			return "advertisementTypeEdit";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String save() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		service.save(this.advertisementType);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.consult();
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			service.save(this.advertisementType);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String consult() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		this.advertisementType = service.consult(this.advertisementType);
-		
-		return "advertisementTypeConsult";
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			this.advertisementType = service.consult(this.advertisementType);
+			
+			return "advertisementTypeConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 
 	public String delete() {
-		AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-		service.delete(this.advertisementType);
-		
-		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
+			service.delete(this.advertisementType);
+			
+			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	// GETTERS AND SETTERS //

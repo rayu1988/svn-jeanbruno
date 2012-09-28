@@ -16,7 +16,11 @@ public class FilterBean extends AppManagedBean {
 	private String						activedItem =  BLANK;
 	
 	public void toggleUp(ItemChangeEvent event) {
-		this.activedItem = this.activedItem.equals(BLANK) ? FILLABLE : BLANK;
+		try {
+			this.activedItem = this.activedItem.equals(BLANK) ? FILLABLE : BLANK;
+		} catch (Exception e) {
+			this.manageException(e);
+		}
 	}
 
 	// GETTERS AND SETTERS //

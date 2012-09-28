@@ -50,12 +50,16 @@ public class AdvertisementBean extends AppManagedBean {
 	private String								salesCode;
 	
 	public String list() {
-		UserAccountTO loggedUserAccount = this.getUserAccountLogged();
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = new AdvertisementTO();
-		List<AdvertisementTO> list = service.list(loggedUserAccount);
-		this.dataModel = new CustomDataModel(list);
-		return "advertisementList";
+		try {
+			UserAccountTO loggedUserAccount = this.getUserAccountLogged();
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = new AdvertisementTO();
+			List<AdvertisementTO> list = service.list(loggedUserAccount);
+			this.dataModel = new CustomDataModel(list);
+			return "advertisementList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	private List<RequestMessage> commonValidate() {
@@ -73,42 +77,52 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	public String prepareNewStepOne() {
-		this.advertisement = new AdvertisementTO();
-		this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
-		this.prepareListAdvertisementType();
-		this.prepareListCategories();
-		
-		return "advertisementPrepareNewStepOne";
+		try {
+			this.advertisement = new AdvertisementTO();
+			this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
+			this.prepareListAdvertisementType();
+			this.prepareListCategories();
+			
+			return "advertisementPrepareNewStepOne";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String prepareNewStepTwo() {
-		// start validate block
-		List<RequestMessage> messages = this.commonValidate();
-		if (this.selectedAdvertisementType == null) {
-			messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
+		try {
+			// start validate block
+			List<RequestMessage> messages = this.commonValidate();
+			if (this.selectedAdvertisementType == null) {
+				messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
+			}
+			if (Util.isCollectionOk(messages)) {
+				this.setRequestMessages(messages);
+				return null;
+			}
+			// ends validate block
+			
+			return "advertisementPrepareNewStepTwo";
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
-		if (Util.isCollectionOk(messages)) {
-			this.setRequestMessages(messages);
-			return null;
-		}
-		// ends validate block
-		
-		return "advertisementPrepareNewStepTwo";
 	}
 	
 	public String prepareNewStepThree() {
-		// start validate block
-		List<RequestMessage> messages = new ArrayList<RequestMessage>();
-		if (!Util.isCollectionOk(this.listAdvertisementPictures)) {
-			messages.add(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
+		try {
+			// start validate block
+			if (!Util.isCollectionOk(this.listAdvertisementPictures)) {
+				this.setRequestMessage(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
+				return null;
+			}
+			// ends validate block
+			
+			this.selectedSheetPicture = (AdvertisementPictureTO) this.listAdvertisementPictures.get(0).getValue();
+			
+			return "advertisementPrepareNewStepThree";
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
-		if (Util.isCollectionOk(messages)) {
-			this.setRequestMessages(messages);
-			return null;
-		}
-		// ends validate block
-		
-		return "advertisementPrepareNewStepThree";
 	}
 	
 	private void prepareListAdvertisementType() {
@@ -136,101 +150,121 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	public void uploadFile(FileUploadEvent event) {
-		UploadedFile uploadedFile = event.getUploadedFile();
-		if (uploadedFile != null) {
-			byte[] bytes = uploadedFile.getData();
-			
-			FileTO picture = new FileTO();
-			picture.setData(new Blob(bytes));
-			picture.setContentType(uploadedFile.getContentType());
-			picture.setFileName(uploadedFile.getName());
-			
-			AdvertisementPicture service = this.getServiceBusinessFactory().getAdvertisementPicture();
-			AdvertisementPictureTO advertisementPicture = service.newAdvertisementPicture(picture);
-			
-			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
-			for (SelectItem selectItem : this.listAdvertisementPictures) {
-				AdvertisementPictureTO currentPicture = (AdvertisementPictureTO) selectItem.getValue();
-				selectItemsBuilder.add(currentPicture, currentPicture.getThumbnail().getFileName());
+		try {
+			UploadedFile uploadedFile = event.getUploadedFile();
+			if (uploadedFile != null) {
+				byte[] bytes = uploadedFile.getData();
+				
+				FileTO picture = new FileTO();
+				picture.setData(new Blob(bytes));
+				picture.setContentType(uploadedFile.getContentType());
+				picture.setFileName(uploadedFile.getName());
+				
+				AdvertisementPicture service = this.getServiceBusinessFactory().getAdvertisementPicture();
+				AdvertisementPictureTO advertisementPicture = service.newAdvertisementPicture(picture);
+				
+				SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+				for (SelectItem selectItem : this.listAdvertisementPictures) {
+					AdvertisementPictureTO currentPicture = (AdvertisementPictureTO) selectItem.getValue();
+					selectItemsBuilder.add(currentPicture, currentPicture.getThumbnail().getFileName());
+				}
+				selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
+				
+				this.listAdvertisementPictures = selectItemsBuilder.buildList();
 			}
-			selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
-			
-			this.listAdvertisementPictures = selectItemsBuilder.buildList();
+		} catch (Exception e) {
+			this.manageException(e);
 		}
 	}
 	
 	public String insert() {
-		if (Util.isStringOk(this.salesCode)) {
-			Sales serviceSales = this.getServiceBusinessFactory().getSales();
-			SalesTO sales = serviceSales.consultBySalesCode(this.salesCode);
-			this.advertisement.setSales(sales);
-		}
-		
-		// remove the sheet picture from list pictures
-		List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-		for (SelectItem selectItem : this.listAdvertisementPictures) {
-			AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
-			if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
-				listAdvertisementPictures.add(advertisementPicture);
+		try {
+			if (Util.isStringOk(this.salesCode)) {
+				Sales serviceSales = this.getServiceBusinessFactory().getSales();
+				SalesTO sales = serviceSales.consultBySalesCode(this.salesCode);
+				this.advertisement.setSales(sales);
 			}
+			
+			// remove the sheet picture from list pictures
+			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+			for (SelectItem selectItem : this.listAdvertisementPictures) {
+				AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
+				if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
+					listAdvertisementPictures.add(advertisementPicture);
+				}
+			}
+			this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+			this.advertisement.setSheetPicture(this.selectedSheetPicture);
+			
+			UserAccountTO userAccountLogged = this.getUserAccountLogged();
+			this.advertisement.setUserAccount(userAccountLogged);
+			
+			this.advertisement.setAdvertisementType(this.selectedAdvertisementType);
+			this.advertisement.setCategory(this.selectedCategory);
+			
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.insert(this.advertisement);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
-		this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
-		this.advertisement.setSheetPicture(this.selectedSheetPicture);
-		
-		UserAccountTO userAccountLogged = this.getUserAccountLogged();
-		this.advertisement.setUserAccount(userAccountLogged);
-		
-		this.advertisement.setAdvertisementType(this.selectedAdvertisementType);
-		this.advertisement.setCategory(this.selectedCategory);
-		
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = service.insert(this.advertisement);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.consult();
 	}
 	
 	public String edit() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = service.consult(this.advertisement);
-		this.selectedCategory = this.advertisement.getCategory();
-		this.prepareListCategories();
-		
-		return "advertisementEdit";
-	}
-	
-	public String viewPublicAdvertisement() {
-		throw new IllegalStateException("method not implemented yet!");
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.consult(this.advertisement);
+			this.selectedCategory = this.advertisement.getCategory();
+			this.prepareListCategories();
+			
+			return "advertisementEdit";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String save() {
-		List<RequestMessage> messages = this.commonValidate();
-		if (Util.isCollectionOk(messages)) {
-			this.setRequestMessages(messages);
-			return null;
+		try {
+			List<RequestMessage> messages = this.commonValidate();
+			if (Util.isCollectionOk(messages)) {
+				this.setRequestMessages(messages);
+				return null;
+			}
+			
+			this.advertisement.setCategory(this.selectedCategory);
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.save(this.advertisement);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
 		}
-		
-		this.advertisement.setCategory(this.selectedCategory);
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = service.save(this.advertisement);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.consult();
 	}
 	
 	public String consult() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		this.advertisement = service.consult(this.advertisement);
-		
-		return "advertisementConsult";
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.consult(this.advertisement);
+			
+			return "advertisementConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 
 	public String delete() {
-		Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-		service.delete(this.advertisement);
-		
-		this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			service.delete(this.advertisement);
+			
+			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	// GETTERS AND SETTERS //

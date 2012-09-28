@@ -21,47 +21,71 @@ public class CategoryBean extends AppManagedBean {
 	private DataModel<Object>					dataModel;
 	
 	public String list() {
-		Category service = this.getServiceBusinessFactory().getCategory();
-		this.category = new CategoryTO();
-		List<CategoryTO> list = service.list();
-		this.dataModel = new CustomDataModel(list);
-		return "categoryList";
+		try {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			this.category = new CategoryTO();
+			List<CategoryTO> list = service.list();
+			this.dataModel = new CustomDataModel(list);
+			return "categoryList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String prepareNew() {
-		this.category = new CategoryTO();
-		
-		return "categoryPrepareNew";
+		try {
+			this.category = new CategoryTO();
+			
+			return "categoryPrepareNew";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String insert() {
-		Category service = this.getServiceBusinessFactory().getCategory();
-		service.insert(this.category);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.list();
+		try {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			service.insert(this.category);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String edit() {
-		Category service = this.getServiceBusinessFactory().getCategory();
-		this.category = service.consult(this.category);
-		
-		return "categoryEdit";
+		try {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			this.category = service.consult(this.category);
+			
+			return "categoryEdit";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String save() {
-		Category service = this.getServiceBusinessFactory().getCategory();
-		service.save(this.category);
-		
-		this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
-		return this.consult();
+		try {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			service.save(this.category);
+			
+			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
+			return this.consult();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 	
 	public String consult() {
-		Category service = this.getServiceBusinessFactory().getCategory();
-		this.category = service.consult(this.category);
-		
-		return "categoryConsult";
+		try {
+			Category service = this.getServiceBusinessFactory().getCategory();
+			this.category = service.consult(this.category);
+			
+			return "categoryConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
 	}
 
 	public String delete() {
