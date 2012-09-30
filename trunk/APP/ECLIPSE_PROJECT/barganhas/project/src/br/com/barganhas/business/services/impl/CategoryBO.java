@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.datastore.Transaction;
-
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.persistencies.CategoryPO;
+
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Transaction;
 
 @Service("categoryBO")
 public class CategoryBO implements Category {
@@ -28,8 +28,6 @@ public class CategoryBO implements Category {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -45,8 +43,6 @@ public class CategoryBO implements Category {
 			
 			transaction.commit();
 			return category;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -55,15 +51,13 @@ public class CategoryBO implements Category {
 	}
 	
 	@Override
-	public CategoryTO consult(CategoryTO category) {
+	public CategoryTO consult(CategoryTO category) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			category = this.persistencyLayer.consult(category);
 			
 			transaction.commit();
 			return category;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -79,8 +73,6 @@ public class CategoryBO implements Category {
 			
 			transaction.commit();
 			return category;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -94,8 +86,6 @@ public class CategoryBO implements Category {
 		try {
 			this.persistencyLayer.delete(category);
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

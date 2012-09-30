@@ -11,6 +11,7 @@ import br.com.barganhas.commons.AnnotationUtils;
 import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -70,7 +71,7 @@ public class AdministratorPO extends AppPersistency {
 		return this.persist(administrator);
 	}
 	
-	public AdministratorTO save(AdministratorTO administrator) {
+	public AdministratorTO save(AdministratorTO administrator) throws EntityNotFoundException {
 		if (!Util.isStringOk(administrator.getPassword())) {
 			AdministratorTO syncronizedTO = this.consult(administrator);
 			administrator.setPassword(syncronizedTO.getPassword());
@@ -79,9 +80,8 @@ public class AdministratorPO extends AppPersistency {
 		return this.persist(administrator);
 	}
 
-	public AdministratorTO consult(AdministratorTO administrator) {
-		administrator = this.consultEntityById(administrator);
-		return administrator;
+	public AdministratorTO consult(AdministratorTO administrator) throws EntityNotFoundException {
+		return this.consultByKey(administrator);
 	}
 
 	public void delete(AdministratorTO administrator) {

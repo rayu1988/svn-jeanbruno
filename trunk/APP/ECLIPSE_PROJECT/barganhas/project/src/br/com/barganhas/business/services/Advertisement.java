@@ -2,6 +2,8 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 
@@ -13,19 +15,19 @@ public interface Advertisement {
 	
 	List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount);
 
-	List<AdvertisementTO> lastAdvertisements();
+	List<AdvertisementTO> lastAdvertisements() throws EntityNotFoundException;
 
-	List<AdvertisementTO> lastMostViewed();
+	List<AdvertisementTO> lastMostViewed() throws EntityNotFoundException;
 
-	AdvertisementTO insert(AdvertisementTO advertisement);
+	AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException;
 
-	AdvertisementTO consult(AdvertisementTO advertisement);
+	AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException;
 
-	AdvertisementTO publicConsult(AdvertisementTO advertisement);
+	AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
 	
-	List<AdvertisementTO> publicSearch(String searchText);
+	List<AdvertisementTO> publicSearch(String searchText) throws EntityNotFoundException;
 	
 	AdvertisementTO save(AdvertisementTO advertisement);
 
-	void delete(AdvertisementTO advertisement);
+	void delete(AdvertisementTO advertisement) throws EntityNotFoundException;
 }

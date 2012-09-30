@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 import br.com.barganhas.business.entities.AdministratorTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Administrator;
 import br.com.barganhas.business.services.persistencies.AdministratorPO;
 
@@ -28,8 +28,6 @@ public class AdministratorBO implements Administrator {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -45,8 +43,6 @@ public class AdministratorBO implements Administrator {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -62,8 +58,6 @@ public class AdministratorBO implements Administrator {
 			
 			transaction.commit();
 			return administrator;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -72,15 +66,13 @@ public class AdministratorBO implements Administrator {
 	}
 	
 	@Override
-	public AdministratorTO consult(AdministratorTO administrator) {
+	public AdministratorTO consult(AdministratorTO administrator) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			administrator = this.persistencyLayer.consult(administrator);
 			
 			transaction.commit();
 			return administrator;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -89,15 +81,13 @@ public class AdministratorBO implements Administrator {
 	}
 	
 	@Override
-	public AdministratorTO save(AdministratorTO administrator) {
+	public AdministratorTO save(AdministratorTO administrator) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			administrator = this.persistencyLayer.save(administrator);
 			
 			transaction.commit();
 			return administrator;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -111,8 +101,6 @@ public class AdministratorBO implements Administrator {
 		try {
 			this.persistencyLayer.delete(administrator);
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -127,8 +115,6 @@ public class AdministratorBO implements Administrator {
 			administrator = this.persistencyLayer.validateLogin(administrator);
 			transaction.commit();
 			return administrator;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -153,8 +139,6 @@ public class AdministratorBO implements Administrator {
 			}
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

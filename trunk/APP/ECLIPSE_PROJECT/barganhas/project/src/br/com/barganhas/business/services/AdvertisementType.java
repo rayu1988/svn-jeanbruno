@@ -2,6 +2,8 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 
 public interface AdvertisementType {
@@ -10,7 +12,7 @@ public interface AdvertisementType {
 	
 	AdvertisementTypeTO insert(AdvertisementTypeTO advertisementType);
 
-	AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType);
+	AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) throws EntityNotFoundException;
 	
 	AdvertisementTypeTO save(AdvertisementTypeTO advertisementType);
 

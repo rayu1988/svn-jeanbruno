@@ -13,7 +13,7 @@ public class AppException extends RuntimeException {
 	private List<RequestMessage> messages = new ArrayList<RequestMessage>();
 	
 	public AppException(Exception exception) {
-		super(exception);
+		super(exception.getMessage(), exception);
 		if (exception instanceof AppException) {
 			this.messages = ((AppException) exception).getMessages();
 		} else if (Util.isStringOk(exception.getMessage())) {
@@ -22,12 +22,12 @@ public class AppException extends RuntimeException {
 	}
 	
 	public AppException(String message) {
-		super();
+		super(message);
 		this.addErrorMessage(message);
 	}
 
 	public AppException(List<RequestMessage> messages) {
-		super();
+		super(Util.isCollectionOk(messages) ? messages.toString() : "list messages");
 		this.messages = messages.subList(0, messages.size());
 	}
 

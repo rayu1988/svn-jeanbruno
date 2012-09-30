@@ -1,5 +1,7 @@
 package br.com.barganhas.business.services;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.FileTO;
 
@@ -13,9 +15,9 @@ public interface AdvertisementPicture {
 	
 	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase);
 
-	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase);
+	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase) throws EntityNotFoundException;
 	
-	AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture);
+	AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException;
 	
-	void delete(AdvertisementPictureTO advertisementPicture);
+	void delete(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException;
 }

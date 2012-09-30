@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.persistencies.AdvertisementTypePO;
 
@@ -28,8 +28,6 @@ public class AdvertisementTypeBO implements AdvertisementType {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -45,8 +43,6 @@ public class AdvertisementTypeBO implements AdvertisementType {
 			
 			transaction.commit();
 			return advertisementType;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -55,15 +51,13 @@ public class AdvertisementTypeBO implements AdvertisementType {
 	}
 	
 	@Override
-	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) {
+	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			advertisementType = this.persistencyLayer.consult(advertisementType);
 			
 			transaction.commit();
 			return advertisementType;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -79,8 +73,6 @@ public class AdvertisementTypeBO implements AdvertisementType {
 			
 			transaction.commit();
 			return advertisementType;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -94,8 +86,6 @@ public class AdvertisementTypeBO implements AdvertisementType {
 		try {
 			this.persistencyLayer.delete(advertisementType);
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.datastore.Transaction;
-
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.TransferObject;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.persistencies.FilePO;
+
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Transaction;
 
 @Service("fileBO")
 public class FileBO implements File {
@@ -29,8 +29,6 @@ public class FileBO implements File {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -46,8 +44,6 @@ public class FileBO implements File {
 			
 			transaction.commit();
 			return file;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -63,8 +59,6 @@ public class FileBO implements File {
 			
 			transaction.commit();
 			return file;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -73,15 +67,13 @@ public class FileBO implements File {
 	}
 	
 	@Override
-	public FileTO consult(FileTO file) {
+	public FileTO consult(FileTO file) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			file = this.persistencyLayer.consult(file);
 			
 			transaction.commit();
 			return file;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -97,8 +89,6 @@ public class FileBO implements File {
 			
 			transaction.commit();
 			return file;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -113,8 +103,6 @@ public class FileBO implements File {
 			this.persistencyLayer.delete(file);
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

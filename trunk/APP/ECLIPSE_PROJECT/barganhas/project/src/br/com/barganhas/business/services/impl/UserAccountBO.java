@@ -16,6 +16,7 @@ import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.UserAccountStatus;
 
 import com.google.appengine.api.datastore.Blob;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 @Service("userAccountBO")
@@ -37,8 +38,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -54,8 +53,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -73,8 +70,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return userAccount;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -90,8 +85,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return userAccount;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -113,8 +106,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return userAccount;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -123,7 +114,7 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
-	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) {
+	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			if (fileImage != null) {
@@ -144,8 +135,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return userAccount;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -159,8 +148,6 @@ public class UserAccountBO implements UserAccount {
 		try {
 			this.persistencyLayer.delete(userAccount);
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -176,8 +163,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return checking;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -193,8 +178,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return checking;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -210,8 +193,6 @@ public class UserAccountBO implements UserAccount {
 			
 			transaction.commit();
 			return userAccount;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -229,8 +210,6 @@ public class UserAccountBO implements UserAccount {
 			userAccount = this.persistencyLayer.insert(userAccount);
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
