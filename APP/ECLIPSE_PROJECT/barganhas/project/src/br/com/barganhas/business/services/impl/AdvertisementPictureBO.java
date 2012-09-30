@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.FileTempTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.persistencies.AdvertisementPicturePO;
 import br.com.barganhas.commons.Util;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 @Service("advertisementPictureBO")
 public class AdvertisementPictureBO implements AdvertisementPicture {
 
 	public static final String						BEAN_ALIAS = "advertisementPictureBO";
-
+	
 	@Autowired
 	private File									fileService;
 	
@@ -31,8 +31,6 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 	public AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			AdvertisementPictureTO advertisementPicture = new AdvertisementPictureTO();
-
 			// instanciate the current date to file temp
 			Date currentDate = new Date();
 			
@@ -50,13 +48,17 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 
 			thumbnail = (FileTempTO) fileService.insert(thumbnail, null);
 			picture = (FileTempTO) fileService.insert(picture, null);
+
+			AdvertisementPictureTO advertisementPictureToReturn = new AdvertisementPictureTO();
 			
-			advertisementPicture.setThumbnail(thumbnail);
-			advertisementPicture.setPicture(picture);
+			FileTempTO thumbnailToReturn = new FileTempTO(thumbnail.getKey());
+			thumbnailToReturn.setFileName(thumbnail.getFileName());
+			advertisementPictureToReturn.setThumbnail(thumbnailToReturn);
 			
-			return advertisementPicture;
-		} catch (Exception e) {
-			throw new AppException(e);
+			FileTempTO pictureToReturn = new FileTempTO(picture.getKey());
+			advertisementPictureToReturn.setPicture(pictureToReturn);
+			
+			return advertisementPictureToReturn;
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -65,21 +67,24 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 	}
 
 	@Override
-	public AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase) {
+	public AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			FileTO recoveredFile = null;
 			AdvertisementPictureTO advertisementPicture = new AdvertisementPictureTO();
 			
+			recoveredFile = this.fileService.consult(advertisementPictureBase.getThumbnail());
 			FileTO thumbnail = new FileTO();
-			thumbnail.setContentType(advertisementPictureBase.getThumbnail().getContentType());
-			thumbnail.setFileName(advertisementPictureBase.getThumbnail().getFileName());
-			thumbnail.setData(advertisementPictureBase.getThumbnail().getData());
+			thumbnail.setContentType(recoveredFile.getContentType());
+			thumbnail.setFileName(recoveredFile.getFileName());
+			thumbnail.setData(recoveredFile.getData());
 			thumbnail = this.fileService.insert(thumbnail);
 			
+			recoveredFile = this.fileService.consult(advertisementPictureBase.getPicture());
 			FileTO picture = new FileTO();
-			picture.setContentType(advertisementPictureBase.getPicture().getContentType());
-			picture.setFileName(advertisementPictureBase.getPicture().getFileName());
-			picture.setData(advertisementPictureBase.getPicture().getData());
+			picture.setContentType(recoveredFile.getContentType());
+			picture.setFileName(recoveredFile.getFileName());
+			picture.setData(recoveredFile.getData());
 			picture = this.fileService.insert(picture);
 			
 			advertisementPicture.setKeyThumbnail(thumbnail.getKey());
@@ -90,8 +95,6 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 			transaction.commit();
 			
 			return advertisementPicture;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -100,7 +103,7 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 	}
 
 	@Override
-	public AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture) {
+	public AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			advertisementPicture = this.persistencyLayer.consult(advertisementPicture);
@@ -108,8 +111,6 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 			transaction.commit();
 			
 			return advertisementPicture;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -117,7 +118,7 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 		}
 	}
 	
-	public void delete(AdvertisementPictureTO advertisementPicture) {
+	public void delete(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			advertisementPicture = this.consult(advertisementPicture);
@@ -128,8 +129,6 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 			this.persistencyLayer.delete(advertisementPicture);
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

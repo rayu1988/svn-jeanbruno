@@ -3,6 +3,8 @@ package br.com.barganhas.web.beans;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,8 @@ import br.com.barganhas.enums.SeverityMessage;
 public class AppManagedBean implements Serializable {
 	
 	private static final long 		serialVersionUID = 5997769430729017199L;
+	
+	private static final Logger 	logger = Logger.getLogger(AppManagedBean.class.getCanonicalName());
 	
 	protected ServiceBusinessFactory getServiceBusinessFactory() {
 		return ServiceBusinessFactory.getInstance();
@@ -61,6 +65,8 @@ public class AppManagedBean implements Serializable {
 	}
 	
 	protected String manageException(Exception exception) {
+		logger.log(Level.SEVERE, exception.getMessage(), exception);
+		
 		if (exception instanceof AppException) {
 			AppException appException = (AppException) exception;
 			this.setRequestMessages(appException.getMessages());

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.barganhas.business.entities.SalesTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.SalesPO;
 
@@ -28,8 +27,6 @@ public class SalesBO implements Sales {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -45,8 +42,6 @@ public class SalesBO implements Sales {
 			
 			transaction.commit();
 			return sales;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -62,8 +57,6 @@ public class SalesBO implements Sales {
 			
 			transaction.commit();
 			return sales;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -79,8 +72,6 @@ public class SalesBO implements Sales {
 			
 			transaction.commit();
 			return sales;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -95,8 +86,6 @@ public class SalesBO implements Sales {
 			this.persistencyLayer.delete(sales);
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -112,8 +101,6 @@ public class SalesBO implements Sales {
 			transaction.commit();
 			
 			return sales;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

@@ -23,6 +23,7 @@ import br.com.barganhas.business.services.persistencies.AdvertisementPO;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.AdvertisementStatus;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 
@@ -54,8 +55,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -71,8 +70,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -88,8 +85,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -98,7 +93,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public List<AdvertisementTO> lastAdvertisements() {
+	public List<AdvertisementTO> lastAdvertisements() throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			List<AdvertisementTO> listReturn = this.persistencyLayer.lastAdvertisements();
@@ -110,8 +105,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -120,7 +113,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public List<AdvertisementTO> lastMostViewed() {
+	public List<AdvertisementTO> lastMostViewed() throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			List<AdvertisementTO> listReturn = this.persistencyLayer.lastMostViewed();
@@ -132,8 +125,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -142,7 +133,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public AdvertisementTO insert(AdvertisementTO advertisement) {
+	public AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			if (advertisement.getSheetPicture() == null) {
@@ -181,8 +172,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return advertisement;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -191,7 +180,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public AdvertisementTO consult(AdvertisementTO advertisement) {
+	public AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			advertisement = this.persistencyLayer.consult(advertisement);
@@ -214,8 +203,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return advertisement;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -224,7 +211,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
+	public AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			advertisement = this.persistencyLayer.consult(advertisement);
@@ -240,8 +227,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return advertisement;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -250,7 +235,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public List<AdvertisementTO> publicSearch(String searchText) {
+	public List<AdvertisementTO> publicSearch(String searchText) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			List<AdvertisementTO> listReturn = null;
@@ -273,8 +258,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return listReturn;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -290,8 +273,6 @@ public class AdvertisementBO implements Advertisement {
 			
 			transaction.commit();
 			return advertisement;
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
@@ -300,7 +281,7 @@ public class AdvertisementBO implements Advertisement {
 	}
 
 	@Override
-	public void delete(AdvertisementTO advertisement) {
+	public void delete(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
@@ -311,8 +292,6 @@ public class AdvertisementBO implements Advertisement {
 			this.persistencyLayer.delete(advertisement);
 			
 			transaction.commit();
-		} catch (Exception e) {
-			throw new AppException(e);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

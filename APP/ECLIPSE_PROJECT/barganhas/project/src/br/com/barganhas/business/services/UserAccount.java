@@ -2,6 +2,8 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 
@@ -20,7 +22,7 @@ public interface UserAccount {
 	
 	UserAccountTO save(UserAccountTO userAccount);
 
-	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage);
+	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException;
 
 	void delete(UserAccountTO userAccount);
 

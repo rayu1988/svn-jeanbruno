@@ -82,16 +82,24 @@ public class SiteBean extends AppManagedBean {
 	}
 	
 	private void prepareListLastAdvertisements() {
-		if (!Util.isCollectionOk(this.lastAdvertisements)) {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.lastAdvertisements = service.lastAdvertisements();
+		try {
+			if (!Util.isCollectionOk(this.lastAdvertisements)) {
+				Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+				this.lastAdvertisements = service.lastAdvertisements();
+			}
+		} catch (Exception e) {
+			this.manageException(e);
 		}
 	}
 	
 	private void prepareListMostViewed() {
-		if (!Util.isCollectionOk(this.mostViewed)) {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.mostViewed = service.lastAdvertisements();
+		try {
+			if (!Util.isCollectionOk(this.mostViewed)) {
+				Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+				this.mostViewed = service.lastAdvertisements();
+			}
+		} catch (Exception e) {
+			this.manageException(e);
 		}
 	}
 	
