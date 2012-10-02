@@ -602,6 +602,11 @@ textarea:FOCUS {
 /** INPUT TEXT **/
 
 /** TABLE COLUMN **/
+.column {
+}
+.columnTop {
+	vertical-align: top;
+}
 .columnLabel {
 	text-align: right;
 	width: 100px;
@@ -761,7 +766,25 @@ textarea:FOCUS {
 }
 /** EXPIRED SESSION **/
 
-/** PUBLIC CONSULT **/
+/** PUBLIC ADVERTISEMENT CONSULT **/
+.advertisementValueDetails {
+	color: white;
+	border: 0;
+	border-radius: 10px;
+	font: bold 22px Helvetica, arial, freesans, clean, sans-serif;
+	width: 30%;
+	background-color: #DB0606;
+	padding: 10px;
+}
+.advertisementDetails {
+	border: 2px solid #C60;
+	border-radius: 10px;
+	padding: 10px;
+	background-color: #FFFBC8;
+	font: bold 18px Helvetica, arial, freesans, clean, sans-serif;
+	color: #C60;
+	margin-bottom: 15px;
+}
 #advertisementMainPicture {
 	width: 588px;
 	height: 448px;
@@ -772,4 +795,46 @@ textarea:FOCUS {
 	display: inline;
 	margin-right: 10px;
 }
-/** PUBLIC CONSULT **/
+.advertisementDetailMainHeader {
+	border: 2px solid #256CAC;
+	border-radius: 10px;
+	padding: 13px;
+	background-color: #256CAC;
+	font: bold 18px Helvetica, arial, freesans, clean, sans-serif;
+	color: #FFF;
+	margin-bottom: 15px;
+}
+.advertisementDetailHeader {
+	background-color: #C60;
+	color: white;
+	font-weight: bold;
+	padding: 6px;
+}
+.advertisementDetailColumnLabel {
+	width: 180px;
+	text-align: right;
+	vertical-align: top;
+}
+.advertisementDetailColumnValue {
+	font-weight: normal;
+}
+.advertisementDetailColumnTop {
+	vertical-align: top;
+	width: 100%;
+}
+#advertisementComments {
+	margin-top: 65px;
+	width: 100%;
+}
+.advertisementCommentsColumnImg {
+	padding: 0 25px;
+}
+.advertisementCommentsColumnMsg {
+	width: 100%;
+	vertical-align: top;
+}
+.advertisementBtnAddComment {
+	font-size:17px;
+	font-weight: bold;
+}
+/** PUBLIC ADVERTISEMENT CONSULT **/
