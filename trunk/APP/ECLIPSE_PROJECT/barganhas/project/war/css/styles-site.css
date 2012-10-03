@@ -417,7 +417,7 @@ textarea:FOCUS {
 	height: 165px;
 	position: relative;
 	margin-left: 30px;
-	background-color: #FFFBAB;
+/* 	background-color: #FFFBAB; */
 }
 
 .indexListItens ul {
@@ -469,16 +469,24 @@ textarea:FOCUS {
 	color: #900;
 }
 
+.carrosel {
+	width: 653px;
+	border-bottom: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+}
+
 .carroselLeftArrow {
 	width: 30px;
 	height: 165px;
 	position: absolute;
+	cursor: pointer;
+	background-color: #F0F0F0;
 }
 
 .carroselLeftArrow img {
 	position: absolute;
 	top: 65px;
-	cursor: pointer;
+	left: 5px;
 }
 
 .carroselLeftArrow img:hover {
@@ -492,13 +500,14 @@ textarea:FOCUS {
 	top: 0px;
 	right: 0px;
 	background-color: #FFF;
+	cursor: pointer;
+	background-color: #F0F0F0;
 }
 
 .carroselRightArrow img {
 	position: absolute;
 	top: 65px;
-	right: 0px;
-	cursor: pointer;
+	right: 5px;
 }
 
 .carroselRightArrow img:hover {
@@ -507,7 +516,7 @@ textarea:FOCUS {
 
 #leftSide {
 	position: relative;
-	width: 300px;
+	width: 292px;
 	float: right;
 	margin-right: -325px;
 }

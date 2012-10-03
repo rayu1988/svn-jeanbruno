@@ -66,32 +66,6 @@
 			</h:panelGrid>
 		</h:panelGrid>
 		
-		<!-- comments area -->
-		<h:panelGroup layout="block" id="advertisementComments">
-			<h:panelGrid columns="2" columnClasses="advertisementCommentsColumnImg, advertisementCommentsColumnMsg">
-				<h:graphicImage value="#{request.contextPath}/images/bubble_64.png"/>
-				
-				<h:panelGrid style="width: 100%;">
-					<h:panelGroup layout="block" styleClass="advertisementDetailMainHeader" style="padding: 5px; margin:0;">
-						<h:outputText value="#{msg.msgCommentsArea}"/>
-					</h:panelGroup>
-					<h:panelGroup layout="block">
-						<h:graphicImage value="#{request.contextPath}/images/add-filter.png"/>
-						<h:commandLink value="#{msg.msgAddComment}" action="#{siteBean.addComment}" styleClass="advertisementBtnAddComment"/>
-					</h:panelGroup>
-				</h:panelGrid>
-			</h:panelGrid>
-			
-			<h:panelGrid columns="2">
-				<h:panelGrid columns="2">
-					<!-- imagem do comentario -->
-					<!-- quem comentou -->
-					<!-- horas em que foi efetuado o comentario -->
-					<!-- botao para bloquear comentario -->
-				</h:panelGrid>
-			</h:panelGrid>
-		</h:panelGroup>
-		
 		<t:saveState value="#{siteBean.advertisement}"/>
 		<t:saveState value="#{siteBean.advertisementPicture}"/>
 	</ui:define>
