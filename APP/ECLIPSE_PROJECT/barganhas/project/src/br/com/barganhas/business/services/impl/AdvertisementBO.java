@@ -250,7 +250,7 @@ public class AdvertisementBO implements Advertisement {
 				
 				for (int i = 0; i < listReturn.size() ; i++) {
 					AdvertisementTO advertisement = listReturn.get(i);
-					if (!advertisement.getTitle().contains(searchText)) {
+					if (!advertisement.getTitle().trim().toLowerCase().contains(searchText.trim().toLowerCase())) {
 						listReturn.remove(i--);
 						continue;
 					}
