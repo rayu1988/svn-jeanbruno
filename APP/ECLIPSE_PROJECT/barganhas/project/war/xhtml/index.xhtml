@@ -9,6 +9,23 @@
 	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="bodyNavigation">
+		<h:outputScript>
+			$(document).ready( function() {
+				$("#carroselLastAdvertisementLeft").click(function(){
+					$("#carroselLastAdvertisement").animate({"margin-left": "+=597px"}, "slow");
+				});
+				$("#carroselLastAdvertisementRight").click(function(){
+					$("#carroselLastAdvertisement").animate({"margin-left": "-=597px"}, "slow");
+				});
+				$("#carroselMostViewedLeft").click(function(){
+					$("#carroselMostViewed").animate({"margin-left": "+=597px"}, "slow");
+				});
+				$("#carroselMostViewedRight").click(function(){
+					$("#carroselMostViewed").animate({"margin-left": "-=597px"}, "slow");
+				});
+			});
+		</h:outputScript>
+	
 		<h:panelGroup id="indexNavigationBox" layout="block">
 			<h:panelGroup  id="categories" layout="blocl">
 				<p class="title">#{msg.categories}</p>
@@ -29,12 +46,12 @@
 					<p class="title">#{msg.lastAnnouncement}</p>
 					
 					<h:panelGroup class="carrosel" layout="block">
-						<h:panelGroup class="carroselLeftArrow" layout="block">
-							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
+						<h:panelGroup id="carroselLastAdvertisementLeft" class="carroselLeftArrow" layout="block" >
+							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png" />
 						</h:panelGroup>
 						
 						<h:panelGroup class="indexListItens" layout="block">
-							<ul>
+							<ul id="carroselLastAdvertisement">
 								<ui:repeat var="advertisement" value="#{siteBean.lastAdvertisements}">
 									<li>
 										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
@@ -56,8 +73,8 @@
 								</ui:repeat>
 							</ul>
 							
-							<h:panelGroup class="carroselRightArrow" layout="block">
-								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
+							<h:panelGroup id="carroselLastAdvertisementRight" class="carroselRightArrow" layout="block">
+								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png" />
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>
@@ -67,12 +84,12 @@
 					<p class="title">#{msg.mostViewed}</p>
 					
 					<h:panelGroup class="carrosel" layout="block">
-						<h:panelGroup class="carroselLeftArrow" layout="block">
+						<h:panelGroup id="carroselMostViewedLeft" class="carroselLeftArrow" layout="block">
 							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
 						</h:panelGroup>
 
 						<h:panelGroup class="indexListItens" layout="block">
-							<ul>
+							<ul id="carroselMostViewed">
 								<ui:repeat var="advertisement" value="#{siteBean.mostViewed}">
 									<li>
 										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
@@ -94,7 +111,7 @@
 								</ui:repeat>
 							</ul>
 							
-							<h:panelGroup class="carroselRightArrow" layout="block">
+							<h:panelGroup id="carroselMostViewedRight" class="carroselRightArrow" layout="block">
 								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
 							</h:panelGroup>
 						</h:panelGroup>

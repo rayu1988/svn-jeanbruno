@@ -191,11 +191,13 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 			advertisement.setSheetPicture(advertisementPicture);
 			
-			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-			for (Key key : advertisement.getPictures()) {
-				listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+			if (Util.isCollectionOk(advertisement.getPictures())) {
+				List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+				for (Key key : advertisement.getPictures()) {
+					listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+				}
+				advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 			}
-			advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 			
 			if (advertisement.getKeySales() != null) {
 				advertisement.setSales(this.serviceSales.consult(new SalesTO(advertisement.getKeySales())));
@@ -219,11 +221,13 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 			advertisement.setSheetPicture(advertisementPicture);
 			
-			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-			for (Key key : advertisement.getPictures()) {
-				listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+			if (Util.isCollectionOk(advertisement.getPictures())) {
+				List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+				for (Key key : advertisement.getPictures()) {
+					listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
+				}
+				advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 			}
-			advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 			
 			transaction.commit();
 			return advertisement;
@@ -244,15 +248,15 @@ public class AdvertisementBO implements Advertisement {
 			} else {
 				listReturn = this.persistencyLayer.publicSearch(searchText);
 				
-				for (AdvertisementTO advertisement : listReturn) {
+				for (int i = 0; i < listReturn.size() ; i++) {
+					AdvertisementTO advertisement = listReturn.get(i);
+					if (!advertisement.getTitle().contains(searchText)) {
+						listReturn.remove(i--);
+						continue;
+					}
+					
 					AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 					advertisement.setSheetPicture(advertisementPicture);
-					
-					List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-					for (Key key : advertisement.getPictures()) {
-						listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
-					}
-					advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 				}
 			}
 			

@@ -39,6 +39,7 @@
 	
 	<!-- defining the scope of accountbase -->
 	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.msgTurnBack}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.backToStepOne}" immediate="true" />
 		<h:commandButton value="#{msg.msgGoNext}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.prepareNewStepThree}" immediate="false" />
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>

@@ -89,6 +89,17 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 	}
 	
+	public String backToStepOne() {
+		try {
+			this.prepareListAdvertisementType();
+			this.prepareListCategories();
+			
+			return "advertisementPrepareNewStepOne";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+
 	public String prepareNewStepTwo() {
 		try {
 			// start validate block
@@ -102,6 +113,15 @@ public class AdvertisementBean extends AppManagedBean {
 			}
 			// ends validate block
 			
+			return "advertisementPrepareNewStepTwo";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+
+	public String backToStepTwo() {
+		try {
+			this.listAdvertisementPictures = new ArrayList<SelectItem>();
 			return "advertisementPrepareNewStepTwo";
 		} catch (Exception e) {
 			return this.manageException(e);
