@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 @SuppressWarnings("serial")
@@ -32,8 +33,13 @@ public class AdvertisementPO extends AppPersistency {
 	}
 	
 	public List<AdvertisementTO> publicSearch(String searchText) {
+		
+		List<Filter> filters = new ArrayList<Query.Filter>();
+		filters.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
+		filters.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchText));
+		
 		Query query = this.getQuery(AdvertisementTO.class);
-		query.setFilter(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
+		query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, filters));
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		

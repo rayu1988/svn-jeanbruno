@@ -471,8 +471,8 @@ textarea:FOCUS {
 
 .carrosel {
 	width: 653px;
-	border-bottom: 1px solid #CCC;
-	border-top: 1px solid #CCC;
+	border-bottom: 2px solid #C60;
+	border-top: 2px solid #C60;
 }
 
 .carroselLeftArrow {
@@ -483,6 +483,10 @@ textarea:FOCUS {
 	background-color: #F0F0F0;
 }
 
+.carroselLeftArrow:hover {
+	background-color: #D8D8D8;
+}
+
 .carroselLeftArrow img {
 	position: absolute;
 	top: 65px;
@@ -490,7 +494,7 @@ textarea:FOCUS {
 }
 
 .carroselLeftArrow img:hover {
-	opacity: 0.45
+/* 	opacity: 0.45 */
 }
 
 .carroselRightArrow {
@@ -504,6 +508,10 @@ textarea:FOCUS {
 	background-color: #F0F0F0;
 }
 
+.carroselRightArrow:hover {
+	background-color: #D8D8D8;
+}
+
 .carroselRightArrow img {
 	position: absolute;
 	top: 65px;
@@ -511,7 +519,7 @@ textarea:FOCUS {
 }
 
 .carroselRightArrow img:hover {
-	opacity: 0.45
+/* 	opacity: 0.45 */
 }
 
 #leftSide {
