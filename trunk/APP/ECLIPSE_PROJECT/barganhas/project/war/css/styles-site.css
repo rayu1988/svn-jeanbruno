@@ -462,6 +462,7 @@ textarea:FOCUS {
 	font-size: 11px;
 	line-height: 12px;
 	margin: 2px 0 5px 0;
+	width: 490px;
 }
 
 .priceBox a {
