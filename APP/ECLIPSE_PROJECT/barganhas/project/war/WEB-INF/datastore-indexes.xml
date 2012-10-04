@@ -2,31 +2,31 @@
 <datastore-indexes autoGenerate="false">
 
 	<!-- AdministratorTO -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
         <property name="fullname" direction="desc"/>
         <property name="nickname" direction="desc"/>
     </datastore-index>
 
 	<!-- AdvertisementPictureTO -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementPictureTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementPictureTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementPictureTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementPictureTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
     </datastore-index>
 
 	<!-- AdvertisementTO -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
     </datastore-index>
     <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
@@ -35,12 +35,18 @@
     <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
 		<property name="title" direction="desc"/>
 	</datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="countView" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="countView" direction="desc"/>
+    </datastore-index>
     
     <!-- AdvertisementTypeTO -->
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
     </datastore-index>
-    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true">
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
     </datastore-index>
     

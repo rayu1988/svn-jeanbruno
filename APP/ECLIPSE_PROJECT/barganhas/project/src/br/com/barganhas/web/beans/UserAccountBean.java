@@ -1,5 +1,7 @@
 package br.com.barganhas.web.beans;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
@@ -15,6 +17,7 @@ import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.JSFunctionTimeRunning;
 import br.com.barganhas.commons.ReturnMessagePojo;
 import br.com.barganhas.commons.Util;
+import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 import br.com.barganhas.web.validators.EmailValidator;
 
 import com.google.appengine.api.datastore.Blob;
@@ -37,6 +40,28 @@ public class UserAccountBean extends AppManagedBean {
 	
 	private DataModel<Object>					dataModel;
 
+	public String adminListUsers() {
+		try {
+			this.userAccount = new UserAccountTO();
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			List<UserAccountTO> list = service.list();
+			this.dataModel = new CustomDataModel(list);
+			return "userAccountAdminList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String adminConsult() {
+		try {
+			System.out.println("teste");
+			
+			return "userAccountAdminConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public void registerUser(ActionEvent event) {
 		try {
 			this.returnMessage = new ReturnMessagePojo(false);

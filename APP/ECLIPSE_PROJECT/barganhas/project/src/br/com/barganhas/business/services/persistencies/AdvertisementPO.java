@@ -85,10 +85,7 @@ public class AdvertisementPO extends AppPersistency {
 		query.addSort("id",	SortDirection.DESCENDING);
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		
-		// TODO <TBD> correcty, I'm not sure that 10 is the best choice
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(10));
-		
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
 		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
 		for (Entity entity : entities) {
 			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
@@ -97,15 +94,12 @@ public class AdvertisementPO extends AppPersistency {
 		return listReturn;
 	}
 	
-	// TODO Implement a field that stores how many times an advertisement was viewed.
-	public List<AdvertisementTO> lastMostViewed() {
+	public List<AdvertisementTO> mostViewed() {
 		Query query = this.getQuery(AdvertisementTO.class);
-		query.addSort("id",	SortDirection.DESCENDING);
+		query.addSort("countView",	SortDirection.DESCENDING);
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(10));
-		
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
 		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
 		for (Entity entity : entities) {
 			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
@@ -124,6 +118,13 @@ public class AdvertisementPO extends AppPersistency {
 
 	public AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException {
 		return this.consultByKey(advertisement);
+	}
+	
+	public AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException {
+		advertisement = this.consultByKey(advertisement);
+		Long currentCount = advertisement.getCountView() != null ? advertisement.getCountView() + 1 : 0l;
+		advertisement.setCountView(currentCount);
+		return this.save(advertisement);
 	}
 
 	public void delete(AdvertisementTO advertisement) {

@@ -113,10 +113,10 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public List<AdvertisementTO> lastMostViewed() throws EntityNotFoundException {
+	public List<AdvertisementTO> mostViewed() throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			List<AdvertisementTO> listReturn = this.persistencyLayer.lastMostViewed();
+			List<AdvertisementTO> listReturn = this.persistencyLayer.mostViewed();
 			
 			for (AdvertisementTO advertisement : listReturn) {
 				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
@@ -166,6 +166,8 @@ public class AdvertisementBO implements Advertisement {
 				}
 				advertisement.setPictures(listKeyAdvertisementPictures);
 			}
+			
+			advertisement.setCountView(0l);
 
 			// persist and syncronize the advertisement to get its key
 			advertisement = this.persistencyLayer.insert(advertisement, advertisement.getUserAccount());
@@ -216,7 +218,7 @@ public class AdvertisementBO implements Advertisement {
 	public AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			advertisement = this.persistencyLayer.consult(advertisement);
+			advertisement = this.persistencyLayer.publicConsult(advertisement);
 			
 			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 			advertisement.setSheetPicture(advertisementPicture);

@@ -34,6 +34,14 @@
 			<from-outcome>userAccountEdit</from-outcome>
 	   		<to-view-id>/xhtml/account/accountEdit.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountAdminList</from-outcome>
+	   		<to-view-id>/xhtml/admin/userAccount/userAccountList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountAdminConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/userAccount/userAccountConsult.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ Advertisement ################ -->
 		<navigation-case>

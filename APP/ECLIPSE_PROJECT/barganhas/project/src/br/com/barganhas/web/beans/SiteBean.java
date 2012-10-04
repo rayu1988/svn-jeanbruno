@@ -96,7 +96,7 @@ public class SiteBean extends AppManagedBean {
 		try {
 			if (!Util.isCollectionOk(this.mostViewed)) {
 				Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-				this.mostViewed = service.lastAdvertisements();
+				this.mostViewed = service.mostViewed();
 			}
 		} catch (Exception e) {
 			this.manageException(e);
