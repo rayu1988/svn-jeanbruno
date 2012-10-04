@@ -10,20 +10,24 @@
 	
 	<ui:define name="bodyNavigation">
 		<h:outputScript>
-			$(document).ready( function() {
-				$("#carroselLastAdvertisementLeft").click(function(){
-					$("#carroselLastAdvertisement").animate({"margin-left": "+=597px"}, "slow");
+			try {
+				$j(document).ready( function() {
+					$j("#carroselLastAdvertisementLeft").click(function(){
+						$j("#carroselLastAdvertisement").animate({"margin-left": "+=597px"}, "slow");
+					});
+					$j("#carroselLastAdvertisementRight").click(function(){
+						$j("#carroselLastAdvertisement").animate({"margin-left": "-=597px"}, "slow");
+					});
+					$j("#carroselMostViewedLeft").click(function(){
+						$j("#carroselMostViewed").animate({"margin-left": "+=597px"}, "slow");
+					});
+					$j("#carroselMostViewedRight").click(function(){
+						$j("#carroselMostViewed").animate({"margin-left": "-=597px"}, "slow");
+					});
 				});
-				$("#carroselLastAdvertisementRight").click(function(){
-					$("#carroselLastAdvertisement").animate({"margin-left": "-=597px"}, "slow");
-				});
-				$("#carroselMostViewedLeft").click(function(){
-					$("#carroselMostViewed").animate({"margin-left": "+=597px"}, "slow");
-				});
-				$("#carroselMostViewedRight").click(function(){
-					$("#carroselMostViewed").animate({"margin-left": "-=597px"}, "slow");
-				});
-			});
+			} catch(e) {
+				alert(e);
+			}
 		</h:outputScript>
 	
 		<h:panelGroup id="indexNavigationBox" layout="block">

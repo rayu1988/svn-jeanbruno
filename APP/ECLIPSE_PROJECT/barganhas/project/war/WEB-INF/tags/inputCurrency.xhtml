@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:panelGroup>
+		<h:outputScript>
+			$j(document).ready( function() {
+				$j("#" + "#{id}").maskMoney({symbol:'R$ ', showSymbol:false, thousands:'.', decimal:',', symbolStay: true});
+			});
+		</h:outputScript>
+		<h:inputText id="#{id}" value="#{value}" maxlength="#{maxlength}" styleClass="#{styleClass}"/>
+	</h:panelGroup>
+	
+</ui:composition>

@@ -132,6 +132,27 @@
     		<required>false</required>
     	</attribute>
     </tag>
+    
+	<tag>
+    	<tag-name>inputCurrency</tag-name>
+    	<source>../tags/inputCurrency.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>value</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>maxlength</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>styleClass</name>
+    		<required>false</required>
+    	</attribute>
+    </tag>
     <!-- ends tags -->
     
 </facelet-taglib>

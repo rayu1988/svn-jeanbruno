@@ -1,8 +1,11 @@
+/** RESOLVING CONFLICT IN THE $j VARIABLE **/
+$j = jQuery.noConflict();
+
 /** POPUP **/
 function openPopup(id) {
 	RichFaces.$(id).show();
-	$('input[TabIndex="-1"]').each(function(){
-		$(this).removeAttr('tabindex');
+	$j('input[TabIndex="-1"]').each(function(){
+		$j(this).removeAttr('tabindex');
 	});
 }
 function closePopup(id) {
