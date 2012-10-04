@@ -48,7 +48,7 @@
 				
 				<!-- value -->
 				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
-				<h:inputText id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
+				<bargas:inputCurrency id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
 				
 				<!-- list exchange by -->
 				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>

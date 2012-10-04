@@ -54,6 +54,9 @@ public class AdvertisementTO extends TransferObject {
 	private String								listExchangeBy;
 	
 	@PropertyField
+	private Long								countView;
+	
+	@PropertyField
 	private List<Key>							pictures;
 	private List<AdvertisementPictureTO> 		listAdvertisementPictures;
 	
@@ -231,5 +234,13 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setSheetPicture(AdvertisementPictureTO sheetPicture) {
 		this.sheetPicture = sheetPicture;
+	}
+
+	public Long getCountView() {
+		return countView;
+	}
+
+	public void setCountView(Long countView) {
+		this.countView = countView;
 	}
 }

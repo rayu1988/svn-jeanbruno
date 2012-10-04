@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="headForm">
+		<bargas:headFormFilter headText="#{msg.privateAreaUsers} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}">
+			<ui:define name="formFilter">
+<!-- 				<ui:include src="/xhtml/admin/sales/salesFilter.xhtml"/> -->
+			</ui:define>
+		</bargas:headFormFilter>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listUserAccounts"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{userAccountBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{userAccountBean.dataModel}"
+						var="userAccount">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListDelete targetProperty="userAccount" backingBean="#{userAccountBean}" action="delete" propertyFrom="#{userAccount}"/>
+			</rich:column>
+			
+			<!-- status -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.msgStatus}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<bargas:outputTextConverted id="userStatus" value="#{userAccount.status}" styleClass="" converterId="ConverterUserAccountStatus"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- since date -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.userAccountUserSinceDate}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<bargas:outputTextConverted id="sinceDate" value="#{userAccount.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- fullname -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginName}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<h:outputText value="#{userAccount.fullname}"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- nickname -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginUser}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<h:outputText value="#{userAccount.nickname}"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- email -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginEmail}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<h:outputText value="#{userAccount.email}"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- contacts -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.userAccconutInfoContacts}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{userAccountBean.adminConsult}" >
+					<h:outputText value="#{userAccount.contacts}"/>
+					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{userAccountBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:panelGroup layout="block" styleClass="customButton" style="cursor: auto;">
+			<h:outputText value="#{msg.privateAreaNoAction}" />
+		</h:panelGroup>
+	</ui:define>
+	
+</ui:composition>

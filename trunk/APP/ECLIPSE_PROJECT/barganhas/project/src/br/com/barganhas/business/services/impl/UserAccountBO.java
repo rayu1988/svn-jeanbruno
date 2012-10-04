@@ -1,7 +1,10 @@
 package br.com.barganhas.business.services.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.File;
+import br.com.barganhas.business.services.Mail;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.UserAccountPO;
 import br.com.barganhas.commons.Util;
@@ -29,6 +33,8 @@ public class UserAccountBO implements UserAccount {
 	
 	@Autowired
 	private File									fileService;
+
+	private Mail									mailService;
 	
 	@Override
 	public List<UserAccountTO> list() {
@@ -201,15 +207,16 @@ public class UserAccountBO implements UserAccount {
 	}
 
 	@Override
-	public void registerNewUser(UserAccountTO userAccount) {
+	public void registerNewUser(UserAccountTO userAccount) throws UnsupportedEncodingException, MessagingException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			userAccount.setSinceDate(new Date());
-			//TODO replace the ACTIVE value to PENDING because when the user is registered he must confirm his register by email, and so will be ACTIVE
-			userAccount.setStatus(UserAccountStatus.ACTIVE);
+			userAccount.setStatus(UserAccountStatus.PENDING);
 			userAccount = this.persistencyLayer.insert(userAccount);
 			
 			transaction.commit();
+			
+			this.mailService.mailNewUser(userAccount);
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

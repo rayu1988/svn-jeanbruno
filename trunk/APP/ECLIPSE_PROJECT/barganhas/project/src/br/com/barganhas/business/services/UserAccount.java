@@ -1,6 +1,9 @@
 package br.com.barganhas.business.services;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
@@ -30,7 +33,7 @@ public interface UserAccount {
 	
 	boolean emailAlreadyExist(UserAccountTO userAccount);
 	
-	void registerNewUser(UserAccountTO userAccount);
+	void registerNewUser(UserAccountTO userAccount) throws UnsupportedEncodingException, MessagingException;
 	
 	UserAccountTO validateLogin(UserAccountTO userAccount);
 }

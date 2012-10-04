@@ -593,7 +593,7 @@ textarea:FOCUS {
 .inputMainForm {
 	padding: 5px;
 	font-size: 110%;
-	height: 23px;
+	min-height: 23px;
 }
 .inputuMainFormSelectMenu {
 	height: 35px;
