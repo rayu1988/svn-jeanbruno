@@ -49,7 +49,7 @@
 				<!-- contacts -->
 				<bargas:outputText id="contacts" value="#{msg.advertisementContacts};" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.contacts}"/>
+					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.contacts)}"/>
 				</h:panelGroup>
 				
 				<!-- listExchangeBy -->

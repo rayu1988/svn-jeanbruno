@@ -22,6 +22,11 @@
     	<function-name>truncateString</function-name>
     	<function-signature>java.lang.String truncateString(java.lang.String, int)</function-signature>
     </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>textToHtml</function-name>
+    	<function-signature>java.lang.String textToHtml(java.lang.String)</function-signature>
+    </function>
     <!-- ends functions -->
     
     <!-- start tags -->
