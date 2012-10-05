@@ -305,4 +305,23 @@ public class AdvertisementBO implements Advertisement {
 		}
 	}
 
+	/**
+	 * Method to delete every UserAccount's advertisement.
+	 * @param owner
+	 * @throws EntityNotFoundException
+	 */
+	@Override
+	public void delete(UserAccountTO owner) throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			for (AdvertisementTO advertisement : this.list(owner)) {
+				this.delete(advertisement);
+			}
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
+	}
+
 }

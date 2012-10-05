@@ -27,7 +27,11 @@
 			
 			<!-- actions -->
 			<rich:column styleClass="columnListActions">
-				<bargas:commandListDelete targetProperty="userAccount" backingBean="#{userAccountBean}" action="delete" propertyFrom="#{userAccount}"/>
+				<bargas:commandListLock id="lockUserAccount" targetProperty="userAccount" backingBean="#{userAccountBean}"
+						action="adminLockUser" propertyFrom="#{userAccount}" toolTipMessage="#{msg.msgLock} #{msg.userAccount}"/>
+				<bargas:commandListDelete id="deleteUserAccount" targetProperty="userAccount" backingBean="#{userAccountBean}" 
+						action="adminDeleteUser" propertyFrom="#{userAccount}"
+						toolTipMessage="#{msg.privateAreaActionDelete} #{msg.userAccount}"/>
 			</rich:column>
 			
 			<!-- status -->
@@ -36,7 +40,7 @@
 					<h:outputText value="#{msg.msgStatus}"/>
 				</f:facet>
 			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
+				<h:commandLink action="#{userAccountBean.adminConsultUser}" >
 					<bargas:outputTextConverted id="userStatus" value="#{userAccount.status}" styleClass="" converterId="ConverterUserAccountStatus"/>
 					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
 				</h:commandLink>
@@ -48,7 +52,7 @@
 					<h:outputText value="#{msg.userAccountUserSinceDate}"/>
 				</f:facet>
 			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
+				<h:commandLink action="#{userAccountBean.adminConsultUser}" >
 					<bargas:outputTextConverted id="sinceDate" value="#{userAccount.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
 					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
 				</h:commandLink>
@@ -60,7 +64,7 @@
 					<h:outputText value="#{msg.privateAreaLoginName}"/>
 				</f:facet>
 			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
+				<h:commandLink action="#{userAccountBean.adminConsultUser}" >
 					<h:outputText value="#{userAccount.fullname}"/>
 					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
 				</h:commandLink>
@@ -72,7 +76,7 @@
 					<h:outputText value="#{msg.privateAreaLoginUser}"/>
 				</f:facet>
 			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
+				<h:commandLink action="#{userAccountBean.adminConsultUser}" >
 					<h:outputText value="#{userAccount.nickname}"/>
 					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
 				</h:commandLink>
@@ -84,20 +88,8 @@
 					<h:outputText value="#{msg.privateAreaLoginEmail}"/>
 				</f:facet>
 			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
+				<h:commandLink action="#{userAccountBean.adminConsultUser}" >
 					<h:outputText value="#{userAccount.email}"/>
-					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
-				</h:commandLink>
-			</rich:column>
-			
-			<!-- contacts -->
-			<rich:column >
-				<f:facet name="header">
-					<h:outputText value="#{msg.userAccconutInfoContacts}"/>
-				</f:facet>
-			
-				<h:commandLink action="#{userAccountBean.adminConsult}" >
-					<h:outputText value="#{userAccount.contacts}"/>
 					<f:setPropertyActionListener value="#{userAccount}" target="#{userAccountBean.userAccount}"/>
 				</h:commandLink>
 			</rich:column>

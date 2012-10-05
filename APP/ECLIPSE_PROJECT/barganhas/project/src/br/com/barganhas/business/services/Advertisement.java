@@ -30,4 +30,11 @@ public interface Advertisement {
 	AdvertisementTO save(AdvertisementTO advertisement);
 
 	void delete(AdvertisementTO advertisement) throws EntityNotFoundException;
+
+	/**
+	 * Method to delete every UserAccount's advertisement.
+	 * @param owner
+	 * @throws EntityNotFoundException
+	 */
+	void delete(UserAccountTO owner) throws EntityNotFoundException;
 }

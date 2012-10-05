@@ -23,11 +23,13 @@ public interface UserAccount {
 
 	UserAccountTO consult(UserAccountTO userAccount);
 	
+	UserAccountTO lock(UserAccountTO userAccount);
+	
 	UserAccountTO save(UserAccountTO userAccount);
 
 	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException;
 
-	void delete(UserAccountTO userAccount);
+	void delete(UserAccountTO userAccount) throws EntityNotFoundException;
 
 	boolean nicknameAlreadyExist(UserAccountTO userAccount);
 	

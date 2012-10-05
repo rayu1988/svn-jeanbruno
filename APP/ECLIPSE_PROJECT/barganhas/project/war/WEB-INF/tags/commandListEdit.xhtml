@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
    	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
 	
 	<!-- 
 	
@@ -12,9 +13,13 @@
 	
 	 -->
 	 
-	<h:commandLink action="#{backingBean[action]}" >
+	<ui:param name="toolTipMessage" value="#{toolTipMessage == null ? msg.privateAreaActionEdit : toolTipMessage}"/>
+	<h:commandLink action="#{backingBean[action]}" id="#{id}">
 		<h:graphicImage value="#{request.contextPath}/images/configure.png"/>
 		<f:setPropertyActionListener value="#{propertyFrom}" target="#{backingBean[targetProperty]}"/>
+		
+		<rich:tooltip target="#{id}" attached="true" direction="auto" followMouse="true" showDelay="500"
+			value="#{toolTipMessage}"/>
 	</h:commandLink>
 	
 </ui:composition>

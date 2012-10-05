@@ -13,35 +13,39 @@
 		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
 			<!-- status -->
 			<h:outputLabel value="#{msg.msgStatus}:" for="userStatus"/>
-			<bargas:outputTextConverted id="userStatus" value="#{userAccount.status}" styleClass="" converterId="ConverterUserAccountStatus"/>
+			<bargas:outputTextConverted id="userStatus" value="#{userAccountBean.userAccount.status}" styleClass="" converterId="ConverterUserAccountStatus"/>
 			
 			<!-- since date -->
 			<h:outputLabel value="#{msg.userAccountUserSinceDate}:" for="sinceDate"/>
-			<bargas:outputTextConverted id="sinceDate" value="#{userAccount.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
+			<bargas:outputTextConverted id="sinceDate" value="#{userAccountBean.userAccount.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
 			
 			<!-- fullname -->
 			<h:outputLabel value="#{msg.privateAreaLoginName}:" for="fullname"/>
-			<h:outputText value="#{userAccount.fullname}" id="fullname"/>
+			<h:outputText value="#{userAccountBean.userAccount.fullname}" id="fullname"/>
 			
 			<!-- nickname -->
 			<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="nickname"/>
-			<h:outputText value="#{userAccount.nickname}" id="nickname"/>
+			<h:outputText value="#{userAccountBean.userAccount.nickname}" id="nickname"/>
 			
 			<!-- email -->
 			<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="email"/>
-			<h:outputText value="#{userAccount.email}" id="email"/>
+			<h:outputText value="#{userAccountBean.userAccount.email}" id="email"/>
 			
 			<!-- contacts -->
 			<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="contacts"/>
-			<h:outputText value="#{userAccount.contacts}" id="contacts"/>
+			<h:outputText value="#{userAccountBean.userAccount.contacts}" id="contacts"/>
 		</h:panelGrid>
 		
 		<t:saveState value="#{userAccountBean.userAccount}"/>
 	</ui:define>
 	
 	<ui:define name="formButtons">
-		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{userAccountBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
-		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{userAccountBean.adminListUsers}" immediate="true"/>
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm"
+				action="#{userAccountBean.adminDeleteUser}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.msgLock} #{msg.userAccount}" styleClass="customButton buttonMainForm"
+				action="#{userAccountBean.adminLockUser}" immediate="false" onclick="#{msg.actionConfirmLock}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm"
+				action="#{userAccountBean.adminListUsers}" immediate="true"/>
 	</ui:define>
 	
 </ui:composition>

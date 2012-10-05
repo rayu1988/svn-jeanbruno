@@ -13,9 +13,9 @@
 	
 	 -->
 	
-	<ui:param name="toolTipMessage" value="#{toolTipMessage == null ? msg.privateAreaActionDelete : toolTipMessage}"/>
-	<h:commandLink action="#{backingBean[action]}" onclick="#{msg.actionConfirmDelete}" id="#{id}">
-		<h:graphicImage value="#{request.contextPath}/images/garbage.png"/>
+	<ui:param name="toolTipMessage" value="#{toolTipMessage == null ? msg.msgLock : toolTipMessage}"/>
+	<h:commandLink action="#{backingBean[action]}" onclick="#{msg.actionConfirmLock}" id="#{id}">
+		<h:graphicImage value="#{request.contextPath}/images/icon_lock.png"/>
 		<f:setPropertyActionListener value="#{propertyFrom}" target="#{backingBean[targetProperty]}"/>
 		
 		<rich:tooltip target="#{id}" attached="true" direction="auto" followMouse="true" showDelay="500"
