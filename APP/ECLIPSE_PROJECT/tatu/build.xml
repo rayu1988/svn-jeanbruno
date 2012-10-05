@@ -1,0 +1,17 @@
+<project name="tatu" default="dist-tatu" basedir=".">
+	
+	<property name="tatu" value="tatu"/>
+	<property name="tatu-home" value="../${tatu}"/>
+	<property name="tatu-home-dist" value="${tatu-home}/dist"/>
+	<property name="tatu-jar" value="${tatu-home-dist}/${tatu}.jar"/>
+	
+	<target name="dist-tatu">
+		
+		<delete dir="${tatu-home-dist}" />
+		<mkdir dir="${tatu-home-dist}"/>
+		
+		<zip destfile="${tatu-jar}">
+		    <zipfileset dir="${tatu-home}/bin" />
+		</zip>
+	</target>
+</project>
