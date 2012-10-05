@@ -27,8 +27,10 @@
 			
 			<!-- actions -->
 			<rich:column styleClass="columnListActions">
-				<bargas:commandListEdit targetProperty="category" backingBean="#{categoryBean}" action="edit" propertyFrom="#{category}"/>
-				<bargas:commandListDelete targetProperty="category" backingBean="#{categoryBean}" action="delete" propertyFrom="#{category}"/>
+				<bargas:commandListEdit id="editCategory" targetProperty="category" backingBean="#{categoryBean}"
+						action="edit" propertyFrom="#{category}" toolTipMessage="#{msg.privateAreaActionEdit} #{msg.category}"/>
+				<bargas:commandListDelete id="deleteCategory" targetProperty="category" backingBean="#{categoryBean}"
+						action="delete" propertyFrom="#{category}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.category}"/>
 			</rich:column>
 			
 			<!-- name -->

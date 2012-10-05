@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
+import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.Mail;
 import br.com.barganhas.business.services.UserAccount;
@@ -36,6 +37,8 @@ public class UserAccountBO implements UserAccount {
 
 	@Autowired
 	private Mail									mailService;
+	
+	private Advertisement							serviceAdvertisement;
 	
 	@Override
 	public List<UserAccountTO> list() {
@@ -100,6 +103,13 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
+	public UserAccountTO lock(UserAccountTO userAccount) {
+		userAccount = this.consult(userAccount);
+		userAccount.setStatus(UserAccountStatus.LOCKED);
+		return this.save(userAccount);
+	}
+	
+	@Override
 	public UserAccountTO save(UserAccountTO userAccount) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
@@ -150,9 +160,11 @@ public class UserAccountBO implements UserAccount {
 	}
 
 	@Override
-	public void delete(UserAccountTO userAccount) {
+	public void delete(UserAccountTO userAccount) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			this.serviceAdvertisement.delete(userAccount);
+			
 			this.persistencyLayer.delete(userAccount);
 			transaction.commit();
 		} finally {

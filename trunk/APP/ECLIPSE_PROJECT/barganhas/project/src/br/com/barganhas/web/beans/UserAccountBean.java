@@ -15,8 +15,10 @@ import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.JSFunctionTimeRunning;
+import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.ReturnMessagePojo;
 import br.com.barganhas.commons.Util;
+import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 import br.com.barganhas.web.validators.EmailValidator;
 
@@ -40,6 +42,28 @@ public class UserAccountBean extends AppManagedBean {
 	
 	private DataModel<Object>					dataModel;
 
+	public String adminDeleteUser() {
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			service.delete(this.userAccount);
+			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+			return this.adminListUsers();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String adminLockUser() {
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			this.userAccount = service.lock(this.userAccount);
+			this.setRequestMessage(new RequestMessage("userAccountHadBeenLocked", SeverityMessage.SUCCESS));
+			return this.adminConsultUser();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String adminListUsers() {
 		try {
 			this.userAccount = new UserAccountTO();
@@ -52,7 +76,7 @@ public class UserAccountBean extends AppManagedBean {
 		}
 	}
 	
-	public String adminConsult() {
+	public String adminConsultUser() {
 		try {
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 			this.userAccount = service.consult(this.userAccount);
