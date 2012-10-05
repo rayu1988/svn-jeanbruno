@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import javax.faces.context.FacesContext;
 
+import org.com.tatu.helper.HtmlHelper;
+
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -106,5 +108,9 @@ public final class Util {
 			return strBase.substring(0, maxSize).concat(suspensionPoints);
 		}
 		return strBase;
+	}
+	
+	public static String textToHtml(String text) {
+		return new HtmlHelper().toHtml(text);
 	}
 }

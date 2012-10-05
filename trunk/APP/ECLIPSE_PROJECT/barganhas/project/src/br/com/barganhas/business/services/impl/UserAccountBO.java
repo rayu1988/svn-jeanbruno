@@ -34,6 +34,7 @@ public class UserAccountBO implements UserAccount {
 	@Autowired
 	private File									fileService;
 
+	@Autowired
 	private Mail									mailService;
 	
 	@Override
@@ -214,9 +215,9 @@ public class UserAccountBO implements UserAccount {
 			userAccount.setStatus(UserAccountStatus.PENDING);
 			userAccount = this.persistencyLayer.insert(userAccount);
 			
-			transaction.commit();
-			
 			this.mailService.mailNewUser(userAccount);
+
+			transaction.commit();
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();

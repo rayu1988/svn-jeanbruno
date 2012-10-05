@@ -45,7 +45,7 @@
 				
 				<!-- contacts -->
 				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<bargas:outputText id="infoContacts" value="#{userAccountBean.userAccount.contacts}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				<bargas:outputText id="infoContacts" value="#{bargas:textToHtml(userAccountBean.userAccount.contacts)}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
 			</h:panelGrid>
 		</h:panelGroup>
 	</ui:define>
