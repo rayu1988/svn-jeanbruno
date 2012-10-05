@@ -54,8 +54,8 @@ public class UserAccountBean extends AppManagedBean {
 	
 	public String adminConsult() {
 		try {
-			System.out.println("teste");
-			
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			this.userAccount = service.consult(this.userAccount);
 			return "userAccountAdminConsult";
 		} catch (Exception e) {
 			return this.manageException(e);

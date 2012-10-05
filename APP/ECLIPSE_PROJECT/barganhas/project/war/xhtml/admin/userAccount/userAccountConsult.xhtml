@@ -6,31 +6,42 @@
 	xmlns:bargas="http://barganhas.com.br/barganhas">
 
 	<ui:define name="headForm">
-		<bargas:headForm headText="#{msg.privateAreaSales} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+		<bargas:headForm headText="#{msg.privateAreaUsers} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
 	</ui:define>
 	
 	<ui:define name="formBody">
 		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
-			<!-- title -->
-			<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
-			<h:outputText id="title" value="#{salesBean.sales.title}" />
+			<!-- status -->
+			<h:outputLabel value="#{msg.msgStatus}:" for="userStatus"/>
+			<bargas:outputTextConverted id="userStatus" value="#{userAccount.status}" styleClass="" converterId="ConverterUserAccountStatus"/>
 			
-			<!-- description -->
-			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
-			<h:outputText id="description" value="#{salesBean.sales.description}" />
+			<!-- since date -->
+			<h:outputLabel value="#{msg.userAccountUserSinceDate}:" for="sinceDate"/>
+			<bargas:outputTextConverted id="sinceDate" value="#{userAccount.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
 			
-			<!-- salesCode -->
-			<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
-			<h:outputText id="salesCode" value="#{salesBean.sales.salesCode}" />
+			<!-- fullname -->
+			<h:outputLabel value="#{msg.privateAreaLoginName}:" for="fullname"/>
+			<h:outputText value="#{userAccount.fullname}" id="fullname"/>
+			
+			<!-- nickname -->
+			<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="nickname"/>
+			<h:outputText value="#{userAccount.nickname}" id="nickname"/>
+			
+			<!-- email -->
+			<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="email"/>
+			<h:outputText value="#{userAccount.email}" id="email"/>
+			
+			<!-- contacts -->
+			<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="contacts"/>
+			<h:outputText value="#{userAccount.contacts}" id="contacts"/>
 		</h:panelGrid>
 		
-		<t:saveState value="#{salesBean.sales}"/>
+		<t:saveState value="#{userAccountBean.userAccount}"/>
 	</ui:define>
 	
 	<ui:define name="formButtons">
-		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton buttonMainForm" action="#{salesBean.edit}" immediate="false" />
-		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{salesBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
-		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{salesBean.list}" immediate="true"/>
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{userAccountBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{userAccountBean.adminListUsers}" immediate="true"/>
 	</ui:define>
 	
 </ui:composition>
