@@ -44,7 +44,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/omnifaces-1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/tatu.20121005.1006.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/tatu.20121006.1506.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
