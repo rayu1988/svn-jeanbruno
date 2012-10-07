@@ -9,6 +9,7 @@ import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.SalesPO;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 @Service("salesBO")
@@ -50,7 +51,7 @@ public class SalesBO implements Sales {
 	}
 	
 	@Override
-	public SalesTO consult(SalesTO sales) {
+	public SalesTO consult(SalesTO sales) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			sales = this.persistencyLayer.consult(sales);

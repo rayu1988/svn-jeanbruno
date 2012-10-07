@@ -2,6 +2,8 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+
 import br.com.barganhas.business.entities.SalesTO;
 
 public interface Sales {
@@ -10,7 +12,7 @@ public interface Sales {
 	
 	SalesTO insert(SalesTO sales);
 
-	SalesTO consult(SalesTO sales);
+	SalesTO consult(SalesTO sales) throws EntityNotFoundException;
 	
 	SalesTO consultBySalesCode(String salesCode);
 	

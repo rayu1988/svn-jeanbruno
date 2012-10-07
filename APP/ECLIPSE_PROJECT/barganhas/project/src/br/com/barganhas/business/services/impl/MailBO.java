@@ -13,6 +13,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.com.tatu.cypher.XORCryption;
 import org.springframework.stereotype.Service;
 
 import br.com.barganhas.business.entities.UserAccountTO;
@@ -31,26 +32,12 @@ public class MailBO implements Mail {
 		Properties properties = new Properties();
 		Session session = Session.getDefaultInstance(properties, null);
 		
-		String htmlBody = " <html> " +
-				" 	<head> " +
-				" 		<title></title> " +
-				" 	</head> " +
-				" 	<body> " +
-				" 		[logo vendas e barganhas] Vendas & Barganhas " +
-				" 		Recebemos a solicitação de inclusão de novo usuário no sistema de anúncio e busca Vendas & Barganhas. " +
-				" 		Se realmente a solicitação é válida e parte do seu desejo verdadeiro, clique no link abaixo ou copie e cole o endereço no seu browser favorito. " +
-				" 		Caso não seja do seu desejo, por favor, desconsidere o mesmo. " +
-				" 		O Grupo Vendas & Barganhas agradece muito a sua atenção! " +
-				" 		[logo vendas e barganhas] Vendas & Barganhas " +
-				" 	</body> " +
-				" </html> ";
-		
 		Message message = new MimeMessage(session);
 		
 		Multipart multipart = new MimeMultipart();
 		MimeBodyPart htmlPart = new MimeBodyPart();
 		multipart.addBodyPart(htmlPart);
-		htmlPart.setContent(htmlBody, "text/html");
+		htmlPart.setContent(this.getEmailNewUser(userAccount), "text/html");
 		
 		message.setFrom(new InternetAddress("vendasebarganhas@gmail.com", "Vendas & Barganhas"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.getEmail(), userAccount.getFullname()));
@@ -60,5 +47,60 @@ public class MailBO implements Mail {
 		
 		Transport.send(message);
 	}
+	
+	private String getEmailNewUser(UserAccountTO userAccount) {
+		return 
+			" <html> " +
+			" 	<head> " +
+			" 		<title>Vendas & Bargahas</title> " +
+			" 	</head> " +
+			" 	<body> " +
 
+			" 		<div> " +
+			" 			<a href=\"http://vendasebarganhas.appspot.com/\" target=\"_blank\">" +
+			" 				<img src=\"http://vendasebarganhas.appspot.com/images/logo/logo2-rascunho2.png\">" +
+			" 			</a>" +
+			" 		</div> " +
+				this.twoLines() +
+			" 		<div> " +
+			" 			Recebemos a solicitação de inclusão de um novo usuário no sistema de anúncio e busca " + this.getLink() + " referente ao email " + 
+			" 			<b>" + userAccount.getEmail() + "</b>. " + 
+			" 		</div> " +
+				this.twoLines() +
+			" 		<div> " +
+			" 			Se realmente a solicitação é válida e parte do seu desejo verdadeiro, clique no link abaixo ou copie e cole o endereço no seu browser favorito " +
+			" 			para podermos validar e <b>ATIVAR</b> o seu usuário no sistema " + this.getLink() + "." +
+			" 		</div> " +
+				this.twoLines() +
+				this.getCheckingLink(userAccount) +
+				this.twoLines() +
+			" 		<div> " +
+			" 			Caso não seja do seu desejo, por favor, desconsidere este email. " +
+			" 		</div> " +
+				this.twoLines() +
+			" 		<div> " +
+			" 			O Grupo " + this.getLink() + " agradece muito a sua atenção! " +
+			" 		</div> " +
+			
+			" 	</body> " +
+			" </html> ";
+	}
+	
+	private String getLink() {
+		return 
+			"	<a href=\"http://vendasebarganhas.appspot.com/\" target=\"_blank\">" +
+			"		Vendas & Barganhas " +
+			"	</a>";
+	}
+	
+	private String twoLines() {
+		return "<br><br>";
+	}
+
+	private String getCheckingLink(UserAccountTO userAccount) {
+		XORCryption encoder = new XORCryption(MAIL_KEY);
+		String encodedQuery = encoder.encodeToHexString(userAccount.getKeyAsString());
+		String checkingLink = "http://vendasebarganhas.appspot.com" + CHECK_ADDRESS + "?q=" + encodedQuery;
+		return "<a href=\"" + checkingLink + "\" target=\"_blank\">" + checkingLink + "</a>";
+	}
 }

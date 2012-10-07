@@ -53,7 +53,7 @@ public final class Util {
 	public static String getMessageResourceString(String key, Object... params) {
 		String text = null;
 		FacesContext context = FacesContext.getCurrentInstance();
-		String bundleName = context.getApplication().getMessageBundle();
+		String bundleName = context != null ? context.getApplication().getMessageBundle() : "messages";
 		Locale locale = getLocale(context);
 		ResourceBundle bundle = ResourceBundle.getBundle(bundleName, locale, getCurrentClassLoader(params));
 		try {
@@ -69,7 +69,7 @@ public final class Util {
 	}
 	
 	public static Locale getLocale(FacesContext context) {
-		if (context.getViewRoot() != null && context.getViewRoot().getLocale() != null) {
+		if (context !=null && (context.getViewRoot() != null && context.getViewRoot().getLocale() != null)) {
 			return context.getViewRoot().getLocale();
 		} else {
 			return new Locale("pt", "pt_BR");

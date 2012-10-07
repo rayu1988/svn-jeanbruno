@@ -784,6 +784,26 @@ textarea:FOCUS {
 }
 /** EXPIRED SESSION **/
 
+/** PAGE NOT FOUND EXCEPTION **/
+#panelPageNotFoundException {
+	margin: 150px;
+	text-align: center;
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+}
+.columnLeftPageNotFound {
+	width: 40%;
+	text-align: right;
+}
+.columnRightPageNotFound {
+	text-align: left;
+}
+.pageNotFoundExceptionGoHome {
+	font-size: 16px;
+	margin-right: 5px;
+	font-weight: bold;
+}
+/** PAGE NOT FOUND EXCEPTION **/
+
 /** PUBLIC ADVERTISEMENT CONSULT **/
 .advertisementValueDetails {
 	color: white;
