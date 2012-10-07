@@ -68,6 +68,14 @@
 			<from-outcome>advertisementConsult</from-outcome>
 	   		<to-view-id>/xhtml/advertisement/advertisementConsult.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementAdminList</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisement/advertisementList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementAdminConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisement/advertisementConsult.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ Login Private Area ################ -->
 		<navigation-case>

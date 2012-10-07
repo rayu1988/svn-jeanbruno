@@ -41,6 +41,10 @@
 	<datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
         <property name="countView" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+    </datastore-index>
     
     <!-- AdvertisementTypeTO -->
     <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true" source="manual">

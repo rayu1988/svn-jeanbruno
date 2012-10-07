@@ -49,6 +49,17 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	private String								salesCode;
 	
+	public String adminListAdvertisements() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			List<AdvertisementTO> list = service.list();
+			this.dataModel = new CustomDataModel(list);
+			return "advertisementAdminList";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String list() {
 		try {
 			UserAccountTO loggedUserAccount = this.getUserAccountLogged();
@@ -245,6 +256,28 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 	}
 	
+	public String adminUnlockAdvertisement() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.unlock(this.advertisement);
+			this.setRequestMessage(new RequestMessage("advertisementAccountHadBeenUnlocked", SeverityMessage.SUCCESS));
+			return this.adminConsultAdvertisement();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String adminLockAdvertisement() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.lock(this.advertisement);
+			this.setRequestMessage(new RequestMessage("advertisementAccountHadBeenLocked", SeverityMessage.SUCCESS));
+			return this.adminConsultAdvertisement();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String save() {
 		try {
 			List<RequestMessage> messages = this.commonValidate();
@@ -264,6 +297,16 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 	}
 	
+	public String adminConsultAdvertisement() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.adminConsult(this.advertisement);
+			return "advertisementAdminConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String consult() {
 		try {
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
@@ -275,6 +318,17 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 	}
 
+	public String adminDeleteAdvertisement() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			service.delete(this.advertisement);
+			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
+			return this.adminListAdvertisements();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String delete() {
 		try {
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();

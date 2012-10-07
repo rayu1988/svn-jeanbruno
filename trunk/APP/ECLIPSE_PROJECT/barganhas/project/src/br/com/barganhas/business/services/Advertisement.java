@@ -21,7 +21,13 @@ public interface Advertisement {
 
 	AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException;
 
+	AdvertisementTO adminConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
+	
 	AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException;
+	
+	AdvertisementTO lock(AdvertisementTO advertisement) throws EntityNotFoundException;
+
+	AdvertisementTO unlock(AdvertisementTO advertisement) throws EntityNotFoundException;
 
 	AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
 	

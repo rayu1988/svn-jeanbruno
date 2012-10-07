@@ -2,10 +2,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html">
 
+	<!--
+		https://github.com/plentz/jquery-maskmoney 
+	 -->
 	<h:panelGroup>
 		<h:outputScript>
 			$j(document).ready( function() {
-				$j("#" + "#{id}").maskMoney({symbol:'R$ ', showSymbol:false, thousands:'.', decimal:',', symbolStay: true});
+				$j("#" + "#{id}").maskMoney({showSymbol: false, thousands: '.', decimal: ',', allowZero: true});
 			});
 		</h:outputScript>
 		<h:inputText id="#{id}" value="#{value}" maxlength="#{maxlength}" styleClass="#{styleClass}"/>

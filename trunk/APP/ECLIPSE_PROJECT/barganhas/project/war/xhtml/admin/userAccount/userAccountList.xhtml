@@ -28,7 +28,11 @@
 			<!-- actions -->
 			<rich:column styleClass="columnListActions">
 				<bargas:commandListLock id="lockUserAccount" targetProperty="userAccount" backingBean="#{userAccountBean}"
-						action="adminLockUser" propertyFrom="#{userAccount}" toolTipMessage="#{msg.msgLock} #{msg.userAccount}"/>
+						action="adminLockUser" propertyFrom="#{userAccount}" toolTipMessage="#{msg.msgLock} #{msg.userAccount}"
+						rendered="#{userAccount.status eq 'ACTIVE'}"/>
+				<bargas:commandListUnlock id="unlockUserAccount" targetProperty="userAccount" backingBean="#{userAccountBean}"
+						action="adminUnlockUser" propertyFrom="#{userAccount}" toolTipMessage="#{msg.msgUnlock} #{msg.userAccount}"
+						rendered="#{userAccount.status eq 'LOCKED'}"/>
 				<bargas:commandListDelete id="deleteUserAccount" targetProperty="userAccount" backingBean="#{userAccountBean}" 
 						action="adminDeleteUser" propertyFrom="#{userAccount}"
 						toolTipMessage="#{msg.privateAreaActionDelete} #{msg.userAccount}"/>

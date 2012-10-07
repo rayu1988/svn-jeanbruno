@@ -64,6 +64,17 @@ public class UserAccountBean extends AppManagedBean {
 		}
 	}
 	
+	public String adminUnlockUser() {
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			this.userAccount = service.unlock(this.userAccount);
+			this.setRequestMessage(new RequestMessage("userAccountHadBeenUnlocked", SeverityMessage.SUCCESS));
+			return this.adminConsultUser();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String adminListUsers() {
 		try {
 			this.userAccount = new UserAccountTO();

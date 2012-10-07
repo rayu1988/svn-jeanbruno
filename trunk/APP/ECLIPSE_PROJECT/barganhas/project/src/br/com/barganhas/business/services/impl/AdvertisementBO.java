@@ -182,6 +182,29 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
+	public AdvertisementTO adminConsult(AdvertisementTO advertisement) throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			advertisement = this.persistencyLayer.consult(advertisement);
+			AdvertisementTypeTO advertisementType = this.serviceAdvertisementType.consult(new AdvertisementTypeTO(advertisement.getKeyAdvertisementType()));
+			advertisement.setAdvertisementType(advertisementType);
+			CategoryTO category = this.serviceCategory.consult(new CategoryTO(advertisement.getKeyCategory()));
+			advertisement.setCategory(category);
+			
+			if (advertisement.getKeySales() != null) {
+				advertisement.setSales(this.serviceSales.consult(new SalesTO(advertisement.getKeySales())));
+			}
+			
+			transaction.commit();
+			return advertisement;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
 	public AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
@@ -212,6 +235,20 @@ public class AdvertisementBO implements Advertisement {
 				transaction.rollback();
 		    }
 		}
+	}
+	
+	@Override
+	public AdvertisementTO lock(AdvertisementTO advertisement) throws EntityNotFoundException {
+		advertisement = this.consult(advertisement);
+		advertisement.setStatus(AdvertisementStatus.DISABLED);
+		return this.save(advertisement);
+	}
+	
+	@Override
+	public AdvertisementTO unlock(AdvertisementTO advertisement) throws EntityNotFoundException {
+		advertisement = this.consult(advertisement);
+		advertisement.setStatus(AdvertisementStatus.ENABLED);
+		return this.save(advertisement);
 	}
 	
 	@Override
