@@ -115,6 +115,43 @@
     		<name>targetProperty</name>
     		<required>true</required>
     	</attribute>
+    	<attribute>
+    		<name>rendered</name>
+    		<required>false</required>
+    	</attribute>
+    </tag>
+    
+	<tag>
+    	<tag-name>commandListUnlock</tag-name>
+    	<source>../tags/commandListUnlock.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>toolTipMessage</name>
+    		<required>false</required>
+    	</attribute>
+    	<attribute>
+    		<name>backingBean</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>action</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>propertyFrom</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>targetProperty</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>rendered</name>
+    		<required>false</required>
+    	</attribute>
     </tag>
     
 	<tag>

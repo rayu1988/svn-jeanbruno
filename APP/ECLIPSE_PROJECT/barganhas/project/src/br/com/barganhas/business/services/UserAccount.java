@@ -25,6 +25,8 @@ public interface UserAccount {
 	
 	UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException;
 
+	UserAccountTO unlock(UserAccountTO userAccount) throws EntityNotFoundException;
+
 	UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException;
 	
 	UserAccountTO save(UserAccountTO userAccount) throws EntityNotFoundException;

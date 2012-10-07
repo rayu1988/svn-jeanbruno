@@ -111,6 +111,13 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
+	public UserAccountTO unlock(UserAccountTO userAccount) throws EntityNotFoundException {
+		userAccount = this.consult(userAccount);
+		userAccount.setStatus(UserAccountStatus.ACTIVE);
+		return this.save(userAccount);
+	}
+	
+	@Override
 	public UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException {
 		userAccount = this.consult(userAccount);
 		if (userAccount == null || !userAccount.getStatus().equals(UserAccountStatus.PENDING)) {

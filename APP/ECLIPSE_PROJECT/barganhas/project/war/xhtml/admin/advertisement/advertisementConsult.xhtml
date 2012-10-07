@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="headForm">
+		<bargas:headForm headText="#{msg.privateAreaUsers} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+			<!-- status -->
+			<h:outputLabel value="#{msg.msgStatus}:" for="advertisementStatus"/>
+			<bargas:outputTextConverted id="advertisementStatus" value="#{advertisementBean.advertisement.status}" styleClass="" converterId="ConverterAdvertisementStatus"/>
+			
+			<!-- since date -->
+			<h:outputLabel value="#{msg.advertisementSinceDate}:" for="advertisementSinceDate"/>
+			<bargas:outputTextConverted id="advertisementSinceDate" value="#{advertisementBean.advertisement.sinceDate}" styleClass="" converterId="ConverterSinceDate"/>
+			
+			<!-- advertisement type -->
+			<h:outputLabel value="#{msg.advertisementAdvertisementType}:" for="advertisementType"/>
+			<h:outputText id="advertisementType" value="#{advertisementBean.advertisement.advertisementType.title}"/>
+			
+			<!-- title -->
+			<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+			<h:outputText id="title" value="#{advertisementBean.advertisement.title}"/>
+			
+			<!-- description -->
+			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+			<h:outputText id="description" value="#{advertisementBean.advertisement.description}"/>
+			
+			<!-- category -->
+			<h:outputLabel value="#{msg.advertisementCategory}:" for="category"/>
+			<h:outputText id="category" value="#{advertisementBean.advertisement.category.name}"/>
+			
+			<!-- contacts -->
+			<h:outputLabel value="#{msg.advertisementContacts}:" for="contacts"/>
+			<h:outputText id="contacts" value="#{advertisementBean.advertisement.contacts}"/>
+			
+			<!-- value -->
+			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
+			<h:outputText id="currencyValue" value="#{advertisementBean.advertisement.value}"/>
+			
+			<!-- list exchange by -->
+			<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
+			<h:outputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}"/>
+		</h:panelGrid>
+		
+		<t:saveState value="#{advertisementBean.advertisement}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm"
+				action="#{advertisementBean.adminDeleteUser}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.msgLock} #{msg.advertisement}" styleClass="customButton buttonMainForm"
+				action="#{advertisementBean.adminLockAdvertisement}" immediate="false" onclick="#{msg.actionConfirmLock}"
+				rendered="#{advertisementBean.advertisement.status eq 'ENABLED'}"/>
+		<h:commandButton value="#{msg.msgUnlock} #{msg.advertisement}" styleClass="customButton buttonMainForm"
+				action="#{advertisementBean.adminUnlockAdvertisement}" immediate="false" onclick="#{msg.actionConfirmUnlock}"
+				rendered="#{advertisementBean.advertisement.status ne 'ENABLED'}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm"
+				action="#{advertisementBean.adminListAdvertisements}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

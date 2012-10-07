@@ -8,12 +8,14 @@ import org.springframework.stereotype.Repository;
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.commons.AnnotationUtils;
+import br.com.barganhas.enums.AdvertisementStatus;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
@@ -34,12 +36,16 @@ public class AdvertisementPO extends AppPersistency {
 	
 	public List<AdvertisementTO> publicSearch(String searchText) {
 		
-		List<Filter> filters = new ArrayList<Query.Filter>();
-		filters.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
-		filters.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchText));
+		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
+		
+		List<Filter> filterTitle = new ArrayList<Query.Filter>();
+		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
+		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchText));
+		
+		Filter filter = CompositeFilterOperator.and(filterStatus, CompositeFilterOperator.or(filterTitle));
 		
 		Query query = this.getQuery(AdvertisementTO.class);
-		query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.OR, filters));
+		query.setFilter(filter);
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		
@@ -83,6 +89,8 @@ public class AdvertisementPO extends AppPersistency {
 	public List<AdvertisementTO> lastAdvertisements() {
 		Query query = this.getQuery(AdvertisementTO.class);
 		query.addSort("id",	SortDirection.DESCENDING);
+		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
+		query.setFilter(filterStatus);
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
@@ -97,6 +105,8 @@ public class AdvertisementPO extends AppPersistency {
 	public List<AdvertisementTO> mostViewed() {
 		Query query = this.getQuery(AdvertisementTO.class);
 		query.addSort("countView",	SortDirection.DESCENDING);
+		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
+		query.setFilter(filterStatus);
 		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
