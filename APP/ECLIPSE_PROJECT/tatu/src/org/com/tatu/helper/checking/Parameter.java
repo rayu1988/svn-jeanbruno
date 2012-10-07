@@ -9,35 +9,39 @@ import java.util.Collection;
  */
 public class Parameter {
 
-	private Object parameter;
+	private Object[] parameters;
 	
-	private Parameter(Object parameter) {
-		this.parameter = parameter;
+	private Parameter(Object... parameters) {
+		this.parameters = parameters;
 	}
 	
-	public static Parameter check(Object parameter) {
-		return new Parameter(parameter);
+	public static Parameter check(Object... parameters) {
+		return new Parameter(parameters);
 	}
 	
 	public Parameter notNull() {
-		if (this.parameter == null) {
-			throw new IllegalArgumentException("The parameter can't be null.");
+		for (Object parameter : this.parameters) {
+			if (parameter == null) {
+				throw new IllegalArgumentException("The parameter can't be null.");
+			}
 		}
 		return this;
 	}
 	
 	public Parameter notEmpty() {
 		this.notNull();
-		if (this.parameter instanceof String) {
-			if (((String)this.parameter).isEmpty()) {
-				throw new IllegalStateException("The String can't be empty.");
+		for (Object parameter : this.parameters) {
+			if (parameter instanceof String) {
+				if (((String)parameter).isEmpty()) {
+					throw new IllegalStateException("The String can't be empty.");
+				}
+			} else if (parameter instanceof Collection<?>) {
+				if (((Collection<?>) parameter).isEmpty()) {
+					throw new IllegalStateException("The Collection can't be empty.");
+				}
+			} else {
+				throw new IllegalStateException("Unknow type to check.");
 			}
-		} else if (this.parameter instanceof Collection<?>) {
-			if (((Collection<?>) this.parameter).isEmpty()) {
-				throw new IllegalStateException("The Collection can't be empty.");
-			}
-		} else {
-			throw new IllegalStateException("Unknow type to check.");
 		}
 		return this;
 	}
