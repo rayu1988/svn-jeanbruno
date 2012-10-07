@@ -1,7 +1,6 @@
 package br.com.barganhas.web.beans;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,14 +18,19 @@ import br.com.barganhas.commons.JSFunctionTimeRunning.JSFunctionBoxing;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
+import br.com.barganhas.web.beans.control.ControlRequest;
 
-public class AppManagedBean implements Serializable {
+public class AppManagedBean extends ControlRequest implements Serializable {
 	
 	private static final long 		serialVersionUID = 5997769430729017199L;
-	
 	private static final Logger 	logger = Logger.getLogger(AppManagedBean.class.getCanonicalName());
 	
-	protected ServiceBusinessFactory getServiceBusinessFactory() {
+	public static final String 		LIST_TEXT_MESSAGES = "LIST_TEXT_MESSAGES";
+	public static final String 		SHOW_MESSAGE_BOX = "SHOW_MESSAGE_BOX";
+	public static final String 		JS_FUNCTION_CALLED = "JS_FUNCTION_CALLED";
+	public static final String 		NAME_JS_FUNCTION_CALLED = "NAME_JS_FUNCTION_CALLED";
+	
+	public ServiceBusinessFactory getServiceBusinessFactory() {
 		return ServiceBusinessFactory.getInstance();
 	}
 	
@@ -51,17 +55,12 @@ public class AppManagedBean implements Serializable {
 		return (HttpServletRequest) this.getFacesContext().getExternalContext().getRequest();
 	}
 	
-	protected void setRequestParameter(String alias, Object value) {
-		this.getHttpServletRequest().setAttribute(alias, value);
-	}
-	
 	protected void setRequestMessage(RequestMessage requestMessage) {
-		this.setRequestMessages(Arrays.asList(new RequestMessage[]{requestMessage}));
+		this.setRequestMessage(this.getHttpServletRequest(), requestMessage);
 	}
 	
 	protected void setRequestMessages(List<RequestMessage> requestMessages) {
-		this.setRequestParameter("LIST_TEXT_MESSAGES", requestMessages);
-		this.setRequestParameter("SHOW_MESSAGE_BOX", Boolean.TRUE);
+		this.setRequestMessages(this.getHttpServletRequest(), requestMessages);
 	}
 	
 	protected String manageException(Exception exception) {
@@ -91,8 +90,8 @@ public class AppManagedBean implements Serializable {
 		}
 		jSFunction.append(");");
 		
-		this.setRequestParameter("JS_FUNCTION_CALLED", true);
-		this.setRequestParameter("NAME_JS_FUNCTION_CALLED", timeRunning.unBoxing(jSFunction.toString()));
+		this.setRequestParameter(this.getHttpServletRequest(), JS_FUNCTION_CALLED, true);
+		this.setRequestParameter(this.getHttpServletRequest(), NAME_JS_FUNCTION_CALLED, timeRunning.unBoxing(jSFunction.toString()));
 	}
 	
 	protected UserAccountTO getUserAccountLogged() {

@@ -9,12 +9,13 @@ import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
 import br.com.barganhas.commons.Util;
+import br.com.barganhas.enums.UserAccountStatus;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -74,8 +75,8 @@ public class UserAccountPO extends AppPersistency {
 		return this.persist(userAccount);
 	}
 
-	public UserAccountTO consult(UserAccountTO userAccount) {
-		return this.consultEntityById(userAccount);
+	public UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException {
+		return this.consultByKey(userAccount);
 	}
 
 	public void delete(UserAccountTO userAccount) {
@@ -98,17 +99,24 @@ public class UserAccountPO extends AppPersistency {
 
 	public UserAccountTO validateLogin(UserAccountTO userAccount) {
 		Query query = this.getQuery(UserAccountTO.class);
-		query.setFilter(CompositeFilterOperator.and(
-				new FilterPredicate("nickname", Query.FilterOperator.EQUAL, userAccount.getNickname()),
-				new FilterPredicate("password", Query.FilterOperator.EQUAL, userAccount.getPassword())
-				));
+		
+		List<Filter> filters = new ArrayList<Query.Filter>();
+//		filters.add(new FilterPredicate("status", Query.FilterOperator.EQUAL, UserAccountStatus.ACTIVE.toString()));
+		filters.add(new FilterPredicate("nickname", Query.FilterOperator.EQUAL, userAccount.getNickname()));
+		filters.add(new FilterPredicate("password", Query.FilterOperator.EQUAL, userAccount.getPassword()));
+		query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
+		
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		Entity entity = preparedQuery.asSingleEntity();
 		
 		if (entity == null) {
 			throw new AppException("loginErrorUserNotFound");
 		}
-
-		return AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity);
+		userAccount = AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity);
+		if (!userAccount.getStatus().equals(UserAccountStatus.ACTIVE)) {
+			throw new AppException("userAccountUserNotActivatedYet");
+		}
+		
+		return userAccount;
 	}
 }

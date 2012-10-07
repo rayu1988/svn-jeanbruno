@@ -7,6 +7,12 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	
 	<ui:define name="bodyNavigation">
+		<h:outputScript>
+  			$j(document).ready( function() {
+				$j("#userNickname").focus();
+			});
+   		</h:outputScript>
+	
 		<h:panelGroup layout="block" styleClass="userAccountLoginWrapper">
 			<h:panelGroup layout="block" styleClass="userAccountLoginMsg">
 				<h:outputText value="#{msg.loginAtBarganhas}" />

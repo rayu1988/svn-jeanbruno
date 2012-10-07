@@ -38,6 +38,7 @@ public class UserAccountBO implements UserAccount {
 	@Autowired
 	private Mail									mailService;
 	
+	@Autowired
 	private Advertisement							serviceAdvertisement;
 	
 	@Override
@@ -88,7 +89,7 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
-	public UserAccountTO consult(UserAccountTO userAccount) {
+	public UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			userAccount = this.persistencyLayer.consult(userAccount);
@@ -103,14 +104,24 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
-	public UserAccountTO lock(UserAccountTO userAccount) {
+	public UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException {
 		userAccount = this.consult(userAccount);
 		userAccount.setStatus(UserAccountStatus.LOCKED);
 		return this.save(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO save(UserAccountTO userAccount) {
+	public UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException {
+		userAccount = this.consult(userAccount);
+		if (userAccount == null || !userAccount.getStatus().equals(UserAccountStatus.PENDING)) {
+			throw new AppException("userAccountActivatedProblem");
+		}
+		userAccount.setStatus(UserAccountStatus.ACTIVE);
+		return this.save(userAccount);
+	}
+	
+	@Override
+	public UserAccountTO save(UserAccountTO userAccount) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			UserAccountTO syncronized = this.consult(userAccount);

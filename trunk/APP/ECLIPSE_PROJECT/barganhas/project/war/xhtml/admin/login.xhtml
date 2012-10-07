@@ -13,10 +13,16 @@
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-admin.css" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-messages.css" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   			<script type="text/javascript" src="/org.richfaces.resources/javax.faces.resource/org.richfaces.staticResource/4.2.2.Final/PackedCompressed/jquery.js"></script>
    			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    		</h:head>
    		
    		<h:body>
+   			<h:outputScript>
+   				$j(document).ready( function() {
+					$j("#userName").focus();
+				});
+   			</h:outputScript>
    			<bargas:messages />
    			
    			<div id="wrapper">
@@ -34,7 +40,7 @@
 					<div id="loginBoxHeader">
 						<h:outputText value="#{msg.privateAreaFillFieldsToSignIn}"/>
 					</div>
-					<h:form id="loginForm">
+					<h:form id="loginForm" prependId="false">
 						<ol>
 							<li>
 								<div><label for="userName">#{msg.privateAreaLoginUser}</label></div>
@@ -46,19 +52,9 @@
 							</li>
 						</ol>
 						
-						
 						<h:commandButton value="#{msg.privateAreaLoginButton}" styleClass="customButton buttonMainForm" action="#{loginBean.login}" immediate="false" />
-<!-- 						<button class="customButton" id="registerUser" name="registerUser" type="submit"> -->
-<!-- 							#{msg.privateAreaLoginButton} -->
-<!-- 						</button> -->
 					</h:form>
-					<script>
-						document.getElementById('userName').focus();
-					</script>
 				</div>
-	
-<!-- 				<div id="footer"> -->
-<!-- 				</div> -->
 			</div>
    		</h:body>
    	</f:view>

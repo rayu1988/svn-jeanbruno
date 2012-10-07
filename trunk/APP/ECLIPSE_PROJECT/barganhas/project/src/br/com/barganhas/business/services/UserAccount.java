@@ -21,11 +21,13 @@ public interface UserAccount {
 	
 	UserAccountTO insert(UserAccountTO userAccount);
 
-	UserAccountTO consult(UserAccountTO userAccount);
+	UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException;
 	
-	UserAccountTO lock(UserAccountTO userAccount);
+	UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException;
+
+	UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException;
 	
-	UserAccountTO save(UserAccountTO userAccount);
+	UserAccountTO save(UserAccountTO userAccount) throws EntityNotFoundException;
 
 	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException;
 
