@@ -27,10 +27,11 @@ public class SiteBean extends AppManagedBean {
 	private Key									advertisementPicture;
 	
 	private List<AdvertisementTO>				listRetrievied;
-	private String								searchText;
+	private String								searchText = null;
 	
 	public String goToIndex() {
 		try {
+			this.searchText = null;
 			this.prepareListCategories();
 			
 			return "siteIndex";
