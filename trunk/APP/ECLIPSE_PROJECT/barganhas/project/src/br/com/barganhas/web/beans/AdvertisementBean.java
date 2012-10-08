@@ -146,6 +146,9 @@ public class AdvertisementBean extends AppManagedBean {
 				this.setRequestMessage(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
 				return null;
 			}
+			if (this.listAdvertisementPictures.size() > this.selectedAdvertisementType.getTotalPictures()) {
+				this.listAdvertisementPictures = this.listAdvertisementPictures.subList(0, this.selectedAdvertisementType.getTotalPictures().intValue() - 1);
+			}
 			// ends validate block
 			
 			this.selectedSheetPicture = (AdvertisementPictureTO) this.listAdvertisementPictures.get(0).getValue();

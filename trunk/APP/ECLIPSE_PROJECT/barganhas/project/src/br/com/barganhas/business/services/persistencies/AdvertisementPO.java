@@ -23,6 +23,11 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 @Repository
 public class AdvertisementPO extends AppPersistency {
 
+	/**
+	 * Method used in;
+	 * 		admin List
+	 * @return
+	 */
 	public List<AdvertisementTO> list() {
 		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTO.class).asList(FetchOptions.Builder.withDefaults());
 		
@@ -34,6 +39,13 @@ public class AdvertisementPO extends AppPersistency {
 		return listReturn;
 	}
 	
+	/**
+	 * Method used in;
+	 * 		public search in the public site
+	 * 
+	 * @param searchText
+	 * @return
+	 */
 	public List<AdvertisementTO> publicSearch(String searchText) {
 		
 		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());

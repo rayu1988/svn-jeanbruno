@@ -360,7 +360,7 @@ textarea:FOCUS {
 .filterGridOrList {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
-	padding: 5px 0 0 5px;
+	padding: 5px 0 5px 5px;
 	margin-bottom: 20px;
 }
 .filterGridOrList img {
@@ -490,12 +490,11 @@ textarea:FOCUS {
 
 .carroselLeftArrow img {
 	position: absolute;
-	top: 65px;
+	top: 72px;
 	left: 5px;
 }
 
 .carroselLeftArrow img:hover {
-/* 	opacity: 0.45 */
 }
 
 .carroselRightArrow {
@@ -515,12 +514,11 @@ textarea:FOCUS {
 
 .carroselRightArrow img {
 	position: absolute;
-	top: 65px;
+	top: 72px;
 	right: 5px;
 }
 
 .carroselRightArrow img:hover {
-/* 	opacity: 0.45 */
 }
 
 #leftSide {
