@@ -53,7 +53,7 @@
 	
 	<ui:define name="formButtons">
 		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm"
-				action="#{advertisementBean.adminDeleteUser}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+				action="#{advertisementBean.adminDeleteAdvertisement}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
 		<h:commandButton value="#{msg.msgLock} #{msg.advertisement}" styleClass="customButton buttonMainForm"
 				action="#{advertisementBean.adminLockAdvertisement}" immediate="false" onclick="#{msg.actionConfirmLock}"
 				rendered="#{advertisementBean.advertisement.status eq 'ENABLED'}"/>
