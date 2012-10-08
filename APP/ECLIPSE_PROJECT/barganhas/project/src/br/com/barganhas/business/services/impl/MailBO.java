@@ -99,7 +99,7 @@ public class MailBO implements Mail {
 
 	private String getCheckingLink(UserAccountTO userAccount) {
 		XORCryption encoder = new XORCryption(MAIL_KEY);
-		String encodedQuery = encoder.encodeToHexString(userAccount.getKeyAsString());
+		String encodedQuery = encoder.encodeToBase64(userAccount.getKeyAsString());
 		String checkingLink = "http://vendasebarganhas.appspot.com" + CHECK_ADDRESS + "?q=" + encodedQuery;
 		return "<a href=\"" + checkingLink + "\" target=\"_blank\">" + checkingLink + "</a>";
 	}

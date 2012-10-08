@@ -43,7 +43,7 @@ public class CheckUserMailServlet extends HttpServlet {
 			AppManagedBean managedBean = new AppManagedBean();
 			UserAccount service = managedBean.getServiceBusinessFactory().getUserAccount();
 			XORCryption decoder = new XORCryption(Mail.MAIL_KEY);
-			query = decoder.decodeHexString(query);
+			query = decoder.decodeFromBase64(query);
 			UserAccountTO userAccount = new UserAccountTO(KeyFactory.stringToKey(query));
 			userAccount = service.activate(userAccount);
 			logger.log(Level.INFO, "User activated successfully: nickname " + userAccount.getNickname() + ", email " + userAccount.getEmail());
