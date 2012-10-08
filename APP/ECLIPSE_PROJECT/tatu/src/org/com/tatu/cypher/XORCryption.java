@@ -1,9 +1,7 @@
 package org.com.tatu.cypher;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.com.tatu.helper.checking.Parameter;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 /**
  * Got from: http://forum.x86labs.org/index.php?topic=6406.0
@@ -19,20 +17,8 @@ public class XORCryption {
 		this.key = key;
 	}
 	
-	/**
-	 * Encodes the message to an hex string message.
-	 * @param message
-	 * @return
-	 */
-	public String encodeToHexString(String message) {
-		Parameter.check(message).notEmpty();
-		message = this.xorEncode(message);
-		StringBuffer charEncoded = new StringBuffer();
-		for(int i = 0; i < message.length(); i++) {
-			String hexString = Integer.toHexString((int)message.charAt(i));
-			charEncoded.append(hexString.length()+hexString);
-		}
-		return charEncoded.toString();
+	public String encodeToBase64(String message) {
+		return Base64.encode(this.xorEncode(message).getBytes());
 	}
 	
 	/**
@@ -54,27 +40,9 @@ public class XORCryption {
 		return new String(m_cData);
 	}
 
-	/**
-	 * Encodes the message to an hex string message.
-	 * @param message
-	 * @return
-	 */
-	public String decodeHexString(String message) {
-		Parameter.check(message).notEmpty();
-		List<String> characters = new ArrayList<String>();
-		StringBuffer charDecoded = new StringBuffer();
-		for (int i = 0 ; i < message.length() ; ) {
-			int sizeNextChar = Integer.parseInt(message.substring(i, (++i)));
-			int currentPosition = i;
-			Integer character = Integer.parseInt(message.substring(currentPosition, currentPosition + sizeNextChar), 16);
-			
-			charDecoded.append(Character.toChars(character)[0]);
-			
-			characters.add(character.toString());
-			i = i + sizeNextChar;
-		}
-		
-		return this.xorDecode(charDecoded.toString());
+	public String decodeFromBase64(String message) {
+		byte[] arrayMessage = Base64.decode(message);
+		return this.xorDecode(new String(arrayMessage));
 	}
 	
 	/**
