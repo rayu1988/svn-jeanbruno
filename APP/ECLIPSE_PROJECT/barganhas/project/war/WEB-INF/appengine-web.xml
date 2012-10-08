@@ -13,6 +13,7 @@
         <include path="/images/**.png" />
         <include path="/images/**.gif" />
         <include path="/images/**.jpg" />
+        <include path="/images/**.swf" />
         <include path="/javascript/**.js" />
         
         <exclude path="/notes.txt" />
