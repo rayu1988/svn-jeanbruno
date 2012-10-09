@@ -1,4 +1,4 @@
-package org.com.tatu.helper.checking;
+package org.com.tatu.helper.parameter;
 
 import java.util.Collection;
 
