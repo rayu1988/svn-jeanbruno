@@ -1,6 +1,7 @@
 package org.com.tatu.cypher;
 
-import org.com.tatu.helper.checking.Parameter;
+import org.com.tatu.helper.parameter.Parameter;
+
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 /**
