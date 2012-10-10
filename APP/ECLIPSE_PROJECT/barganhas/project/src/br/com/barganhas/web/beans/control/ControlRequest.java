@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.com.tatu.helper.checking.Parameter;
+import org.com.tatu.helper.parameter.Parameter;
 
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.web.beans.AppManagedBean;

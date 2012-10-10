@@ -22,7 +22,7 @@ public class CustomDataModel extends DataModel<Object> implements Serializable{
 		super();
 		this.setWrappedData(list);
 		this.totalRegisters = list.size();
-		this.itensPerPage = 10;
+		this.itensPerPage = 100;
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.com.tatu.cypher.XORCryption;
-import org.com.tatu.helper.checking.Parameter;
+import org.com.tatu.helper.parameter.Parameter;
 
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Mail;
