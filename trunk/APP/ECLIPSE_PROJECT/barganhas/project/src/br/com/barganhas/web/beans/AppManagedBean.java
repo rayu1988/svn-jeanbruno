@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
@@ -78,7 +80,7 @@ public class AppManagedBean extends ControlRequest implements Serializable {
 	}
 	
 	protected void callJSFunction(JSFunctionBoxing timeRunning, String functionName, Object... params) {
-		if (!Util.isStringOk(functionName)) throw new IllegalArgumentException();
+		if (!GeneralsHelper.isStringOk(functionName)) throw new IllegalArgumentException();
 		
 		StringBuilder jSFunction = new StringBuilder(functionName + "(");
 		for (Object param : params) {

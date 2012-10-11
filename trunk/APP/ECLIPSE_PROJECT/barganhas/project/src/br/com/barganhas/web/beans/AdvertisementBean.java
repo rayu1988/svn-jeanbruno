@@ -8,6 +8,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.omnifaces.util.selectitems.SelectItemsBuilder;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
@@ -25,7 +26,6 @@ import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.commons.RequestMessage;
-import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
@@ -78,10 +78,10 @@ public class AdvertisementBean extends AppManagedBean {
 		if (this.selectedCategory == null) {
 			messages.add(new RequestMessage("advertisementCategoryRequiredField", SeverityMessage.ERROR));
 		}
-		if (!Util.isStringOk(this.advertisement.getTitle())) {
+		if (!GeneralsHelper.isStringOk(this.advertisement.getTitle())) {
 			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
 		}
-		if (!Util.isStringOk(this.advertisement.getValue())) {
+		if (!GeneralsHelper.isStringOk(this.advertisement.getValue())) {
 			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
 		}
 		return messages;
@@ -118,7 +118,7 @@ public class AdvertisementBean extends AppManagedBean {
 			if (this.selectedAdvertisementType == null) {
 				messages.add(new RequestMessage("advertisementAdvertisementTypeRequiredField", SeverityMessage.ERROR));
 			}
-			if (Util.isCollectionOk(messages)) {
+			if (GeneralsHelper.isCollectionOk(messages)) {
 				this.setRequestMessages(messages);
 				return null;
 			}
@@ -142,7 +142,7 @@ public class AdvertisementBean extends AppManagedBean {
 	public String prepareNewStepThree() {
 		try {
 			// start validate block
-			if (!Util.isCollectionOk(this.listAdvertisementPictures)) {
+			if (!GeneralsHelper.isCollectionOk(this.listAdvertisementPictures)) {
 				this.setRequestMessage(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
 				return null;
 			}
@@ -160,7 +160,7 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	private void prepareListAdvertisementType() {
-		if (!Util.isCollectionOk(this.listAdvertisementType)) {
+		if (!GeneralsHelper.isCollectionOk(this.listAdvertisementType)) {
 			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
 			List<AdvertisementTypeTO> listTemp = service.list();
 			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
@@ -172,7 +172,7 @@ public class AdvertisementBean extends AppManagedBean {
 	}
 	
 	private void prepareListCategories() {
-		if (!Util.isCollectionOk(this.listCategories)) {
+		if (!GeneralsHelper.isCollectionOk(this.listCategories)) {
 			Category service = this.getServiceBusinessFactory().getCategory();
 			List<CategoryTO> listTemp = service.list();
 			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
@@ -213,7 +213,7 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String insert() {
 		try {
-			if (Util.isStringOk(this.salesCode)) {
+			if (GeneralsHelper.isStringOk(this.salesCode)) {
 				Sales serviceSales = this.getServiceBusinessFactory().getSales();
 				SalesTO sales = serviceSales.consultBySalesCode(this.salesCode);
 				this.advertisement.setSales(sales);
@@ -284,7 +284,7 @@ public class AdvertisementBean extends AppManagedBean {
 	public String save() {
 		try {
 			List<RequestMessage> messages = this.commonValidate();
-			if (Util.isCollectionOk(messages)) {
+			if (GeneralsHelper.isCollectionOk(messages)) {
 				this.setRequestMessages(messages);
 				return null;
 			}

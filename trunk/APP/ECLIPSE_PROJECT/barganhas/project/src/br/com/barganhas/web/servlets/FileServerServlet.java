@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
-import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -33,7 +34,7 @@ public class FileServerServlet extends HttpServlet {
 	
 	private void serverFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String query = req.getParameter("q");
-		if (Util.isStringOk(query)) {
+		if (GeneralsHelper.isStringOk(query)) {
 			try {
 				ServiceBusinessFactory serviceBusinessFactory = ServiceBusinessFactory.getInstance();
 				File serivce = serviceBusinessFactory.getFile();

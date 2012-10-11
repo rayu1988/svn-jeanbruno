@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -132,7 +133,7 @@ public class UserAccountBO implements UserAccount {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			UserAccountTO syncronized = this.consult(userAccount);
-			if (!Util.isStringOk(userAccount.getPassword())) {
+			if (!GeneralsHelper.isStringOk(userAccount.getPassword())) {
 				userAccount.setPassword(syncronized.getPassword());
 			}
 			

@@ -70,6 +70,11 @@
 		<property name="id" direction="asc"/>
 	</datastore-index>
 	 
+	 <!-- CityTO -->
+	<datastore-index kind="br.com.barganhas.business.entities.CityTO" ancestor="true" source="manual">
+		<property name="id" direction="desc"/>
+	</datastore-index>
+	 
 	<!-- FileTO -->
     <datastore-index kind="br.com.barganhas.business.entities.FileTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
@@ -95,6 +100,11 @@
 	</datastore-index> 
 	<datastore-index kind="br.com.barganhas.business.entities.SalesTO" ancestor="true" source="manual">
 		<property name="id" direction="asc"/>
+	</datastore-index>
+	
+	<!-- StateTO -->
+	<datastore-index kind="br.com.barganhas.business.entities.StateTO" ancestor="true" source="manual">
+		<property name="id" direction="desc"/>
 	</datastore-index>
 
     <!-- UserAccountTO -->

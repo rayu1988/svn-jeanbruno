@@ -14,11 +14,11 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.com.tatu.cypher.XORCryption;
+import org.com.tatu.helper.parameter.Parameter;
 import org.springframework.stereotype.Service;
 
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Mail;
-import br.com.barganhas.commons.Util;
 
 @Service("mailBO")
 public class MailBO implements Mail {
@@ -27,7 +27,7 @@ public class MailBO implements Mail {
 
 	@Override
 	public void mailNewUser(UserAccountTO userAccount) throws MessagingException, UnsupportedEncodingException {
-		Util.validateParameterNull(userAccount);
+		Parameter.check(userAccount).notNull();
 		
 		Properties properties = new Properties();
 		Session session = Session.getDefaultInstance(properties, null);

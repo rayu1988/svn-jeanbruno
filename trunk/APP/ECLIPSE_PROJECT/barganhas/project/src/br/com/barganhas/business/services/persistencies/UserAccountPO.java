@@ -3,12 +3,12 @@ package br.com.barganhas.business.services.persistencies;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
-import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.UserAccountStatus;
 
 import com.google.appengine.api.datastore.Entity;
@@ -39,17 +39,17 @@ public class UserAccountPO extends AppPersistency {
 		Query query = this.getQuery(UserAccountTO.class);
 		
 		List<Filter> filters = new ArrayList<Query.Filter>();
-		if (Util.isStringOk(userAccount.getFullname())) {
+		if (GeneralsHelper.isStringOk(userAccount.getFullname())) {
 			filters.add(new FilterPredicate("fullname", FilterOperator.EQUAL, userAccount.getFullname()));
 		}
-		if (Util.isStringOk(userAccount.getNickname())) {
+		if (GeneralsHelper.isStringOk(userAccount.getNickname())) {
 			filters.add(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getNickname()));
 		}
-		if (Util.isStringOk(userAccount.getEmail())) {
+		if (GeneralsHelper.isStringOk(userAccount.getEmail())) {
 			filters.add(new FilterPredicate("email", FilterOperator.EQUAL, userAccount.getEmail()));
 		}
 		
-		if (!Util.isCollectionOk(filters)) {
+		if (!GeneralsHelper.isCollectionOk(filters)) {
 			return this.list();
 		} else if (filters.size() == 1) {
 			query.setFilter(filters.get(0));

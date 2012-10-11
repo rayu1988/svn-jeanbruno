@@ -23,6 +23,7 @@
         <include path="/index.jsp" />
         <include path="/xhtml/**.xhtml" />
         <include path="/layouts/**.xhtml" />
+        <include path="/xml-data/**.xml" />
         
         <exclude path="/WEB-INF/appengine-generated/local_db.bin" />
     </resource-files>

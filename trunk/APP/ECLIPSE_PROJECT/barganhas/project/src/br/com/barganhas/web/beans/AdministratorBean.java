@@ -7,11 +7,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Administrator;
 import br.com.barganhas.commons.RequestMessage;
-import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 import br.com.barganhas.web.validators.EmailValidator;
@@ -99,19 +100,19 @@ public class AdministratorBean extends AppManagedBean {
 	
 	private void validate() {
 		List<RequestMessage> messages = new ArrayList<RequestMessage>();
-		if (!Util.isStringOk(this.administrator.getFullname())) {
+		if (!GeneralsHelper.isStringOk(this.administrator.getFullname())) {
 			messages.add(new RequestMessage("administratorRequiredFieldFullname", SeverityMessage.WARNING));
 		}
-		if (!Util.isStringOk(this.administrator.getEmail())) {
+		if (!GeneralsHelper.isStringOk(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("administratorRequiredFieldEmail", SeverityMessage.WARNING));
 		} else if (!EmailValidator.validatingEmail(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("wrongEmailAddress", SeverityMessage.WARNING));
 		}
-		if (!Util.isStringOk(this.administrator.getNickname())) {
+		if (!GeneralsHelper.isStringOk(this.administrator.getNickname())) {
 			messages.add(new RequestMessage("administratorRequiredFieldNickname", SeverityMessage.WARNING));
 		}
 		
-		if (Util.isCollectionOk(messages)) {
+		if (GeneralsHelper.isCollectionOk(messages)) {
 			throw new AppException(messages);
 		}
 	}

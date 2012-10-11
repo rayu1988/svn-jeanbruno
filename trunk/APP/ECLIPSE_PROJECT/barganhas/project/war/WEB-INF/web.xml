@@ -150,6 +150,8 @@
 	<filter-mapping>
 		<filter-name>AdmAccessFilter</filter-name>
 		<url-pattern>/xhtml/admin/*</url-pattern>
+		<url-pattern>/service/states/*</url-pattern>
+		<url-pattern>/service/cities/*</url-pattern>
   	</filter-mapping>
 	<filter-mapping>
 		<filter-name>UserAccountAccessFilter</filter-name>
@@ -198,6 +200,14 @@
   		<servlet-name>ClearTempFilesServlet</servlet-name>
   		<servlet-class>br.com.barganhas.web.servlets.ClearTempFilesServlet</servlet-class>
 	</servlet>
+	<servlet>
+  		<servlet-name>StateServiceServlet</servlet-name>
+  		<servlet-class>br.com.barganhas.web.servlets.StateServiceServlet</servlet-class>
+	</servlet>
+	<servlet>
+  		<servlet-name>CityServiceServlet</servlet-name>
+  		<servlet-class>br.com.barganhas.web.servlets.CityServiceServlet</servlet-class>
+	</servlet>
 	
 	<!-- SERVLET MAPPINGS -->
 	<servlet-mapping>
@@ -219,6 +229,14 @@
 	<servlet-mapping>
   		<servlet-name>ClearTempFilesServlet</servlet-name>
 		<url-pattern>/cronjobs/cleartempfiles</url-pattern>
+ 	</servlet-mapping>
+	<servlet-mapping>
+  		<servlet-name>StateServiceServlet</servlet-name>
+		<url-pattern>/service/states</url-pattern>
+ 	</servlet-mapping>
+	<servlet-mapping>
+  		<servlet-name>CityServiceServlet</servlet-name>
+		<url-pattern>/service/cities</url-pattern>
  	</servlet-mapping>
  	
  	<session-config>

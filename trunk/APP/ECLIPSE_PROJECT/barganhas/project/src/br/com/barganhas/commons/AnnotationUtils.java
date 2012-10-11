@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.parameter.Parameter;
+
 import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.entities.annotations.IdField;
 import br.com.barganhas.business.entities.annotations.PropertyField;
@@ -83,7 +86,7 @@ public class AnnotationUtils {
 									" is null and its annotation indicates that this cann't be null");
 						}
 						if (!propertyField.allowEmpty()) {
-							if (propertyValue instanceof String && !Util.isStringOk((String)propertyValue)) {
+							if (propertyValue instanceof String && !GeneralsHelper.isStringOk((String)propertyValue)) {
 								throw new IllegalStateException("The field " + field.getName() + " of the type java.lang.String cann't be empty");
 							}
 						}
@@ -116,7 +119,7 @@ public class AnnotationUtils {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T extends TransferObject> T getTransferObjectFromEntity(Class<T> targetTO, Entity entity) {
 		try {
-			Util.validateParameterNull(targetTO, entity);
+			Parameter.check(targetTO, entity).notNull();
 			Constructor<T> constructor = targetTO.getConstructor(Key.class);
 			T transferObject = constructor.newInstance(entity.getKey());
 			Class<?> currentClass = null;

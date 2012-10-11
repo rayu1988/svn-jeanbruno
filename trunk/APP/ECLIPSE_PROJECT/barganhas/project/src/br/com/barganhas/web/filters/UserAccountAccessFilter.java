@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.com.tatu.helper.GeneralsHelper;
 
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
@@ -41,7 +42,7 @@ public class UserAccountAccessFilter implements Filter {
 			} else {
 				String url = httpServletRequest.getRequestURL().toString();
 				String targetPage = url.substring(url.lastIndexOf('/')+1, url.length());
-				if (Util.isStringOk(targetPage) && targetPage.indexOf('.') >= 0) {
+				if (GeneralsHelper.isStringOk(targetPage) && targetPage.indexOf('.') >= 0) {
 					targetPage = targetPage.substring(0, targetPage.indexOf('.'));
 					targetPage = targetPage+".xhtml";
 					

@@ -2,6 +2,8 @@ package br.com.barganhas.commons;
 
 import java.io.Serializable;
 
+import org.com.tatu.helper.parameter.Parameter;
+
 import br.com.barganhas.enums.SeverityMessage;
 
 @SuppressWarnings("serial")
@@ -11,7 +13,7 @@ public class RequestMessage implements Serializable {
 	private SeverityMessage 		severityMessage;
 	
 	public RequestMessage(String textMessage, SeverityMessage severityMessage) {
-		Util.validateParameterNull(textMessage, severityMessage);
+		Parameter.check(textMessage, severityMessage).notNull();
 		this.setTextMessage(textMessage);
 		this.setSeverityMessage(severityMessage);
 	}
