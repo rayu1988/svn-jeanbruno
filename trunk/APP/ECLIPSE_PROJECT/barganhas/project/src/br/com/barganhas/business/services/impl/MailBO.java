@@ -41,7 +41,7 @@ public class MailBO implements Mail {
 		
 		message.setFrom(new InternetAddress("vendasebarganhas@gmail.com", "Vendas & Barganhas"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.getEmail(), userAccount.getFullname()));
-		message.setSubject("Vendas & Barganhas - Ativar da Conta");
+		message.setSubject("Vendas & Barganhas - Ativar Conta");
 		
 		message.setContent(multipart);
 		

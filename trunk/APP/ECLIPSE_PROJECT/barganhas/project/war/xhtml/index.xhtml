@@ -262,15 +262,19 @@
 							</c:choose>
 						</h:panelGroup>
 						
-						<object width="550" height="403"
-						classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-						codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0">
+						<object width="290" height="100"
+							classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+							codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0">
+							
 							<param name="SRC" value="#{request.contextPath}/images/banner/Anuncie_v1.swf"/>
 							<embed src="#{request.contextPath}/images/banner/Anuncie_v1.swf" width="290" height="100">
 							</embed>
 						</object>
+						
 					</c:otherwise>
 				</c:choose>
+				
+				<h:graphicImage value="#{request.contextPath}/images/banner/nacprint.PNG" style="margin-top: 30px; width: 290px;"/>
 			</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
