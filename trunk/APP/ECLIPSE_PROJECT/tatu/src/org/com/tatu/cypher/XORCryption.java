@@ -2,8 +2,6 @@ package org.com.tatu.cypher;
 
 import org.com.tatu.helper.parameter.Parameter;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-
 /**
  * Got from: http://forum.x86labs.org/index.php?topic=6406.0
  * @author carrefour
