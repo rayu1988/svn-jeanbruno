@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.AdvertisementPO;
-import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.AdvertisementStatus;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -158,7 +158,7 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO sheetPicture = this.serviceAdvertisementPicture.insert(advertisementSheet);
 			advertisement.setKeySheetPicture(sheetPicture.getKey());
 
-			if (Util.isCollectionOk(listAdvertisementPictures)) {
+			if (GeneralsHelper.isCollectionOk(listAdvertisementPictures)) {
 				List<Key> listKeyAdvertisementPictures = new ArrayList<Key>();
 				for (AdvertisementPictureTO advertisementPicture : listAdvertisementPictures) {
 					advertisementPicture = this.serviceAdvertisementPicture.insert(advertisementPicture);
@@ -216,7 +216,7 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 			advertisement.setSheetPicture(advertisementPicture);
 			
-			if (Util.isCollectionOk(advertisement.getPictures())) {
+			if (GeneralsHelper.isCollectionOk(advertisement.getPictures())) {
 				List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
 				for (Key key : advertisement.getPictures()) {
 					listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
@@ -260,7 +260,7 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 			advertisement.setSheetPicture(advertisementPicture);
 			
-			if (Util.isCollectionOk(advertisement.getPictures())) {
+			if (GeneralsHelper.isCollectionOk(advertisement.getPictures())) {
 				List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
 				for (Key key : advertisement.getPictures()) {
 					listAdvertisementPictures.add(this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(key)));
@@ -282,7 +282,7 @@ public class AdvertisementBO implements Advertisement {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			List<AdvertisementTO> listReturn = null;
-			if (!Util.isStringOk(searchText)) {
+			if (!GeneralsHelper.isStringOk(searchText)) {
 				listReturn = new ArrayList<AdvertisementTO>();
 			} else {
 				listReturn = this.persistencyLayer.publicSearch(searchText);

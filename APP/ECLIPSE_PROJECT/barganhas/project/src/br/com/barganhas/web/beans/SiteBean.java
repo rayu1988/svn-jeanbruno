@@ -5,11 +5,12 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.Category;
-import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -69,14 +70,14 @@ public class SiteBean extends AppManagedBean {
 	}
 	
 	private void prepareListCategories() {
-		if (!Util.isCollectionOk(this.listCategories)) {
+		if (!GeneralsHelper.isCollectionOk(this.listCategories)) {
 			Category service = this.getServiceBusinessFactory().getCategory();
 			this.listCategories = service.list();
 		}
 	}
 	
 	private void prepareListMyAdvertisements() {
-		if (this.getUserAccountLogged() != null && !Util.isCollectionOk(this.myLastAdvertisements)) {
+		if (this.getUserAccountLogged() != null && !GeneralsHelper.isCollectionOk(this.myLastAdvertisements)) {
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			this.myLastAdvertisements = service.myLastAdvertisements(this.getUserAccountLogged());
 		}
@@ -84,7 +85,7 @@ public class SiteBean extends AppManagedBean {
 	
 	private void prepareListLastAdvertisements() {
 		try {
-			if (!Util.isCollectionOk(this.lastAdvertisements)) {
+			if (!GeneralsHelper.isCollectionOk(this.lastAdvertisements)) {
 				Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 				this.lastAdvertisements = service.lastAdvertisements();
 			}
@@ -95,7 +96,7 @@ public class SiteBean extends AppManagedBean {
 	
 	private void prepareListMostViewed() {
 		try {
-			if (!Util.isCollectionOk(this.mostViewed)) {
+			if (!GeneralsHelper.isCollectionOk(this.mostViewed)) {
 				Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 				this.mostViewed = service.mostViewed();
 			}

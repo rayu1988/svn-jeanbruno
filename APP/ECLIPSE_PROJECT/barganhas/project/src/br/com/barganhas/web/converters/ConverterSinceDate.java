@@ -7,6 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.barganhas.commons.Util;
 
 public class ConverterSinceDate implements Converter {
@@ -14,7 +16,7 @@ public class ConverterSinceDate implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 		Object objectValue = null;
-		if(Util.isStringOk(value)){
+		if(GeneralsHelper.isStringOk(value)){
 			try {
 				objectValue = new SimpleDateFormat("HH:mm").parse(value);
 			} catch (Exception e) {

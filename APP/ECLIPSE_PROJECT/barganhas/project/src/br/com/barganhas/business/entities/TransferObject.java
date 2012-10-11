@@ -2,7 +2,7 @@ package br.com.barganhas.business.entities;
 
 import java.io.Serializable;
 
-import br.com.barganhas.commons.Util;
+import org.com.tatu.helper.GeneralsHelper;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -38,7 +38,7 @@ public abstract class TransferObject implements Serializable {
 	}
 	
 	public final Key getKey() {
-		return Util.isStringOk(this.key) ? KeyFactory.stringToKey(this.key) : null;
+		return GeneralsHelper.isStringOk(this.key) ? KeyFactory.stringToKey(this.key) : null;
 	}
 
 	public abstract void setId(Long id);

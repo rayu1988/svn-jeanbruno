@@ -3,11 +3,13 @@ package br.com.barganhas.business.services.persistencies;
 import java.io.Serializable;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.parameter.Parameter;
+
 import br.com.barganhas.business.entities.TransferObject;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
 import br.com.barganhas.commons.EntityPropertyPojo;
-import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -44,7 +46,7 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	private <T extends TransferObject> Key getAncestor(T ancestor) {
-		Key key = ancestor != null && Util.isStringOk(ancestor.getKeyAsString()) ? KeyFactory.stringToKey(ancestor.getKeyAsString()) : TRANSFER_OBJECT_ANCESTOR;
+		Key key = ancestor != null && GeneralsHelper.isStringOk(ancestor.getKeyAsString()) ? KeyFactory.stringToKey(ancestor.getKeyAsString()) : TRANSFER_OBJECT_ANCESTOR;
 		return key;
 	}
 	
@@ -66,9 +68,9 @@ public abstract class AppPersistency implements Serializable {
 	 * @return
 	 */
 	protected <T extends TransferObject> Key getKey(T transferObject, T ancestorTO) {
-		Util.validateParameterNull(transferObject);
+		Parameter.check(transferObject).notNull();
 		try {
-			if (Util.isStringOk(transferObject.getKeyAsString())) { // save an edit/update
+			if (GeneralsHelper.isStringOk(transferObject.getKeyAsString())) { // save an edit/update
 				return KeyFactory.stringToKey(transferObject.getKeyAsString());
 			} else { // save an insert
 				Long nextId = this.getNextId(transferObject);
@@ -95,7 +97,7 @@ public abstract class AppPersistency implements Serializable {
 		query.addSort(AnnotationUtils.getIdFieldStringName(transferObject.getClass()), SortDirection.DESCENDING);
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		List<Entity> listTmp = preparedQuery.asList(FetchOptions.Builder.withLimit(1));
-		if (Util.isCollectionOk(listTmp)) {
+		if (GeneralsHelper.isCollectionOk(listTmp)) {
 			nextId = ((Long) listTmp.get(0).getProperty(AnnotationUtils.getIdFieldStringName(transferObject.getClass()))) + 1;
 		}
 		
@@ -252,8 +254,8 @@ public abstract class AppPersistency implements Serializable {
 	 * @param transferObject
 	 */
 	protected <T extends TransferObject> void deleteEntity(T transferObject) {
-		Util.validateParameterNull(transferObject);
-		if (!Util.isStringOk(transferObject.getKeyAsString())) {
+		Parameter.check(transferObject).notNull();
+		if (!GeneralsHelper.isStringOk(transferObject.getKeyAsString())) {
 			throw new IllegalStateException("The transferObject passed as parameter must has its key property as a String valid value.");
 		}
 		this.getDataStoreService().delete(this.getKey(transferObject));
@@ -279,7 +281,7 @@ public abstract class AppPersistency implements Serializable {
 	protected <T extends TransferObject> T persist(T transferObject, TransferObject ancestorTO) {
 		Entity entity = null;
 		
-		if (Util.isStringOk(transferObject.getKeyAsString())) {
+		if (GeneralsHelper.isStringOk(transferObject.getKeyAsString())) {
 			entity = new Entity(this.getKey(transferObject));
 		} else {
 			entity = this.getEntity(transferObject, ancestorTO);

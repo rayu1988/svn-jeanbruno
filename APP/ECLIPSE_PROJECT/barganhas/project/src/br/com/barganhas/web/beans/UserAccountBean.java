@@ -8,6 +8,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.servlet.http.HttpServletResponse;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
@@ -100,20 +101,20 @@ public class UserAccountBean extends AppManagedBean {
 	public void registerUser(ActionEvent event) {
 		try {
 			this.returnMessage = new ReturnMessagePojo(false);
-			if (!Util.isStringOk(this.userAccount.getFullname())) {
+			if (!GeneralsHelper.isStringOk(this.userAccount.getFullname())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Nome"));
 			}
-			if (!Util.isStringOk(this.userAccount.getEmail())) {
+			if (!GeneralsHelper.isStringOk(this.userAccount.getEmail())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Email"));
 			} else if (!EmailValidator.validatingEmail(this.userAccount.getEmail())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("wrongEmailAddress"));
 			} else if (!this.userAccount.getEmail().equals(this.confirmEmail)) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("confirmFieldErrorMsg", "Email", "Confirma Email"));
 			}
-			if (!Util.isStringOk(this.userAccount.getNickname())) {
+			if (!GeneralsHelper.isStringOk(this.userAccount.getNickname())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Usuário"));
 			}
-			if (!Util.isStringOk(this.userAccount.getPassword()) || this.userAccount.getPassword().length() < 8) {
+			if (!GeneralsHelper.isStringOk(this.userAccount.getPassword()) || this.userAccount.getPassword().length() < 8) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("passwordRequiredFieldMsg"));
 			} else if (!this.userAccount.getPassword().equals(this.confirmPassword)) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("confirmFieldErrorMsg", "Senha", "Confirma Senha"));

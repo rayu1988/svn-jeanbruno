@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 @SuppressWarnings("serial")
 public class ReturnMessagePojo implements Serializable {
 
@@ -21,11 +23,11 @@ public class ReturnMessagePojo implements Serializable {
 	}
 	
 	public boolean hasMessage() {
-		return Util.isCollectionOk(this.messages);
+		return GeneralsHelper.isCollectionOk(this.messages);
 	}
 	
 	public ReturnMessagePojo addMessage(String message) {
-		if (Util.isStringOk(message)) {
+		if (GeneralsHelper.isStringOk(message)) {
 			this.messages.add(message);
 			this.inUse = true;
 		}

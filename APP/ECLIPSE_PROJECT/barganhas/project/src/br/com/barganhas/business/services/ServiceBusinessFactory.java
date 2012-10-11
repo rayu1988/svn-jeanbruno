@@ -9,10 +9,12 @@ import br.com.barganhas.business.services.impl.AdvertisementBO;
 import br.com.barganhas.business.services.impl.AdvertisementPictureBO;
 import br.com.barganhas.business.services.impl.AdvertisementTypeBO;
 import br.com.barganhas.business.services.impl.CategoryBO;
+import br.com.barganhas.business.services.impl.CityBO;
 import br.com.barganhas.business.services.impl.FileBO;
 import br.com.barganhas.business.services.impl.FileTempBO;
 import br.com.barganhas.business.services.impl.MailBO;
 import br.com.barganhas.business.services.impl.SalesBO;
+import br.com.barganhas.business.services.impl.StateBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
 
 @SuppressWarnings("serial")
@@ -30,6 +32,14 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public void registerApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+	
+	public State getState() {
+		return (State) this.applicationContext.getBean(StateBO.BEAN_ALIAS);
+	}
+	
+	public City getCity() {
+		return (City) this.applicationContext.getBean(CityBO.BEAN_ALIAS);
 	}
 	
 	public Administrator getAdministrator() {

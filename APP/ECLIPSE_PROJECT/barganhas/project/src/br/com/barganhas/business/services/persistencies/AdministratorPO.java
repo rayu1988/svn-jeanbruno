@@ -3,12 +3,12 @@ package br.com.barganhas.business.services.persistencies;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.commons.AnnotationUtils;
-import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -39,17 +39,17 @@ public class AdministratorPO extends AppPersistency {
 		Query query = this.getQuery(AdministratorTO.class);
 		
 		List<Filter> filters = new ArrayList<Query.Filter>();
-		if (Util.isStringOk(administrator.getFullname())) {
+		if (GeneralsHelper.isStringOk(administrator.getFullname())) {
 			filters.add(new FilterPredicate("fullname", FilterOperator.EQUAL, administrator.getFullname()));
 		}
-		if (Util.isStringOk(administrator.getNickname())) {
+		if (GeneralsHelper.isStringOk(administrator.getNickname())) {
 			filters.add(new FilterPredicate("nickname", FilterOperator.EQUAL, administrator.getNickname()));
 		}
-		if (Util.isStringOk(administrator.getEmail())) {
+		if (GeneralsHelper.isStringOk(administrator.getEmail())) {
 			filters.add(new FilterPredicate("email", FilterOperator.EQUAL, administrator.getEmail()));
 		}
 		
-		if (!Util.isCollectionOk(filters)) {
+		if (!GeneralsHelper.isCollectionOk(filters)) {
 			return this.list();
 		} else if (filters.size() == 1) {
 			query.setFilter(filters.get(0));
@@ -72,7 +72,7 @@ public class AdministratorPO extends AppPersistency {
 	}
 	
 	public AdministratorTO save(AdministratorTO administrator) throws EntityNotFoundException {
-		if (!Util.isStringOk(administrator.getPassword())) {
+		if (!GeneralsHelper.isStringOk(administrator.getPassword())) {
 			AdministratorTO syncronizedTO = this.consult(administrator);
 			administrator.setPassword(syncronizedTO.getPassword());
 		}
