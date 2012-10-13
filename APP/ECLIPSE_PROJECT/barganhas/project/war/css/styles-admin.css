@@ -166,6 +166,9 @@ table {
 .menuItemSales {
 	background-image: url(../images/emblem-sales.png);
 }
+.menuItemUseTerm {
+	background-image: url(../images/useTerm.png);
+}
 /** MENU ITEM **/
 
 /** PANELGROUPIMGSEARCH **/

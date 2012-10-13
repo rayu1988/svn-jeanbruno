@@ -1,19 +1,28 @@
 package br.com.barganhas.web.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.DataModel;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.omnifaces.util.selectitems.SelectItemsBuilder;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
+import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.FileTO;
+import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.business.exceptions.AppException;
+import br.com.barganhas.business.services.City;
+import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.JSFunctionTimeRunning;
 import br.com.barganhas.commons.RequestMessage;
@@ -42,6 +51,11 @@ public class UserAccountBean extends AppManagedBean {
 	private FileTO		 						profileImage;
 	
 	private DataModel<Object>					dataModel;
+	
+	private List<SelectItem>					listStates;
+	private StateTO								selectedState;
+	private List<SelectItem>					listCities;
+	private CityTO								selectedCity;
 
 	public String adminDeleteUser() {
 		try {
@@ -104,6 +118,9 @@ public class UserAccountBean extends AppManagedBean {
 			if (!GeneralsHelper.isStringOk(this.userAccount.getFullname())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Nome"));
 			}
+			if (this.selectedState == null || this.selectedCity == null) {
+				this.returnMessage.addMessage(Util.getMessageResourceString("userAccountStateAndCityAreRequired"));
+			}
 			if (!GeneralsHelper.isStringOk(this.userAccount.getEmail())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Email"));
 			} else if (!EmailValidator.validatingEmail(this.userAccount.getEmail())) {
@@ -131,6 +148,9 @@ public class UserAccountBean extends AppManagedBean {
 			}
 			
 			if (!this.returnMessage.hasMessage()) {
+				this.userAccount.setKeyState(this.selectedState.getKey());
+				this.userAccount.setKeyCity(this.selectedCity.getKey());
+				
 				service.registerNewUser(this.userAccount);
 				
 				this.returnMessage = new ReturnMessagePojo(true);
@@ -160,6 +180,12 @@ public class UserAccountBean extends AppManagedBean {
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 			this.userAccount = service.consult(this.userAccount);
 			
+			this.selectedState = this.userAccount.getState();
+			this.prepareListStates();
+			
+			this.prepareListCities(null);
+			this.selectedCity = this.userAccount.getCity();
+			
 			return "userAccountEdit";
 		} catch (Exception e) {
 			return this.manageException(e);
@@ -186,6 +212,12 @@ public class UserAccountBean extends AppManagedBean {
 	
 	public String save() {
 		try {
+			if (this.selectedState == null || this.selectedCity == null) {
+				throw new AppException("userAccountStateAndCityAreRequired");
+			}
+			this.userAccount.setKeyState(this.selectedState.getKey());
+			this.userAccount.setKeyCity(this.selectedCity.getKey());
+			
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 			if (this.profileImage != null) {
 				this.userAccount = service.save(this.userAccount, this.profileImage);
@@ -259,6 +291,33 @@ public class UserAccountBean extends AppManagedBean {
 		}
 	}
 	
+	private void prepareListStates() {
+		if (!GeneralsHelper.isCollectionOk(this.listStates)) {
+			State service = this.getServiceBusinessFactory().getState();
+			List<StateTO> list = service.list();
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			for (StateTO state : list) {
+				selectItemsBuilder.add(state, state.getName() + " (" + state.getAcronym() + ")");
+			}
+			this.listStates = selectItemsBuilder.buildList();
+		}
+	}
+	
+	public void prepareListCities(AjaxBehaviorEvent event) {
+		if (this.selectedState != null) {
+			City service = this.getServiceBusinessFactory().getCity();
+			List<CityTO> list = service.list(this.selectedState);
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			for (CityTO city : list) {
+				selectItemsBuilder.add(city, city.getName());
+			}
+			this.listCities = selectItemsBuilder.buildList();
+		} else {
+			this.listCities = new ArrayList<SelectItem>();
+		}
+		this.selectedCity = null;
+	}
+	
 	// GETTERS AND SETTERS //
 	public DataModel<Object> getDataModel() {
 		return dataModel;
@@ -322,5 +381,38 @@ public class UserAccountBean extends AppManagedBean {
 
 	public void setProfileImage(FileTO profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public List<SelectItem> getListStates() {
+		this.prepareListStates();
+		return listStates;
+	}
+
+	public void setListStates(List<SelectItem> listStates) {
+		this.listStates = listStates;
+	}
+
+	public StateTO getSelectedState() {
+		return selectedState;
+	}
+
+	public void setSelectedState(StateTO selectedState) {
+		this.selectedState = selectedState;
+	}
+
+	public List<SelectItem> getListCities() {
+		return listCities;
+	}
+
+	public void setListCities(List<SelectItem> listCities) {
+		this.listCities = listCities;
+	}
+
+	public CityTO getSelectedCity() {
+		return selectedCity;
+	}
+
+	public void setSelectedCity(CityTO selectedCity) {
+		this.selectedCity = selectedCity;
 	}
 }

@@ -178,6 +178,11 @@
     </tag>
     
 	<tag>
+    	<tag-name>loading</tag-name>
+    	<source>../tags/loading.xhtml</source>
+    </tag>
+    
+	<tag>
     	<tag-name>jsFunction</tag-name>
     	<source>../tags/jsFunction.xhtml</source>
     </tag>

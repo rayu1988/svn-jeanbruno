@@ -155,5 +155,23 @@
 	   		<to-view-id>/xhtml/admin/category/categoryConsult.xhtml</to-view-id>
 		</navigation-case>
 		
+		<!-- ################ Use Terms Use Case ################ -->
+		<navigation-case>
+			<from-outcome>useTermList</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermConsult.xhtml</to-view-id>
+		</navigation-case>
+		
 	</navigation-rule>
 </faces-config>

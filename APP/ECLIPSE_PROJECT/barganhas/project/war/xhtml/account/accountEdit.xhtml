@@ -32,22 +32,49 @@
 								maxFilesQuantity="1">
 				</rich:fileUpload>
 				
+				<!-- fullname -->
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
 				<h:inputText id="userName" value="#{userAccountBean.userAccount.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
+				<!-- state -->
+				<h:outputLabel value="#{msg.stateTitle}:" for="userAccountState"/>
+				<h:selectOneMenu id="userAccountState" value="#{userAccountBean.selectedState}"
+					 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter">
+					
+					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+					<f:selectItems value="#{userAccountBean.listStates}" />
+					
+					<a4j:ajax event="change" listener="#{userAccountBean.prepareListCities}"
+						execute="@this" render="userAccountCity" onbeforesubmit="popupLoading(true);" oncomplete="popupLoading(false);"/>
+				</h:selectOneMenu>
+				
+				<!-- city -->
+				<h:outputLabel value="#{msg.cityTitle}:" for="userAccountCity"/>
+				<h:selectOneMenu id="userAccountCity" value="#{userAccountBean.selectedCity}"
+					 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter">
+					
+					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+					<f:selectItems value="#{userAccountBean.listCities}" />
+				</h:selectOneMenu>
+				
+				<!-- nickname -->
 				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
 				<bargas:outputText id="userNickname" value="#{userAccountBean.userAccount.nickname}"
 							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
+				<!-- email -->
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
 				<h:inputText id="userEmail" value="#{userAccountBean.userAccount.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
 				
+				<!-- password -->
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
 				<h:inputSecret id="userPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
+				<!-- confirm password -->
 				<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPassword"/>
 				<h:inputSecret id="userConfirmPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
+				<!-- contacts -->
 				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
 				<h:inputTextarea id="infoContacts" value="#{userAccountBean.userAccount.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
 				</h:inputTextarea>
@@ -55,6 +82,10 @@
 		</h:panelGroup>
 		
 		<t:saveState value="#{userAccountBean.profileImage}" />
+		<t:saveState value="#{userAccountBean.listStates}"/>
+		<t:saveState value="#{userAccountBean.selectedState}"/>
+		<t:saveState value="#{userAccountBean.listCities}"/>
+		<t:saveState value="#{userAccountBean.selectedCity}"/>
 	</ui:define>
 	
 	<ui:define name="accountBottomButtons">

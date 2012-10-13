@@ -327,9 +327,16 @@ public class AdvertisementBO implements Advertisement {
 	public void delete(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
-			for (Key keyAdvertisementPicture : advertisement.getPictures()) {
-				this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(keyAdvertisementPicture));
+			try {
+				this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+			} catch (EntityNotFoundException e) { }
+			
+			if (GeneralsHelper.isCollectionOk(advertisement.getPictures())) {
+				for (Key keyAdvertisementPicture : advertisement.getPictures()) {
+					try {
+						this.serviceAdvertisementPicture.delete(new AdvertisementPictureTO(keyAdvertisementPicture));
+					} catch (EntityNotFoundException e) { }
+				}
 			}
 			
 			this.persistencyLayer.delete(advertisement);

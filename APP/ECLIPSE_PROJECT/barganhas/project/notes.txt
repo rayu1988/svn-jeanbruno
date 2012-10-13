@@ -7,4 +7,11 @@ then disable automatic index configuration and test your app in the development 
 This makes it easy to maintain indexes without having to manage two files, and ensures that your testing will 
 reproduce errors caused by missing index configuration.
 
+load states and cities
+states
+/service/states?action=updateAll
+/service/states?action=removeAll
+/service/cities?action=updateAll
+/service/cities?action=removeAll
+
 appcfg -e brunopib@gmail.com -A vendasebarganhas -V default update war

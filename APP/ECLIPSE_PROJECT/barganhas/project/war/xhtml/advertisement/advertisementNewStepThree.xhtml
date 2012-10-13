@@ -48,11 +48,25 @@
 				<h:outputLabel value="#{msg.advertisementWaysToPay}:" />
 				<h:graphicImage value="#{request.contextPath}/images/pagseguro/todos_estatico_550_100.gif"/>
 				
+				<!-- use term -->
+				<h:column />
+				<h:inputTextarea id="useTerm" value="#{advertisementBean.useTerm.stringText}" rows="13" styleClass="inputMainForm bigInputMainForm"
+					readonly="true" style="margin-top: 40px;">
+				</h:inputTextarea>
+				
+				<!-- agree terms -->
+				<h:column />
+				<h:panelGroup>
+					<h:selectBooleanCheckbox id="agreeTerms" value="#{advertisementBean.agreeTerms}" />
+					<h:outputLabel value=" #{msg.advertisementAgreeTerms}" for="agreeTerms" style="font-size: 110%"/>
+				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGroup>
 		
 		<t:saveState value="#{advertisementBean.selectedSheetPicture}"/>
 		<t:saveState value="#{advertisementBean.salesCode}"/>
+		<t:saveState value="#{advertisementBean.useTerm}"/>
+		<t:saveState value="#{advertisementBean.agreeTerms}"/>
 	</ui:define>
 	
 	<!-- defining the scope of accountbase -->

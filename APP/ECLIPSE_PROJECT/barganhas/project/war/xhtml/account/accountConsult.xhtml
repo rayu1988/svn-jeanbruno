@@ -31,6 +31,15 @@
 				<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
 				<bargas:outputText id="userName" value="#{userAccountBean.userAccount.fullname}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
+				<!-- state -->
+				<h:outputLabel value="#{msg.stateTitle}:" for="useAccountState"/>
+				<bargas:outputText id="useAccountState" value="#{userAccountBean.userAccount.state.name} (#{userAccountBean.userAccount.state.acronym})"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				
+				<!-- city -->
+				<h:outputLabel value="#{msg.cityTitle}:" for="useAccountCity"/>
+				<bargas:outputText id="useAccountCity" value="#{userAccountBean.userAccount.city.name}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				
 				<!-- nickname -->
 				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
 				<bargas:outputText id="userNickname" value="#{userAccountBean.userAccount.nickname}" styleClass="inputMainForm bigInputMainForm inputDisable"/>

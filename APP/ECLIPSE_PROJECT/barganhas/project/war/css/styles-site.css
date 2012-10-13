@@ -599,7 +599,11 @@ textarea:FOCUS {
 	font-size: 110%;
 	min-height: 23px;
 }
-.inputuMainFormSelectMenu {
+.mediumInputuMainFormSelectMenu {
+	height: 35px;
+	width: 312px !important;
+}
+.bigInputuMainFormSelectMenu {
 	height: 35px;
 	width: 611px !important;
 }
