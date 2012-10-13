@@ -222,7 +222,9 @@
 											immediate="false"
 											execute="registerBox"
 											render="accountNewPopupForm"
-											style="margin-right: 10px;"/>
+											style="margin-right: 10px;"
+											onclick="popupLoading(true);"
+											oncomplete="popupLoading(false);"/>
 											
 								<h:commandLink value="#{msg.alreadyRegistered}" action="#{userAccountBean.goToLogin}"/>
 							</h:panelGroup>
@@ -274,7 +276,7 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<h:graphicImage value="#{request.contextPath}/images/banner/nacprint.PNG" style="margin-top: 30px; width: 290px;"/>
+				<h:graphicImage value="#{request.contextPath}/images/banner/nacprint.png" style="margin-top: 30px; width: 290px;"/>
 			</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
