@@ -107,6 +107,14 @@
 		<property name="id" direction="desc"/>
 	</datastore-index>
 
+	<!-- UseTermTO -->
+	<datastore-index kind="br.com.barganhas.business.entities.UseTermTO" ancestor="true" source="manual">
+		<property name="id" direction="asc"/>
+	</datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.UseTermTO" ancestor="true" source="manual">
+		<property name="id" direction="desc"/>
+	</datastore-index>
+
     <!-- UserAccountTO -->
     <datastore-index kind="br.com.barganhas.business.entities.UserAccountTO" ancestor="true" source="manual">
         <property name="id" direction="desc"/>
