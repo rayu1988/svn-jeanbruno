@@ -4,7 +4,8 @@
 				xmlns:a4j="http://richfaces.org/a4j"
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:t="http://myfaces.apache.org/tomahawk"
-				xmlns:f="http://java.sun.com/jsf/core">
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<rich:popupPanel id="accountNewPopupPanel"
 				styleClass="appStyle"
@@ -42,6 +43,28 @@
 							styleClass="inputMainForm bigInputMainForm"
 							disabled="#{userAccountBean.returnMessage.success}"/>
 				
+				<!-- state -->
+				<h:outputLabel value="#{msg.stateTitle}:" for="userAccountStatePopupForm"/>
+				<h:selectOneMenu id="userAccountStatePopupForm" value="#{userAccountBean.selectedState}"
+					 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter" disabled="#{userAccountBean.returnMessage.success}">
+					
+					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+					<f:selectItems value="#{userAccountBean.listStates}" />
+					
+					<a4j:ajax event="change" listener="#{userAccountBean.prepareListCities}"
+						execute="@this" render="userAccountCityPopupForm" onbeforesubmit="popupLoading(true);" oncomplete="popupLoading(false);"/>
+				</h:selectOneMenu>
+				
+				<!-- city -->
+				<h:outputLabel value="#{msg.cityTitle}:" for="userAccountCityPopupForm"/>
+				<h:selectOneMenu id="userAccountCityPopupForm" value="#{userAccountBean.selectedCity}"
+					 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter"
+					 disabled="#{userAccountBean.returnMessage.success}">
+					
+					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+					<f:selectItems value="#{userAccountBean.listCities}" />
+				</h:selectOneMenu>
+				
 				<!-- email -->
 				<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmailPopupForm"/>
 				<h:inputText id="userEmailPopupForm" value="#{userAccountBean.userAccount.email}"
@@ -63,7 +86,7 @@
 							maxlength="50"
 							styleClass="inputMainForm bigInputMainForm"
 							disabled="#{userAccountBean.returnMessage.success}"/>
-				
+							
 				<!-- password -->
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPasswordPopupForm"
 							rendered="#{not userAccountBean.returnMessage.success}"/>
@@ -89,7 +112,8 @@
 								actionListener="#{userAccountBean.registerUser}" 
 								immediate="false"
 								render="userAccountGroupMessages accountNewPopupForm"
-								rendered="#{not userAccountBean.returnMessage.success}"/>
+								rendered="#{not userAccountBean.returnMessage.success}"
+								onclick="popupLoading(true);" oncomplete="popupLoading(false);"/>
 	
 					<a4j:commandButton execute="@none" 
 								value="Fechar"
@@ -101,6 +125,10 @@
 			
 			<t:saveState value="#{userAccountBean.returnMessage}"/>
 			<t:saveState value="#{userAccountBean.userAccount}"/>
+			<t:saveState value="#{userAccountBean.listStates}"/>
+			<t:saveState value="#{userAccountBean.selectedState}"/>
+			<t:saveState value="#{userAccountBean.listCities}"/>
+			<t:saveState value="#{userAccountBean.selectedCity}"/>
 		</h:form>
 	</rich:popupPanel>
 </ui:composition>

@@ -63,6 +63,9 @@ public class AdvertisementTO extends TransferObject {
 	@PropertyField
 	private Key									keySheetPicture;
 	private AdvertisementPictureTO				sheetPicture;
+
+	@PropertyField
+	private Key									keyUseTerm;
 	
 	public AdvertisementTO() {
 		super(null);
@@ -242,5 +245,13 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setCountView(Long countView) {
 		this.countView = countView;
+	}
+
+	public Key getKeyUseTerm() {
+		return keyUseTerm;
+	}
+
+	public void setKeyUseTerm(Key keyUseTerm) {
+		this.keyUseTerm = keyUseTerm;
 	}
 }

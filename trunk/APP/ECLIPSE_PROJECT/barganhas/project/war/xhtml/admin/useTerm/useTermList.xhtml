@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="headForm">
+		<bargas:headFormFilter headText="#{msg.privateUseTerms} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}">
+			<ui:define name="formFilter">
+				<ui:include src="/xhtml/admin/useTerm/useTermFilter.xhtml"/>
+			</ui:define>
+		</bargas:headFormFilter>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listUseTerms"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{useTermBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{useTermBean.dataModel}"
+						var="useTerm">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListEdit id="editUseTerm" targetProperty="useTerm" backingBean="#{useTermBean}"
+						action="edit" propertyFrom="#{useTerm}" toolTipMessage="#{msg.privateAreaActionEdit} #{msg.useTerm}"/>
+				<bargas:commandListDelete id="deleteUseTerm" targetProperty="useTerm" backingBean="#{useTermBean}"
+						action="delete" propertyFrom="#{useTerm}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.useTerm}"/>
+				<bargas:commandListUnlock targetProperty="useTerm" id="turnUseTermDefault" backingBean="#{useTermBean}" propertyFrom="#{useTerm}"
+						action="turnUseTermDefault" rendered="#{not useTerm.defaultUseTerm}"/>
+			</rich:column>
+			
+			<!-- title -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.useTermTitle}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{useTermBean.consult}" >
+					<h:outputText value="#{useTerm.title}"/>
+					<f:setPropertyActionListener value="#{useTerm}" target="#{useTermBean.useTerm}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			
+			<!-- default -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.useDefault}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{useTermBean.consult}" >
+					<h:outputText value="#{useTerm.defaultUseTerm ? msg.msgYes : msg.msgNo}" />
+					<f:setPropertyActionListener value="#{useTerm}" target="#{useTermBean.useTerm}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{useTermBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{useTermBean.prepareNew}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

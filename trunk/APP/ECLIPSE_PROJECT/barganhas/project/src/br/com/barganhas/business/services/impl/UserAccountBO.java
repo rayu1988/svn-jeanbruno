@@ -10,12 +10,16 @@ import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.FileTO;
+import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
+import br.com.barganhas.business.services.City;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.Mail;
+import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.UserAccountPO;
 import br.com.barganhas.commons.Util;
@@ -41,6 +45,12 @@ public class UserAccountBO implements UserAccount {
 	
 	@Autowired
 	private Advertisement							serviceAdvertisement;
+	
+	@Autowired
+	private State									serviceState;
+	
+	@Autowired
+	private City									serviceCity;
 	
 	@Override
 	public List<UserAccountTO> list() {
@@ -94,6 +104,8 @@ public class UserAccountBO implements UserAccount {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			userAccount = this.persistencyLayer.consult(userAccount);
+			userAccount.setState(this.serviceState.consult(new StateTO(userAccount.getKeyState())));
+			userAccount.setCity(this.serviceCity.consult(new CityTO(userAccount.getKeyCity())));
 			
 			transaction.commit();
 			return userAccount;

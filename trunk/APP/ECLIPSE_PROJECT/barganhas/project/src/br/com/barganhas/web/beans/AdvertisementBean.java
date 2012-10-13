@@ -19,12 +19,15 @@ import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.SalesTO;
+import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.Sales;
+import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
@@ -48,6 +51,8 @@ public class AdvertisementBean extends AppManagedBean {
 	private AdvertisementPictureTO				selectedSheetPicture;
 	
 	private String								salesCode;
+	private UseTermTO							useTerm;
+	private Boolean								agreeTerms;
 	
 	public String adminListAdvertisements() {
 		try {
@@ -153,6 +158,9 @@ public class AdvertisementBean extends AppManagedBean {
 			
 			this.selectedSheetPicture = (AdvertisementPictureTO) this.listAdvertisementPictures.get(0).getValue();
 			
+			UseTerm useTermService = this.getServiceBusinessFactory().getUseTerm();
+			this.useTerm = useTermService.getDefaultUseTerm();
+			
 			return "advertisementPrepareNewStepThree";
 		} catch (Exception e) {
 			return this.manageException(e);
@@ -213,6 +221,11 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String insert() {
 		try {
+			if (!GeneralsHelper.isBooleanTrue(this.agreeTerms)) {
+				throw new AppException("advertisementAgreeIsRequired");
+			}
+			this.advertisement.setKeyUseTerm(this.useTerm.getKey());
+			
 			if (GeneralsHelper.isStringOk(this.salesCode)) {
 				Sales serviceSales = this.getServiceBusinessFactory().getSales();
 				SalesTO sales = serviceSales.consultBySalesCode(this.salesCode);
@@ -419,6 +432,22 @@ public class AdvertisementBean extends AppManagedBean {
 
 	public void setSalesCode(String salesCode) {
 		this.salesCode = salesCode;
+	}
+
+	public UseTermTO getUseTerm() {
+		return useTerm;
+	}
+
+	public void setUseTerm(UseTermTO useTerm) {
+		this.useTerm = useTerm;
+	}
+
+	public Boolean getAgreeTerms() {
+		return agreeTerms;
+	}
+
+	public void setAgreeTerms(Boolean agreeTerms) {
+		this.agreeTerms = agreeTerms;
 	}
 
 }

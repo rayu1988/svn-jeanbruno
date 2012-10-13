@@ -13,7 +13,6 @@
    		<f:loadBundle var="msg" basename="messages"/>
    		<h:head>
    			<title><h:outputText value="#{msg.appTitle}"/></title>
-   			<meta name="google-site-verification" content="p-p7at_dz8iEiok9VaYjIl0xc-izSrRAyIGI4rDQUgU" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-site.css" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-messages.css" />
@@ -25,6 +24,7 @@
    		</h:head>
    		
    		<h:body>
+   			<bargas:loading />
    			<bargas:messages />
 			<bargas:jsFunction />
 			
@@ -44,7 +44,8 @@
 												<a4j:commandLink actionListener="#{userAccountBean.prepareRegister}"
 													immediate="true"
 													value="#{msg.registerYourSelf}"
-													render="accountNewPopupForm"/>
+													render="accountNewPopupForm"
+													onclick="popupLoading(true);" oncomplete="popupLoading(false);"/>
 											</li>
 											<li>
 												<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />

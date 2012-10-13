@@ -6,8 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 
-import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.services.Category;
+import br.com.barganhas.business.entities.UseTermTO;
+import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
@@ -15,18 +15,18 @@ import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
-public class CategoryBean extends AppManagedBean {
+public class UseTermBean extends AppManagedBean {
 	
-	private CategoryTO							category;
+	private UseTermTO							useTerm;
 	private DataModel<Object>					dataModel;
 	
 	public String list() {
 		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			this.category = new CategoryTO();
-			List<CategoryTO> list = service.list();
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			this.useTerm = new UseTermTO();
+			List<UseTermTO> list = service.list();
 			this.dataModel = new CustomDataModel(list);
-			return "categoryList";
+			return "useTermList";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -34,9 +34,9 @@ public class CategoryBean extends AppManagedBean {
 	
 	public String prepareNew() {
 		try {
-			this.category = new CategoryTO();
+			this.useTerm = new UseTermTO();
 			
-			return "categoryPrepareNew";
+			return "useTermPrepareNew";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -44,8 +44,8 @@ public class CategoryBean extends AppManagedBean {
 	
 	public String insert() {
 		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			service.insert(this.category);
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			service.insert(this.useTerm);
 			
 			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();
@@ -56,10 +56,10 @@ public class CategoryBean extends AppManagedBean {
 	
 	public String edit() {
 		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			this.category = service.consult(this.category);
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			this.useTerm = service.consult(this.useTerm);
 			
-			return "categoryEdit";
+			return "useTermEdit";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -67,8 +67,8 @@ public class CategoryBean extends AppManagedBean {
 	
 	public String save() {
 		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			service.save(this.category);
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			service.save(this.useTerm);
 			
 			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 			return this.consult();
@@ -77,21 +77,33 @@ public class CategoryBean extends AppManagedBean {
 		}
 	}
 	
+	public String turnUseTermDefault() {
+		try {
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			this.useTerm = service.turnUseTermDefault(this.useTerm);
+			
+			this.setRequestMessage(new RequestMessage("useTermHadBeenUnlocked", SeverityMessage.SUCCESS));
+			return this.list();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
 	public String consult() {
 		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			this.category = service.consult(this.category);
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			this.useTerm = service.consult(this.useTerm);
 			
-			return "categoryConsult";
+			return "useTermConsult";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
 	}
 
 	public String delete() {
-		try {
-			Category service = this.getServiceBusinessFactory().getCategory();
-			service.delete(this.category);
+		try{	
+			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
+			service.delete(this.useTerm);
 			
 			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();
@@ -108,11 +120,12 @@ public class CategoryBean extends AppManagedBean {
 		this.dataModel = dataModel;
 	}
 
-	public CategoryTO getCategory() {
-		return category;
+	public UseTermTO getUseTerm() {
+		return useTerm;
 	}
 
-	public void setCategory(CategoryTO category) {
-		this.category = category;
+	public void setUseTerm(UseTermTO useTerm) {
+		this.useTerm = useTerm;
 	}
+
 }

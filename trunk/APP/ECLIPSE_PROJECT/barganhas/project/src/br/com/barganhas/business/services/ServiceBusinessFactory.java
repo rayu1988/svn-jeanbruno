@@ -15,6 +15,7 @@ import br.com.barganhas.business.services.impl.FileTempBO;
 import br.com.barganhas.business.services.impl.MailBO;
 import br.com.barganhas.business.services.impl.SalesBO;
 import br.com.barganhas.business.services.impl.StateBO;
+import br.com.barganhas.business.services.impl.UseTermBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
 
 @SuppressWarnings("serial")
@@ -80,6 +81,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public Mail getMail() {
 		return (Mail) this.applicationContext.getBean(MailBO.BEAN_ALIAS);
+	}
+	
+	public UseTerm getUseTerm() {
+		return (UseTerm) this.applicationContext.getBean(UseTermBO.BEAN_ALIAS);
 	}
 	
 }

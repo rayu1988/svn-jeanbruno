@@ -1,5 +1,7 @@
 package br.com.barganhas.business.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.persistencies.StatePO;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Transaction;
 
 @Service("stateBO")
@@ -16,6 +19,20 @@ public class StateBO implements State {
 
 	@Autowired
 	private StatePO									persistencyLayer;
+	
+	@Override
+	public List<StateTO> list() {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<StateTO> list = this.persistencyLayer.list();
+			transaction.commit();
+			return list;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
 	
 	@Override
 	public StateTO insert(StateTO state) {
@@ -29,6 +46,20 @@ public class StateBO implements State {
 			if (transaction.isActive()) {
 				transaction.rollback();
 		    }
+		}
+	}
+	
+	@Override
+	public StateTO consult(StateTO state) throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			state = this.persistencyLayer.consult(state);
+			transaction.commit();
+			return state;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
 		}
 	}
 	

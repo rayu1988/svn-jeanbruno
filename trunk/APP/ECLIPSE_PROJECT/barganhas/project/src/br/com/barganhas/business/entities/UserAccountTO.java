@@ -22,6 +22,14 @@ public class UserAccountTO extends UserTO {
 	@PropertyField
 	private Key						keyProfileImage;
 	
+	@PropertyField
+	private Key						keyState;
+	private StateTO					state;
+	
+	@PropertyField
+	private Key						keyCity;
+	private CityTO					city;
+	
 	public UserAccountTO() {
 		super(null);
 	}
@@ -61,6 +69,38 @@ public class UserAccountTO extends UserTO {
 
 	public void setKeyProfileImage(Key keyProfileImage) {
 		this.keyProfileImage = keyProfileImage;
+	}
+
+	public Key getKeyState() {
+		return keyState;
+	}
+
+	public void setKeyState(Key keyState) {
+		this.keyState = keyState;
+	}
+
+	public Key getKeyCity() {
+		return keyCity;
+	}
+
+	public void setKeyCity(Key keyCity) {
+		this.keyCity = keyCity;
+	}
+
+	public StateTO getState() {
+		return state;
+	}
+
+	public void setState(StateTO state) {
+		this.state = state;
+	}
+
+	public CityTO getCity() {
+		return city;
+	}
+
+	public void setCity(CityTO city) {
+		this.city = city;
 	}
 	
 }
