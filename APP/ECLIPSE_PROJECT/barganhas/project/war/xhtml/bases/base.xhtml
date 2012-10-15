@@ -38,6 +38,23 @@
 		   				<h:panelGroup id="top" layout="block">
 		   					<h:panelGroup id="topLinks" layout="block">
 								<ul>
+									<c:if test="#{appSessionBean.userAccount ne null}">
+										<li>
+											<h:outputText styleClass="welcomeMsg" value="#{msg.loginWelcomeMsg} "/>
+											<h:outputText styleClass="welcomeMsg" value="#{appSessionBean.userAccount.nickname}"/>
+										</li>
+									</c:if>
+									<li>
+										<h:commandLink action="#{siteBean.goToIndex}" value="#{msg.appStart}" />
+									</li>
+									<c:if test="#{appSessionBean.userAccount eq null}">
+										<li>
+											<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />
+										</li>
+									</c:if>
+									<li>
+										<h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/>
+									</li>
 									<c:choose>
 										<c:when test="#{appSessionBean.userAccount eq null}">
 											<li>
@@ -47,37 +64,28 @@
 													render="accountNewPopupForm"
 													onclick="popupLoading(true);" oncomplete="popupLoading(false);"/>
 											</li>
-											<li>
-												<h:commandLink action="#{userAccountBean.goToLogin}" value="#{msg.enterMsg}" />
-											</li>
 										</c:when>
 										<c:otherwise>
-											<li>
-												<h:outputText styleClass="welcomeMsg" value="#{msg.loginWelcomeMsg} "/>
-												<h:outputText styleClass="welcomeMsg" value="#{appSessionBean.userAccount.nickname}"/>
-												<h:commandLink style="margin-left: 8px;" action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
-											</li>
 											<li>
 												<h:commandLink action="#{advertisementBean.prepareNewStepOne}" value="#{msg.advertisementNewAdvertisement}" />
 											</li>
 										</c:otherwise>
 									</c:choose>
-									<li>
-										<h:commandLink action="#{userAccountBean.consult}" value="#{msg.myRegister}"/>
-									</li>
-									<li>
-										<h:commandLink action="#{siteBean.goToIndex}" value="#{msg.appStart}" />
-									</li>
-									<li style="border: 0px;">
+									<li >
 										<a href="#">#{msg.contact}</a>
 									</li>
+									<c:if test="#{appSessionBean.userAccount ne null}">
+										<li>
+											<h:commandLink action="#{userAccountBean.logoff}" value="#{msg.logoffCamelCaseMsg}"/>
+										</li>
+									</c:if>
 								</ul>
 							</h:panelGroup>
 							
 							<h:panelGrid columns="2" columnClasses="columnLogo, columnSearchForm" styleClass="tableTopSearch">
 								<h:column>
 									<a href="#{request.contextPath}/" id="logo" >
-										<h:graphicImage value="#{request.contextPath}/images/logo/logo.png"/>
+										<h:graphicImage value="#{request.contextPath}/images/logo/logo2-3.png" width="350px"/>
 									</a>
 								</h:column>
 								
