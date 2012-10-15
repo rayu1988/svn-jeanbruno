@@ -149,7 +149,10 @@
 								<ui:repeat var="user" value="#{siteBean.highlightedUsers}">
 									<li>
 										<a href="#">
-											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(user.keyProfileImage)}"/>
+											<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png"
+												rendered="#{user.keyProfileImage eq null}"/>
+											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(user.keyProfileImage)}"
+												rendered="#{user.keyProfileImage ne null}"/>
 										</a>
 										
 										<p class="descProduct"><a href="#">#{user.nickname}</a></p>

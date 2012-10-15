@@ -88,7 +88,7 @@ public final class Util {
 	}
 	
 	public static String getStringFromKey(Key keyBase) {
-		return KeyFactory.keyToString(keyBase);
+		return keyBase != null ? KeyFactory.keyToString(keyBase) : "";
 	}
 	
 	public static Key getKeyFromString(String str) {
