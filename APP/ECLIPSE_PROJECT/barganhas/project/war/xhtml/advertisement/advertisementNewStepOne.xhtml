@@ -24,7 +24,7 @@
 					<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
 					<f:selectItems value="#{advertisementBean.listAdvertisementType}" />
 					
-					<f:ajax render="panelAdvertisementTypeDetails" execute="@this"/>
+					<a4j:ajax event="change" execute="@this" render="panelAdvertisementTypeDetails" onbeforesubmit="popupLoading(true);" oncomplete="popupLoading(false);"/>
 				</h:selectOneMenu>
 				
 				<!-- advertisement type's warning -->
@@ -34,6 +34,8 @@
 						<h:outputText value="#{msg.advertisementAdvertisementTypeWarning}."/>
 						<h:outputText value="#{msg.advertisementAdvertisementTypeTotalImg} #{advertisementBean.selectedAdvertisementType.totalPictures} #{msg.advertisementAdvertisementTypeTotalImgs}
 												#{msg.advertisementAdvertisementTypeCost} #{msg.privateAreaCurrencySymbolReal} #{advertisementBean.selectedAdvertisementType.value}."/>
+						<h:outputText value="#{msg.advertisementAdvertisementTypeDaysToExpire}  #{advertisementBean.selectedAdvertisementType.daysToExpire}
+											 #{msg.advertisementAdvertisementTypeDaysToExpireDays}."/>
 						<h:outputText value="#{advertisementBean.selectedAdvertisementType.description}"/>
 					</h:panelGrid>
 				</h:panelGroup>
@@ -62,7 +64,8 @@
 				
 				<!-- value -->
 				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
-				<bargas:inputCurrency id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" styleClass="inputMainForm mediumInputMainForm"/>
+				<bargas:inputCurrencyConverted id="currencyValue" value="#{advertisementBean.advertisement.value}" maxlength="10" 
+					styleClass="inputMainForm mediumInputMainForm" converterId="ConverterCurrencyReal"/>
 				
 				<!-- list exchange by -->
 				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>

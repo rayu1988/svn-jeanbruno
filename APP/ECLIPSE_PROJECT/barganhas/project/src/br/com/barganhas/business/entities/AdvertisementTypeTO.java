@@ -27,6 +27,9 @@ public class AdvertisementTypeTO extends TransferObject {
 	@PropertyField(notNull=true)
 	private Long			totalPictures;
 	
+	@PropertyField(notNull=true)
+	private Long			daysToExpire;
+	
 	public AdvertisementTypeTO() {
 		super(null);
 	}
@@ -83,6 +86,14 @@ public class AdvertisementTypeTO extends TransferObject {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Long getDaysToExpire() {
+		return daysToExpire;
+	}
+
+	public void setDaysToExpire(Long daysToExpire) {
+		this.daysToExpire = daysToExpire;
 	}
 
 }

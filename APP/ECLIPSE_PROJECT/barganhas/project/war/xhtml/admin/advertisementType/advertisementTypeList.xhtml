@@ -80,6 +80,18 @@
 					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
 				</h:commandLink>
 			</rich:column>
+			
+			<!-- days to expire -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.advertisementTypeDaysToExpire}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{advertisementTypeBean.consult}" >
+					<h:outputText value="#{advertisementType.daysToExpire}"/>
+					<f:setPropertyActionListener value="#{advertisementType}" target="#{advertisementTypeBean.advertisementType}"/>
+				</h:commandLink>
+			</rich:column>
 		</rich:dataTable>
 		
 		<t:saveState value="#{advertisementTypeBean.dataModel}"/>

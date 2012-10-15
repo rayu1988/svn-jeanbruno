@@ -86,7 +86,7 @@ public class AdvertisementBean extends AppManagedBean {
 		if (!GeneralsHelper.isStringOk(this.advertisement.getTitle())) {
 			messages.add(new RequestMessage("advertisementTitleRequiredField", SeverityMessage.ERROR));
 		}
-		if (!GeneralsHelper.isStringOk(this.advertisement.getValue())) {
+		if (this.advertisement.getValue() == null) {
 			messages.add(new RequestMessage("advertisementValueRequiredField", SeverityMessage.ERROR));
 		}
 		return messages;

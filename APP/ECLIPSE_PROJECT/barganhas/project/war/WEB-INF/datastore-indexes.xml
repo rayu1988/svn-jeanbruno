@@ -53,6 +53,55 @@
         <property name="status" direction="asc"/>
         <property name="countView" direction="desc"/>
     </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+        <property name="keyCategory" direction="asc"/>
+        <property name="keyState" direction="asc"/>
+        <property name="value" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="keyState" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+    </datastore-index>
+	<datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="keyCategory" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+    </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="keyState" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+        <property name="keyCategory" direction="asc"/>
+        <property name="value" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="keyCategory" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+        <property name="keyState" direction="asc"/>
+        <property name="value" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTO" ancestor="true" source="manual">
+        <property name="keyCategory" direction="asc"/>
+        <property name="keyState" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="title" direction="asc"/>
+        <property name="score" direction="desc"/>
+        <property name="value" direction="asc"/>
+    </datastore-index>
     
     <!-- AdvertisementTypeTO -->
     <datastore-index kind="br.com.barganhas.business.entities.AdvertisementTypeTO" ancestor="true" source="manual">
@@ -121,6 +170,9 @@
     </datastore-index>
     <datastore-index kind="br.com.barganhas.business.entities.UserAccountTO" ancestor="true" source="manual">
         <property name="id" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="br.com.barganhas.business.entities.UserAccountTO" ancestor="true" source="manual">
+        <property name="countAdvertisement" direction="desc"/>
     </datastore-index>
     
 </datastore-indexes>

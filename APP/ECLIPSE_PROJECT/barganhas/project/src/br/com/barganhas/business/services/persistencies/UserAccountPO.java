@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 @SuppressWarnings("serial")
 @Repository
@@ -118,5 +119,19 @@ public class UserAccountPO extends AppPersistency {
 		}
 		
 		return userAccount;
+	}
+
+	public List<UserAccountTO> listHighlightedUsers() {
+		Query query = this.getQuery(UserAccountTO.class);
+		query.addSort("countAdvertisement", SortDirection.DESCENDING);
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(4));
+		
+		List<UserAccountTO> list = new ArrayList<UserAccountTO>();
+		for (Entity entity : entities) {
+			list.add(AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity));
+		}
+		
+		return list;
 	}
 }

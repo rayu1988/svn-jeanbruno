@@ -117,6 +117,29 @@ public class UserAccountBO implements UserAccount {
 	}
 	
 	@Override
+	public UserAccountTO incrementCountAdvertisement(UserAccountTO userAccount) throws EntityNotFoundException {
+		userAccount = this.consult(userAccount);
+		Long currentCount = userAccount.getCountAdvertisement() != null ? userAccount.getCountAdvertisement() : 0l;
+		currentCount++;
+		userAccount.setCountAdvertisement(currentCount);
+		return this.save(userAccount);
+	}
+	
+	@Override
+	public List<UserAccountTO> listHighlightedUsers() throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<UserAccountTO> list = this.persistencyLayer.listHighlightedUsers();
+			transaction.commit();
+			return list;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+		    }
+		}
+	}
+	
+	@Override
 	public UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException {
 		userAccount = this.consult(userAccount);
 		userAccount.setStatus(UserAccountStatus.LOCKED);

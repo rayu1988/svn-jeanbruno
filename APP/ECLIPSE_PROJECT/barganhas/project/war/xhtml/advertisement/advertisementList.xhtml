@@ -49,7 +49,9 @@
 					</f:facet>
 					
 					<h:commandLink action="#{advertisementBean.consult}" >
-						<h:outputText value="#{advertisement.value}"/>
+						<h:outputText value="#{advertisement.value}">
+							<f:converter converterId="ConverterCurrencyReal"/>
+						</h:outputText>
 						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
 					</h:commandLink>
 				</rich:column>

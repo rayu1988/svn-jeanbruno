@@ -30,7 +30,10 @@
 								uploadLabel="#{msg.fileUploadUploadLabel}"
 								sizeExceededLabel="#{msg.fileUploadSizeExceededLabel}"
 								doneLabel="#{msg.fileUploadDoneLabel}"
-								maxFilesQuantity="#{advertisementBean.selectedAdvertisementType.totalPictures}">
+								maxFilesQuantity="#{advertisementBean.selectedAdvertisementType.totalPictures}"
+								
+								onfilesubmit="popupLoading(true);"
+								onuploadcomplete="popupLoading(false);">
 				</rich:fileUpload>
 			
 			</h:panelGrid>

@@ -4,35 +4,112 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="bodyNavigation">
 		<div id="searchNavigationBox">
 			<div id="searchFilter">
-				<div class="innerSearchBox" style="border-bottom: 1px solid #E5E5E5;">
-					<p class="searchFilterHeader">#{msg.searchFilter}</p>
+			
+				<!-- search text -->
+				<h:panelGroup styleClass="innerSearchBox" layout="block"  rendered="#{siteBean.searchText ne null}">
+					<p class="searchFilterHeader">
+						<h:outputText value="#{msg.searchFilter}"/>
+					</p>
 					
-					<div class="textSearchBox">
-						<p>#{siteBean.searchText}</p>
-						<a href="#" class="excludeTextSearchBox">x</a>
-					</div>
+					<h:panelGroup layout="block" styleClass="resultFoundSearchBox">
+						<p>
+							<h:outputText value="#{siteBean.searchText}"/>
+						</p>
+						<h:commandLink value="x" styleClass="excludeResultFoundSearchBox" action="#{siteBean.goToIndex}" onclick="popupLoading(true);"/>
+					</h:panelGroup>
+				</h:panelGroup>
+				
+				<!-- categories -->
+				<div class="innerSearchBox">
+					<p class="searchFilterHeader">
+						<h:outputText value="#{msg.categories}"/>
+					</p>
+					
+					<h:panelGroup layout="block" styleClass="resultFoundSearchBox" rendered="#{siteBean.categoryFilter ne null}">
+						<p>
+							<h:outputText value="#{siteBean.categoryFilter.name}"/>
+						</p>
+						<h:commandLink value="x" action="#{siteBean.search}" styleClass="excludeResultFoundSearchBox" onclick="popupLoading(true);">
+							<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{null}"/>
+						</h:commandLink>
+					</h:panelGroup>
+					
+					<ul>
+						<ui:repeat var="category" value="#{siteBean.listFilterCategory}">
+							<li>
+								<h:commandLink value="#{category.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+									<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{category}"/>
+								</h:commandLink>
+							</li>
+						</ui:repeat>
+					</ul>
 				</div>
 				
+				<!-- localization (states) -->
 				<div class="innerSearchBox">
-					<p class="searchFilterHeader">#{msg.rangeValues}</p>
+					<p class="searchFilterHeader">
+						<h:outputText value="#{msg.localizationRegion}"/>
+					</p>
+					
+					<h:panelGroup layout="block" styleClass="resultFoundSearchBox" rendered="#{siteBean.stateFilter ne null}">
+						<p>
+							<h:outputText value="#{siteBean.stateFilter.name}"/>
+						</p>
+						<h:commandLink value="x" action="#{siteBean.search}" styleClass="excludeResultFoundSearchBox" onclick="popupLoading(true);">
+							<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{null}"/>
+						</h:commandLink>
+					</h:panelGroup>
+					
 					<ul>
-						<li><a href="#">Ate R$850</a></li>
-						<li><a href="#">R$850 a R$1.500</a></li>
-						<li><a href="#">Mais de R$1.500</a></li>
+						<ui:repeat var="state" value="#{siteBean.listFilterState}">
+							<li>
+								<h:commandLink value="#{state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+									<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{state}"/>
+								</h:commandLink>
+							</li>
+						</ui:repeat>
 					</ul>
+				</div>
+				
+				<!-- range values -->
+				<div class="innerSearchBox">
+					<p class="searchFilterHeader">
+						<h:outputText value="#{msg.rangeValues}"/>
+					</p>
+					
+					<h:panelGrid columns="2">
+						<h:outputLabel value="#{msg.msgFrom} #{msg.msgRealCurrency} " for="filterCurrencyFrom" style="font-size: 13px;"/>
+						<bargas:inputCurrencyConverted id="filterCurrencyFrom" converterId="ConverterCurrencyReal"
+							maxlength="11" value="#{siteBean.filterCurrencyFrom}" styleClass="currencyFilter" allowZero="false"/>
+						
+						<h:outputLabel value="#{msg.msgUpTo} #{msg.msgRealCurrency} " for="filterCurrencyUpTo" style="font-size: 13px;"/>
+						<bargas:inputCurrencyConverted id="filterCurrencyUpTo" converterId="ConverterCurrencyReal"
+							maxlength="11" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
+						
+						<h:column />
+						<h:commandButton value="#{msg.msgFilterUp}" styleClass="customButton" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);"/>
+					</h:panelGrid>
 				</div>
 			</div>
 			
 			<div id="productsList">
 				<div class="filterGridOrList">
-					<h:graphicImage value="#{request.contextPath}/images/list.png"/>
-					<h:graphicImage value="#{request.contextPath}/images/grid.png"/>
+					<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
+						<h:graphicImage value="#{request.contextPath}/images/list.png"/>
+						<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{false}"/>
+					</h:commandLink>
+					<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
+						<h:graphicImage value="#{request.contextPath}/images/grid.png"/>
+						<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{true}"/>
+					</h:commandLink>
 				</div>
+				
 				<ul class="filterOrderBy">
 					<li style="border: 0;">Ordenado por:</li>
 					<li style="font-weight: bold;">Mais relevantes</li>
@@ -40,37 +117,53 @@
 					<li style="border: 0;"><a href="#">Maior preco</a></li>
 				</ul>
 			
-				<ul class="unordenedSearchClearList" style="margin-left: 20px;">
-					<ui:repeat value="#{siteBean.listRetrievied}" var="advertisement">
-						<li style="position: relative;">
-							<h:commandLink action="#{siteBean.publicAdvertisementConsult}" styleClass="imagesSearchList">
-								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-								<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-							</h:commandLink>
+				<ul class="#{siteBean.listAsGrid ? 'unordenedSearchGalleryClearList' : 'unordenedSearchClearList'}" style="margin-left: 20px;">
+					<ui:repeat value="#{siteBean.listResultSearch}" var="advertisement">
+					
+						<li style="#{siteBean.listAsGrid ? '' : 'position: relative;'}">
 							
-							<div class="descSearchListBox">
-								<h:commandLink action="#{siteBean.publicAdvertisementConsult}" styleClass="descProduct-itensInList"
-									value="#{advertisement.title}">
-									<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-								</h:commandLink>
-								<p class="furtherDesc">
-									<h:outputText value="#{advertisement.description}"/>
+							<!-- image base -->
+							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
+								class="#{siteBean.listAsGrid ? '' : 'imagesSearchList'}">
+								
+								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+							</a>
+							
+							<!-- desc box -->
+							<div class="#{siteBean.listAsGrid ? 'descGridSearchListBox' : 'descSearchListBox'}">
+							
+								<!-- title -->
+								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
+									class="descProduct-itensInList">
+									
+									<h:outputText value="#{advertisement.title}"/>
+								</a>
+								
+								<!-- description -->
+								<p class="#{siteBean.listAsGrid ? 'furtherDescGrid' : 'furtherDescInLine'}">
+									<h:outputText value="#{bargas:truncateString(advertisement.description, 200)}"/>
 								</p>
 							</div>
 							
-							<p class="searchListPriceBox">
-								<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{msg.msgRealCurrency} #{advertisement.value}">
-									<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-								</h:commandLink>
+							<!-- price -->
+							<p class="#{siteBean.listAsGrid ? 'priceBox' : 'searchListPriceBox'}">
+								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+									<h:outputText value="#{msg.msgRealCurrency}"/>
+									<h:outputText value="#{advertisement.value}">
+										<f:converter converterId="ConverterCurrencyReal"/>
+									</h:outputText>
+								</a>
 							</p>
-							<p class="searchListExchangeBox">
+							
+							<!-- list exchange by -->
+							<p class="#{siteBean.listAsGrid ? '' : 'searchListExchangeBox'}">
 								<h:outputText value="#{advertisement.listExchangeBy}"/>
 							</p>
 						</li>
 					</ui:repeat>
 				</ul>
 				
-				<div style="padding: 10px; position: relative; text-align: center;">
+				<div style="padding: 10px; position: relative; text-align: center; clear: both;">
 					<ul class="searchScroller">
 						<li>1</li>
 <!-- 						<li>2</li> -->
@@ -87,7 +180,13 @@
 			</div>
 		</div>
 		
+		<t:saveState value="#{siteBean.listAsGrid}"/>
 		<t:saveState value="#{siteBean.searchText}"/>
-		<t:saveState value="#{siteBean.listRetrievied}"/>
+		<t:saveState value="#{siteBean.listFilterCategory}"/>
+		<t:saveState value="#{siteBean.categoryFilter}"/>
+		<t:saveState value="#{siteBean.listFilterState}"/>
+		<t:saveState value="#{siteBean.stateFilter}"/>
+		<t:saveState value="#{siteBean.filterCurrencyFrom}"/>
+		<t:saveState value="#{siteBean.filterCurrencyUpTo}"/>
 	</ui:define>
 </ui:composition>

@@ -28,6 +28,11 @@
 		<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
 		<rich:inputNumberSpinner id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}" 
 				minValue="1" maxValue="50"/>
+		
+		<!-- days to expire -->
+		<h:outputLabel value="#{msg.advertisementTypeDaysToExpire}:" for="daysToExpire"/>
+		<rich:inputNumberSpinner id="daysToExpire" value="#{advertisementTypeBean.advertisementType.daysToExpire}" 
+				minValue="1" maxValue="365"/>
 	</h:panelGrid>
 
 	<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

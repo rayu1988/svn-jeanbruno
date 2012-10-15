@@ -22,6 +22,11 @@
 		<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
 		<h:inputText id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}"
 					maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
+					
+		<!-- days to expire -->
+		<h:outputLabel value="#{msg.advertisementTypeDaysToExpire}:" for="daysToExpire"/>
+		<h:inputText id="daysToExpire" value="#{advertisementTypeBean.advertisementType.daysToExpire}"
+					maxlength="3" styleClass="inputMainForm mediumInputMainForm"/>
 		
 		<h:column />
 		<h:panelGrid columns="2">

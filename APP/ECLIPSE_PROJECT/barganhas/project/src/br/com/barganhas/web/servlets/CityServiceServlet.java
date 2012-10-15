@@ -52,29 +52,28 @@ public class CityServiceServlet extends HttpServlet {
 			}
 			
 			String query = req.getParameter("action");
-			if (!GeneralsHelper.isStringOk(query)) {
+			String set = req.getParameter("set");
+			if (!GeneralsHelper.isStringOk(query) && !GeneralsHelper.isStringOk(set)) {
 				throw new IllegalArgumentException();
 			}
 			
 			City cityService = ServiceBusinessFactory.getInstance().getCity();
 			State stateService = ServiceBusinessFactory.getInstance().getState();
 			if (query.equals("updateAll")) {
-				if (!cityService.alreadyExists()) {
-					ServletContext servletContext = this.getServletContext();
-					InputStream inputStream = servletContext.getResourceAsStream("/xml-data/brazil-cities.xml");
+				ServletContext servletContext = this.getServletContext();
+				InputStream inputStream = servletContext.getResourceAsStream("/xml-data/brazil-cities.xml");
+				
+				Source citySource = new Source(inputStream);
+				List<Element> listCities = citySource.getAllElements("set", set, true);
+				
+				for (Element cityTag : listCities) {
+					StateTO state = stateService.consultAcronym(cityTag.getAttributeValue("state"));
 					
-					Source stateSource = new Source(inputStream);
-					List<Element> listCities = stateSource.getAllElements("city");
+					CityTO city = new CityTO();
+					city.setName(cityTag.getAttributeValue("name"));
+					city.setKeyState(state.getKey());
 					
-					for (Element cityTag : listCities) {
-						StateTO state = stateService.consultAcronym(cityTag.getAttributeValue("state"));
-						
-						CityTO city = new CityTO();
-						city.setName(cityTag.getAttributeValue("name"));
-						city.setKeyState(state.getKey());
-						
-						cityService.insert(city);
-					}
+					cityService.insert(city);
 				}
 			} else if (query.equals("removeAll")) {
 				cityService.removeAll();

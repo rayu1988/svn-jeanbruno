@@ -132,7 +132,9 @@ textarea:FOCUS {
 	background-color: #2976BB;
 	border: 1px solid #aaa;
 }
-.customButton2:hover, .customButton2:focus {
+a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customButton2:focus{
+	text-decoration: none;
+	color: #FFF;
 	border: 1px solid #62658B;
 	background-color: #EA8C0F;
 }
@@ -156,8 +158,8 @@ textarea:FOCUS {
 .unordenedSearchGalleryClearList li {
 	display: inline;
 	float: left;
-	width: 215px;
-	padding: 40px 10px 60px 10px;
+	width: 210px;
+	padding: 40px 10px 30px 10px;
 	border-bottom: 1px solid #CCC;
 	border-right: 1px solid #CCC;
 }
@@ -212,7 +214,7 @@ textarea:FOCUS {
 }
 
 #topLinks ul {
-	margin-top: 7px;
+	margin: 7px 0px 15px 0px;
 }
 
 #topLinks ul li {
@@ -221,13 +223,28 @@ textarea:FOCUS {
 	line-height: 18px;
 	margin: 0 2px 0 5px;
 	padding: 0 5px 0 0;
-	border-right: 1px solid #999;
+/* 	border-right: 1px solid #999; */
+}
+
+#topLinks ul li a {
+	border: 1px solid #0637B3;
+	padding: 2px 12px;
+	background-color: #CCC;
+	text-decoration: underline;
+}
+
+#topLinks ul li a:hover {
+	color: #0637B3;
 }
 
 #logo {
 	float: left;
 	margin-right: 10px;
 	padding-top: 6px;
+}
+
+.tableTopSearch {
+	background: url("../images/banner/faixa4.png") no-repeat right center;
 }
 
 #searchform {
@@ -309,14 +326,15 @@ textarea:FOCUS {
 .innerSearchBox {
 	padding-bottom: 10px;
 	padding-top: 10px;
+	border-bottom: 1px solid #E5E5E5;
 }
-.excludeTextSearchBox {
+.excludeResultFoundSearchBox {
 	position: absolute;
 	top: 2px;
 	right: 8px;
 	color: #000;
 }
-.textSearchBox {
+.resultFoundSearchBox {
 	background: lightGrey;
 	border-radius: 3px;
 	moz-border-radius: 3px;
@@ -342,6 +360,9 @@ textarea:FOCUS {
 .descSearchListBox {
 	padding: 25px 0px 0px 25px;
 	margin-left: 90px;
+}
+.descGridSearchListBox {
+	height: 110px;
 }
 .searchListPriceBox a {
 	font-size: 14px;
@@ -394,6 +415,10 @@ textarea:FOCUS {
 	padding: 0 5px 0 0;
 	
 	color: #333;
+}
+.currencyFilter {
+	width: 65px;
+	padding: 3px;
 }
 /** SEARCH_FILTER **/
 
@@ -462,12 +487,19 @@ textarea:FOCUS {
 	font-size: 16px;
 }
 
-.furtherDesc {
+.furtherDescInLine {
 	color: #666;
 	font-size: 11px;
 	line-height: 12px;
 	margin: 2px 0 5px 0;
 	width: 490px;
+}
+
+.furtherDescGrid {
+	color: #666;
+	font-size: 11px;
+	line-height: 12px;
+	margin: 2px 0 5px 0;
 }
 
 .priceBox a {
@@ -884,3 +916,10 @@ textarea:FOCUS {
 	font-weight: bold;
 }
 /** PUBLIC ADVERTISEMENT CONSULT **/
+
+/** ADVERTISEMENTS BANNERS **/
+.advertisementBannerRight {
+	margin-top: 30px;
+	text-align: center;
+}
+/** ADVERTISEMENTS BANNERS **/

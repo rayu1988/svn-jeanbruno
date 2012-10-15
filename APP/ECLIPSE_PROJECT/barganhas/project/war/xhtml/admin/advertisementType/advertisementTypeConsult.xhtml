@@ -30,6 +30,10 @@
 			<!-- total pictures -->
 			<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
 			<h:outputText id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}"/>
+			
+			<!-- days To Expire -->
+			<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="daysToExpire"/>
+			<h:outputText id="daysToExpire" value="#{advertisementTypeBean.advertisementType.daysToExpire}"/>
 		</h:panelGrid>
 		
 		<t:saveState value="#{advertisementTypeBean.advertisementType}"/>

@@ -30,6 +30,9 @@ public class UserAccountTO extends UserTO {
 	private Key						keyCity;
 	private CityTO					city;
 	
+	@PropertyField
+	private Long					countAdvertisement;
+	
 	public UserAccountTO() {
 		super(null);
 	}
@@ -101,6 +104,14 @@ public class UserAccountTO extends UserTO {
 
 	public void setCity(CityTO city) {
 		this.city = city;
+	}
+
+	public Long getCountAdvertisement() {
+		return countAdvertisement;
+	}
+
+	public void setCountAdvertisement(Long countAdvertisement) {
+		this.countAdvertisement = countAdvertisement;
 	}
 	
 }

@@ -36,7 +36,11 @@
 				
 				<ul>
 					<ui:repeat var="category" value="#{siteBean.listCategories}">
-						<li><h:commandLink value="#{category.name}" action="#{siteBean.consultCategory}" /></li>
+						<li>
+							<h:commandLink value="#{category.name}" action="#{siteBean.search}" >
+								<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{category}"/>
+							</h:commandLink>
+						</li>
 					</ui:repeat>
 				</ul>
 			</h:panelGroup>
@@ -64,20 +68,22 @@
 							<ul id="carroselLastAdvertisement">
 								<ui:repeat var="advertisement" value="#{siteBean.lastAdvertisements}">
 									<li>
-										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
+										<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
 											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-											<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-										</h:commandLink>
+										</a>
 										
 										<p class="descProduct">
-											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{bargas:truncateString(advertisement.title, 35)}">
-												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-											</h:commandLink>
+											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+												<h:outputText value="#{bargas:truncateString(advertisement.title, 35)}" />
+											</a>
 										</p>
 										<p class="priceBox">
-											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{msg.msgRealCurrency}  #{advertisement.value}">
-												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-											</h:commandLink>
+											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+												<h:outputText value="#{msg.msgRealCurrency}"/>
+												<h:outputText value="#{advertisement.value}">
+													<f:converter converterId="ConverterCurrencyReal"/>
+												</h:outputText>
+											</a>
 										</p>
 									</li>
 								</ui:repeat>
@@ -102,20 +108,22 @@
 							<ul id="carroselMostViewed">
 								<ui:repeat var="advertisement" value="#{siteBean.mostViewed}">
 									<li>
-										<h:commandLink action="#{siteBean.publicAdvertisementConsult}">
+										<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
 											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-											<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-										</h:commandLink>
+										</a>
 										
 										<p class="descProduct">
-											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{bargas:truncateString(advertisement.title, 35)}">
-												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-											</h:commandLink>
+											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+												<h:outputText value="#{bargas:truncateString(advertisement.title, 35)}" />
+											</a>
 										</p>
 										<p class="priceBox">
-											<h:commandLink action="#{siteBean.publicAdvertisementConsult}" value="#{msg.msgRealCurrency}  #{advertisement.value}">
-												<f:setPropertyActionListener value="#{advertisement}" target="#{siteBean.advertisement}"/>
-											</h:commandLink>
+											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+												<h:outputText value="#{msg.msgRealCurrency}"/>
+												<h:outputText value="#{advertisement.value}">
+													<f:converter converterId="ConverterCurrencyReal"/>
+												</h:outputText>
+											</a>
 										</p>
 									</li>
 								</ui:repeat>
@@ -132,62 +140,26 @@
 					<p class="title">#{msg.betterReputations}</p>
 					
 					<h:panelGroup class="carrosel" layout="block">
-						<h:panelGroup class="carroselLeftArrow" layout="block">
-							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
-						</h:panelGroup>
+<!-- 						<h:panelGroup class="carroselLeftArrow" layout="block"> -->
+<!-- 							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/> -->
+<!-- 						</h:panelGroup> -->
 						
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
-								
-								<li>
-									<a href="#">
-										<img src="../images/user64x64.png"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Joao Paulo da Silva</a></p>
-									<p class="userRating" style="width: 53px;"/>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/user64x64.png"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Carlos Michael Maranhao</a></p>
-									<p class="userRating" style="width: 90px;"/>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/user64x64.png" />
-									</a>
-									
-									<p class="descProduct"><a href="#">Jean Bruno Souto Villete</a></p>
-									<p class="userRating" style="width: 35px;"/>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/user64x64.png"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Izabel Pereira Carlos</a></p>
-									<p class="userRating" style="width: 72px;"/>
-								</li>
-								
-								<li>
-									<a href="#">
-										<img src="../images/user64x64.png"/>
-									</a>
-									
-									<p class="descProduct"><a href="#">Joao Paulo da Silva</a></p>
-									<p class="userRating" style="width: 45px;"/>
-								</li>
+								<ui:repeat var="user" value="#{siteBean.highlightedUsers}">
+									<li>
+										<a href="#">
+											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(user.keyProfileImage)}"/>
+										</a>
+										
+										<p class="descProduct"><a href="#">#{user.nickname}</a></p>
+									</li>
+								</ui:repeat>
 							</ul>
 							
-							<h:panelGroup class="carroselRightArrow" layout="block">
-								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
-							</h:panelGroup>
+<!-- 							<h:panelGroup class="carroselRightArrow" layout="block"> -->
+<!-- 								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/> -->
+<!-- 							</h:panelGroup> -->
 						</h:panelGroup>
 					</h:panelGroup>
 				</h:panelGroup>
@@ -246,7 +218,12 @@
 													<h:outputText value="#{advertisement.title}"/>
 	
 													<!-- advertisement's value -->
-													<h:outputText value="#{msg.msgRealCurrency} #{advertisement.value}"/>
+													<h:panelGroup layout="block">
+														<h:outputText value="#{msg.msgRealCurrency}"/>
+														<h:outputText value="#{advertisement.value}">
+															<f:converter converterId="ConverterCurrencyReal"/>
+														</h:outputText>
+													</h:panelGroup>
 												</h:panelGrid>
 												
 												<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
@@ -276,7 +253,9 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<h:graphicImage value="#{request.contextPath}/images/banner/nacprint.png" style="margin-top: 30px; width: 290px;"/>
+				<h:panelGroup layout="block" styleClass="advertisementBannerRight">
+					<h:graphicImage value="#{request.contextPath}/images/banner/nacprint-v3.png" />
+				</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>

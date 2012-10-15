@@ -11,7 +11,7 @@ load states and cities
 states
 /service/states?action=updateAll
 /service/states?action=removeAll
-/service/cities?action=updateAll
-/service/cities?action=removeAll
+/service/cities?action=updateAll&set=(1-16)
+/service/cities?action=removeAll&set=(1-16)
 
 appcfg -e brunopib@gmail.com -A vendasebarganhas -V default update war
