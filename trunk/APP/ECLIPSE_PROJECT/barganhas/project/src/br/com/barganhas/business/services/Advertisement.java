@@ -6,6 +6,8 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.commons.SearchingRequest;
+import br.com.barganhas.commons.SearchingResponse;
 
 public interface Advertisement {
 
@@ -31,7 +33,7 @@ public interface Advertisement {
 
 	AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
 	
-	List<AdvertisementTO> publicSearch(String searchText) throws EntityNotFoundException;
+	SearchingResponse publicSearch(SearchingRequest searchingRequest) throws EntityNotFoundException;
 	
 	AdvertisementTO save(AdvertisementTO advertisement);
 

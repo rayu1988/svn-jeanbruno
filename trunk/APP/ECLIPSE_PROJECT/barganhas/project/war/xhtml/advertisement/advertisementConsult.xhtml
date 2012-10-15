@@ -57,8 +57,8 @@
 				
 				<!-- value -->
 				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
-				<bargas:outputText id="currencyValue" value="#{advertisementBean.advertisement.value}"
-							styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				<bargas:outputTextConverted id="currencyValue" value="#{advertisementBean.advertisement.value}"
+					converterId="ConverterCurrencyReal" styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<!-- list exchange by -->
 				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
@@ -97,9 +97,11 @@
 	
 	<ui:define name="accountBottomButtons">
 		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.edit}" immediate="false" />
-		<h:commandButton value="#{msg.advertisementViewPublic}" styleClass="customButton2 buttonMainForm" action="#{siteBean.publicAdvertisementConsult}" immediate="false" >
-			<f:setPropertyActionListener value="#{advertisementBean.advertisement}" target="#{siteBean.advertisement}"/>
-		</h:commandButton>
+		<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisementBean.advertisement.key)}"
+			class="customButton2 buttonMainForm">
+			
+			<h:outputText value="#{msg.advertisementViewPublic}" />
+		</a>
 		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
 	</ui:define>
 	

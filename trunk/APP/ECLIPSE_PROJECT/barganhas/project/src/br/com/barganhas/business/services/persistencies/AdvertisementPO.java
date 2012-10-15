@@ -3,17 +3,21 @@ package br.com.barganhas.business.services.persistencies;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.commons.AnnotationUtils;
+import br.com.barganhas.commons.SearchingRequest;
 import br.com.barganhas.enums.AdvertisementStatus;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -39,6 +43,39 @@ public class AdvertisementPO extends AppPersistency {
 		return listReturn;
 	}
 	
+	private Query getQueryPublicSearch(SearchingRequest searchingRequest) {
+		List<Filter> filterTitle = new ArrayList<Query.Filter>();
+		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchingRequest.getText()));
+		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
+		
+		List<Filter> listSearchFiltering = new ArrayList<Query.Filter>();
+		if (searchingRequest.getState() != null) {
+			listSearchFiltering.add(new Query.FilterPredicate("keyState", Query.FilterOperator.EQUAL, searchingRequest.getState().getKey()));
+		}
+		if (searchingRequest.getCategory() != null) {
+			listSearchFiltering.add(new Query.FilterPredicate("keyCategory", Query.FilterOperator.EQUAL, searchingRequest.getCategory().getKey()));
+		}
+		
+		Filter searchFilter = null;
+		Filter advertisementEnabledFilter = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
+		if (GeneralsHelper.isCollectionOk(listSearchFiltering)) {
+			listSearchFiltering.add(advertisementEnabledFilter);
+			searchFilter = CompositeFilterOperator.and(listSearchFiltering);
+		} else {
+			searchFilter = advertisementEnabledFilter;
+		}
+		// TODO implementar busca por faixa de valor
+		
+		Filter filter = CompositeFilterOperator.and(searchFilter, CompositeFilterOperator.or(filterTitle));
+		
+		Query query = this.getQuery(AdvertisementTO.class);
+		query.addSort("title");
+		query.addSort("score", SortDirection.DESCENDING);
+		query.setFilter(filter);
+		
+		return query;
+	}
+	
 	/**
 	 * Method used in;
 	 * 		public search in the public site
@@ -46,28 +83,38 @@ public class AdvertisementPO extends AppPersistency {
 	 * @param searchText
 	 * @return
 	 */
-	public List<AdvertisementTO> publicSearch(String searchText) {
-		
-		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		
-		List<Filter> filterTitle = new ArrayList<Query.Filter>();
-		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchText));
-		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchText));
-		
-		Filter filter = CompositeFilterOperator.and(filterStatus, CompositeFilterOperator.or(filterTitle));
-		
-		Query query = this.getQuery(AdvertisementTO.class);
-		query.setFilter(filter);
-		
+	public List<AdvertisementTO> publicSearch(SearchingRequest searchingRequest) {
+		Query query = this.getQueryPublicSearch(searchingRequest);
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(16));
+		List<AdvertisementTO> listAdvertisement = new ArrayList<AdvertisementTO>();
 		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+			listAdvertisement.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
 		}
 		
-		return listReturn;
+		return listAdvertisement;
+	}
+	
+	public List<AdvertisementTO> getFiltersToSearch(SearchingRequest searchingRequest) {
+		Query query = this.getQueryPublicSearch(searchingRequest);
+		
+		query.addProjection(new PropertyProjection("value", Double.class));
+		if (searchingRequest.getCategory() == null) {
+			query.addProjection(new PropertyProjection("keyCategory", Key.class));
+		}
+		if (searchingRequest.getState() == null) {
+			query.addProjection(new PropertyProjection("keyState", Key.class));
+		}
+		
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(500));
+		List<AdvertisementTO> listAdvertisement = new ArrayList<AdvertisementTO>();
+		for (Entity entity : entities) {
+			listAdvertisement.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+		}
+		
+		return listAdvertisement;
 	}
 	
 	public List<AdvertisementTO> list(UserAccountTO userAccount) {

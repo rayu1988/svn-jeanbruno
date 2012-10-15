@@ -17,6 +17,9 @@ public class AdvertisementTO extends TransferObject {
 	private Long								id;
 	
 	@PropertyField(notNull=true)
+	private Long								score;
+	
+	@PropertyField(notNull=true)
 	private Date								sinceDate;
 
 	@PropertyField(notNull=true, allowEmpty=false)
@@ -29,7 +32,7 @@ public class AdvertisementTO extends TransferObject {
 	private String								contacts;
 	
 	@PropertyField
-	private String								value;
+	private Double								value;
 
 	@PropertyField(notNull=true)
 	private AdvertisementStatus					status;
@@ -63,6 +66,9 @@ public class AdvertisementTO extends TransferObject {
 	@PropertyField
 	private Key									keySheetPicture;
 	private AdvertisementPictureTO				sheetPicture;
+	
+	@PropertyField
+	private Key									keyState;
 
 	@PropertyField
 	private Key									keyUseTerm;
@@ -110,11 +116,11 @@ public class AdvertisementTO extends TransferObject {
 		this.contacts = contacts;
 	}
 
-	public String getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 
@@ -253,5 +259,21 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setKeyUseTerm(Key keyUseTerm) {
 		this.keyUseTerm = keyUseTerm;
+	}
+
+	public Long getScore() {
+		return score;
+	}
+
+	public void setScore(Long score) {
+		this.score = score;
+	}
+
+	public Key getKeyState() {
+		return keyState;
+	}
+
+	public void setKeyState(Key keyState) {
+		this.keyState = keyState;
 	}
 }

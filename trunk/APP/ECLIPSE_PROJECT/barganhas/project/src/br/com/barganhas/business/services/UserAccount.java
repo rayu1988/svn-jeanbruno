@@ -20,7 +20,11 @@ public interface UserAccount {
 	List<UserAccountTO> filter(UserAccountTO userAccount);
 	
 	UserAccountTO insert(UserAccountTO userAccount);
+	
+	UserAccountTO incrementCountAdvertisement(UserAccountTO userAccount) throws EntityNotFoundException;
 
+	List<UserAccountTO> listHighlightedUsers() throws EntityNotFoundException;
+	
 	UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException;
 	
 	UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException;

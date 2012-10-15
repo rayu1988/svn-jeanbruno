@@ -91,6 +91,10 @@ public final class Util {
 		return KeyFactory.keyToString(keyBase);
 	}
 	
+	public static Key getKeyFromString(String str) {
+		return KeyFactory.stringToKey(str);
+	}
+	
 	public static String truncateString(String strBase, int maxSize) {
 		String suspensionPoints = "...";
 		if (strBase.length() > (maxSize + suspensionPoints.length()) ) {

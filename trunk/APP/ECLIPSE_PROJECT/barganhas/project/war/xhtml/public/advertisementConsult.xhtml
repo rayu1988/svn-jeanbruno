@@ -61,7 +61,10 @@
 				<!-- value -->
 				<bargas:outputText id="value" value="#{msg.privateAreaCurrencyValue};" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" styleClass="advertisementValueDetails">
-					<h:outputText value="#{msg.msgRealCurrency} #{siteBean.advertisement.value}"/>
+					<h:outputText value="#{msg.msgRealCurrency} "/>
+					<h:outputText value="#{siteBean.advertisement.value}">
+						<f:converter converterId="ConverterCurrencyReal"/>
+					</h:outputText>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:panelGrid>

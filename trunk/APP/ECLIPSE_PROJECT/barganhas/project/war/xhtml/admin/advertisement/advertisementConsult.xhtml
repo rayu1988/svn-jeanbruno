@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:bargas="http://barganhas.com.br/barganhas">
+	xmlns:bargas="http://barganhas.com.br/barganhas"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 	<ui:define name="headForm">
 		<bargas:headForm headText="#{msg.privateAreaUsers} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
@@ -41,7 +42,9 @@
 			
 			<!-- value -->
 			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
-			<h:outputText id="currencyValue" value="#{advertisementBean.advertisement.value}"/>
+			<h:outputText id="currencyValue" value="#{advertisementBean.advertisement.value}">
+				<f:converter converterId="ConverterCurrencyReal"/>
+			</h:outputText>
 			
 			<!-- list exchange by -->
 			<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
