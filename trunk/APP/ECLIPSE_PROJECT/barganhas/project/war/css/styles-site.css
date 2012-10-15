@@ -228,7 +228,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 #topLinks ul li a {
 	border: 1px solid #0637B3;
-	padding: 2px 12px;
+	padding: 2px 20px;
 	background-color: #CCC;
 	text-decoration: underline;
 }
@@ -258,7 +258,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 #searchField {
 	padding: 5px 4px;
-	width: 50%;
+	width: 70%;
 }
 
 .columnLogo {
