@@ -11,8 +11,9 @@ body {
 	padding: 0 30px;
 	display: block;
 	
-	min-width: 760px;
-	max-width: 1200px;
+/* 	min-width: 760px; */
+/* 	max-width: 1200px; */
+	width: 1200px;
 	margin: 0 auto;
 }
 
@@ -97,7 +98,7 @@ textarea:FOCUS {
     -webkit-box-shadow: 0px 0px 10px #DDD;
     margin-top: 15px;
     padding: 20px;
-    min-width: 1160px;
+/*     min-width: 1160px; */
 }
 
 /** CUSTOM BUTTON **/
@@ -233,6 +234,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	color: white;
 	padding: 2px 20px;
 	text-decoration: underline;
+	border-radius: 5px;
 }
 
 #topLinks ul li a:hover {
@@ -669,7 +671,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 }
 .columnLabel {
 	text-align: right;
-	width: 100px;
+	width: 120px;
 	font: 13px Helvetica, arial, freesans, clean, sans-serif;
 	line-height: 1.4;
 	vertical-align: top;
@@ -885,7 +887,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	margin-bottom: 15px;
 }
 .advertisementDetailHeader {
-	background-color: #C60;
+	background-color: #FF8719;
 	color: white;
 	font-weight: bold;
 	padding: 6px;

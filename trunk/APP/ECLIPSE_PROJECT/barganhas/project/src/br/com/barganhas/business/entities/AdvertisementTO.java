@@ -8,6 +8,7 @@ import br.com.barganhas.business.entities.annotations.PropertyField;
 import br.com.barganhas.enums.AdvertisementStatus;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 @SuppressWarnings("serial")
 public class AdvertisementTO extends TransferObject {
@@ -26,7 +27,7 @@ public class AdvertisementTO extends TransferObject {
 	private String								title;
 	
 	@PropertyField
-	private String								description;
+	private Text								description;
 	
 	@PropertyField
 	private String								contacts;
@@ -101,11 +102,11 @@ public class AdvertisementTO extends TransferObject {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description != null ? this.description.getValue() : "";
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = new Text(description);
 	}
 
 	public String getContacts() {

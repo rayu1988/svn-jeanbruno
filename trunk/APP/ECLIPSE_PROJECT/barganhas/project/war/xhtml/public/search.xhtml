@@ -86,11 +86,11 @@
 					<h:panelGrid columns="2">
 						<h:outputLabel value="#{msg.msgFrom} #{msg.msgRealCurrency} " for="filterCurrencyFrom" style="font-size: 13px;"/>
 						<bargas:inputCurrencyConverted id="filterCurrencyFrom" converterId="ConverterCurrencyReal"
-							maxlength="11" value="#{siteBean.filterCurrencyFrom}" styleClass="currencyFilter" allowZero="false"/>
+							maxlength="12" value="#{siteBean.filterCurrencyFrom}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:outputLabel value="#{msg.msgUpTo} #{msg.msgRealCurrency} " for="filterCurrencyUpTo" style="font-size: 13px;"/>
 						<bargas:inputCurrencyConverted id="filterCurrencyUpTo" converterId="ConverterCurrencyReal"
-							maxlength="11" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
+							maxlength="12" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:column />
 						<h:commandButton value="#{msg.msgFilterUp}" styleClass="customButton" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);"/>

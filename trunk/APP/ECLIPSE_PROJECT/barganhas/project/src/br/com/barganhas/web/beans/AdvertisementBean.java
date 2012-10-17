@@ -397,8 +397,7 @@ public class AdvertisementBean extends AppManagedBean {
 		return selectedAdvertisementType;
 	}
 
-	public void setSelectedAdvertisementType(
-			AdvertisementTypeTO selectedAdvertisementType) {
+	public void setSelectedAdvertisementType(AdvertisementTypeTO selectedAdvertisementType) {
 		this.selectedAdvertisementType = selectedAdvertisementType;
 	}
 
