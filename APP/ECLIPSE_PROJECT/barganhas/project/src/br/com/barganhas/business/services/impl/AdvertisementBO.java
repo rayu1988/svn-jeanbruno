@@ -288,6 +288,9 @@ public class AdvertisementBO implements Advertisement {
 				advertisement.setListAdvertisementPictures(listAdvertisementPictures);
 			}
 			
+			UserAccountTO userAccount = this.serviceUserAccount.consult(new UserAccountTO(advertisement.getKeyUserAccount()));
+			advertisement.setUserAccount(userAccount);
+			
 			transaction.commit();
 			return advertisement;
 		} finally {
@@ -303,7 +306,9 @@ public class AdvertisementBO implements Advertisement {
 		
 		// start getting advertisement
 		List<AdvertisementTO> listAdvertisement = null;
-		if (!GeneralsHelper.isStringOk(searchingRequest.getText())) {
+		if (!GeneralsHelper.isStringOk(searchingRequest.getText()) && searchingRequest.getCategory() == null
+				&& searchingRequest.getState() == null && searchingRequest.getFilterCurrencyFrom() == null
+				&& searchingRequest.getFilterCurrencyUpTo() == null) {
 			searchingResponse.setListAdvertisement(new ArrayList<AdvertisementTO>());
 			return searchingResponse;
 		} else {

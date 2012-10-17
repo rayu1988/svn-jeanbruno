@@ -41,31 +41,50 @@
 			
 			<h:panelGrid id="advertisementDetails" style="width: 100%;">
 				<!-- description -->
-				<bargas:outputText id="description" value="#{msg.privateAreaDescription};" styleClass="advertisementDetailHeader"/>
+				<bargas:outputText id="description" value="#{msg.privateAreaDescription}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{siteBean.advertisement.description}"/>
 				</h:panelGroup>
 				
 				<!-- contacts -->
-				<bargas:outputText id="contacts" value="#{msg.advertisementContacts};" styleClass="advertisementDetailHeader"/>
+				<bargas:outputText id="contacts" value="#{msg.advertisementContacts}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.contacts)}"/>
 				</h:panelGroup>
 				
+				<!-- user account -->
+				<bargas:outputText id="userAccount" value="#{msg.advertisementUserAccount}" styleClass="advertisementDetailHeader"/>
+				<h:panelGroup layout="block" class="advertisementDetails">
+					<h:outputText value="#{siteBean.advertisement.userAccount.nickname}"/>
+				</h:panelGroup>
+				
+				<!-- state -->
+				<bargas:outputText id="state" value="#{msg.stateTitle}" styleClass="advertisementDetailHeader"/>
+				<h:panelGroup layout="block" class="advertisementDetails">
+					<h:outputText value="#{siteBean.advertisement.userAccount.state.name}"/>
+				</h:panelGroup>
+				
+				<!-- city -->
+				<bargas:outputText id="city" value="#{msg.cityTitle}" styleClass="advertisementDetailHeader"/>
+				<h:panelGroup layout="block" class="advertisementDetails">
+					<h:outputText value="#{siteBean.advertisement.userAccount.city.name}"/>
+				</h:panelGroup>
+				
 				<!-- listExchangeBy -->
-				<bargas:outputText id="listExchangeBy" value="#{msg.advertisementListExchangeBy};" styleClass="advertisementDetailHeader"/>
+				<bargas:outputText id="listExchangeBy" value="#{msg.advertisementListExchangeBy}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{siteBean.advertisement.listExchangeBy}"/>
 				</h:panelGroup>
 				
 				<!-- value -->
-				<bargas:outputText id="value" value="#{msg.privateAreaCurrencyValue};" styleClass="advertisementDetailHeader"/>
+				<bargas:outputText id="value" value="#{msg.privateAreaCurrencyValue}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" styleClass="advertisementValueDetails">
 					<h:outputText value="#{msg.msgRealCurrency} "/>
 					<h:outputText value="#{siteBean.advertisement.value}">
 						<f:converter converterId="ConverterCurrencyReal"/>
 					</h:outputText>
 				</h:panelGroup>
+				
 			</h:panelGrid>
 		</h:panelGrid>
 		

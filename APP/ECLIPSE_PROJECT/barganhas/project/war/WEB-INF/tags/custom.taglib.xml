@@ -278,6 +278,19 @@
     		<required>true</required>
     	</attribute>
     </tag>
+    
+	<tag>
+    	<tag-name>carrosel</tag-name>
+    	<source>../tags/carrosel.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>listAdvertisement</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
     <!-- ends tags -->
     
 </facelet-taglib>

@@ -9,27 +9,6 @@
 	xmlns:bargas="http://barganhas.com.br/barganhas">
 	
 	<ui:define name="bodyNavigation">
-		<h:outputScript>
-			try {
-				$j(document).ready( function() {
-					$j("#carroselLastAdvertisementLeft").click(function(){
-						$j("#carroselLastAdvertisement").animate({"margin-left": "+=597px"}, "slow");
-					});
-					$j("#carroselLastAdvertisementRight").click(function(){
-						$j("#carroselLastAdvertisement").animate({"margin-left": "-=597px"}, "slow");
-					});
-					$j("#carroselMostViewedLeft").click(function(){
-						$j("#carroselMostViewed").animate({"margin-left": "+=597px"}, "slow");
-					});
-					$j("#carroselMostViewedRight").click(function(){
-						$j("#carroselMostViewed").animate({"margin-left": "-=597px"}, "slow");
-					});
-				});
-			} catch(e) {
-				alert(e);
-			}
-		</h:outputScript>
-	
 		<h:panelGroup id="indexNavigationBox" layout="block">
 			<h:panelGroup  id="categories" layout="blocl">
 				<p class="title">#{msg.categories}</p>
@@ -59,90 +38,19 @@
 				<h:panelGroup id="lastUpdates" layout="block">
 					<p class="title">#{msg.lastAnnouncement}</p>
 					
-					<h:panelGroup class="carrosel" layout="block">
-						<h:panelGroup id="carroselLastAdvertisementLeft" class="carroselLeftArrow" layout="block" >
-							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png" />
-						</h:panelGroup>
-						
-						<h:panelGroup class="indexListItens" layout="block">
-							<ul id="carroselLastAdvertisement">
-								<ui:repeat var="advertisement" value="#{siteBean.lastAdvertisements}">
-									<li>
-										<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-										</a>
-										
-										<p class="descProduct">
-											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-												<h:outputText value="#{bargas:truncateString(advertisement.title, 35)}" />
-											</a>
-										</p>
-										<p class="priceBox">
-											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-												<h:outputText value="#{msg.msgRealCurrency}"/>
-												<h:outputText value="#{advertisement.value}">
-													<f:converter converterId="ConverterCurrencyReal"/>
-												</h:outputText>
-											</a>
-										</p>
-									</li>
-								</ui:repeat>
-							</ul>
-							
-							<h:panelGroup id="carroselLastAdvertisementRight" class="carroselRightArrow" layout="block">
-								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png" />
-							</h:panelGroup>
-						</h:panelGroup>
-					</h:panelGroup>
+					<bargas:carrosel id="carroselLastAdvertisement" listAdvertisement="#{siteBean.lastAdvertisements}"/>
 				</h:panelGroup>
 
 				<h:panelGroup id="mostViewed" layout="block">
 					<p class="title">#{msg.mostViewed}</p>
 					
-					<h:panelGroup class="carrosel" layout="block">
-						<h:panelGroup id="carroselMostViewedLeft" class="carroselLeftArrow" layout="block">
-							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/>
-						</h:panelGroup>
-
-						<h:panelGroup class="indexListItens" layout="block">
-							<ul id="carroselMostViewed">
-								<ui:repeat var="advertisement" value="#{siteBean.mostViewed}">
-									<li>
-										<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-										</a>
-										
-										<p class="descProduct">
-											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-												<h:outputText value="#{bargas:truncateString(advertisement.title, 35)}" />
-											</a>
-										</p>
-										<p class="priceBox">
-											<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-												<h:outputText value="#{msg.msgRealCurrency}"/>
-												<h:outputText value="#{advertisement.value}">
-													<f:converter converterId="ConverterCurrencyReal"/>
-												</h:outputText>
-											</a>
-										</p>
-									</li>
-								</ui:repeat>
-							</ul>
-							
-							<h:panelGroup id="carroselMostViewedRight" class="carroselRightArrow" layout="block">
-								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/>
-							</h:panelGroup>
-						</h:panelGroup>
-					</h:panelGroup>
+					<bargas:carrosel id="carroselMostViewed" listAdvertisement="#{siteBean.mostViewed}"/>
 				</h:panelGroup>
 				
 				<h:panelGroup id="betterReputations" layout="block">
 					<p class="title">#{msg.betterReputations}</p>
 					
 					<h:panelGroup class="carrosel" layout="block">
-<!-- 						<h:panelGroup class="carroselLeftArrow" layout="block"> -->
-<!-- 							<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png"/> -->
-<!-- 						</h:panelGroup> -->
 						
 						<h:panelGroup class="indexListItens" layout="block">
 							<ul>
@@ -160,9 +68,6 @@
 								</ui:repeat>
 							</ul>
 							
-<!-- 							<h:panelGroup class="carroselRightArrow" layout="block"> -->
-<!-- 								<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png"/> -->
-<!-- 							</h:panelGroup> -->
 						</h:panelGroup>
 					</h:panelGroup>
 				</h:panelGroup>

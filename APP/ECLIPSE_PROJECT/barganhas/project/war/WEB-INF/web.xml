@@ -110,10 +110,10 @@
     	<!--
     		To limit the maximum size of the uploaded files, define the byte size with the
     		org.richfaces.fileUpload.maxRequestSizes
-    		the value is gave as bytes, so 1048576 is to 1MB
+    		the value is gave as bytes, so 5242880 is to 5MB
     	-->
         <param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
-        <param-value>1048576</param-value>
+        <param-value>5242880</param-value>
     </context-param>
     <context-param>
         <param-name>org.richfaces.resourceOptimization.enabled</param-name>
@@ -152,6 +152,7 @@
 		<url-pattern>/xhtml/admin/*</url-pattern>
 		<url-pattern>/service/states/*</url-pattern>
 		<url-pattern>/service/cities/*</url-pattern>
+		<url-pattern>/service/categories/*</url-pattern>
   	</filter-mapping>
 	<filter-mapping>
 		<filter-name>UserAccountAccessFilter</filter-name>
@@ -208,6 +209,10 @@
   		<servlet-name>CityServiceServlet</servlet-name>
   		<servlet-class>br.com.barganhas.web.servlets.CityServiceServlet</servlet-class>
 	</servlet>
+	<servlet>
+  		<servlet-name>CategoryServiceServlet</servlet-name>
+  		<servlet-class>br.com.barganhas.web.servlets.CategoryServiceServlet</servlet-class>
+	</servlet>
 	
 	<!-- SERVLET MAPPINGS -->
 	<servlet-mapping>
@@ -237,6 +242,10 @@
 	<servlet-mapping>
   		<servlet-name>CityServiceServlet</servlet-name>
 		<url-pattern>/service/cities</url-pattern>
+ 	</servlet-mapping>
+	<servlet-mapping>
+  		<servlet-name>CategoryServiceServlet</servlet-name>
+		<url-pattern>/service/categories</url-pattern>
  	</servlet-mapping>
  	
  	<session-config>

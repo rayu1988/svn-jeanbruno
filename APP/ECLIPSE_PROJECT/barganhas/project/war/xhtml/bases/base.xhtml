@@ -92,7 +92,8 @@
 								<h:column>
 									<h:panelGroup layout="block" id="searchform">
 										<h:inputText id="searchField" value="#{siteBean.searchText}"/>
-										<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" />
+										<h:commandButton value="#{msg.buttonFind}" styleClass="customButton" action="#{siteBean.search}" immediate="false" 
+											onclick="return validateInputSearch();"/>
 									</h:panelGroup>
 								</h:column>
 							</h:panelGrid>
@@ -108,13 +109,24 @@
 								<ul>
 									<li><a href="#">#{msg.aboutTheSite}</a></li>
 									<li><a href="#">#{msg.termsOfTheSite}</a></li>
-									<li><a href="#">#{msg.contact}</a></li>
-									<li style="border: 0px;"><a href="#">#{msg.mapOfTheSite}</a></li>
+									<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
+<!-- 									<li><a href="#">#{msg.mapOfTheSite}</a></li> -->
 								</ul>
 								
 								<p>#{msg.copyRightMsg}</p>
 						</h:panelGroup>
 					</h:form>
+					
+					<h:outputScript>
+						function validateInputSearch() {
+							if (lessThan($j("#searchField").val().length, 1)) {
+								alert("Indique um texto para busca!");
+								$j("#searchField").focus();
+								return false;
+							}
+							return true;
+						}
+					</h:outputScript>
 				</h:panelGroup>
    			</h:panelGroup>
    		</h:body>

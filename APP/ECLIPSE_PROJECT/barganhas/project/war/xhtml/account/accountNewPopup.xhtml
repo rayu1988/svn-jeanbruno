@@ -42,6 +42,13 @@
 							maxlength="50"
 							styleClass="inputMainForm bigInputMainForm"
 							disabled="#{userAccountBean.returnMessage.success}"/>
+							
+				<!-- nickname -->
+				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNicknamePopupForm"/>
+				<h:inputText id="userNicknamePopupForm" value="#{userAccountBean.userAccount.nickname}"
+							maxlength="50"
+							styleClass="inputMainForm bigInputMainForm"
+							disabled="#{userAccountBean.returnMessage.success}"/>
 				
 				<!-- state -->
 				<h:outputLabel value="#{msg.stateTitle}:" for="userAccountStatePopupForm"/>
@@ -79,13 +86,6 @@
 							maxlength="50"
 							styleClass="inputMainForm bigInputMainForm"
 							rendered="#{not userAccountBean.returnMessage.success}"/>
-				
-				<!-- nickname -->
-				<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNicknamePopupForm"/>
-				<h:inputText id="userNicknamePopupForm" value="#{userAccountBean.userAccount.nickname}"
-							maxlength="50"
-							styleClass="inputMainForm bigInputMainForm"
-							disabled="#{userAccountBean.returnMessage.success}"/>
 							
 				<!-- password -->
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPasswordPopupForm"

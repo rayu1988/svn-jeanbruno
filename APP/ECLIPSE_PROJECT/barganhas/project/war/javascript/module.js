@@ -21,3 +21,7 @@ function displayMessageBox(id, duringTime) {
 function hideMessageBox(id) {
 	document.getElementById(id).style.display = "none";
 }
+
+function lessThan(value, comparator) {
+	return value < comparator;
+}

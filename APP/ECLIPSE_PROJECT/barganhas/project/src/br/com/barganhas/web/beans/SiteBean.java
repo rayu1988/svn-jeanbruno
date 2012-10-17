@@ -11,7 +11,6 @@ import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
-import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.UserAccount;
@@ -83,10 +82,6 @@ public class SiteBean extends AppManagedBean {
 	
 	public String search() {
 		try {
-			if (!GeneralsHelper.isStringOk(this.searchText)) {
-				throw new AppException("advertisementSearchTextRequired");
-			}
-			
 			SearchingRequest searchingRequest = new SearchingRequest();
 			searchingRequest.setText(this.searchText);
 			searchingRequest.setState(this.stateFilter);

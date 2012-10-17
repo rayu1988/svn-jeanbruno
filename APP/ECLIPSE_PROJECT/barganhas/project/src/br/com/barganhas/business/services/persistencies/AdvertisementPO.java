@@ -45,8 +45,10 @@ public class AdvertisementPO extends AppPersistency {
 	
 	private Query getQueryPublicSearch(SearchingRequest searchingRequest) {
 		List<Filter> filterTitle = new ArrayList<Query.Filter>();
-		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchingRequest.getText()));
-		filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
+		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
+			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchingRequest.getText()));
+			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
+		}
 		
 		List<Filter> listSearchFiltering = new ArrayList<Query.Filter>();
 		if (searchingRequest.getState() != null) {
@@ -66,7 +68,13 @@ public class AdvertisementPO extends AppPersistency {
 		}
 		// TODO implementar busca por faixa de valor
 		
-		Filter filter = CompositeFilterOperator.and(searchFilter, CompositeFilterOperator.or(filterTitle));
+		Filter filter = null;
+		
+		if (GeneralsHelper.isCollectionOk(filterTitle)) {
+			filter = CompositeFilterOperator.and(searchFilter, CompositeFilterOperator.or(filterTitle));
+		} else {
+			filter = searchFilter;
+		}
 		
 		Query query = this.getQuery(AdvertisementTO.class);
 		query.addSort("title");
