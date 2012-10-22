@@ -95,7 +95,11 @@ public class AdvertisementBean extends AppManagedBean {
 	public String prepareNewStepOne() {
 		try {
 			this.advertisement = new AdvertisementTO();
-			this.advertisement.setContacts(this.getUserAccountLogged().getContacts());
+			
+			this.advertisement.setContactPhoneNumberOne(this.getUserAccountLogged().getContactPhoneNumberOne());
+			this.advertisement.setContactPhoneNumberTwo(this.getUserAccountLogged().getContactPhoneNumberTwo());
+			this.advertisement.setContactEmail(this.getUserAccountLogged().getContactEmail());
+			
 			this.prepareListAdvertisementType();
 			this.prepareListCategories();
 			

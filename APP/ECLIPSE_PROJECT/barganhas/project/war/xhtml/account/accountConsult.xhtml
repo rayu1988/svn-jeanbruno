@@ -52,9 +52,21 @@
 				<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
 				<h:commandLink id="userPassword" value="#{msg.changePassword}" action="#{userAccountBean.edit}"/>
 				
-				<!-- contacts -->
-				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<bargas:outputText id="infoContacts" value="#{bargas:textToHtml(userAccountBean.userAccount.contacts)}" styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				<!-- contact phone number 1 -->
+				<h:outputLabel value="#{msg.userAccountContactPhoneNumberOne}:" for="userContactPhoneNumberOne"/>
+				<bargas:outputText id="userContactPhoneNumberOne" value="#{userAccountBean.userAccount.contactPhoneNumberOne}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				
+				<!-- contact phone number 2 -->
+				<h:outputLabel value="#{msg.userAccountContactPhoneNumberTwo}:" for="userContactPhoneNumberTwo"/>
+				<bargas:outputText id="userContactPhoneNumberTwo" value="#{userAccountBean.userAccount.contactPhoneNumberTwo}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+
+				<!-- contact email -->
+				<h:outputLabel value="#{msg.userAccountContactMail}:" for="userContactEmail"/>
+				<bargas:outputText id="userContactEmail" value="#{userAccountBean.userAccount.contactEmail}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+
 			</h:panelGrid>
 		</h:panelGroup>
 	</ui:define>

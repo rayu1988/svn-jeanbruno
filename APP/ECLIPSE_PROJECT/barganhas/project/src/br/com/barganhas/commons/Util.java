@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
 
@@ -20,8 +22,22 @@ import com.google.appengine.api.images.Transform;
 
 public final class Util {
 
+	public static boolean isStringOk(String str) {
+		return GeneralsHelper.isStringOk(str);
+	}
+	
 	public static boolean isCollectionOk(Collection<?> collection) {
 		return GeneralsHelper.isCollectionOk(collection);
+	}
+	
+	public static boolean validateNickname(String nickname) {
+		if (!GeneralsHelper.isStringOk(nickname)) {
+			return false;
+		}
+		
+		Pattern pattern = Pattern.compile("[a-z][a-z0-9]+");
+		Matcher m = pattern.matcher(nickname);
+		return m.matches();
 	}
 	
 	public static String getNameAsJavaBean(Class<?> classe){

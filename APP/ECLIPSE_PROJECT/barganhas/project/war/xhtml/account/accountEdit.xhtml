@@ -74,10 +74,24 @@
 				<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPassword"/>
 				<h:inputSecret id="userConfirmPassword" value="#{userAccountBean.userAccount.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
-				<!-- contacts -->
-				<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="infoContacts"/>
-				<h:inputTextarea id="infoContacts" value="#{userAccountBean.userAccount.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
-				</h:inputTextarea>
+				<!-- contact phone number 1 -->
+				<h:outputLabel value="#{msg.userAccountContactPhoneNumberOne}:" for="userContactPhoneNumberOne"/>
+				<h:inputText id="userContactPhoneNumberOne" value="#{userAccountBean.userAccount.contactPhoneNumberOne}"
+							maxlength="50"
+							styleClass="inputMainForm mediumInputMainForm"/>
+
+				<!-- contact phone number 2 -->
+				<h:outputLabel value="#{msg.userAccountContactPhoneNumberTwo}:" for="userContactPhoneNumberTwo"/>
+				<h:inputText id="userContactPhoneNumberTwo" value="#{userAccountBean.userAccount.contactPhoneNumberTwo}"
+							maxlength="50"
+							styleClass="inputMainForm mediumInputMainForm"/>
+
+				<!-- contact email -->
+				<h:outputLabel value="#{msg.userAccountContactMail}:" for="userContactEmai"/>
+				<h:inputText id="userContactEmai" value="#{userAccountBean.userAccount.contactEmail}"
+							maxlength="50"
+							styleClass="inputMainForm mediumInputMainForm"/>
+				
 			</h:panelGrid>
 		</h:panelGroup>
 		

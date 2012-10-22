@@ -50,10 +50,20 @@
 				<bargas:outputText id="category" value="#{advertisementBean.advertisement.category.name}"
 							styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
-				<!-- contacts -->
-				<h:outputLabel value="#{msg.advertisementContacts}:" for="contacts"/>
-				<bargas:outputText id="contacts" value="#{advertisementBean.advertisement.contacts}"
-							styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				<!-- contact phone number 1 -->
+				<h:outputLabel value="#{msg.advertisementContactPhoneNumberOne}:" for="contactPhoneNumberOne"/>
+				<bargas:outputText id="contactPhoneNumberOne" value="#{advertisementBean.advertisement.contactPhoneNumberOne}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+				
+				<!-- contact phone number 2 -->
+				<h:outputLabel value="#{msg.advertisementContactPhoneNumberTwo}:" for="contactPhoneNumberTwo"/>
+				<bargas:outputText id="contactPhoneNumberTwo" value="#{advertisementBean.advertisement.contactPhoneNumberTwo}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
+
+				<!-- contact email -->
+				<h:outputLabel value="#{msg.advertisementContactMail}:" for="contactEmail"/>
+				<bargas:outputText id="contactEmail" value="#{advertisementBean.advertisement.contactEmail}"
+					styleClass="inputMainForm bigInputMainForm inputDisable"/>
 				
 				<!-- value -->
 				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />

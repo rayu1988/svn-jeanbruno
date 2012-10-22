@@ -46,10 +46,31 @@
 					<h:outputText value="#{siteBean.advertisement.description}"/>
 				</h:panelGroup>
 				
-				<!-- contacts -->
-				<bargas:outputText id="contacts" value="#{msg.advertisementContacts}" styleClass="advertisementDetailHeader"/>
+				<!-- is product new -->
+				<bargas:outputText id="isProductNew" value="#{msg.advertisementIsNewProduct} ?" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.contacts)}"/>
+					<h:outputText value="#{siteBean.advertisement.isNewProduct ? msg.advertisementNewProduct : msg.advertisementUseProduct}"/>
+				</h:panelGroup>
+				
+				<!-- contact phone number 1 -->
+				<bargas:outputText id="contactPhoneNumberOne" value="#{msg.advertisementContactPhoneNumberOne}"
+					styleClass="advertisementDetailHeader" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberOne)}"/>
+				<h:panelGroup layout="block" class="advertisementDetails" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberOne)}">
+					<h:outputText value="#{siteBean.advertisement.contactPhoneNumberOne}"/>
+				</h:panelGroup>
+				
+				<!-- contact phone number 2 -->
+				<bargas:outputText id="contactPhoneNumberTwo" value="#{msg.advertisementContactPhoneNumberTwo}"
+					styleClass="advertisementDetailHeader" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberTwo)}"/>
+				<h:panelGroup layout="block" class="advertisementDetails" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberTwo)}">
+					<h:outputText value="#{siteBean.advertisement.contactPhoneNumberTwo}"/>
+				</h:panelGroup>
+				
+				<!-- contact email -->
+				<bargas:outputText id="contactEmail" value="#{msg.advertisementContactMail}:"
+					styleClass="advertisementDetailHeader" rendered="#{bargas:isStringOk(siteBean.advertisement.contactEmail)}"/>
+				<h:panelGroup layout="block" class="advertisementDetails" rendered="#{bargas:isStringOk(siteBean.advertisement.contactEmail)}">
+					<h:outputText value="#{siteBean.advertisement.contactEmail}"/>
 				</h:panelGroup>
 				
 				<!-- user account -->

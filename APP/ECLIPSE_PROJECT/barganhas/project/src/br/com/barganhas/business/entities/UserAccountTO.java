@@ -17,7 +17,13 @@ public class UserAccountTO extends UserTO {
 	private UserAccountStatus 		status;
 	
 	@PropertyField
-	private String					contacts;
+	private String					contactPhoneNumberOne;
+	
+	@PropertyField
+	private String					contactPhoneNumberTwo;
+	
+	@PropertyField
+	private String					contactEmail;
 	
 	@PropertyField
 	private Key						keyProfileImage;
@@ -42,14 +48,6 @@ public class UserAccountTO extends UserTO {
 	}
 
 	// GETTERS AND SETTERS //
-	public String getContacts() {
-		return contacts;
-	}
-
-	public void setContacts(String contacts) {
-		this.contacts = contacts;
-	}
-
 	public UserAccountStatus getStatus() {
 		return status;
 	}
@@ -112,6 +110,30 @@ public class UserAccountTO extends UserTO {
 
 	public void setCountAdvertisement(Long countAdvertisement) {
 		this.countAdvertisement = countAdvertisement;
+	}
+
+	public String getContactPhoneNumberOne() {
+		return contactPhoneNumberOne;
+	}
+
+	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
+		this.contactPhoneNumberOne = contactPhoneNumberOne;
+	}
+
+	public String getContactPhoneNumberTwo() {
+		return contactPhoneNumberTwo;
+	}
+
+	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
+		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
 	}
 	
 }

@@ -41,10 +41,20 @@
 					<f:selectItems value="#{advertisementBean.listCategories}" />
 				</h:selectOneMenu>
 				
-				<!-- contacts -->
-				<h:outputLabel value="#{msg.advertisementContacts}:" for="contacts"/>
-				<h:inputTextarea id="contacts" value="#{advertisementBean.advertisement.contacts}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
-				</h:inputTextarea>
+				<!-- contact phone number 1 -->
+				<h:outputLabel value="#{msg.advertisementContactPhoneNumberOne}:" for="contactPhoneNumberOne"/>
+				<h:inputText id="contactPhoneNumberOne" value="#{advertisementBean.advertisement.contactPhoneNumberOne}"
+							maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+
+				<!-- contact phone number 2 -->
+				<h:outputLabel value="#{msg.advertisementContactPhoneNumberTwo}:" for="contactPhoneNumberTwo"/>
+				<h:inputText id="contactPhoneNumberTwo" value="#{advertisementBean.advertisement.contactPhoneNumberTwo}"
+							maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+
+				<!-- contact email -->
+				<h:outputLabel value="#{msg.advertisementContactMail}:" for="contactEmail"/>
+				<h:inputText id="contactEmail" value="#{advertisementBean.advertisement.contactEmail}"
+							maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
 				
 				<!-- value -->
 				<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
