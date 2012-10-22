@@ -458,7 +458,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	width: 3456px;
+/* 	width: 3456px; */
 }
 
 .indexListItens ul li {
@@ -870,6 +870,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 #advertisementMainPicture {
 	width: 588px;
 	height: 448px;
+	background: url("../images/animated/litle-circle-loader.gif") no-repeat center center;
+	text-align: center;
 }
 .advertisementPictureThumbnail {
 	width: 110px;
@@ -927,3 +929,18 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	text-align: center;
 }
 /** ADVERTISEMENTS BANNERS **/
+
+/** REGISTER YOURSELF **/
+.headerPopupRegister {
+	font-size: 17px;
+	min-height: 23px;
+	font-weight: bold;
+}
+.columnLabelPopupRegister {
+	text-align: right;
+	width: 145px;
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+	vertical-align: top;
+}
+/** REGISTER YOURSELF **/

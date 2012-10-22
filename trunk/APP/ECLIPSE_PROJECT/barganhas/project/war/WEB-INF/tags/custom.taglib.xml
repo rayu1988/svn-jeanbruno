@@ -14,6 +14,11 @@
     </function>
     <function>
     	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>isStringOk</function-name>
+    	<function-signature>boolean isStringOk(java.lang.String)</function-signature>
+    </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
     	<function-name>isCollectionOk</function-name>
     	<function-signature>boolean isCollectionOk(java.util.Collection)</function-signature>
     </function>
@@ -202,6 +207,10 @@
     		<name>styleClass</name>
     		<required>false</required>
     	</attribute>
+    	<attribute>
+    		<name>rendered</name>
+    		<required>false</required>
+    	</attribute>
     </tag>
     
 	<tag>
@@ -247,6 +256,31 @@
     	<attribute>
     		<name>allowZero</name>
     		<required>false</required>
+    	</attribute>
+    </tag>
+    
+	<tag>
+    	<tag-name>inputWithMask</tag-name>
+    	<source>../tags/inputWithMask.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>value</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>maxlength</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>styleClass</name>
+    		<required>false</required>
+    	</attribute>
+    	<attribute>
+    		<name>mask</name>
+    		<required>true</required>
     	</attribute>
     </tag>
     

@@ -30,10 +30,6 @@
 			<!-- email -->
 			<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="email"/>
 			<h:outputText value="#{userAccountBean.userAccount.email}" id="email"/>
-			
-			<!-- contacts -->
-			<h:outputLabel value="#{msg.userAccconutInfoContacts}:" for="contacts"/>
-			<h:outputText value="#{userAccountBean.userAccount.contacts}" id="contacts"/>
 		</h:panelGrid>
 		
 		<t:saveState value="#{userAccountBean.userAccount}"/>

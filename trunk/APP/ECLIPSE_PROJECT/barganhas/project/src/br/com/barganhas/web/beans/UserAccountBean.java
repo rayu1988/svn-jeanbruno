@@ -128,8 +128,9 @@ public class UserAccountBean extends AppManagedBean {
 			} else if (!this.userAccount.getEmail().equals(this.confirmEmail)) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("confirmFieldErrorMsg", "Email", "Confirma Email"));
 			}
-			if (!GeneralsHelper.isStringOk(this.userAccount.getNickname())) {
-				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Usuário"));
+			if (!Util.validateNickname(this.userAccount.getNickname())) {
+				String userNicknameMsg = Util.getMessageResourceString("privateAreaLoginUser");
+				this.returnMessage.addMessage(Util.getMessageResourceString("userAccountNicknameValidating", userNicknameMsg));
 			}
 			if (!GeneralsHelper.isStringOk(this.userAccount.getPassword()) || this.userAccount.getPassword().length() < 8) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("passwordRequiredFieldMsg"));

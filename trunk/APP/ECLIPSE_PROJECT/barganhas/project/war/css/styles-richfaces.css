@@ -112,4 +112,8 @@
 .rf-fu-inp {
 	cursor: pointer !important;
 }
+
+.rf-pp-cnt {
+	padding-top: 30px !important;
+}
 /** RICHFACES STYLES **/

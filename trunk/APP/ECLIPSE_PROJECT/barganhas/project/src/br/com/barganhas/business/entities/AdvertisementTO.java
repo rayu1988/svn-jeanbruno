@@ -30,7 +30,13 @@ public class AdvertisementTO extends TransferObject {
 	private Text								description;
 	
 	@PropertyField
-	private String								contacts;
+	private String								contactPhoneNumberOne;
+	
+	@PropertyField
+	private String								contactPhoneNumberTwo;
+	
+	@PropertyField
+	private String								contactEmail;
 	
 	@PropertyField
 	private Double								value;
@@ -56,6 +62,9 @@ public class AdvertisementTO extends TransferObject {
 	
 	@PropertyField
 	private String								listExchangeBy;
+	
+	@PropertyField
+	private Boolean								isNewProduct;
 	
 	@PropertyField
 	private Long								countView;
@@ -107,14 +116,6 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setDescription(String description) {
 		this.description = new Text(description);
-	}
-
-	public String getContacts() {
-		return contacts;
-	}
-
-	public void setContacts(String contacts) {
-		this.contacts = contacts;
 	}
 
 	public Double getValue() {
@@ -276,5 +277,37 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setKeyState(Key keyState) {
 		this.keyState = keyState;
+	}
+
+	public String getContactPhoneNumberOne() {
+		return contactPhoneNumberOne;
+	}
+
+	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
+		this.contactPhoneNumberOne = contactPhoneNumberOne;
+	}
+
+	public String getContactPhoneNumberTwo() {
+		return contactPhoneNumberTwo;
+	}
+
+	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
+		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+
+	public Boolean getIsNewProduct() {
+		return isNewProduct;
+	}
+
+	public void setIsNewProduct(Boolean isNewProduct) {
+		this.isNewProduct = isNewProduct;
 	}
 }

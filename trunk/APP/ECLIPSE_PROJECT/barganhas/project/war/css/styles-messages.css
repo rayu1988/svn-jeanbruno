@@ -42,7 +42,7 @@
 /** popup messages **/
 .popupMessage {
 	padding: 10px;
-	width: 740px;
+	width: auto;
 }
 .popupErrorMessage {
 	background-color:#FFE7E7;

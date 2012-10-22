@@ -263,6 +263,6 @@
  	
  	<error-page>
 	   <exception-type>404</exception-type>
-	   <location>/xhtml/exceptions/expiredException.jsf</location>
+	   <location>/xhtml/exceptions/pageNotFoundException.jsf</location>
 	</error-page>
 </web-app>
