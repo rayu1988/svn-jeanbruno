@@ -57,8 +57,8 @@ public class MailBO implements Mail {
 			" 	<body> " +
 
 			" 		<div> " +
-			" 			<a href=\"http://vendasebarganhas.appspot.com/\" target=\"_blank\">" +
-			" 				<img src=\"http://vendasebarganhas.appspot.com/images/logo/logo2-rascunho2.png\">" +
+			" 			<a href=\"http://www.vendasebarganhas.com.br/\" target=\"_blank\">" +
+			" 				<img src=\"http://www.vendasebarganhas.com.br/images/logo/logo2-rascunho2.png\">" +
 			" 			</a>" +
 			" 		</div> " +
 				this.twoLines() +
@@ -88,7 +88,7 @@ public class MailBO implements Mail {
 	
 	private String getLink() {
 		return 
-			"	<a href=\"http://vendasebarganhas.appspot.com/\" target=\"_blank\">" +
+			"	<a href=\"http://www.vendasebarganhas.com.br/\" target=\"_blank\">" +
 			"		Vendas & Barganhas " +
 			"	</a>";
 	}
@@ -100,7 +100,7 @@ public class MailBO implements Mail {
 	private String getCheckingLink(UserAccountTO userAccount) {
 		XORCryption encoder = new XORCryption(MAIL_KEY);
 		String encodedQuery = encoder.encodeToBase64(userAccount.getKeyAsString());
-		String checkingLink = "http://vendasebarganhas.appspot.com" + CHECK_ADDRESS + "?q=" + encodedQuery;
+		String checkingLink = "http://www.vendasebarganhas.com.br" + CHECK_ADDRESS + "?q=" + encodedQuery;
 		return "<a href=\"" + checkingLink + "\" target=\"_blank\">" + checkingLink + "</a>";
 	}
 }
