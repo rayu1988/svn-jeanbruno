@@ -6,8 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.DataModel;
 
-import br.com.barganhas.business.entities.UseTermTO;
-import br.com.barganhas.business.services.UseTerm;
+import br.com.barganhas.business.entities.AboutSiteTO;
+import br.com.barganhas.business.services.AboutSite;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
@@ -15,28 +15,28 @@ import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
-public class UseTermBean extends AppManagedBean {
+public class AboutSiteBean extends AppManagedBean {
 	
-	private UseTermTO							useTerm;
+	private AboutSiteTO							aboutSite;
 	private DataModel<Object>					dataModel;
 	
-	public String useTerm() {
+	public String aboutSite() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			this.useTerm = service.getDefaultUseTerm();
-			return "useTerm";
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = service.getDefault();
+			return "aboutSite";
 		} catch (Exception e) {
 			return this.manageException(e);
-		}	
+		}
 	}
 	
 	public String list() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			this.useTerm = new UseTermTO();
-			List<UseTermTO> list = service.list();
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = new AboutSiteTO();
+			List<AboutSiteTO> list = service.list();
 			this.dataModel = new CustomDataModel(list);
-			return "useTermList";
+			return "aboutSiteList";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -44,9 +44,9 @@ public class UseTermBean extends AppManagedBean {
 	
 	public String prepareNew() {
 		try {
-			this.useTerm = new UseTermTO();
+			this.aboutSite = new AboutSiteTO();
 			
-			return "useTermPrepareNew";
+			return "aboutSitePrepareNew";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -54,8 +54,8 @@ public class UseTermBean extends AppManagedBean {
 	
 	public String insert() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			service.insert(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			service.insert(this.aboutSite);
 			
 			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();
@@ -66,10 +66,10 @@ public class UseTermBean extends AppManagedBean {
 	
 	public String edit() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			this.useTerm = service.consult(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = service.consult(this.aboutSite);
 			
-			return "useTermEdit";
+			return "aboutSiteEdit";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -77,8 +77,8 @@ public class UseTermBean extends AppManagedBean {
 	
 	public String save() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			service.save(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = service.save(this.aboutSite);
 			
 			this.setRequestMessage(new RequestMessage("registerSaveSuccessfully", SeverityMessage.SUCCESS));
 			return this.consult();
@@ -87,12 +87,12 @@ public class UseTermBean extends AppManagedBean {
 		}
 	}
 	
-	public String turnUseTermDefault() {
+	public String turnDefault() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			this.useTerm = service.turnUseTermDefault(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = service.turnDefault(this.aboutSite);
 			
-			this.setRequestMessage(new RequestMessage("useTermHadBeenUnlocked", SeverityMessage.SUCCESS));
+			this.setRequestMessage(new RequestMessage("aboutSiteHadBeenUnlocked", SeverityMessage.SUCCESS));
 			return this.list();
 		} catch (Exception e) {
 			return this.manageException(e);
@@ -101,10 +101,10 @@ public class UseTermBean extends AppManagedBean {
 	
 	public String consult() {
 		try {
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			this.useTerm = service.consult(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			this.aboutSite = service.consult(this.aboutSite);
 			
-			return "useTermConsult";
+			return "aboutSiteConsult";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -112,8 +112,8 @@ public class UseTermBean extends AppManagedBean {
 
 	public String delete() {
 		try{	
-			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
-			service.delete(this.useTerm);
+			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
+			service.delete(this.aboutSite);
 			
 			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();
@@ -130,12 +130,12 @@ public class UseTermBean extends AppManagedBean {
 		this.dataModel = dataModel;
 	}
 
-	public UseTermTO getUseTerm() {
-		return useTerm;
+	public AboutSiteTO getAboutSite() {
+		return aboutSite;
 	}
 
-	public void setUseTerm(UseTermTO useTerm) {
-		this.useTerm = useTerm;
+	public void setAboutSite(AboutSiteTO aboutSite) {
+		this.aboutSite = aboutSite;
 	}
 
 }

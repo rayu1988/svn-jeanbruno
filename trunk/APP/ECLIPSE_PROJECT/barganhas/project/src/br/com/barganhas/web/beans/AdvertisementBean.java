@@ -53,6 +53,7 @@ public class AdvertisementBean extends AppManagedBean {
 	private String								salesCode;
 	private UseTermTO							useTerm;
 	private Boolean								agreeTerms;
+	private String								isProductNew = "true";
 	
 	public String adminListAdvertisements() {
 		try {
@@ -253,6 +254,8 @@ public class AdvertisementBean extends AppManagedBean {
 			this.advertisement.setAdvertisementType(this.selectedAdvertisementType);
 			this.advertisement.setCategory(this.selectedCategory);
 			
+			this.advertisement.setIsNewProduct(new Boolean(this.isProductNew));
+			
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			this.advertisement = service.insert(this.advertisement);
 			
@@ -451,6 +454,14 @@ public class AdvertisementBean extends AppManagedBean {
 
 	public void setAgreeTerms(Boolean agreeTerms) {
 		this.agreeTerms = agreeTerms;
+	}
+
+	public String getIsProductNew() {
+		return isProductNew;
+	}
+
+	public void setIsProductNew(String isProductNew) {
+		this.isProductNew = isProductNew;
 	}
 
 }

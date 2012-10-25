@@ -47,23 +47,24 @@
 				</h:panelGroup>
 				
 				<!-- is product new -->
-				<bargas:outputText id="isProductNew" value="#{msg.advertisementIsNewProduct} ?" styleClass="advertisementDetailHeader"/>
+				<bargas:outputText id="isProductNew" value="#{msg.advertisementIsNewProduct}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{siteBean.advertisement.isNewProduct ? msg.advertisementNewProduct : msg.advertisementUseProduct}"/>
 				</h:panelGroup>
 				
-				<!-- contact phone number 1 -->
-				<bargas:outputText id="contactPhoneNumberOne" value="#{msg.advertisementContactPhoneNumberOne}"
-					styleClass="advertisementDetailHeader" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberOne)}"/>
-				<h:panelGroup layout="block" class="advertisementDetails" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberOne)}">
-					<h:outputText value="#{siteBean.advertisement.contactPhoneNumberOne}"/>
+				<!-- user account first name -->
+				<bargas:outputText id="userAccount" value="#{msg.advertisementUserAccount}" styleClass="advertisementDetailHeader"/>
+				<h:panelGroup layout="block" class="advertisementDetails">
+					<h:outputText value="#{siteBean.advertisement.userAccount.firstName}"/>
 				</h:panelGroup>
 				
-				<!-- contact phone number 2 -->
-				<bargas:outputText id="contactPhoneNumberTwo" value="#{msg.advertisementContactPhoneNumberTwo}"
-					styleClass="advertisementDetailHeader" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberTwo)}"/>
-				<h:panelGroup layout="block" class="advertisementDetails" rendered="#{bargas:isStringOk(siteBean.advertisement.contactPhoneNumberTwo)}">
-					<h:outputText value="#{siteBean.advertisement.contactPhoneNumberTwo}"/>
+				<!-- contact phone numbers 1 -->
+				<bargas:outputText id="contactPhoneNumbers" value="#{msg.advertisementContactPhoneNumbers}" styleClass="advertisementDetailHeader" />
+				<h:panelGroup layout="block" class="advertisementDetails">
+					<h:panelGrid columns="1">
+						<h:outputText value="#{siteBean.advertisement.contactPhoneNumberOne}"/>
+						<h:outputText value="#{siteBean.advertisement.contactPhoneNumberTwo}"/>
+					</h:panelGrid>
 				</h:panelGroup>
 				
 				<!-- contact email -->
@@ -73,22 +74,12 @@
 					<h:outputText value="#{siteBean.advertisement.contactEmail}"/>
 				</h:panelGroup>
 				
-				<!-- user account -->
-				<bargas:outputText id="userAccount" value="#{msg.advertisementUserAccount}" styleClass="advertisementDetailHeader"/>
-				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.userAccount.nickname}"/>
-				</h:panelGroup>
-				
-				<!-- state -->
-				<bargas:outputText id="state" value="#{msg.stateTitle}" styleClass="advertisementDetailHeader"/>
-				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.userAccount.state.name}"/>
-				</h:panelGroup>
-				
-				<!-- city -->
-				<bargas:outputText id="city" value="#{msg.cityTitle}" styleClass="advertisementDetailHeader"/>
+				<!-- localization -->
+				<bargas:outputText id="localization" value="#{msg.localizationRegion}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{siteBean.advertisement.userAccount.city.name}"/>
+					<h:outputText value=" - " />
+					<h:outputText value="#{siteBean.advertisement.userAccount.state.name}"/>
 				</h:panelGroup>
 				
 				<!-- listExchangeBy -->

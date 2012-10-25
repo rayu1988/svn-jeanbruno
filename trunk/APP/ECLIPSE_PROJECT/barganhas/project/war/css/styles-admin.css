@@ -169,6 +169,9 @@ table {
 .menuItemUseTerm {
 	background-image: url(../images/useTerm.png);
 }
+.menuItemAboutSite {
+	background-image: url(../images/about_site.png);
+}
 /** MENU ITEM **/
 
 /** PANELGROUPIMGSEARCH **/

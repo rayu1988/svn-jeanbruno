@@ -80,8 +80,11 @@
 					styleClass="inputMainForm mediumInputMainForm" converterId="ConverterCurrencyReal"/>
 				
 				<!-- is product new -->
-				<h:outputLabel value="#{msg.advertisementIsNewProduct} ? :" for="isProductNew"/>
-				<h:selectBooleanCheckbox id="isProductNew" value="#{advertisementBean.advertisement.isNewProduct}" />
+				<h:outputLabel value="#{msg.advertisementIsNewProduct} :" for="isProductNew"/>
+				<h:selectOneRadio id="isProductNew" value="#{advertisementBean.isProductNew}" styleClass="inputMainForm">
+					<f:selectItem itemLabel="#{msg.advertisementNewProduct}" itemValue="true"/>
+					<f:selectItem itemLabel="#{msg.advertisementUseProduct}" itemValue="false"/>
+				</h:selectOneRadio>
 				
 				<!-- list exchange by -->
 				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>

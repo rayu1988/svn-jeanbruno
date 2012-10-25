@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="bodyNavigation">
+		<h1>#{aboutSiteBean.aboutSite.title}</h1>
+		
+		<h:outputText value="#{aboutSiteBean.aboutSite.stringText}"/>
+		
+		<t:saveState value="#{aboutSiteBean.aboutSite}"/>
+	</ui:define>
+</ui:composition>

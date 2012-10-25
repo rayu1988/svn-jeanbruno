@@ -46,6 +46,11 @@ public class UserAccountTO extends UserTO {
 	public UserAccountTO(Key key) {
 		super(key);
 	}
+	
+	// anonymous attribute : firstName
+	public String getFirstName() {
+		return this.getFullname() != null ? this.getFullname().split(" ")[0] : "";
+	}
 
 	// GETTERS AND SETTERS //
 	public UserAccountStatus getStatus() {
