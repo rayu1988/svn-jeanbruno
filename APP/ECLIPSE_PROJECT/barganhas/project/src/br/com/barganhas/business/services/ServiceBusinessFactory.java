@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.springframework.context.ApplicationContext;
 
+import br.com.barganhas.business.services.impl.AboutSiteBO;
 import br.com.barganhas.business.services.impl.AdministratorBO;
 import br.com.barganhas.business.services.impl.AdvertisementBO;
 import br.com.barganhas.business.services.impl.AdvertisementPictureBO;
@@ -85,6 +86,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public UseTerm getUseTerm() {
 		return (UseTerm) this.applicationContext.getBean(UseTermBO.BEAN_ALIAS);
+	}
+	
+	public AboutSite getAboutSite() {
+		return (AboutSite) this.applicationContext.getBean(AboutSiteBO.BEAN_ALIAS);
 	}
 	
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="false">
+	
+	<!-- AboutSiteTO -->
+    <datastore-index kind="br.com.barganhas.business.entities.AboutSiteTO" ancestor="true" source="manual">
+        <property name="id" direction="desc"/>
+    </datastore-index>
 
 	<!-- AdministratorTO -->
     <datastore-index kind="br.com.barganhas.business.entities.AdministratorTO" ancestor="true" source="manual">

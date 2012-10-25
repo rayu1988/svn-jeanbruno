@@ -157,6 +157,10 @@
 		
 		<!-- ################ Use Terms Use Case ################ -->
 		<navigation-case>
+			<from-outcome>useTerm</from-outcome>
+	   		<to-view-id>/xhtml/useTerm/useTerm.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>useTermList</from-outcome>
 	   		<to-view-id>/xhtml/admin/useTerm/useTermList.xhtml</to-view-id>
 		</navigation-case>
@@ -171,6 +175,28 @@
 		<navigation-case>
 			<from-outcome>useTermConsult</from-outcome>
 	   		<to-view-id>/xhtml/admin/useTerm/useTermConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ About Site Use Case ################ -->
+		<navigation-case>
+			<from-outcome>aboutSite</from-outcome>
+	   		<to-view-id>/xhtml/aboutSite/aboutSite.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteList</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSitePrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteConsult.xhtml</to-view-id>
 		</navigation-case>
 		
 	</navigation-rule>

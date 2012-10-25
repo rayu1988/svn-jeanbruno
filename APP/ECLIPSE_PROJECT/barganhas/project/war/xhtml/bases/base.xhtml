@@ -107,8 +107,8 @@
 					<h:form id="formFooter" prependId="false">
 						<h:panelGroup id="footer" layout="block">
 								<ul>
-									<li><a href="#">#{msg.aboutTheSite}</a></li>
-									<li><a href="#">#{msg.termsOfTheSite}</a></li>
+									<li><h:commandLink value="#{msg.aboutTheSite}" action="#{aboutSiteBean.aboutSite}"/></li>
+									<li><h:commandLink value="#{msg.termsOfTheSite}" action="#{useTermBean.useTerm}"></h:commandLink></li>
 									<li style="border: 0px;"><a href="#">#{msg.contact}</a></li>
 <!-- 									<li><a href="#">#{msg.mapOfTheSite}</a></li> -->
 								</ul>
