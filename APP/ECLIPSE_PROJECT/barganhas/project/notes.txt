@@ -14,4 +14,15 @@ load categories, states and cities
 /service/cities?action=removeAll&set=(1-16)
 /service/categories?action=updateAll
 
+-- JBV --
 appcfg -e brunopib@gmail.com -A vendasebarganhas -V default update war
+
+
+
+-- JDD --
+appcfg -e zi.jesus@gmail.com -A vendasebarganhas -V beta21 download_app c:\vvv
+
+appcfg -e zi.jesus@gmail.com -A vendasebarganhas -V beta22 update \
+
+
+
