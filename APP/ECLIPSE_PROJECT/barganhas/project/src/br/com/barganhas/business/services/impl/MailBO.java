@@ -63,12 +63,12 @@ public class MailBO implements Mail {
 			" 		</div> " +
 				this.twoLines() +
 			" 		<div> " +
-			" 			Recebemos a solicitação de inclusão de um novo usuário no sistema de anúncio e busca " + this.getLink() + " referente ao email " + 
+			" 			Recebemos a solicitação de inclusão de um novo usuário no " + this.getLink() + " referente ao email " + 
 			" 			<b>" + userAccount.getEmail() + "</b>. " + 
 			" 		</div> " +
 				this.twoLines() +
 			" 		<div> " +
-			" 			Se realmente a solicitação é válida e parte do seu desejo verdadeiro, clique no link abaixo ou copie e cole o endereço no seu browser favorito " +
+			" 			Se a solicitação é válida clique no link abaixo ou copie e cole o endereço no seu browser favorito " +
 			" 			para podermos validar e <b>ATIVAR</b> o seu usuário no sistema " + this.getLink() + "." +
 			" 		</div> " +
 				this.twoLines() +
@@ -79,7 +79,7 @@ public class MailBO implements Mail {
 			" 		</div> " +
 				this.twoLines() +
 			" 		<div> " +
-			" 			O Grupo " + this.getLink() + " agradece muito a sua atenção! " +
+			" 			Nós do " + this.getLink() + " agradecemos muito seu interesse em nossa comunidade " +
 			" 		</div> " +
 			
 			" 	</body> " +
