@@ -249,6 +249,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .tableTopSearch {
 	background: url("../images/banner/faixa4.png") no-repeat right center;
+	background-size: cover;
 }
 
 #searchform {
@@ -863,9 +864,9 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	border-radius: 10px;
 	padding: 10px;
 	background-color: #FFFBC8;
-	font: bold 18px Helvetica, arial, freesans, clean, sans-serif;
+	font: bold 12px Helvetica, arial, freesans, clean, sans-serif;
 	color: #C60;
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 }
 #advertisementMainPicture {
 	width: 588px;
@@ -882,7 +883,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 .advertisementDetailMainHeader {
 	border: 2px solid #256CAC;
 	border-radius: 10px;
-	padding: 13px;
+	padding: 10px;
 	background-color: #256CAC;
 	font: bold 18px Helvetica, arial, freesans, clean, sans-serif;
 	color: #FFF;
@@ -892,7 +893,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	background-color: #FF8719;
 	color: white;
 	font-weight: bold;
-	padding: 6px;
+	padding: 3px;
 }
 .advertisementDetailColumnLabel {
 	width: 180px;
