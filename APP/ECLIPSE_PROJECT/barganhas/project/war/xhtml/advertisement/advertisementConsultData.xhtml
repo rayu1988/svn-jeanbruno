@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/advertisementConsultTabBase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="tabFormContent">
+			
+		<!-- authomatic manged info -->
+		<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput" style="border-bottom: 1px solid #CCCCCC">
+			<!-- status -->
+			<h:outputLabel value="#{msg.msgStatus}:" for="advertisementStatus"/>
+			<bargas:outputTextConverted id="advertisementStatus" value="#{advertisementBean.advertisement.status}"
+					styleClass="inputMainForm bigInputMainForm inputDisable" converterId="ConverterAdvertisementStatus"/>
+			
+			<!-- since date -->
+			<h:outputLabel value="#{msg.advertisementSinceDate}:" for="advertisementSinceDate"/>
+			<bargas:outputTextConverted id="advertisementSinceDate" value="#{advertisementBean.advertisement.sinceDate}" 
+					styleClass="inputMainForm bigInputMainForm inputDisable" converterId="ConverterSinceDate"/>
+		
+		</h:panelGrid>
+		
+		<!-- info got in the step one -->
+		<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput" >	
+			<!-- advertisement type -->
+			<h:outputLabel value="#{msg.advertisementAdvertisementType}:" for="advertisementType"/>
+			<bargas:outputText id="advertisementType" value="#{advertisementBean.advertisement.advertisementType.title}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- title -->
+			<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+			<bargas:outputText id="title" value="#{advertisementBean.advertisement.title}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- description -->
+			<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+			<bargas:outputText id="description" value="#{advertisementBean.advertisement.description}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- category -->
+			<h:outputLabel value="#{msg.advertisementCategory}:" for="category"/>
+			<bargas:outputText id="category" value="#{advertisementBean.advertisement.category.name}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- contact phone number 1 -->
+			<h:outputLabel value="#{msg.advertisementContactPhoneNumberOne}:" for="contactPhoneNumberOne"/>
+			<bargas:outputText id="contactPhoneNumberOne" value="#{advertisementBean.advertisement.contactPhoneNumberOne}"
+				styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- contact phone number 2 -->
+			<h:outputLabel value="#{msg.advertisementContactPhoneNumberTwo}:" for="contactPhoneNumberTwo"/>
+			<bargas:outputText id="contactPhoneNumberTwo" value="#{advertisementBean.advertisement.contactPhoneNumberTwo}"
+				styleClass="inputMainForm bigInputMainForm inputDisable"/>
+
+			<!-- contact email -->
+			<h:outputLabel value="#{msg.advertisementContactMail}:" for="contactEmail"/>
+			<bargas:outputText id="contactEmail" value="#{advertisementBean.advertisement.contactEmail}"
+				styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- value -->
+			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
+			<bargas:outputTextConverted id="currencyValue" value="#{advertisementBean.advertisement.value}"
+				converterId="ConverterCurrencyReal" styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- is product new -->
+			<h:outputLabel value="#{msg.advertisementIsNewProduct} :" for="isProductNew"/>
+			<bargas:outputText id="isProductNew" value="#{advertisementBean.advertisement.isNewProduct ? msg.advertisementNewProduct : msg.advertisementUseProduct}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+			
+			<!-- list exchange by -->
+			<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
+			<bargas:outputText id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"/>
+						
+			<!-- sales code -->
+			<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode" rendered="#{advertisementBean.advertisement.sales != null}"/>
+			<bargas:outputText id="salesCode" value="#{advertisementBean.advertisement.sales.title}"
+						styleClass="inputMainForm bigInputMainForm inputDisable"
+						rendered="#{advertisementBean.advertisement.sales != null}"/>
+		</h:panelGrid>
+		
+	</ui:define>
+	
+</ui:composition>

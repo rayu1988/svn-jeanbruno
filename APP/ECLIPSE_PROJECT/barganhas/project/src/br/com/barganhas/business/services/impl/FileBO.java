@@ -81,6 +81,27 @@ public class FileBO implements File {
 		}
 	}
 	
+	/**
+	 * Currently the implementation returns a FileTO without Blob data content.
+	 * @param file
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
+	@Override
+	public FileTO consultProjection(FileTO file) throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			file = this.persistencyLayer.consultProjection(file);
+			
+			transaction.commit();
+			return file;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
 	@Override
 	public FileTO save(FileTO file) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();

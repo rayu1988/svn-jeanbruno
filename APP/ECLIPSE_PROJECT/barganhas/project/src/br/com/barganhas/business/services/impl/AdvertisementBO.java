@@ -176,15 +176,7 @@ public class AdvertisementBO implements Advertisement {
 			AdvertisementPictureTO sheetPicture = this.serviceAdvertisementPicture.insert(advertisementSheet);
 			advertisement.setKeySheetPicture(sheetPicture.getKey());
 
-			if (GeneralsHelper.isCollectionOk(listAdvertisementPictures)) {
-				List<Key> listKeyAdvertisementPictures = new ArrayList<Key>();
-				for (AdvertisementPictureTO advertisementPicture : listAdvertisementPictures) {
-					advertisementPicture = this.serviceAdvertisementPicture.insert(advertisementPicture);
-					listKeyAdvertisementPictures.add(advertisementPicture.getKey());
-				}
-				advertisement.setPictures(listKeyAdvertisementPictures);
-			}
-			
+			advertisement.setPictures(this.buildListKeyPictures(listAdvertisementPictures));
 			advertisement.setCountView(0l);
 
 			// persist and syncronize the advertisement to get its key
@@ -199,6 +191,19 @@ public class AdvertisementBO implements Advertisement {
 				transaction.rollback();
 		    }
 		}
+	}
+	
+	private List<Key> buildListKeyPictures (List<AdvertisementPictureTO> listAdvertisementPictures) throws EntityNotFoundException {
+		List<Key> listKeyAdvertisementPictures = new ArrayList<Key>();
+		if (GeneralsHelper.isCollectionOk(listAdvertisementPictures)) {
+			for (AdvertisementPictureTO advertisementPicture : listAdvertisementPictures) {
+				if (advertisementPicture.getKey() == null) {
+					advertisementPicture = this.serviceAdvertisementPicture.insert(advertisementPicture);
+				}
+				listKeyAdvertisementPictures.add(advertisementPicture.getKey());
+			}
+		}
+		return listKeyAdvertisementPictures;
 	}
 	
 	@Override
@@ -366,9 +371,20 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	public AdvertisementTO save(AdvertisementTO advertisement) {
+	public AdvertisementTO save(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
+			
+			List<AdvertisementPictureTO> listAdvertisementPictures = advertisement.getListAdvertisementPictures();
+			advertisement.setPictures(this.buildListKeyPictures(listAdvertisementPictures));
+			
+			AdvertisementPictureTO advertisementSheet = advertisement.getSheetPicture();
+			if (advertisementSheet.getKey() == null) {
+				advertisementSheet = this.serviceAdvertisementPicture.insert(advertisementSheet);
+			}
+			advertisement.setKeySheetPicture(advertisementSheet.getKey());
+			
+			advertisement.setKeyCategory(advertisement.getCategory().getKey());
 			advertisement = this.persistencyLayer.save(advertisement);
 			
 			transaction.commit();

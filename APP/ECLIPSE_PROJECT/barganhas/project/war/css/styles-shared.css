@@ -13,6 +13,11 @@
 .rowEven:hover {
 	background-color: #DFDFDF;
 }
+.simpleRow {
+}
+.simpleRow:hover {
+	background-color: #DFDFDF;
+}
 
 .columnListActions {
 	width: 90px;

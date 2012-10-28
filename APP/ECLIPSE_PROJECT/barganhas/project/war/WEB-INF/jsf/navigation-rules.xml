@@ -61,12 +61,20 @@
 	   		<to-view-id>/xhtml/advertisement/advertisementNewStepThree.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>advertisementEdit</from-outcome>
-	   		<to-view-id>/xhtml/advertisement/advertisementEdit.xhtml</to-view-id>
+			<from-outcome>advertisementEditData</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementEditData.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>advertisementConsult</from-outcome>
-	   		<to-view-id>/xhtml/advertisement/advertisementConsult.xhtml</to-view-id>
+			<from-outcome>advertisementEditPictures</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementEditPictures.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementConsultData</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementConsultData.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementConsultPictures</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementConsultPictures.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>advertisementAdminList</from-outcome>
