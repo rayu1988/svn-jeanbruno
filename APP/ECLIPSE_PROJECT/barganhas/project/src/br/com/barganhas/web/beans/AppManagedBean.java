@@ -49,11 +49,11 @@ public class AppManagedBean extends ControlRequest implements Serializable {
 		((HttpSession) this.getFacesContext().getExternalContext().getSession(true)).invalidate();
 	}
 	
-	protected HttpServletResponse getHttpServletResponse() {
+	public HttpServletResponse getHttpServletResponse() {
 		return (HttpServletResponse) this.getFacesContext().getExternalContext().getResponse();
 	}
 	
-	protected HttpServletRequest getHttpServletRequest() {
+	public HttpServletRequest getHttpServletRequest() {
 		return (HttpServletRequest) this.getFacesContext().getExternalContext().getRequest();
 	}
 	
