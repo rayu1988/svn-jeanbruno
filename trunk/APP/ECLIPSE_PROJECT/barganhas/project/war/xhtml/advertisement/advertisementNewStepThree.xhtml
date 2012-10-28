@@ -1,5 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	template="/xhtml/advertisement/advertisementNewBase.xhtml"
+	template="/xhtml/bases/advertisementNewBase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -18,27 +18,6 @@
 		
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
-				
-				<!-- sheet of the advertisement -->
-				<h:outputLabel value="#{msg.advertisementSheet}:" for="showListAdvertisementPictures"/>
-				<h:panelGrid columns="2" styleClass="panelDetailsWarning" >
-					<t:selectOneRadio id="showListAdvertisementPictures"  
-							value="#{advertisementBean.selectedSheetPicture}" 
-							converter="SelectAdvertisementSheetConverter"
-							layout="spread">
-						<f:selectItems value="#{advertisementBean.listAdvertisementPictures}" />
-					</t:selectOneRadio>
-					
-					<t:dataTable var="currentSelectItem" value="#{advertisementBean.listAdvertisementPictures}" rowIndexVar="indexSelectItem">
-						<h:column>
-							<h:graphicImage value="/fileserver?q=#{currentSelectItem.value.thumbnail.keyAsString}" />
-						</h:column>
-					
-						<h:column>
-							<t:radio for=":formNavigation:showListAdvertisementPictures" index="#{indexSelectItem}"/>
-						</h:column>
-					</t:dataTable>
-				</h:panelGrid>
 				
 				<!-- sales code -->
 				<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
@@ -63,7 +42,6 @@
 			</h:panelGrid>
 		</h:panelGroup>
 		
-		<t:saveState value="#{advertisementBean.selectedSheetPicture}"/>
 		<t:saveState value="#{advertisementBean.salesCode}"/>
 		<t:saveState value="#{advertisementBean.useTerm}"/>
 		<t:saveState value="#{advertisementBean.agreeTerms}"/>

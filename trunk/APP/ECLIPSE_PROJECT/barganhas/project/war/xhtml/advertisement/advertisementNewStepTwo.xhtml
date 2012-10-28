@@ -1,5 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	template="/xhtml/advertisement/advertisementNewBase.xhtml"
+	template="/xhtml/bases/advertisementNewBase.xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -18,24 +18,8 @@
 		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
 			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
 				
-				<!-- list advertisement pictures -->
-				<h:outputLabel value="#{msg.advertisementPictures}:" for="listAdvertisementPictures"/>
-				<rich:fileUpload id="listAdvertisementPictures" fileUploadListener="#{advertisementBean.uploadFile}"
-								acceptedTypes="png, jpg, jpeg"
-								noDuplicate="true"
-								addLabel="#{msg.fileUploadAddLabel}"
-								clearAllLabel="#{msg.fileUploadClearLabel}"
-								clearLabel="#{msg.fileUploadDeleteLabel}"
-								deleteLabel="#{msg.fileUploadDeleteLabel}"
-								uploadLabel="#{msg.fileUploadUploadLabel}"
-								sizeExceededLabel="#{msg.fileUploadSizeExceededLabel}"
-								doneLabel="#{msg.fileUploadDoneLabel}"
-								maxFilesQuantity="#{advertisementBean.selectedAdvertisementType.totalPictures}"
-								
-								onfilesubmit="popupLoading(true);"
-								onuploadcomplete="popupLoading(false);">
-				</rich:fileUpload>
-			
+				<ui:include src="/xhtml/advertisement/advertisementSelectPictures.xhtml"/>
+				
 			</h:panelGrid>
 		</h:panelGroup>
 	</ui:define>

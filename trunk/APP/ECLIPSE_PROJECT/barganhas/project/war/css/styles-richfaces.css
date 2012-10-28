@@ -51,7 +51,8 @@
 
 .rf-fu {
 	width: 610px !important;
-	border-color: #D8DEE2 !important;
+	border-color: #CCC !important;
+	background: none !important;
 }
 
 .rf-tt-cntr {
@@ -73,7 +74,7 @@
 }
 
 .rf-fu-hdr {
-	background-color: #F7F7F7 !important;
+	background-color: #EEE !important;
 	background-image: none !important;
 	border-color: #EEE !important;
 }
@@ -84,11 +85,13 @@
 	font-weight: bold !important;
 	cursor: pointer !important;
 	border: 1px solid #aaa !important;
+	background: none !important;
 }
 
 .rf-fu-btn-cnt-add {
-	padding: 10px 30px !important;
+	padding: 10px 25px 10px 40px!important;
 	background-position: 9px 9px !important;
+	background: url(../images/search.gif) no-repeat 13px center !important;
 }
 
 .rf-fu-btn-upl {
@@ -98,6 +101,7 @@
 	padding: 7px 10px !important;
 	cursor: pointer !important;
 	border: 1px solid #aaa !important;
+	background: none !important;
 }
 
 .rf-fu-btn-clr {
@@ -107,6 +111,7 @@
 	padding: 7px 10px !important;
 	cursor: pointer !important;
 	border: 1px solid #aaa !important;
+	background: none !important;
 }
 
 .rf-fu-inp {
@@ -115,5 +120,51 @@
 
 .rf-pp-cnt {
 	padding-top: 30px !important;
+}
+
+.rf-fu-lst {
+	height: 55px !important;
+}
+
+.rf-fu-itm {
+	border: 0 !important;
+	padding: 10px !important;
+	padding-top: 18px !important;
+}
+
+.rf-fu-itm-lbl {
+	font: 13px Helvetica, arial, freesans, clean, sans-serif !important;
+	line-height: 1.4 !important;
+}
+
+.rf-fu-itm-lnk {
+/* 	font: bold 13px Helvetica, arial, freesans, clean, sans-serif !important; */
+/* 	line-height: 1.4 !important; */
+/* 	padding-left: 20px !important; */
+/* 	background: url(../images/garbage.png) no-repeat left center !important; */
+	display: none !important;
+}
+
+.rf-fu-itm-st {
+	display: none !important;
+}
+
+.rf-fu-btn-add-dis {
+	margin-left: 10px !important;
+	border-radius: 3px !important;
+	font-weight: bold !important;
+	border: 1px solid #aaa !important;
+	background: none !important;
+}
+
+.rf-fu-btn-cnt-add-dis {
+	padding: 10px 25px 10px 40px!important;
+	background-position: 9px 9px !important;
+	background: url(../images/search.gif) no-repeat 13px center !important;
+	color: #BDBDBD !important;
+	
+	opacity: .40;
+	-moz-opacity: .40;
+	filter:alpha(opacity=40);
 }
 /** RICHFACES STYLES **/

@@ -30,6 +30,10 @@ public final class Util {
 		return GeneralsHelper.isCollectionOk(collection);
 	}
 	
+	public static int sizeCollection(Collection<?> collection) {
+		return collection != null ? collection.size() : 0;
+	}
+	
 	public static boolean validateNickname(String nickname) {
 		if (!GeneralsHelper.isStringOk(nickname)) {
 			return false;

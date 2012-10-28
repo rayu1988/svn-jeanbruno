@@ -922,6 +922,36 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	font-size:17px;
 	font-weight: bold;
 }
+
+.boxAdvertisementGroupTabs {
+	font: 13px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+	color: #CC6600;
+/* 	background-color: #F7F7F7; */
+
+	border-left: 1px solid #C60;
+	border-right: 1px solid #C60;
+	border-bottom: 1px solid #C60;
+	
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+.boxAdvertisementGroupTabsUnselected {
+	padding: 15px 25px;
+	font-weight: bold;
+}
+
+.boxAdvertisementGroupTabsSelected {
+	padding: 15px 25px;
+	font-weight: bold;
+	
+	background-color: #FF8719;
+	color: white;
+}
+.boxAdvertisementGroupTabsSelected:hover {
+	color: white;
+}
 /** PUBLIC ADVERTISEMENT CONSULT **/
 
 /** ADVERTISEMENTS BANNERS **/

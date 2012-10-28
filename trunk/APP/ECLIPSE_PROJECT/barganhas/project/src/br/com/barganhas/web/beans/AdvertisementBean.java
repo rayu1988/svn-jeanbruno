@@ -26,6 +26,7 @@ import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
+import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.commons.RequestMessage;
@@ -54,6 +55,8 @@ public class AdvertisementBean extends AppManagedBean {
 	private UseTermTO							useTerm;
 	private Boolean								agreeTerms;
 	private String								isProductNew = "true";
+	private String								pictureIndexToRemove;
+	private String								selectedTab;
 	
 	public String adminListAdvertisements() {
 		try {
@@ -142,7 +145,6 @@ public class AdvertisementBean extends AppManagedBean {
 
 	public String backToStepTwo() {
 		try {
-			this.listAdvertisementPictures = new ArrayList<SelectItem>();
 			return "advertisementPrepareNewStepTwo";
 		} catch (Exception e) {
 			return this.manageException(e);
@@ -156,12 +158,15 @@ public class AdvertisementBean extends AppManagedBean {
 				this.setRequestMessage(new RequestMessage("advertisementAtLeastOnePictureIsRequired", SeverityMessage.ERROR));
 				return null;
 			}
-			if (this.listAdvertisementPictures.size() > this.selectedAdvertisementType.getTotalPictures()) {
-				this.listAdvertisementPictures = this.listAdvertisementPictures.subList(0, this.selectedAdvertisementType.getTotalPictures().intValue() - 1);
+			if (this.selectedSheetPicture == null) {
+				this.setRequestMessage(new RequestMessage("advertisementSheetIsRequired", SeverityMessage.ERROR));
+				return null;
 			}
 			// ends validate block
 			
-			this.selectedSheetPicture = (AdvertisementPictureTO) this.listAdvertisementPictures.get(0).getValue();
+			if (this.listAdvertisementPictures.size() > this.selectedAdvertisementType.getTotalPictures()) {
+				this.listAdvertisementPictures = this.listAdvertisementPictures.subList(0, this.selectedAdvertisementType.getTotalPictures().intValue() - 1);
+			}
 			
 			UseTerm useTermService = this.getServiceBusinessFactory().getUseTerm();
 			this.useTerm = useTermService.getDefaultUseTerm();
@@ -238,14 +243,16 @@ public class AdvertisementBean extends AppManagedBean {
 			}
 			
 			// remove the sheet picture from list pictures
-			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-			for (SelectItem selectItem : this.listAdvertisementPictures) {
-				AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
-				if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
-					listAdvertisementPictures.add(advertisementPicture);
-				}
-			}
-			this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+//			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+//			for (SelectItem selectItem : this.listAdvertisementPictures) {
+//				AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
+//				if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
+//					listAdvertisementPictures.add(advertisementPicture);
+//				}
+//			}
+//			this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
+			
+			this.advertisement.setListAdvertisementPictures(this.buildListPictures(this.listAdvertisementPictures, this.selectedSheetPicture));
 			this.advertisement.setSheetPicture(this.selectedSheetPicture);
 			
 			UserAccountTO userAccountLogged = this.getUserAccountLogged();
@@ -273,7 +280,52 @@ public class AdvertisementBean extends AppManagedBean {
 			this.selectedCategory = this.advertisement.getCategory();
 			this.prepareListCategories();
 			
-			return "advertisementEdit";
+			return this.editTabData();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String editTabData() {
+		try {
+			this.selectedTab = "dataTab";
+			
+			return "advertisementEditData";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String editTabPictures() {
+		try {
+			this.selectedTab = "picturesTab";
+			
+			if (!GeneralsHelper.isCollectionOk(this.listAdvertisementPictures)) {
+				File fileService = this.getServiceBusinessFactory().getFile();
+				
+				SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+				
+				AdvertisementPictureTO sheetPicture = this.advertisement.getSheetPicture();
+				FileTO thumbnail = fileService.consultProjection(new FileTO(sheetPicture.getKeyThumbnail()));
+				sheetPicture.setThumbnail(thumbnail);
+				
+				selectItemsBuilder.add(sheetPicture, sheetPicture.getThumbnail().getFileName());
+				this.selectedSheetPicture = sheetPicture;
+				
+				if (GeneralsHelper.isCollectionOk(this.advertisement.getListAdvertisementPictures())) {
+					for (AdvertisementPictureTO advertisementPicture : this.advertisement.getListAdvertisementPictures()) {
+						thumbnail = fileService.consultProjection(new FileTO(advertisementPicture.getKeyThumbnail()));
+						advertisementPicture.setThumbnail(thumbnail);
+						
+						selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
+					}
+				}
+				this.listAdvertisementPictures = selectItemsBuilder.buildList();
+				
+				this.selectedAdvertisementType = this.advertisement.getAdvertisementType();
+			}
+			
+			return "advertisementEditPictures";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -303,13 +355,23 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String save() {
 		try {
+			// starts validation
+			if (this.selectedSheetPicture == null) {
+				this.setRequestMessage(new RequestMessage("advertisementSheetIsRequired", SeverityMessage.ERROR));
+				return null;
+			}
 			List<RequestMessage> messages = this.commonValidate();
 			if (GeneralsHelper.isCollectionOk(messages)) {
 				this.setRequestMessages(messages);
 				return null;
 			}
+			// ends validation
 			
 			this.advertisement.setCategory(this.selectedCategory);
+			
+			this.advertisement.setListAdvertisementPictures(this.buildListPictures(this.listAdvertisementPictures, this.selectedSheetPicture));
+			this.advertisement.setSheetPicture(this.selectedSheetPicture);
+			
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			this.advertisement = service.save(this.advertisement);
 			
@@ -318,6 +380,17 @@ public class AdvertisementBean extends AppManagedBean {
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
+	}
+	
+	private List<AdvertisementPictureTO> buildListPictures(List<SelectItem> listSelectItensPictures, AdvertisementPictureTO selectedSheetPicture) {
+		List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+		for (SelectItem selectItem : listSelectItensPictures) {
+			AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
+			if (!advertisementPicture.getThumbnail().equals(selectedSheetPicture.getThumbnail())) {
+				listAdvertisementPictures.add(advertisementPicture);
+			}
+		}
+		return listAdvertisementPictures;
 	}
 	
 	public String adminConsultAdvertisement() {
@@ -335,7 +408,35 @@ public class AdvertisementBean extends AppManagedBean {
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			this.advertisement = service.consult(this.advertisement);
 			
-			return "advertisementConsult";
+			this.listAdvertisementPictures = null;
+			
+			return this.consultTabData();
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String consultTabData() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.consult(this.advertisement);
+			
+			this.selectedTab = "dataTab";
+			
+			return "advertisementConsultData";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
+	
+	public String consultTabPictures() {
+		try {
+			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
+			this.advertisement = service.consult(this.advertisement);
+			
+			this.selectedTab = "picturesTab";
+			
+			return "advertisementConsultPictures";
 		} catch (Exception e) {
 			return this.manageException(e);
 		}
@@ -361,6 +462,15 @@ public class AdvertisementBean extends AppManagedBean {
 			return this.list();
 		} catch (Exception e) {
 			return this.manageException(e);
+		}
+	}
+	
+	public void removePicturePrepareAdvertisement() {
+		try {
+			int index = Integer.parseInt(this.pictureIndexToRemove);
+			this.listAdvertisementPictures.remove(index);
+		} catch (Exception e) {
+			this.manageException(e);
 		}
 	}
 	
@@ -462,6 +572,22 @@ public class AdvertisementBean extends AppManagedBean {
 
 	public void setIsProductNew(String isProductNew) {
 		this.isProductNew = isProductNew;
+	}
+
+	public String getPictureIndexToRemove() {
+		return pictureIndexToRemove;
+	}
+
+	public void setPictureIndexToRemove(String pictureIndexToRemove) {
+		this.pictureIndexToRemove = pictureIndexToRemove;
+	}
+
+	public String getSelectedTab() {
+		return selectedTab;
+	}
+
+	public void setSelectedTab(String selectedTab) {
+		this.selectedTab = selectedTab;
 	}
 
 }

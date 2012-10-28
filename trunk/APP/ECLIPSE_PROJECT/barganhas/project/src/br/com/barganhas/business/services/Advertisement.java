@@ -35,7 +35,7 @@ public interface Advertisement {
 	
 	SearchingResponse publicSearch(SearchingRequest searchingRequest) throws EntityNotFoundException;
 	
-	AdvertisementTO save(AdvertisementTO advertisement);
+	AdvertisementTO save(AdvertisementTO advertisement) throws EntityNotFoundException;
 
 	void delete(AdvertisementTO advertisement) throws EntityNotFoundException;
 

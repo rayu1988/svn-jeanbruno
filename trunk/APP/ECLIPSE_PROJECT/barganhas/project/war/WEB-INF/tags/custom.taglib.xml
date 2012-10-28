@@ -24,6 +24,11 @@
     </function>
     <function>
     	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>sizeCollection</function-name>
+    	<function-signature>int sizeCollection(java.util.Collection)</function-signature>
+    </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
     	<function-name>truncateString</function-name>
     	<function-signature>java.lang.String truncateString(java.lang.String, int)</function-signature>
     </function>
