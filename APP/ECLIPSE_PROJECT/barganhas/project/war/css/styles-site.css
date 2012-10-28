@@ -632,13 +632,13 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 /** INPUT TEXT **/
 .inputMainForm {
-	padding: 5px;
-	font-size: 110%;
-	min-height: 23px;
+	padding: 3px;
+	font-size: 100%;
+	min-height: 20px;
 }
 .mediumInputuMainFormSelectMenu {
-	height: 35px;
-	width: 312px !important;
+	height: 32px;
+	width: 259px !important;
 }
 .bigInputuMainFormSelectMenu {
 	height: 35px;
@@ -656,7 +656,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	width: 600px;
 }
 .mediumInputMainForm {
-	width: 300px;
+	width: 250px;
 }
 .inputDisable {
 	background-color: #F7F7F7;
@@ -678,7 +678,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	vertical-align: top;
 }
 .columnInput {
-	padding-left: 15px;
+	padding-left: 10px;
 	color: #000;
 	vertical-align: top;
 }
@@ -727,8 +727,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	color: #CC6600;
 	background-color: #F7F7F7;
 
-	border-left: 1px solid #CCC;
-	border-right: 1px solid #CCC;
+	border-left: 1px solid #C60;
+	border-right: 1px solid #C60;
 }
 .boxUserAccountFormContext {
 	padding-top: 10px;
@@ -970,8 +970,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 .columnLabelPopupRegister {
 	text-align: right;
 	width: 145px;
-	font: 13px Helvetica, arial, freesans, clean, sans-serif;
-	line-height: 1.4;
+	font: 12px Helvetica, arial, freesans, clean, sans-serif;
+	line-height: 2.0;
 	vertical-align: top;
 }
 /** REGISTER YOURSELF **/
