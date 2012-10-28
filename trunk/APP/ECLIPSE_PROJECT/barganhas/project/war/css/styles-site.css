@@ -866,7 +866,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	background-color: #FFFBC8;
 	font: bold 12px Helvetica, arial, freesans, clean, sans-serif;
 	color: #C60;
-	margin-bottom: 5px;
+	margin-bottom: 0px;
 }
 #advertisementMainPicture {
 	width: 588px;
