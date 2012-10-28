@@ -42,7 +42,7 @@
 				
 				<!-- title -->
 				<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
-				<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				<h:inputText id="title" value="#{advertisementBean.advertisement.title}" maxlength="400" styleClass="inputMainForm bigInputMainForm"/>
 				
 				<!-- description -->
 				<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
@@ -62,12 +62,12 @@
 				<!-- contact phone number 1 -->
 				<h:outputLabel value="#{msg.advertisementContactPhoneNumberOne}:" for="contactPhoneNumberOne"/>
 				<h:inputText id="contactPhoneNumberOne" value="#{advertisementBean.advertisement.contactPhoneNumberOne}"
-							maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+							maxlength="20" styleClass="inputMainForm mediumInputMainForm"/>
 
 				<!-- contact phone number 2 -->
 				<h:outputLabel value="#{msg.advertisementContactPhoneNumberTwo}:" for="contactPhoneNumberTwo"/>
 				<h:inputText id="contactPhoneNumberTwo" value="#{advertisementBean.advertisement.contactPhoneNumberTwo}"
-							maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+							maxlength="20" styleClass="inputMainForm mediumInputMainForm"/>
 
 				<!-- contact email -->
 				<h:outputLabel value="#{msg.advertisementContactMail}:" for="contactEmail"/>
