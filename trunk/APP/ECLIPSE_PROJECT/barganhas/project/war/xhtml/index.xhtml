@@ -26,12 +26,11 @@
 			
 			<h:panelGroup id="productsList" layout="block">
 				<h:panelGroup layout="block" id="bannerSite" style="text-align: center;">
-					<object width="550" height="403"
-					classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0">
-						<param name="SRC" value="#{request.contextPath}/images/banner/projeto5_1_3.swf"/>
-						<embed src="#{request.contextPath}/images/banner/projeto5_1_3.swf" width="550" height="403">
-						</embed>
+					<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="550" height="403" id="banner" align="">
+					<param name="movie" value="/images/banner/projeto5_1_3.swf">
+					<param name="quality" value="high">
+					<param name="wmode" value="transparent">
+					<embed wmode="transparent" src="/images/banner/projeto5_1_3.swf" quality="high" bgcolor="#FFFFFF" width="550" height="403" name="banner" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 					</object>
 				</h:panelGroup>
 				
@@ -151,13 +150,11 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<object width="290" height="100"
-					classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0">
-					
-					<param name="SRC" value="#{request.contextPath}/images/banner/Anuncie_v1.swf"/>
-					<embed src="#{request.contextPath}/images/banner/Anuncie_v1.swf" width="290" height="100">
-					</embed>
+				<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="290" height="100" id="anuncie" align="">
+				<param name="movie" value="/images/banner/Anuncie_v1.swf">
+				<param name="quality" value="high">
+				<param name="wmode" value="transparent">
+				<embed wmode="transparent" src="/images/banner/Anuncie_v1.swf" quality="high" bgcolor="#FFFFFF" width="290" height="100" name="anuncie" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 				</object>
 				
 				<h:panelGroup layout="block" styleClass="advertisementBannerRight">
