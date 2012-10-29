@@ -321,10 +321,10 @@ public class AdvertisementBO implements Advertisement {
 			
 			for (int i = 0; i < listAdvertisement.size() ; i++) {
 				AdvertisementTO advertisement = listAdvertisement.get(i);
-//				if (!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
-//					listAdvertisement.remove(i--);
-//					continue;
-//				}
+				if (!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
+					listAdvertisement.remove(i--);
+					continue;
+				}
 				if (searchingRequest.getFilterCurrencyFrom() != null && advertisement.getValue() < searchingRequest.getFilterCurrencyFrom()) {
 					listAdvertisement.remove(i--);
 					continue;
