@@ -890,8 +890,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	margin-bottom: 15px;
 }
 .advertisementDetailHeader {
-	background-color: #FF8719;
-	color: white;
+	color: #FF8719;
 	font-weight: bold;
 	padding: 3px;
 }
