@@ -45,6 +45,7 @@ public class SiteBean extends AppManagedBean {
 	private StateTO								stateFilter;
 	private Double								filterCurrencyFrom;
 	private Double								filterCurrencyUpTo;
+	private SearchingRequest.SearchOrdering		searchOrdering = SearchingRequest.SearchOrdering.MOST_RELEVANT;
 	
 	public String goToIndex() {
 		try {
@@ -88,6 +89,7 @@ public class SiteBean extends AppManagedBean {
 			searchingRequest.setCategory(this.categoryFilter);
 			searchingRequest.setFilterCurrencyFrom(this.filterCurrencyFrom);
 			searchingRequest.setFilterCurrencyUpTo(this.filterCurrencyUpTo);
+			searchingRequest.setSearchOrdering(this.searchOrdering);
 			
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			SearchingResponse searchingResponse = service.publicSearch(searchingRequest);
@@ -285,6 +287,14 @@ public class SiteBean extends AppManagedBean {
 
 	public void setHighlightedUsers(List<UserAccountTO> highlightedUsers) {
 		this.highlightedUsers = highlightedUsers;
+	}
+
+	public SearchingRequest.SearchOrdering getSearchOrdering() {
+		return searchOrdering;
+	}
+
+	public void setSearchOrdering(SearchingRequest.SearchOrdering searchOrdering) {
+		this.searchOrdering = searchOrdering;
 	}
 
 }

@@ -1,6 +1,7 @@
 package br.com.barganhas.business.services.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +59,7 @@ public class AdvertisementBO implements Advertisement {
 	
 	@Autowired
 	private UserAccount								serviceUserAccount;
-	
+
 	@Override
 	public List<AdvertisementTO> list() {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
@@ -319,9 +320,18 @@ public class AdvertisementBO implements Advertisement {
 		} else {
 			listAdvertisement = this.persistencyLayer.publicSearch(searchingRequest);
 			
+			if (!searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
+				if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
+					Collections.sort(listAdvertisement, AdvertisementTO.LowerPrice());
+				} else {
+					Collections.sort(listAdvertisement, AdvertisementTO.HigherPrice());
+				}
+			}
+			
 			for (int i = 0; i < listAdvertisement.size() ; i++) {
 				AdvertisementTO advertisement = listAdvertisement.get(i);
-				if (!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
+				if (GeneralsHelper.isStringOk(searchingRequest.getText()) &&
+						!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
 					listAdvertisement.remove(i--);
 					continue;
 				}

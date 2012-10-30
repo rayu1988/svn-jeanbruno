@@ -111,10 +111,25 @@
 				</div>
 				
 				<ul class="filterOrderBy">
-					<li style="border: 0;">Ordenado por:</li>
-					<li style="font-weight: bold;">Mais relevantes</li>
-					<li><a href="#">Menor preco</a></li>
-					<li style="border: 0;"><a href="#">Maior preco</a></li>
+					<li style="border: 0;"><h:outputText value="#{msg.searchOrdering}:"/></li>
+					<li>
+						<h:commandLink value="#{msg.searchOrderingMostRelevant}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'MOST_RELEVANT'}">
+							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'MOST_RELEVANT'}"/>
+						</h:commandLink>
+						<h:outputText value="#{msg.searchOrderingMostRelevant}" rendered="#{siteBean.searchOrdering eq 'MOST_RELEVANT'}" style="font-weight: bold;"/>
+					</li>
+					<li>
+						<h:commandLink value="#{msg.searchOrderingLowerPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'LOWER_PRICE'}">
+							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'LOWER_PRICE'}"/>
+						</h:commandLink>
+						<h:outputText value="#{msg.searchOrderingLowerPrice}" rendered="#{siteBean.searchOrdering eq 'LOWER_PRICE'}" style="font-weight: bold;"/>
+					</li>
+					<li style="border: 0;">
+						<h:commandLink value="#{msg.searchOrderingHigherPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'HIGHER_PRICE'}">
+							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'HIGHER_PRICE'}"/>
+						</h:commandLink>
+						<h:outputText value="#{msg.searchOrderingHigherPrice}" rendered="#{siteBean.searchOrdering eq 'HIGHER_PRICE'}" style="font-weight: bold;"/>
+					</li>
 				</ul>
 			
 				<ul class="#{siteBean.listAsGrid ? 'unordenedSearchGalleryClearList' : 'unordenedSearchClearList'}" style="margin-left: 20px;">
@@ -124,7 +139,7 @@
 							
 							<!-- image base -->
 							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
-								class="#{siteBean.listAsGrid ? '' : 'imagesSearchList'}">
+								class="#{siteBean.listAsGrid ? 'imagesSearchGrid' : 'imagesSearchList'}">
 								
 								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
 							</a>
@@ -148,7 +163,7 @@
 							<!-- price -->
 							<p class="#{siteBean.listAsGrid ? 'priceBox' : 'searchListPriceBox'}">
 								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-									<h:outputText value="#{msg.msgRealCurrency}"/>
+									<h:outputText value="#{msg.msgRealCurrency} "/>
 									<h:outputText value="#{advertisement.value}">
 										<f:converter converterId="ConverterCurrencyReal"/>
 									</h:outputText>
@@ -157,7 +172,7 @@
 							
 							<!-- list exchange by -->
 							<p class="#{siteBean.listAsGrid ? '' : 'searchListExchangeBox'}">
-								<h:outputText value="#{advertisement.listExchangeBy}"/>
+								<h:outputText value="#{bargas:truncateString(advertisement.listExchangeBy, 35)}"/>
 							</p>
 						</li>
 					</ui:repeat>
@@ -188,5 +203,6 @@
 		<t:saveState value="#{siteBean.stateFilter}"/>
 		<t:saveState value="#{siteBean.filterCurrencyFrom}"/>
 		<t:saveState value="#{siteBean.filterCurrencyUpTo}"/>
+		<t:saveState value="#{siteBean.searchOrdering}"/>
 	</ui:define>
 </ui:composition>

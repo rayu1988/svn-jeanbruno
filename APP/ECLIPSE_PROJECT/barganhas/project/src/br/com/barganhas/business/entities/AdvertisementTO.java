@@ -1,5 +1,6 @@
 package br.com.barganhas.business.entities;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -100,6 +101,34 @@ public class AdvertisementTO extends TransferObject {
 		return id;
 	}
 
+	public static Comparator<AdvertisementTO> LowerPrice() {
+		return new Comparator<AdvertisementTO>() {
+			@Override
+			public int compare(AdvertisementTO firstAdvertisement, AdvertisementTO anotherAdvertisement) {
+				if (anotherAdvertisement == null || firstAdvertisement.value < anotherAdvertisement.value) {
+					return -1;
+				} else if (firstAdvertisement.value > anotherAdvertisement.value) {
+					return 1;
+				}
+				return 0;
+			}
+		};
+	}
+	
+	public static Comparator<AdvertisementTO> HigherPrice(){
+		return new Comparator<AdvertisementTO>() {
+			@Override
+			public int compare(AdvertisementTO firstAdvertisement, AdvertisementTO anotherAdvertisement) {
+				if (anotherAdvertisement == null || firstAdvertisement.value < anotherAdvertisement.value) {
+					return 1;
+				} else if (firstAdvertisement.value > anotherAdvertisement.value) {
+					return -1;
+				}
+				return 0;
+			}
+		};
+	}
+	
 	// GETTERS AND SETTERS //
 
 	public String getTitle() {

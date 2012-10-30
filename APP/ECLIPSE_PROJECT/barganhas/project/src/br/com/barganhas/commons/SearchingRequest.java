@@ -5,11 +5,18 @@ import br.com.barganhas.business.entities.StateTO;
 
 public class SearchingRequest {
 
+	public enum SearchOrdering {
+		MOST_RELEVANT,
+		LOWER_PRICE,
+		HIGHER_PRICE
+	}
+	
 	private String				text;
 	private StateTO				state;
 	private CategoryTO			category;
 	private Double				filterCurrencyFrom;
 	private Double				filterCurrencyUpTo;
+	private SearchOrdering		searchOrdering;
 	
 	// GETTERS AND SETTERS //
 	public String getText() {
@@ -41,5 +48,11 @@ public class SearchingRequest {
 	}
 	public void setFilterCurrencyUpTo(Double filterCurrencyUpTo) {
 		this.filterCurrencyUpTo = filterCurrencyUpTo;
+	}
+	public SearchOrdering getSearchOrdering() {
+		return searchOrdering;
+	}
+	public void setSearchOrdering(SearchOrdering searchOrdering) {
+		this.searchOrdering = searchOrdering;
 	}
 }
