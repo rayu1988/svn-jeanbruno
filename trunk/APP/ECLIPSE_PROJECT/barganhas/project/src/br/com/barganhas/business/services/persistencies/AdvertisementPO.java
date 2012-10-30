@@ -47,7 +47,7 @@ public class AdvertisementPO extends AppPersistency {
 		List<Filter> filterTitle = new ArrayList<Query.Filter>();
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
 			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchingRequest.getText()));
-			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN, searchingRequest.getText() + "\ufffd" ));
+			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
 		}
 		
 		List<Filter> listSearchFiltering = new ArrayList<Query.Filter>();

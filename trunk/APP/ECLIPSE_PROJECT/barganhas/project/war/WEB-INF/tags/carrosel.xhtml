@@ -23,7 +23,7 @@
 						</p>
 						<p class="priceBox">
 							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-								<h:outputText value="#{msg.msgRealCurrency}"/>
+								<h:outputText value="#{msg.msgRealCurrency} "/>
 								<h:outputText value="#{advertisement.value}">
 									<f:converter converterId="ConverterCurrencyReal"/>
 								</h:outputText>
