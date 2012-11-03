@@ -39,8 +39,9 @@ table {
 	font-size: 20px;
 	font-weight: bold;
 	color: #888787;
-	padding: 15px 0 15px 90px;
+	padding-left: 90px;
 	border-bottom:  1px solid #CCC;
+	height: 125px;
 	
 	background-color: #F0F0F0;
 }
@@ -54,6 +55,7 @@ table {
 #headerPrivateLogin {
 	text-align: right;
 	margin-right: 80px;
+	padding-top: 40px;
 }
 
 #headerPrivateLogin img {

@@ -21,7 +21,6 @@
 						<p>
 							<h:outputText value="#{siteBean.searchText}"/>
 						</p>
-						<h:commandLink value="x" styleClass="excludeResultFoundSearchBox" action="#{siteBean.goToIndex}" onclick="popupLoading(true);"/>
 					</h:panelGroup>
 				</h:panelGroup>
 				
@@ -40,15 +39,17 @@
 						</h:commandLink>
 					</h:panelGroup>
 					
-					<ul>
-						<ui:repeat var="category" value="#{siteBean.listFilterCategory}">
-							<li>
-								<h:commandLink value="#{category.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
-									<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{category}"/>
-								</h:commandLink>
-							</li>
-						</ui:repeat>
-					</ul>
+					<h:panelGroup rendered="#{siteBean.categoryFilter eq null}">
+						<ul>
+							<ui:repeat var="category" value="#{siteBean.listFilterCategory}">
+								<li>
+									<h:commandLink value="#{category.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+										<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{category}"/>
+									</h:commandLink>
+								</li>
+							</ui:repeat>
+						</ul>
+					</h:panelGroup>
 				</div>
 				
 				<!-- localization (states) -->
@@ -66,19 +67,21 @@
 						</h:commandLink>
 					</h:panelGroup>
 					
-					<ul>
-						<ui:repeat var="state" value="#{siteBean.listFilterState}">
-							<li>
-								<h:commandLink value="#{state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
-									<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{state}"/>
-								</h:commandLink>
-							</li>
-						</ui:repeat>
-					</ul>
+					<h:panelGroup rendered="#{siteBean.stateFilter eq null}">
+						<ul>
+							<ui:repeat var="state" value="#{siteBean.listFilterState}">
+								<li>
+									<h:commandLink value="#{state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+										<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{state}"/>
+									</h:commandLink>
+								</li>
+							</ui:repeat>
+						</ul>
+					</h:panelGroup>
 				</div>
 				
 				<!-- range values -->
-				<div class="innerSearchBox">
+				<div class="innerSearchBox" style="border: 0;">
 					<p class="searchFilterHeader">
 						<h:outputText value="#{msg.rangeValues}"/>
 					</p>
@@ -93,110 +96,135 @@
 							maxlength="12" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:column />
-						<h:commandButton value="#{msg.msgFilterUp}" styleClass="customButton" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);"/>
+						<h:commandButton id="buttonFilterSearch" value="#{msg.msgFilterUp}" styleClass="customButton" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);"/>
 					</h:panelGrid>
 				</div>
 			</div>
 			
 			<div id="productsList">
-				<div class="filterGridOrList">
-					<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
-						<h:graphicImage value="#{request.contextPath}/images/list.png"/>
-						<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{false}"/>
-					</h:commandLink>
-					<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
-						<h:graphicImage value="#{request.contextPath}/images/grid.png"/>
-						<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{true}"/>
-					</h:commandLink>
-				</div>
-				
-				<ul class="filterOrderBy">
-					<li style="border: 0;"><h:outputText value="#{msg.searchOrdering}:"/></li>
-					<li>
-						<h:commandLink value="#{msg.searchOrderingMostRelevant}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'MOST_RELEVANT'}">
-							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'MOST_RELEVANT'}"/>
+				<h:panelGrid columns="3" styleClass="filterTopBar" columnClasses="filterGridOrList, filterItensPerPage, filterOrderBy">
+					<!-- choose list or grid -->
+					<h:panelGroup layout="block">
+						<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
+							<h:graphicImage value="#{request.contextPath}/images/list.png"/>
+							<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{false}"/>
 						</h:commandLink>
-						<h:outputText value="#{msg.searchOrderingMostRelevant}" rendered="#{siteBean.searchOrdering eq 'MOST_RELEVANT'}" style="font-weight: bold;"/>
-					</li>
-					<li>
-						<h:commandLink value="#{msg.searchOrderingLowerPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'LOWER_PRICE'}">
-							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'LOWER_PRICE'}"/>
+						<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
+							<h:graphicImage value="#{request.contextPath}/images/grid.png"/>
+							<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{true}"/>
 						</h:commandLink>
-						<h:outputText value="#{msg.searchOrderingLowerPrice}" rendered="#{siteBean.searchOrdering eq 'LOWER_PRICE'}" style="font-weight: bold;"/>
-					</li>
-					<li style="border: 0;">
-						<h:commandLink value="#{msg.searchOrderingHigherPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'HIGHER_PRICE'}">
-							<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'HIGHER_PRICE'}"/>
-						</h:commandLink>
-						<h:outputText value="#{msg.searchOrderingHigherPrice}" rendered="#{siteBean.searchOrdering eq 'HIGHER_PRICE'}" style="font-weight: bold;"/>
-					</li>
-				</ul>
-			
-				<ul class="#{siteBean.listAsGrid ? 'unordenedSearchGalleryClearList' : 'unordenedSearchClearList'}" style="margin-left: 20px;">
-					<ui:repeat value="#{siteBean.listResultSearch}" var="advertisement">
+					</h:panelGroup>
 					
-						<li style="#{siteBean.listAsGrid ? '' : 'position: relative;'}">
-							
-							<!-- image base -->
-							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
-								class="#{siteBean.listAsGrid ? 'imagesSearchGrid' : 'imagesSearchList'}">
+					<!-- total itens per page -->
+					<h:panelGrid columns="2">
+						<h:panelGroup>
+							<h:outputLabel value="#{msg.advertisementTotalItensPerPage}: " for="totalItensPerPage"/>
+							<h:commandLink id="hiddenLinkItensPerPage" style="display:none;" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);">
+								<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
+							</h:commandLink>
+						</h:panelGroup>
+						
+						<h:selectOneMenu id="totalItensPerPage" value="#{siteBean.totalItensPerPage}" converter="omnifaces.SelectItemsConverter">
+							<f:selectItems value="#{siteBean.listItensPerPage}" />
+							<f:ajax event="change" onevent="$j('#hiddenLinkItensPerPage').click()"/>
+						</h:selectOneMenu>
+					</h:panelGrid>
+					
+					<!-- order by -->
+					<h:panelGroup>
+						<ul>
+							<li style="border: 0;"><h:outputText value="#{msg.searchOrdering}:"/></li>
+							<li>
+								<h:commandLink value="#{msg.searchOrderingMostRelevant}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'MOST_RELEVANT'}">
+									<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'MOST_RELEVANT'}"/>
+								</h:commandLink>
+								<h:outputText value="#{msg.searchOrderingMostRelevant}" rendered="#{siteBean.searchOrdering eq 'MOST_RELEVANT'}" style="font-weight: bold;"/>
+							</li>
+							<li>
+								<h:commandLink value="#{msg.searchOrderingLowerPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'LOWER_PRICE'}">
+									<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'LOWER_PRICE'}"/>
+								</h:commandLink>
+								<h:outputText value="#{msg.searchOrderingLowerPrice}" rendered="#{siteBean.searchOrdering eq 'LOWER_PRICE'}" style="font-weight: bold;"/>
+							</li>
+							<li style="border: 0;">
+								<h:commandLink value="#{msg.searchOrderingHigherPrice}" action="#{siteBean.search}" rendered="#{siteBean.searchOrdering ne 'HIGHER_PRICE'}">
+									<f:setPropertyActionListener target="#{siteBean.searchOrdering}" value="#{'HIGHER_PRICE'}"/>
+								</h:commandLink>
+								<h:outputText value="#{msg.searchOrderingHigherPrice}" rendered="#{siteBean.searchOrdering eq 'HIGHER_PRICE'}" style="font-weight: bold;"/>
+							</li>
+						</ul>
+					</h:panelGroup>
+				</h:panelGrid>
+			
+				<h:panelGroup rendered="#{bargas:isCollectionOk(siteBean.listResultSearch)}">
+					<ul class="#{siteBean.listAsGrid ? 'unordenedSearchGalleryClearList' : 'unordenedSearchClearList'}" style="margin-left: 20px;">
+						<ui:repeat value="#{siteBean.listResultSearch}" var="advertisement">
+						
+							<li style="#{siteBean.listAsGrid ? '' : 'position: relative;'}">
 								
-								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
-							</a>
-							
-							<!-- desc box -->
-							<div class="#{siteBean.listAsGrid ? 'descGridSearchListBox' : 'descSearchListBox'}">
-							
-								<!-- title -->
+								<!-- image base -->
 								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
-									class="descProduct-itensInList">
+									class="#{siteBean.listAsGrid ? 'imagesSearchGrid' : 'imagesSearchList'}">
 									
-									<h:outputText value="#{advertisement.title}"/>
+									<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
 								</a>
 								
-								<!-- description -->
-								<p class="#{siteBean.listAsGrid ? 'furtherDescGrid' : 'furtherDescInLine'}">
-									<h:outputText value="#{bargas:truncateString(advertisement.description, 200)}"/>
+								<!-- desc box -->
+								<div class="#{siteBean.listAsGrid ? 'descGridSearchListBox' : 'descSearchListBox'}">
+								
+									<!-- title -->
+									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
+										class="descProduct-itensInList">
+										
+										<h:outputText value="#{bargas:truncateString(advertisement.title, 52)}"/>
+									</a>
+									
+									<!-- description -->
+									<p class="#{siteBean.listAsGrid ? 'furtherDescGrid' : 'furtherDescInLine'}">
+										<h:outputText value="#{bargas:truncateString(advertisement.description, 230)}"/>
+									</p>
+								</div>
+								
+								<!-- price -->
+								<p class="#{siteBean.listAsGrid ? 'priceBox' : 'searchListPriceBox'}">
+									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+										<h:outputText value="#{msg.msgRealCurrency} "/>
+										<h:outputText value="#{advertisement.value}">
+											<f:converter converterId="ConverterCurrencyReal"/>
+										</h:outputText>
+									</a>
 								</p>
-							</div>
-							
-							<!-- price -->
-							<p class="#{siteBean.listAsGrid ? 'priceBox' : 'searchListPriceBox'}">
-								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
-									<h:outputText value="#{msg.msgRealCurrency} "/>
-									<h:outputText value="#{advertisement.value}">
-										<f:converter converterId="ConverterCurrencyReal"/>
-									</h:outputText>
-								</a>
-							</p>
-							
-							<!-- list exchange by -->
-							<p class="#{siteBean.listAsGrid ? '' : 'searchListExchangeBox'}">
-								<h:outputText value="#{bargas:truncateString(advertisement.listExchangeBy, 35)}"/>
-							</p>
-						</li>
-					</ui:repeat>
-				</ul>
+								
+								<!-- list exchange by -->
+								<p class="#{siteBean.listAsGrid ? 'searchGridExchangeBox' : 'searchListExchangeBox'}">
+									<h:outputText value="#{bargas:truncateString(advertisement.listExchangeBy, 95)}"/>
+								</p>
+							</li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
+				<h:panelGroup layout="block" rendered="#{not bargas:isCollectionOk(siteBean.listResultSearch)}" styleClass="searchListEmpty">
+					<h:outputText value="#{msg.advertisementSearchListEmpty}"/>
+				</h:panelGroup>
 				
 				<div style="padding: 10px; position: relative; text-align: center; clear: both;">
 					<ul class="searchScroller">
-						<li>1</li>
-<!-- 						<li>2</li> -->
-<!-- 						<li>3</li> -->
-<!-- 						<li>4</li> -->
-<!-- 						<li>5</li> -->
-<!-- 						<li>6</li> -->
-<!-- 						<li>7</li> -->
-<!-- 						<li>8</li> -->
-<!-- 						<li>9</li> -->
-<!-- 						<li>10</li> -->
+						<ui:repeat var="pageNumber" value="#{siteBean.listPageNumbers}">
+							<li>
+								<h:commandLink action="#{siteBean.search}" value="#{pageNumber}" styleClass="#{pageNumber eq siteBean.currentPage ? 'selectedPageNumber' : ''}">
+									<f:setPropertyActionListener target="#{siteBean.currentPage}" value="#{pageNumber}"></f:setPropertyActionListener>
+								</h:commandLink>
+							</li>
+						</ui:repeat>
 					</ul>
 				</div>
 			</div>
 		</div>
 		
-		<t:saveState value="#{siteBean.listAsGrid}"/>
 		<t:saveState value="#{siteBean.searchText}"/>
+		<t:saveState value="#{siteBean.currentPage}"/>
+		<t:saveState value="#{siteBean.listPageNumbers}"/>
+		<t:saveState value="#{siteBean.listAsGrid}"/>
 		<t:saveState value="#{siteBean.listFilterCategory}"/>
 		<t:saveState value="#{siteBean.categoryFilter}"/>
 		<t:saveState value="#{siteBean.listFilterState}"/>
