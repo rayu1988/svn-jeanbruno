@@ -151,19 +151,27 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 }
 
 .unordenedSearchClearList li {
-	margin-top: 10px;
+	padding: 10px 0px 0px 10px;
 	list-style-type:none;
 	height: 100px;
 	border-bottom: 1px solid #CCC;
+}
+
+.unordenedSearchClearList li:hover {
+	background-color: #EEE;
 }
 
 .unordenedSearchGalleryClearList li {
 	display: inline;
 	float: left;
 	width: 210px;
-	padding: 40px 10px 30px 10px;
+	padding: 20px 10px;
 	border-bottom: 1px solid #CCC;
 	border-right: 1px solid #CCC;
+}
+
+.unordenedSearchGalleryClearList li:hover {
+	background-color: #EEE;
 }
 
 .unordenedSearchGalleryClearList li a:hover {
@@ -186,6 +194,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 .searchScroller li {
 	list-style-type:none;
 	display: inline;
+}
+.searchScroller li a {
 	margin: 0 4px;
 	border-radius: 3px;
 	padding: 5px 8px;
@@ -196,10 +206,13 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	font-size: 13px;
 	line-height: 20px;
 }
-.searchScroller li:hover{
+.searchScroller li a:hover{
 	background-color: #0536B3;
 	color: #FFF;
-	cursor: pointer;
+}
+.selectedPageNumber {
+	background-color: #EEE !important;
+	color: #0637B3 !important;
 }
 /** SEARCHSCROLLER **/
 
@@ -375,7 +388,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	margin-left: 90px;
 }
 .descGridSearchListBox {
-	height: 110px;
+	height: 160px;
 }
 .searchListPriceBox a {
 	font-size: 14px;
@@ -393,14 +406,22 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	font-size: 11px;
 	line-height: 15px;
 	position: absolute;
-	top: 35px;
+	top: 20px;
 	left: 765px;
 }
-.filterGridOrList {
+.searchGridExchangeBox {
+	height: 50px;
+	display: block;
+}
+.filterTopBar {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
 	padding: 5px 0 5px 5px;
 	margin-bottom: 20px;
+	width: 100%;
+}
+.filterGridOrList {
+	width: 130px;
 }
 .filterGridOrList img {
 	margin: 0 3px;
@@ -412,10 +433,14 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 .filterGridOrList img:hover {
 	background: lightGrey;
 }
+.filterItensPerPage {
+	font-family: Arial,Helvetica,"Nimbus Sans L",sans-serif;
+	font-size: 12px;
+	line-height: 18px;
+	color: #333;
+}
 .filterOrderBy {
-	position: absolute;
-	top: 8px;
-	right: 5px;
+	text-align: right;
 }
 .filterOrderBy li {
 	display: inline;
@@ -432,6 +457,12 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 .currencyFilter {
 	width: 65px;
 	padding: 3px;
+}
+.searchListEmpty {
+	display: block;
+	width: 100%;
+	padding: 60px 0px;
+	text-align: center;
 }
 /** SEARCH_FILTER **/
 

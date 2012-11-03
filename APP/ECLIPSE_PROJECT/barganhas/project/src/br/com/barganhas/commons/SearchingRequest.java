@@ -11,12 +11,19 @@ public class SearchingRequest {
 		HIGHER_PRICE
 	}
 	
+	public SearchingRequest() {
+		this.totalItensPerPage = 0;
+		this.currentPage = 0;
+	}
+	
 	private String				text;
 	private StateTO				state;
 	private CategoryTO			category;
 	private Double				filterCurrencyFrom;
 	private Double				filterCurrencyUpTo;
 	private SearchOrdering		searchOrdering;
+	private Integer				totalItensPerPage;
+	private Integer				currentPage;
 	
 	// GETTERS AND SETTERS //
 	public String getText() {
@@ -54,5 +61,17 @@ public class SearchingRequest {
 	}
 	public void setSearchOrdering(SearchOrdering searchOrdering) {
 		this.searchOrdering = searchOrdering;
+	}
+	public Integer getTotalItensPerPage() {
+		return totalItensPerPage;
+	}
+	public void setTotalItensPerPage(Integer totalItensPerPage) {
+		this.totalItensPerPage = totalItensPerPage;
+	}
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
 	}
 }

@@ -43,7 +43,7 @@
 				<!-- description -->
 				<bargas:outputText id="description" value="#{msg.privateAreaDescription}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.description}"/>
+					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.description)}" escape="false"/>
 				</h:panelGroup>
 				
 				<!-- is product new -->
@@ -85,7 +85,7 @@
 				<!-- listExchangeBy -->
 				<bargas:outputText id="listExchangeBy" value="#{msg.advertisementListExchangeBy}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.listExchangeBy}"/>
+					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.listExchangeBy)}" escape="false"/>
 				</h:panelGroup>
 				
 				<!-- value -->

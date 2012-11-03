@@ -23,9 +23,9 @@
    			<h:panelGroup id="wrapper" layout="block">
    				<h:form prependId="false">
 	   				<h:panelGroup id="header" layout="block">
-	   					<h:commandLink id="logoHeader" action="#{loginBean.goToIndex}">
-	   						<h:graphicImage value="#{request.contextPath}/images/barganhas-logo-250x33-6.png"/>
-	   					</h:commandLink>
+	   					<a href="#{request.contextPath}/" id="logoHeader" >
+	   						<h:graphicImage value="#{request.contextPath}/images/logo/logo2-3.png" width="350px"/>
+	   					</a>
 						<h:panelGroup layout="block" id="headerPrivateLogin">
 							<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
 							<h:outputText value="#{appSessionBean.administrator.nickname}"/>

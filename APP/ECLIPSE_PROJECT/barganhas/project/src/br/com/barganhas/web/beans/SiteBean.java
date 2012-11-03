@@ -1,11 +1,14 @@
 package br.com.barganhas.web.beans;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.model.SelectItem;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.omnifaces.util.selectitems.SelectItemsBuilder;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
@@ -45,6 +48,10 @@ public class SiteBean extends AppManagedBean {
 	private StateTO								stateFilter;
 	private Double								filterCurrencyFrom;
 	private Double								filterCurrencyUpTo;
+	private List<SelectItem>					listItensPerPage;
+	private Integer								totalItensPerPage = 10;
+	private List<Integer>						listPageNumbers; 
+	private Integer								currentPage = 1;
 	private SearchingRequest.SearchOrdering		searchOrdering = SearchingRequest.SearchOrdering.MOST_RELEVANT;
 	
 	public String goToIndex() {
@@ -90,18 +97,33 @@ public class SiteBean extends AppManagedBean {
 			searchingRequest.setFilterCurrencyFrom(this.filterCurrencyFrom);
 			searchingRequest.setFilterCurrencyUpTo(this.filterCurrencyUpTo);
 			searchingRequest.setSearchOrdering(this.searchOrdering);
+			searchingRequest.setTotalItensPerPage(this.totalItensPerPage);
+			searchingRequest.setCurrentPage(this.currentPage);
 			
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			SearchingResponse searchingResponse = service.publicSearch(searchingRequest);
 			
 			this.listResultSearch = searchingResponse.getListAdvertisement();
-			this.listFilterCategory = searchingResponse.getListCategory();
-			this.listFilterState = searchingResponse.getState();
+			this.listFilterCategory = Arrays.asList(searchingResponse.getListCategory().toArray(new CategoryTO[]{}));
+			this.listFilterState = Arrays.asList(searchingResponse.getListState().toArray(new StateTO[]{}));
+			this.listPageNumbers = searchingResponse.buildPageNumbers(this.totalItensPerPage);
 			
 			return "search";
 		} catch (Exception e) {
 			this.manageException(e);
 			return this.goToIndex();
+		}
+	}
+	
+	private void prepareListItensPerPage() {
+		if (!GeneralsHelper.isCollectionOk(this.listItensPerPage)) {
+			SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
+			selectItemsBuilder.add(new Integer(10), "10");
+			selectItemsBuilder.add(new Integer(20), "20");
+			selectItemsBuilder.add(new Integer(50), "50");
+			selectItemsBuilder.add(new Integer(100), "100");
+			selectItemsBuilder.add(new Integer(500), "500");
+			this.listItensPerPage = selectItemsBuilder.buildList();
 		}
 	}
 	
@@ -295,6 +317,39 @@ public class SiteBean extends AppManagedBean {
 
 	public void setSearchOrdering(SearchingRequest.SearchOrdering searchOrdering) {
 		this.searchOrdering = searchOrdering;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public List<SelectItem> getListItensPerPage() {
+		this.prepareListItensPerPage();
+		return listItensPerPage;
+	}
+
+	public void setListItensPerPage(List<SelectItem> listItensPerPage) {
+		this.listItensPerPage = listItensPerPage;
+	}
+
+	public Integer getTotalItensPerPage() {
+		return totalItensPerPage;
+	}
+
+	public void setTotalItensPerPage(Integer totalItensPerPage) {
+		this.totalItensPerPage = totalItensPerPage;
+	}
+
+	public List<Integer> getListPageNumbers() {
+		return listPageNumbers;
+	}
+
+	public void setListPageNumbers(List<Integer> listPageNumbers) {
+		this.listPageNumbers = listPageNumbers;
 	}
 
 }

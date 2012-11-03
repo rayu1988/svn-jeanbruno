@@ -3,7 +3,6 @@ package br.com.barganhas.business.services.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
@@ -194,7 +193,7 @@ public class AdvertisementBO implements Advertisement {
 		}
 	}
 	
-	private List<Key> buildListKeyPictures (List<AdvertisementPictureTO> listAdvertisementPictures) throws EntityNotFoundException {
+	private List<Key> buildListKeyPictures(List<AdvertisementPictureTO> listAdvertisementPictures) throws EntityNotFoundException {
 		List<Key> listKeyAdvertisementPictures = new ArrayList<Key>();
 		if (GeneralsHelper.isCollectionOk(listAdvertisementPictures)) {
 			for (AdvertisementPictureTO advertisementPicture : listAdvertisementPictures) {
@@ -306,20 +305,28 @@ public class AdvertisementBO implements Advertisement {
 		}
 	}
 	
+	private boolean isEmptySearch(SearchingRequest searchingRequest) {
+		boolean isValidSarchText = !GeneralsHelper.isStringOk(searchingRequest.getText());
+		boolean existsCategory = searchingRequest.getCategory() == null;
+		boolean existsState = searchingRequest.getState() == null;
+		boolean existsCurrencyValueFrom = searchingRequest.getFilterCurrencyFrom() == null;
+		boolean existsCurrencyValueUpTo = searchingRequest.getFilterCurrencyUpTo() == null;
+				
+		return isValidSarchText && existsCategory && existsState && existsCurrencyValueFrom && existsCurrencyValueUpTo;
+	}
+	
 	@Override
 	public SearchingResponse publicSearch(SearchingRequest searchingRequest) throws EntityNotFoundException {
 		SearchingResponse searchingResponse = new SearchingResponse();
 		
 		// start getting advertisement
 		List<AdvertisementTO> listAdvertisement = null;
-		if (!GeneralsHelper.isStringOk(searchingRequest.getText()) && searchingRequest.getCategory() == null
-				&& searchingRequest.getState() == null && searchingRequest.getFilterCurrencyFrom() == null
-				&& searchingRequest.getFilterCurrencyUpTo() == null) {
-			searchingResponse.setListAdvertisement(new ArrayList<AdvertisementTO>());
+		if (isEmptySearch(searchingRequest)) {
 			return searchingResponse;
 		} else {
-			listAdvertisement = this.persistencyLayer.publicSearch(searchingRequest);
+			listAdvertisement = this.persistencyLayer.listEntitiesPublicSearch(searchingRequest);
 			
+			// sorting
 			if (!searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
 				if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
 					Collections.sort(listAdvertisement, AdvertisementTO.LowerPrice());
@@ -328,8 +335,10 @@ public class AdvertisementBO implements Advertisement {
 				}
 			}
 			
+			// filter selecting and removing
 			for (int i = 0; i < listAdvertisement.size() ; i++) {
 				AdvertisementTO advertisement = listAdvertisement.get(i);
+				
 				if (GeneralsHelper.isStringOk(searchingRequest.getText()) &&
 						!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
 					listAdvertisement.remove(i--);
@@ -344,38 +353,41 @@ public class AdvertisementBO implements Advertisement {
 					continue;
 				}
 				
+				// starts setting filtering
+				StateTO state = new StateTO(advertisement.getKeyState());
+				if (!searchingResponse.getListState().contains(state)) {
+					searchingResponse.getListState().add(this.serviceState.consult(state));
+				}
+				
+				CategoryTO category = new CategoryTO(advertisement.getKeyCategory());
+				if (!searchingResponse.getListCategory().contains(category)) {
+					searchingResponse.getListCategory().add(this.serviceCategory.consult(category));
+				}
+				// ends setting filtering
+			}
+			
+			int currentListSize = listAdvertisement.size();
+			int totalItensPerPage = searchingRequest.getTotalItensPerPage();
+			int currentPage = searchingRequest.getCurrentPage();
+			
+			int starts = (currentPage - 1) * totalItensPerPage;
+			int ends = (totalItensPerPage * currentPage) - 1;
+			ends = ends >= currentListSize ? currentListSize - 1 : ends;
+			
+			// consulting the advertisement picture's thumbnails
+			List<AdvertisementTO> finalSearchList = new ArrayList<AdvertisementTO>();
+			for (int i = starts; i <= ends; i++ ) {
+				AdvertisementTO advertisement = listAdvertisement.get(i);
 				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
 				advertisement.setSheetPicture(advertisementPicture);
+				
+				finalSearchList.add(advertisement);
 			}
+			listAdvertisement = finalSearchList;
+			searchingResponse.setTotalCriteriaSize(currentListSize);
 		}
 		searchingResponse.setListAdvertisement(listAdvertisement);
 		// ends getting advertisement
-
-		// start getting filtering
-		List<AdvertisementTO> filtering = this.persistencyLayer.getFiltersToSearch(searchingRequest);
-		HashSet<Key> stateKeys = new HashSet<Key>();
-		HashSet<Key> categoryKeys = new HashSet<Key>();
-		for (AdvertisementTO advertisementFilter : filtering) {
-			if (searchingRequest.getState() == null) {
-				stateKeys.add(advertisementFilter.getKeyState());
-			}
-			if (searchingRequest.getCategory() == null) {
-				categoryKeys.add(advertisementFilter.getKeyCategory());
-			}
-		}
-		
-		List<StateTO> filterState = new ArrayList<StateTO>();
-		for (Key stateKey : stateKeys) {
-			filterState.add(this.serviceState.consult(new StateTO(stateKey)));
-		}
-		searchingResponse.setState(filterState);
-		
-		List<CategoryTO> filterCategory = new ArrayList<CategoryTO>();
-		for (Key categoryKey : categoryKeys) {
-			filterCategory.add(this.serviceCategory.consult(new CategoryTO(categoryKey)));
-		}
-		searchingResponse.setListCategory(filterCategory);
-		// ends getting filtering
 		
 		return searchingResponse;
 	}
