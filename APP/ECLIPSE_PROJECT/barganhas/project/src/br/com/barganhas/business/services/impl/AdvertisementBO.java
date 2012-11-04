@@ -13,16 +13,16 @@ import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.entities.CategoryTO;
+import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.SalesTO;
-import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
+import br.com.barganhas.business.services.City;
 import br.com.barganhas.business.services.Sales;
-import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.AdvertisementPO;
 import br.com.barganhas.commons.SearchingRequest;
@@ -54,7 +54,7 @@ public class AdvertisementBO implements Advertisement {
 	private Sales									serviceSales;
 	
 	@Autowired
-	private State									serviceState;
+	private City									serviceCity;
 	
 	@Autowired
 	private UserAccount								serviceUserAccount;
@@ -145,6 +145,26 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
+	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) throws EntityNotFoundException {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.userAccountLastAdvertisements(userAccount);
+			
+			for (AdvertisementTO advertisement : listReturn) {
+				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+				advertisement.setSheetPicture(advertisementPicture);
+			}
+			
+			transaction.commit();
+			return listReturn;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
 	public AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
@@ -161,7 +181,6 @@ public class AdvertisementBO implements Advertisement {
 			}
 			UserAccountTO userAccount = advertisement.getUserAccount();
 			advertisement.setKeyUserAccount(userAccount.getKey());
-			advertisement.setKeyState(userAccount.getKeyState());
 			
 			AdvertisementTypeTO advertisementType = advertisement.getAdvertisementType();
 			advertisement.setKeyAdvertisementType(advertisementType.getKey());
@@ -308,11 +327,11 @@ public class AdvertisementBO implements Advertisement {
 	private boolean isEmptySearch(SearchingRequest searchingRequest) {
 		boolean isValidSarchText = !GeneralsHelper.isStringOk(searchingRequest.getText());
 		boolean existsCategory = searchingRequest.getCategory() == null;
-		boolean existsState = searchingRequest.getState() == null;
+		boolean existsCity = searchingRequest.getCity() == null;
 		boolean existsCurrencyValueFrom = searchingRequest.getFilterCurrencyFrom() == null;
 		boolean existsCurrencyValueUpTo = searchingRequest.getFilterCurrencyUpTo() == null;
 				
-		return isValidSarchText && existsCategory && existsState && existsCurrencyValueFrom && existsCurrencyValueUpTo;
+		return isValidSarchText && existsCategory && existsCity && existsCurrencyValueFrom && existsCurrencyValueUpTo;
 	}
 	
 	@Override
@@ -339,6 +358,14 @@ public class AdvertisementBO implements Advertisement {
 			for (int i = 0; i < listAdvertisement.size() ; i++) {
 				AdvertisementTO advertisement = listAdvertisement.get(i);
 				
+				UserAccountTO userAccount = this.serviceUserAccount.consult(new UserAccountTO(advertisement.getKeyUserAccount()));
+				CityTO currentCity = new CityTO(userAccount.getKeyCity());
+				
+				// stats checking remove undesired elements
+				if (searchingRequest.getCity() != null && !searchingRequest.getCity().equals(currentCity)) {
+					listAdvertisement.remove(i--);
+					continue;
+				}
 				if (GeneralsHelper.isStringOk(searchingRequest.getText()) &&
 						!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
 					listAdvertisement.remove(i--);
@@ -352,11 +379,11 @@ public class AdvertisementBO implements Advertisement {
 					listAdvertisement.remove(i--);
 					continue;
 				}
+				// ends checking remove undesired elements
 				
 				// starts setting filtering
-				StateTO state = new StateTO(advertisement.getKeyState());
-				if (!searchingResponse.getListState().contains(state)) {
-					searchingResponse.getListState().add(this.serviceState.consult(state));
+				if (!searchingResponse.getListCities().contains(currentCity)) {
+					searchingResponse.getListCities().add(this.serviceCity.consult(currentCity));
 				}
 				
 				CategoryTO category = new CategoryTO(advertisement.getKeyCategory());

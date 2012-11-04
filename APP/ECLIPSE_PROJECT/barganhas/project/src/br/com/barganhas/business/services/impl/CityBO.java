@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.services.City;
+import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.persistencies.CityPO;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -20,6 +21,9 @@ public class CityBO implements City {
 
 	@Autowired
 	private CityPO									persistencyLayer;
+	
+	@Autowired
+	private State									serviceState;
 	
 	@Override
 	public List<CityTO> list(StateTO state) {
@@ -40,6 +44,8 @@ public class CityBO implements City {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
 			city = this.persistencyLayer.consult(city);
+			city.setState(this.serviceState.consult(new StateTO(city.getKeyState())));
+			
 			transaction.commit();
 			return city;
 		} finally {

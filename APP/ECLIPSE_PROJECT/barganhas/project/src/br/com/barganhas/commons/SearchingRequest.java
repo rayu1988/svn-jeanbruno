@@ -1,7 +1,7 @@
 package br.com.barganhas.commons;
 
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.entities.StateTO;
+import br.com.barganhas.business.entities.CityTO;
 
 public class SearchingRequest {
 
@@ -17,7 +17,7 @@ public class SearchingRequest {
 	}
 	
 	private String				text;
-	private StateTO				state;
+	private CityTO				city;
 	private CategoryTO			category;
 	private Double				filterCurrencyFrom;
 	private Double				filterCurrencyUpTo;
@@ -31,12 +31,6 @@ public class SearchingRequest {
 	}
 	public void setText(String text) {
 		this.text = text;
-	}
-	public StateTO getState() {
-		return state;
-	}
-	public void setState(StateTO state) {
-		this.state = state;
 	}
 	public CategoryTO getCategory() {
 		return category;
@@ -73,5 +67,11 @@ public class SearchingRequest {
 	}
 	public void setCurrentPage(Integer currentPage) {
 		this.currentPage = currentPage;
+	}
+	public CityTO getCity() {
+		return city;
+	}
+	public void setCity(CityTO city) {
+		this.city = city;
 	}
 }

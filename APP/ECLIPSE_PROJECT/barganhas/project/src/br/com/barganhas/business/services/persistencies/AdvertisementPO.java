@@ -48,23 +48,18 @@ public class AdvertisementPO extends AppPersistency {
 			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
 		}
 		
-		List<Filter> listSearchFiltering = new ArrayList<Query.Filter>();
-		if (searchingRequest.getState() != null) {
-			listSearchFiltering.add(new Query.FilterPredicate("keyState", Query.FilterOperator.EQUAL, searchingRequest.getState().getKey()));
-		}
+		Filter categoryFilter = null;
 		if (searchingRequest.getCategory() != null) {
-			listSearchFiltering.add(new Query.FilterPredicate("keyCategory", Query.FilterOperator.EQUAL, searchingRequest.getCategory().getKey()));
+			categoryFilter = new Query.FilterPredicate("keyCategory", Query.FilterOperator.EQUAL, searchingRequest.getCategory().getKey());
 		}
 		
 		Filter searchFilter = null;
 		Filter advertisementEnabledFilter = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		if (GeneralsHelper.isCollectionOk(listSearchFiltering)) {
-			listSearchFiltering.add(advertisementEnabledFilter);
-			searchFilter = CompositeFilterOperator.and(listSearchFiltering);
+		if (categoryFilter != null) {
+			searchFilter = CompositeFilterOperator.and(categoryFilter, advertisementEnabledFilter);
 		} else {
 			searchFilter = advertisementEnabledFilter;
 		}
-		// TODO implementar busca por faixa de valor
 		
 		Filter filter = null;
 		
@@ -148,6 +143,22 @@ public class AdvertisementPO extends AppPersistency {
 	public List<AdvertisementTO> mostViewed() {
 		Query query = this.getQuery(AdvertisementTO.class);
 		query.addSort("countView",	SortDirection.DESCENDING);
+		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
+		query.setFilter(filterStatus);
+		
+		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
+		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
+		for (Entity entity : entities) {
+			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+		}
+		
+		return listReturn;
+	}
+	
+	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) {
+		Query query = this.getQuery(AdvertisementTO.class, userAccount);
+		query.addSort("id",	SortDirection.DESCENDING);
 		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
 		query.setFilter(filterStatus);
 		

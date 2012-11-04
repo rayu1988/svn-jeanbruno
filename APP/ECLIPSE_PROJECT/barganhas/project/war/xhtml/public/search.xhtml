@@ -36,6 +36,7 @@
 						</p>
 						<h:commandLink value="x" action="#{siteBean.search}" styleClass="excludeResultFoundSearchBox" onclick="popupLoading(true);">
 							<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{null}"/>
+							<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
 						</h:commandLink>
 					</h:panelGroup>
 					
@@ -45,6 +46,7 @@
 								<li>
 									<h:commandLink value="#{category.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
 										<f:setPropertyActionListener target="#{siteBean.categoryFilter}" value="#{category}"/>
+										<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
 									</h:commandLink>
 								</li>
 							</ui:repeat>
@@ -58,21 +60,23 @@
 						<h:outputText value="#{msg.localizationRegion}"/>
 					</p>
 					
-					<h:panelGroup layout="block" styleClass="resultFoundSearchBox" rendered="#{siteBean.stateFilter ne null}">
+					<h:panelGroup layout="block" styleClass="resultFoundSearchBox" rendered="#{siteBean.cityFilter ne null}">
 						<p>
-							<h:outputText value="#{siteBean.stateFilter.name}"/>
+							<h:outputText value="#{siteBean.cityFilter.name} - #{siteBean.cityFilter.state.name}"/>
 						</p>
 						<h:commandLink value="x" action="#{siteBean.search}" styleClass="excludeResultFoundSearchBox" onclick="popupLoading(true);">
-							<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{null}"/>
+							<f:setPropertyActionListener target="#{siteBean.cityFilter}" value="#{null}"/>
+							<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
 						</h:commandLink>
 					</h:panelGroup>
 					
-					<h:panelGroup rendered="#{siteBean.stateFilter eq null}">
+					<h:panelGroup rendered="#{siteBean.cityFilter eq null}">
 						<ul>
-							<ui:repeat var="state" value="#{siteBean.listFilterState}">
+							<ui:repeat var="city" value="#{siteBean.listFilterCity}">
 								<li>
-									<h:commandLink value="#{state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
-										<f:setPropertyActionListener target="#{siteBean.stateFilter}" value="#{state}"/>
+									<h:commandLink value="#{city.name} - #{city.state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+										<f:setPropertyActionListener target="#{siteBean.cityFilter}" value="#{city}"/>
+										<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
 									</h:commandLink>
 								</li>
 							</ui:repeat>
@@ -96,7 +100,15 @@
 							maxlength="12" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:column />
-						<h:commandButton id="buttonFilterSearch" value="#{msg.msgFilterUp}" styleClass="customButton" action="#{siteBean.search}" immediate="false" onclick="popupLoading(true);"/>
+						<h:commandButton id="buttonFilterSearch"
+							value="#{msg.msgFilterUp}"
+							styleClass="customButton"
+							action="#{siteBean.search}"
+							immediate="false"
+							onclick="popupLoading(true);">
+							
+							<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
+						</h:commandButton>
 					</h:panelGrid>
 				</div>
 			</div>
@@ -227,8 +239,8 @@
 		<t:saveState value="#{siteBean.listAsGrid}"/>
 		<t:saveState value="#{siteBean.listFilterCategory}"/>
 		<t:saveState value="#{siteBean.categoryFilter}"/>
-		<t:saveState value="#{siteBean.listFilterState}"/>
-		<t:saveState value="#{siteBean.stateFilter}"/>
+		<t:saveState value="#{siteBean.listFilterCity}"/>
+		<t:saveState value="#{siteBean.cityFilter}"/>
 		<t:saveState value="#{siteBean.filterCurrencyFrom}"/>
 		<t:saveState value="#{siteBean.filterCurrencyUpTo}"/>
 		<t:saveState value="#{siteBean.searchOrdering}"/>

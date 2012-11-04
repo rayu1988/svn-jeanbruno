@@ -12,7 +12,7 @@ import org.omnifaces.util.selectitems.SelectItemsBuilder;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.entities.StateTO;
+import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.Category;
@@ -33,6 +33,8 @@ public class SiteBean extends AppManagedBean {
 	private List<AdvertisementTO>				lastAdvertisements;
 	private List<AdvertisementTO>				mostViewed;
 	private List<UserAccountTO>					highlightedUsers;
+	private UserAccountTO						userAccount;
+	private List<AdvertisementTO>				userAccountLastAdvertisements;
 	
 	private AdvertisementTO						advertisement;
 	private Key									advertisementPicture;
@@ -44,8 +46,8 @@ public class SiteBean extends AppManagedBean {
 	private String								searchText = null;
 	private List<CategoryTO>					listFilterCategory;
 	private CategoryTO							categoryFilter;
-	private List<StateTO>						listFilterState;
-	private StateTO								stateFilter;
+	private List<CityTO>						listFilterCity;
+	private CityTO								cityFilter;
 	private Double								filterCurrencyFrom;
 	private Double								filterCurrencyUpTo;
 	private List<SelectItem>					listItensPerPage;
@@ -87,12 +89,32 @@ public class SiteBean extends AppManagedBean {
 			return this.manageException(e);
 		}
 	}
+
+	
+	/**
+	 * Method to make a public consult of an AdvertisementTO
+	 * @return
+	 */
+	public String loadUserAccountConsult() {
+		try {
+			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
+			this.userAccount = service.consult(this.userAccount);
+
+			
+			Advertisement serviceAdvertisement = this.getServiceBusinessFactory().getAdvertisement();
+			this.userAccountLastAdvertisements = serviceAdvertisement.userAccountLastAdvertisements(this.userAccount);
+			
+			return "userAccountPublicConsult";
+		} catch (Exception e) {
+			return this.manageException(e);
+		}
+	}
 	
 	public String search() {
 		try {
 			SearchingRequest searchingRequest = new SearchingRequest();
 			searchingRequest.setText(this.searchText);
-			searchingRequest.setState(this.stateFilter);
+			searchingRequest.setCity(this.cityFilter);
 			searchingRequest.setCategory(this.categoryFilter);
 			searchingRequest.setFilterCurrencyFrom(this.filterCurrencyFrom);
 			searchingRequest.setFilterCurrencyUpTo(this.filterCurrencyUpTo);
@@ -105,7 +127,7 @@ public class SiteBean extends AppManagedBean {
 			
 			this.listResultSearch = searchingResponse.getListAdvertisement();
 			this.listFilterCategory = Arrays.asList(searchingResponse.getListCategory().toArray(new CategoryTO[]{}));
-			this.listFilterState = Arrays.asList(searchingResponse.getListState().toArray(new StateTO[]{}));
+			this.listFilterCity = Arrays.asList(searchingResponse.getListCities().toArray(new CityTO[]{}));
 			this.listPageNumbers = searchingResponse.buildPageNumbers(this.totalItensPerPage);
 			
 			return "search";
@@ -262,22 +284,6 @@ public class SiteBean extends AppManagedBean {
 		this.categoryFilter = categoryFilter;
 	}
 
-	public List<StateTO> getListFilterState() {
-		return listFilterState;
-	}
-
-	public void setListFilterState(List<StateTO> listFilterState) {
-		this.listFilterState = listFilterState;
-	}
-
-	public StateTO getStateFilter() {
-		return stateFilter;
-	}
-
-	public void setStateFilter(StateTO stateFilter) {
-		this.stateFilter = stateFilter;
-	}
-
 	public Double getFilterCurrencyFrom() {
 		return filterCurrencyFrom;
 	}
@@ -350,6 +356,39 @@ public class SiteBean extends AppManagedBean {
 
 	public void setListPageNumbers(List<Integer> listPageNumbers) {
 		this.listPageNumbers = listPageNumbers;
+	}
+
+	public UserAccountTO getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(UserAccountTO userAccount) {
+		this.userAccount = userAccount;
+	}
+
+	public List<CityTO> getListFilterCity() {
+		return listFilterCity;
+	}
+
+	public void setListFilterCity(List<CityTO> listFilterCity) {
+		this.listFilterCity = listFilterCity;
+	}
+
+	public CityTO getCityFilter() {
+		return cityFilter;
+	}
+
+	public void setCityFilter(CityTO cityFilter) {
+		this.cityFilter = cityFilter;
+	}
+
+	public List<AdvertisementTO> getUserAccountLastAdvertisements() {
+		return userAccountLastAdvertisements;
+	}
+
+	public void setUserAccountLastAdvertisements(
+			List<AdvertisementTO> userAccountLastAdvertisements) {
+		this.userAccountLastAdvertisements = userAccountLastAdvertisements;
 	}
 
 }
