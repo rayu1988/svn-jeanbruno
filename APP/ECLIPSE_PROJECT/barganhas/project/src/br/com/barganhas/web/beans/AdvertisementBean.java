@@ -242,16 +242,6 @@ public class AdvertisementBean extends AppManagedBean {
 				this.advertisement.setSales(sales);
 			}
 			
-			// remove the sheet picture from list pictures
-//			List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
-//			for (SelectItem selectItem : this.listAdvertisementPictures) {
-//				AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
-//				if (!advertisementPicture.getThumbnail().equals(this.selectedSheetPicture.getThumbnail())) {
-//					listAdvertisementPictures.add(advertisementPicture);
-//				}
-//			}
-//			this.advertisement.setListAdvertisementPictures(listAdvertisementPictures);
-			
 			this.advertisement.setListAdvertisementPictures(this.buildListPictures(this.listAdvertisementPictures, this.selectedSheetPicture));
 			this.advertisement.setSheetPicture(this.selectedSheetPicture);
 			

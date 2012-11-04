@@ -72,7 +72,7 @@
 										</c:otherwise>
 									</c:choose>
 									<li >
-										<a href="mailto:contato@vendasebarganhas.com.br">#{msg.contact}</a>
+										<h:commandLink value="#{msg.contact}" action="#{siteContactBean.goToSiteContact}"/>
 									</li>
 									<c:if test="#{appSessionBean.userAccount ne null}">
 										<li>
@@ -109,7 +109,9 @@
 								<ul>
 									<li><h:commandLink value="#{msg.aboutTheSite}" action="#{aboutSiteBean.aboutSite}"/></li>
 									<li><h:commandLink value="#{msg.termsOfTheSite}" action="#{useTermBean.useTerm}"></h:commandLink></li>
-									<li style="border: 0px;"><a href="mailto:contato@vendasebarganhas.com.br">#{msg.contact}</a></li>
+									<li style="border: 0px;">
+										<h:commandLink value="#{msg.contact}" action="#{siteContactBean.goToSiteContact}"/>
+									</li>
 <!-- 									<li><a href="#">#{msg.mapOfTheSite}</a></li> -->
 								</ul>
 								

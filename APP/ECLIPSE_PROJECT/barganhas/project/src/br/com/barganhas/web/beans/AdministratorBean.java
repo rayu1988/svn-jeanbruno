@@ -15,7 +15,6 @@ import br.com.barganhas.business.services.Administrator;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
-import br.com.barganhas.web.validators.EmailValidator;
 
 @ManagedBean
 @RequestScoped
@@ -105,7 +104,7 @@ public class AdministratorBean extends AppManagedBean {
 		}
 		if (!GeneralsHelper.isStringOk(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("administratorRequiredFieldEmail", SeverityMessage.WARNING));
-		} else if (!EmailValidator.validatingEmail(this.administrator.getEmail())) {
+		} else if (!GeneralsHelper.isEmailOk(this.administrator.getEmail())) {
 			messages.add(new RequestMessage("wrongEmailAddress", SeverityMessage.WARNING));
 		}
 		if (!GeneralsHelper.isStringOk(this.administrator.getNickname())) {

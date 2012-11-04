@@ -17,6 +17,7 @@ import org.com.tatu.cypher.XORCryption;
 import org.com.tatu.helper.parameter.Parameter;
 import org.springframework.stereotype.Service;
 
+import br.com.barganhas.business.entities.SiteContactTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Mail;
 
@@ -39,7 +40,7 @@ public class MailBO implements Mail {
 		multipart.addBodyPart(htmlPart);
 		htmlPart.setContent(this.getEmailNewUser(userAccount), "text/html");
 		
-		message.setFrom(new InternetAddress("vendasebarganhas@gmail.com", "Vendas & Barganhas"));
+		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Vendas & Barganhas"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.getEmail(), userAccount.getFullname()));
 		message.setSubject("Vendas & Barganhas - Ativar Conta");
 		
@@ -102,5 +103,62 @@ public class MailBO implements Mail {
 		String encodedQuery = encoder.encodeToBase64(userAccount.getKeyAsString());
 		String checkingLink = "http://www.vendasebarganhas.com.br" + CHECK_ADDRESS + "?q=" + encodedQuery;
 		return "<a href=\"" + checkingLink + "\" target=\"_blank\">" + checkingLink + "</a>";
+	}
+
+	@Override
+	public void sendContactMessage(SiteContactTO siteContact) throws MessagingException, UnsupportedEncodingException {
+		Parameter.check(siteContact).notNull();
+		
+		Properties properties = new Properties();
+		Session session = Session.getDefaultInstance(properties, null);
+		
+		Message message = new MimeMessage(session);
+		
+		Multipart multipart = new MimeMultipart();
+		MimeBodyPart htmlPart = new MimeBodyPart();
+		multipart.addBodyPart(htmlPart);
+		htmlPart.setContent(this.getEmailContact(siteContact), "text/html");
+		
+		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Vendas & Barganhas"));
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Contato Vendas e Barganhas"));
+		message.setSubject("Contato Vendas e Barganhas");
+		
+		message.setContent(multipart);
+		
+		Transport.send(message);
+	}
+	
+	private String getEmailContact(SiteContactTO siteContact) {
+		return 
+				" <html> " +
+				" 	<head> " +
+				" 		<title>Vendas & Bargahas</title> " +
+				" 	</head> " +
+				" 	<body> " +
+				
+			" 		<div> " +
+			" 			<a href=\"http://www.vendasebarganhas.com.br/\" target=\"_blank\">" +
+			" 				<img src=\"http://www.vendasebarganhas.com.br/images/logo/logo2-rascunho2.png\">" +
+			" 			</a>" +
+			" 		</div> " +
+			this.twoLines() +
+			" 		<div> " +
+			" 			Um novo email da sessão de contatos chegou!" + 
+			" 		</div> " +
+			this.twoLines() +
+			" 		<div> " +
+			" 			O usuário que deixou a mensagem foi: " + siteContact.getName() + ", cujo o endereço de email do mesmo é: " + siteContact.getEmail() +
+			" 		</div> " +
+			this.twoLines() +
+			" 		<div> " +
+			" 			A mensagem deixado pelo usuário é seguinte; " +
+			" 		</div> " +
+			this.twoLines() +
+			" 		<div> " +
+			" 			" + siteContact.getMessage() +
+			" 		</div> " +
+			
+			" 	</body> " +
+			" </html> ";
 	}
 }
