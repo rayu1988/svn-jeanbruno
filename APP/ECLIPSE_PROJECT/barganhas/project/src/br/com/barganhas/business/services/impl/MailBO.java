@@ -25,7 +25,7 @@ import br.com.barganhas.business.services.Mail;
 public class MailBO implements Mail {
 
 	public static final String						BEAN_ALIAS = "mailBO";
-
+	
 	@Override
 	public void mailNewUser(UserAccountTO userAccount) throws MessagingException, UnsupportedEncodingException {
 		Parameter.check(userAccount).notNull();
@@ -40,7 +40,7 @@ public class MailBO implements Mail {
 		multipart.addBodyPart(htmlPart);
 		htmlPart.setContent(this.getEmailNewUser(userAccount), "text/html");
 		
-		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Vendas & Barganhas"));
+		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_EMAIL_USER_FROM, "Vendas & Barganhas"));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(userAccount.getEmail(), userAccount.getFullname()));
 		message.setSubject("Vendas & Barganhas - Ativar Conta");
 		
@@ -119,8 +119,8 @@ public class MailBO implements Mail {
 		multipart.addBodyPart(htmlPart);
 		htmlPart.setContent(this.getEmailContact(siteContact), "text/html");
 		
-		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Vendas & Barganhas"));
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(Mail.SITE_CONTACT_MAIL_ADDRESS, "Contato Vendas e Barganhas"));
+		message.setFrom(new InternetAddress(Mail.SITE_CONTACT_EMAIL_USER_FROM, "Vendas & Barganhas"));
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(Mail.SITE_CONTACT_EMAIL, "Contato Vendas e Barganhas"));
 		message.setSubject("Contato Vendas e Barganhas");
 		
 		message.setContent(multipart);
@@ -143,7 +143,7 @@ public class MailBO implements Mail {
 			" 		</div> " +
 			this.twoLines() +
 			" 		<div> " +
-			" 			Um novo email da sessão de contatos chegou!" + 
+			" 			Nova mensagem provinda da sessão de Contatos!" + 
 			" 		</div> " +
 			this.twoLines() +
 			" 		<div> " +
@@ -151,11 +151,11 @@ public class MailBO implements Mail {
 			" 		</div> " +
 			this.twoLines() +
 			" 		<div> " +
-			" 			A mensagem deixado pelo usuário é seguinte; " +
+			" 			A mensagem deixada pelo usuário foi a seguinte; " +
 			" 		</div> " +
 			this.twoLines() +
 			" 		<div> " +
-			" 			" + siteContact.getMessage() +
+			" 			" + siteContact.getStringMessage() +
 			" 		</div> " +
 			
 			" 	</body> " +
