@@ -12,7 +12,9 @@ public interface Mail {
 
 	String MAIL_KEY = "7";
 	String CHECK_ADDRESS = "/checking/checkusermailservlet";
-	String SITE_CONTACT_MAIL_ADDRESS = "contato@vendasebarganhas.com.br";
+	String SITE_CONTACT_EMAIL = "contato@vendasebarganhas.com.br";
+	String SITE_CONTACT_EMAIL_USER_FROM = "vendasebarganhas@gmail.com";
+	String SITE_CONTACT_EMAIL_PASSWORD = "ContatoVB123!";
 
 	void mailNewUser(UserAccountTO userAccount) throws MessagingException, UnsupportedEncodingException;
 	
