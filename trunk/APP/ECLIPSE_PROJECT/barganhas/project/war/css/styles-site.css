@@ -809,6 +809,20 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 }
 /** USER ACCOUNT **/
 
+/** CONTACT LAYOUT **/
+.contactViewWrapper {
+	padding: 30px;
+	margin: 0 auto;
+}
+.contactViewTitle {
+	font-family: Helvetica, arial, freesans, clean, sans-serif;
+	font-size: 15px;
+	width: 600px;
+	margin: 20px auto;
+}
+
+/** CONTACT LAYOUT **/
+
 /** POPUP PANEL **/
 .closeModal {
 	width: 32px;

@@ -30,7 +30,6 @@ import br.com.barganhas.commons.ReturnMessagePojo;
 import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
-import br.com.barganhas.web.validators.EmailValidator;
 
 import com.google.appengine.api.datastore.Blob;
 
@@ -123,7 +122,7 @@ public class UserAccountBean extends AppManagedBean {
 			}
 			if (!GeneralsHelper.isStringOk(this.userAccount.getEmail())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("requiredFieldMessage", "Email"));
-			} else if (!EmailValidator.validatingEmail(this.userAccount.getEmail())) {
+			} else if (!GeneralsHelper.isEmailOk(this.userAccount.getEmail())) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("wrongEmailAddress"));
 			} else if (!this.userAccount.getEmail().equals(this.confirmEmail)) {
 				this.returnMessage.addMessage(Util.getMessageResourceString("confirmFieldErrorMsg", "Email", "Confirma Email"));

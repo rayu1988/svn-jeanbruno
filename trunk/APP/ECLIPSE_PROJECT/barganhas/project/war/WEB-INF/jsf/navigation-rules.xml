@@ -24,6 +24,16 @@
 			<from-outcome>search</from-outcome>
 	   		<to-view-id>/xhtml/public/search.xhtml</to-view-id>
 		</navigation-case>
+
+		<!-- ################ Site Contact ################ -->
+		<navigation-case>
+			<from-outcome>siteContact</from-outcome>
+	   		<to-view-id>/xhtml/siteContact/siteContact.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>siteContactMessageSent</from-outcome>
+	   		<to-view-id>/xhtml/siteContact/siteContactMessageSent.xhtml</to-view-id>
+		</navigation-case>
 		
 		<!-- ################ User Account ################ -->
 		<navigation-case>
