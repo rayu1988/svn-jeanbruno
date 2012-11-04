@@ -77,9 +77,6 @@ public class AdvertisementTO extends TransferObject {
 	@PropertyField
 	private Key									keySheetPicture;
 	private AdvertisementPictureTO				sheetPicture;
-	
-	@PropertyField
-	private Key									keyState;
 
 	@PropertyField
 	private Key									keyUseTerm;
@@ -298,14 +295,6 @@ public class AdvertisementTO extends TransferObject {
 
 	public void setScore(Long score) {
 		this.score = score;
-	}
-
-	public Key getKeyState() {
-		return keyState;
-	}
-
-	public void setKeyState(Key keyState) {
-		this.keyState = keyState;
 	}
 
 	public String getContactPhoneNumberOne() {

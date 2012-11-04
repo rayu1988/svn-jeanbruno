@@ -46,6 +46,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jericho-html-3.2.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/tatu.20121102.1716.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/tatu.20121104.1220.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

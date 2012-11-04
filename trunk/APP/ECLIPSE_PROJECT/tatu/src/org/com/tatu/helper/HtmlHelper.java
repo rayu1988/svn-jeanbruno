@@ -62,6 +62,7 @@ public class HtmlHelper {
 		characters.put("Ü", "&Uuml;");
 		characters.put("ç", "&ccedil;");
 		characters.put("Ç", "&Ccedil;");
+		characters.put("\r\n", "<br/>");
 	}
 
 	/**

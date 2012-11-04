@@ -6,18 +6,18 @@ import java.util.List;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.business.entities.StateTO;
+import br.com.barganhas.business.entities.CityTO;
 
 public class SearchingResponse {
 
 	private List<AdvertisementTO>				listAdvertisement;
-	private HashSet<StateTO>					listState;
+	private HashSet<CityTO>						listCities;
 	private HashSet<CategoryTO>					listCategory;
 	private Integer								totalCriteriaSize;
 	
 	public SearchingResponse() {
 		this.listAdvertisement = new ArrayList<AdvertisementTO>();
-		this.listState = new HashSet<StateTO>();
+		this.listCities = new HashSet<CityTO>();
 		this.listCategory = new HashSet<CategoryTO>();
 		this.totalCriteriaSize = 1;
 	}
@@ -48,20 +48,20 @@ public class SearchingResponse {
 		this.listCategory = listCategory;
 	}
 
-	public HashSet<StateTO> getListState() {
-		return listState;
-	}
-
-	public void setListState(HashSet<StateTO> listState) {
-		this.listState = listState;
-	}
-
 	public Integer getTotalCriteriaSize() {
 		return totalCriteriaSize;
 	}
 
 	public void setTotalCriteriaSize(Integer totalCriteriaSize) {
 		this.totalCriteriaSize = totalCriteriaSize;
+	}
+
+	public HashSet<CityTO> getListCities() {
+		return listCities;
+	}
+
+	public void setListCities(HashSet<CityTO> listCities) {
+		this.listCities = listCities;
 	}
 
 }

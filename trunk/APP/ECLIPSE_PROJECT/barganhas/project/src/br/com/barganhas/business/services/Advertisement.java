@@ -21,6 +21,8 @@ public interface Advertisement {
 
 	List<AdvertisementTO> mostViewed() throws EntityNotFoundException;
 
+	List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) throws EntityNotFoundException;
+
 	AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException;
 
 	AdvertisementTO adminConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
