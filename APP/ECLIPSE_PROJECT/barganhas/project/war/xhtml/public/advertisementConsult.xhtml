@@ -7,6 +7,10 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="baseTitle">
+		<h:outputText value="#{siteBean.advertisement.title}"/>
+	</ui:define>
 	
 	<ui:define name="bodyNavigation">
 		<!-- title -->
@@ -83,8 +87,14 @@
 				</h:panelGroup>
 				
 				<!-- listExchangeBy -->
-				<bargas:outputText id="listExchangeBy" value="#{msg.advertisementListExchangeBy}" styleClass="advertisementDetailHeader"/>
-				<h:panelGroup layout="block" class="advertisementDetails">
+				<bargas:outputText id="listExchangeBy" 
+					value="#{msg.advertisementListExchangeBy}" 
+					styleClass="advertisementDetailHeader" 
+					rendered="#{bargas:isStringOk(siteBean.advertisement.listExchangeBy)}"/>
+				<h:panelGroup layout="block" 
+					class="advertisementDetails" 
+					rendered="#{bargas:isStringOk(siteBean.advertisement.listExchangeBy)}">
+					
 					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.listExchangeBy)}" escape="false"/>
 				</h:panelGroup>
 				

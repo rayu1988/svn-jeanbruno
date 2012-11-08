@@ -86,7 +86,7 @@ public class UserAccountPO extends AppPersistency {
 	
 	public boolean nicknameAlreadyExist(UserAccountTO userAccount) {
 		Query query = this.getQuery(UserAccountTO.class);
-		query.setFilter(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getEmail()));
+		query.setFilter(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getNickname()));
 		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
 		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults()) > 0;
 	}
