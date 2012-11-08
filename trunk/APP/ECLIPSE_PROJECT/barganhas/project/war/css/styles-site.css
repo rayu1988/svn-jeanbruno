@@ -318,6 +318,12 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	list-style-type:none;
 	margin-top: 3px;
 }
+
+.categoryShowAll {
+	border-top: 1px solid #CCC;
+	margin: 30px 0px 10px 0px !important;
+	padding-top: 20px;
+}
 /** CATEGORIES **/
 
 /** SEARCH_FILTER **/

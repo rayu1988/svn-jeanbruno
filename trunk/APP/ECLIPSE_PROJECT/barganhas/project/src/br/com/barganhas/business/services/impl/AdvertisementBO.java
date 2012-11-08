@@ -324,95 +324,81 @@ public class AdvertisementBO implements Advertisement {
 		}
 	}
 	
-	private boolean isEmptySearch(SearchingRequest searchingRequest) {
-		boolean isValidSarchText = !GeneralsHelper.isStringOk(searchingRequest.getText());
-		boolean existsCategory = searchingRequest.getCategory() == null;
-		boolean existsCity = searchingRequest.getCity() == null;
-		boolean existsCurrencyValueFrom = searchingRequest.getFilterCurrencyFrom() == null;
-		boolean existsCurrencyValueUpTo = searchingRequest.getFilterCurrencyUpTo() == null;
-				
-		return isValidSarchText && existsCategory && existsCity && existsCurrencyValueFrom && existsCurrencyValueUpTo;
-	}
-	
 	@Override
 	public SearchingResponse publicSearch(SearchingRequest searchingRequest) throws EntityNotFoundException {
 		SearchingResponse searchingResponse = new SearchingResponse();
 		
 		// start getting advertisement
-		List<AdvertisementTO> listAdvertisement = null;
-		if (isEmptySearch(searchingRequest)) {
-			return searchingResponse;
-		} else {
-			listAdvertisement = this.persistencyLayer.listEntitiesPublicSearch(searchingRequest);
-			
-			// sorting
-			if (!searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
-				if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
-					Collections.sort(listAdvertisement, AdvertisementTO.LowerPrice());
-				} else {
-					Collections.sort(listAdvertisement, AdvertisementTO.HigherPrice());
-				}
+		List<AdvertisementTO> listAdvertisement = this.persistencyLayer.listEntitiesPublicSearch(searchingRequest);
+		
+		// sorting
+		if (!searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
+			if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
+				Collections.sort(listAdvertisement, AdvertisementTO.LowerPrice());
+			} else {
+				Collections.sort(listAdvertisement, AdvertisementTO.HigherPrice());
 			}
-			
-			// filter selecting and removing
-			for (int i = 0; i < listAdvertisement.size() ; i++) {
-				AdvertisementTO advertisement = listAdvertisement.get(i);
-				
-				UserAccountTO userAccount = this.serviceUserAccount.consult(new UserAccountTO(advertisement.getKeyUserAccount()));
-				CityTO currentCity = new CityTO(userAccount.getKeyCity());
-				
-				// stats checking remove undesired elements
-				if (searchingRequest.getCity() != null && !searchingRequest.getCity().equals(currentCity)) {
-					listAdvertisement.remove(i--);
-					continue;
-				}
-				if (GeneralsHelper.isStringOk(searchingRequest.getText()) &&
-						!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
-					listAdvertisement.remove(i--);
-					continue;
-				}
-				if (searchingRequest.getFilterCurrencyFrom() != null && advertisement.getValue() < searchingRequest.getFilterCurrencyFrom()) {
-					listAdvertisement.remove(i--);
-					continue;
-				}
-				if (searchingRequest.getFilterCurrencyUpTo() != null && advertisement.getValue() > searchingRequest.getFilterCurrencyUpTo()) {
-					listAdvertisement.remove(i--);
-					continue;
-				}
-				// ends checking remove undesired elements
-				
-				// starts setting filtering
-				if (!searchingResponse.getListCities().contains(currentCity)) {
-					searchingResponse.getListCities().add(this.serviceCity.consult(currentCity));
-				}
-				
-				CategoryTO category = new CategoryTO(advertisement.getKeyCategory());
-				if (!searchingResponse.getListCategory().contains(category)) {
-					searchingResponse.getListCategory().add(this.serviceCategory.consult(category));
-				}
-				// ends setting filtering
-			}
-			
-			int currentListSize = listAdvertisement.size();
-			int totalItensPerPage = searchingRequest.getTotalItensPerPage();
-			int currentPage = searchingRequest.getCurrentPage();
-			
-			int starts = (currentPage - 1) * totalItensPerPage;
-			int ends = (totalItensPerPage * currentPage) - 1;
-			ends = ends >= currentListSize ? currentListSize - 1 : ends;
-			
-			// consulting the advertisement picture's thumbnails
-			List<AdvertisementTO> finalSearchList = new ArrayList<AdvertisementTO>();
-			for (int i = starts; i <= ends; i++ ) {
-				AdvertisementTO advertisement = listAdvertisement.get(i);
-				AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
-				advertisement.setSheetPicture(advertisementPicture);
-				
-				finalSearchList.add(advertisement);
-			}
-			listAdvertisement = finalSearchList;
-			searchingResponse.setTotalCriteriaSize(currentListSize);
 		}
+		
+		// filter selecting and removing
+		for (int i = 0; i < listAdvertisement.size() ; i++) {
+			AdvertisementTO advertisement = listAdvertisement.get(i);
+			
+			UserAccountTO userAccount = this.serviceUserAccount.consult(new UserAccountTO(advertisement.getKeyUserAccount()));
+			CityTO currentCity = new CityTO(userAccount.getKeyCity());
+			
+			// stats checking remove undesired elements
+			if (searchingRequest.getCity() != null && !searchingRequest.getCity().equals(currentCity)) {
+				listAdvertisement.remove(i--);
+				continue;
+			}
+			if (GeneralsHelper.isStringOk(searchingRequest.getText()) &&
+					!advertisement.getTitle().trim().toLowerCase().contains(searchingRequest.getText().trim().toLowerCase())) {
+				listAdvertisement.remove(i--);
+				continue;
+			}
+			if (searchingRequest.getFilterCurrencyFrom() != null && advertisement.getValue() < searchingRequest.getFilterCurrencyFrom()) {
+				listAdvertisement.remove(i--);
+				continue;
+			}
+			if (searchingRequest.getFilterCurrencyUpTo() != null && advertisement.getValue() > searchingRequest.getFilterCurrencyUpTo()) {
+				listAdvertisement.remove(i--);
+				continue;
+			}
+			// ends checking remove undesired elements
+			
+			// starts setting filtering
+			if (!searchingResponse.getListCities().contains(currentCity)) {
+				searchingResponse.getListCities().add(this.serviceCity.consult(currentCity));
+			}
+			
+			CategoryTO category = new CategoryTO(advertisement.getKeyCategory());
+			if (!searchingResponse.getListCategory().contains(category)) {
+				searchingResponse.getListCategory().add(this.serviceCategory.consult(category));
+			}
+			// ends setting filtering
+		}
+		
+		int currentListSize = listAdvertisement.size();
+		int totalItensPerPage = searchingRequest.getTotalItensPerPage();
+		int currentPage = searchingRequest.getCurrentPage();
+		
+		int starts = (currentPage - 1) * totalItensPerPage;
+		int ends = (totalItensPerPage * currentPage) - 1;
+		ends = ends >= currentListSize ? currentListSize - 1 : ends;
+		
+		// consulting the advertisement picture's thumbnails
+		List<AdvertisementTO> finalSearchList = new ArrayList<AdvertisementTO>();
+		for (int i = starts; i <= ends; i++ ) {
+			AdvertisementTO advertisement = listAdvertisement.get(i);
+			AdvertisementPictureTO advertisementPicture = this.serviceAdvertisementPicture.consult(new AdvertisementPictureTO(advertisement.getKeySheetPicture()));
+			advertisement.setSheetPicture(advertisementPicture);
+			
+			finalSearchList.add(advertisement);
+		}
+		listAdvertisement = finalSearchList;
+		searchingResponse.setTotalCriteriaSize(currentListSize);
+		
 		searchingResponse.setListAdvertisement(listAdvertisement);
 		// ends getting advertisement
 		
