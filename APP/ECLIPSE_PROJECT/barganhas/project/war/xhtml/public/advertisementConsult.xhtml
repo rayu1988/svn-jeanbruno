@@ -59,7 +59,12 @@
 				<!-- user account first name -->
 				<bargas:outputText id="userAccount" value="#{msg.advertisementUserAccount}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
-					<h:outputText value="#{siteBean.advertisement.userAccount.firstName}"/>
+					<h:panelGrid columns="2" style="width: 100%;" columnClasses="columnLeft, columnRight">
+						<h:outputText value="#{siteBean.advertisement.userAccount.firstName}"/>
+						<h:commandLink value="#{msg.userAccountViewPublicProfile}" action="#{siteBean.loadUserAccountConsult}">
+							<f:setPropertyActionListener target="#{siteBean.userAccount}" value="#{siteBean.advertisement.userAccount}"/>
+						</h:commandLink>
+					</h:panelGrid>
 				</h:panelGroup>
 				
 				<!-- contact phone numbers 1 -->
