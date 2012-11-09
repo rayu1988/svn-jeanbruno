@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+
+	<ui:define name="headForm">
+		<bargas:headForm headText="#{msg.privateUseTerms} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+			<!-- title -->
+			<h:outputLabel value="#{msg.useTermTitle}:" for="title"/>
+			<h:outputText id="title" value="#{useTermBean.useTerm.title}" />
+			
+			<!-- text -->
+			<h:outputLabel value="#{msg.useTermText}:" for="text"/>
+			<h:inputTextarea id="text" value="#{useTermBean.useTerm.stringText}" rows="7" styleClass="inputMainForm bigInputMainForm" readonly="true" >
+			</h:inputTextarea>
+			
+			<!-- default use term -->
+			<h:outputLabel value="#{msg.useDefault}:" for="defaultUseTerm"/>
+			<h:outputText id="defaultUseTerm" value="#{useTermBean.useTerm.defaultUseTerm ? msg.msgYes : msg.msgNo}" />
+		</h:panelGrid>
+		
+		<t:saveState value="#{useTermBean.useTerm}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton buttonMainForm" action="#{useTermBean.edit}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionDelete}" styleClass="customButton buttonMainForm" action="#{useTermBean.delete}" immediate="false" onclick="#{msg.actionConfirmDelete}"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{useTermBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

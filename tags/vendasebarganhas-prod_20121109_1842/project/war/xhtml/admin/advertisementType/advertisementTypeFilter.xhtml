@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:t="http://myfaces.apache.org/tomahawk"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:rich="http://richfaces.org/rich">
+
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<!-- title -->
+		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+		<h:inputText id="title" value="#{advertisementTypeBean.advertisementType.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<!-- currency -->
+		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
+		<h:inputText id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<!-- advertisiment score -->
+		<h:outputLabel value="#{msg.privateAreaAdvertisementScore}:" for="advertisementScore"/>
+		<h:inputText id="advertisementScore" value="#{advertisementTypeBean.advertisementType.advertisementScore}"
+					maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<!-- total pictures -->
+		<h:outputLabel value="#{msg.privateAreaTotalImages}:" for="totalImages"/>
+		<h:inputText id="totalImages" value="#{advertisementTypeBean.advertisementType.totalPictures}"
+					maxlength="11" styleClass="inputMainForm mediumInputMainForm"/>
+					
+		<!-- days to expire -->
+		<h:outputLabel value="#{msg.advertisementTypeDaysToExpire}:" for="daysToExpire"/>
+		<h:inputText id="daysToExpire" value="#{advertisementTypeBean.advertisementType.daysToExpire}"
+					maxlength="3" styleClass="inputMainForm mediumInputMainForm"/>
+		
+		<h:column />
+		<h:panelGrid columns="2">
+			<h:commandButton value="#{msg.buttonFind}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.filter}" immediate="false" />
+			<h:commandButton value="#{msg.buttonClear}" styleClass="customButton buttonMainForm" action="#{advertisementTypeBean.list}" immediate="true" />
+		</h:panelGrid>
+	</h:panelGrid>
+
+	<t:saveState value="#{advertisementTypeBean.advertisementType}"/>
+</ui:composition>

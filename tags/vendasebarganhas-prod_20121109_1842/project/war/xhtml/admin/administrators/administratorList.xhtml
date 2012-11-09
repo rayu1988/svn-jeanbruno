@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="headForm">
+		<bargas:headFormFilter headText="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}">
+			<ui:define name="formFilter">
+				<ui:include src="/xhtml/admin/administrators/administratorFilter.xhtml"/>
+			</ui:define>
+		</bargas:headFormFilter>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="listAdministrators"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{administratorBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{administratorBean.dataModel}"
+						var="administrator">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<bargas:commandListEdit id="editAdministrator" targetProperty="administrator" backingBean="#{administratorBean}"
+						action="edit" propertyFrom="#{administrator}" toolTipMessage="#{msg.privateAreaActionEdit} #{msg.administrator}"/>
+				<bargas:commandListDelete id="deleteAdministrator" targetProperty="administrator" backingBean="#{administratorBean}"
+						action="delete" propertyFrom="#{administrator}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.administrator}"/>
+			</rich:column>
+			
+			<!-- user name -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginName}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.fullname}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- email -->	
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginEmail}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.email}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+
+			<!-- nickname -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.privateAreaLoginUser}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{administratorBean.consult}" >
+					<h:outputText value="#{administrator.nickname}"/>
+					<f:setPropertyActionListener value="#{administrator}" target="#{administratorBean.administrator}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{administratorBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{administratorBean.prepareNew}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

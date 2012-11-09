@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+   	          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+ 
+	<navigation-rule>
+		<from-view-id>/*</from-view-id>
+
+		<!-- ################ Site ################ -->
+		<navigation-case>
+			<from-outcome>siteIndex</from-outcome>
+	   		<to-view-id>/xhtml/index.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>publicAdvertisementConsult</from-outcome>
+	   		<to-view-id>/xhtml/public/advertisementConsult.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountPublicConsult</from-outcome>
+	   		<to-view-id>/xhtml/public/accountConsult.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>search</from-outcome>
+	   		<to-view-id>/xhtml/public/search.xhtml</to-view-id>
+		</navigation-case>
+
+		<!-- ################ Site Contact ################ -->
+		<navigation-case>
+			<from-outcome>siteContact</from-outcome>
+	   		<to-view-id>/xhtml/siteContact/siteContact.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>siteContactMessageSent</from-outcome>
+	   		<to-view-id>/xhtml/siteContact/siteContactMessageSent.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ User Account ################ -->
+		<navigation-case>
+			<from-outcome>userAccountLogin</from-outcome>
+	   		<to-view-id>/xhtml/account/login.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountConsult</from-outcome>
+	   		<to-view-id>/xhtml/account/accountConsult.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountEdit</from-outcome>
+	   		<to-view-id>/xhtml/account/accountEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountAdminList</from-outcome>
+	   		<to-view-id>/xhtml/admin/userAccount/userAccountList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userAccountAdminConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/userAccount/userAccountConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Advertisement ################ -->
+		<navigation-case>
+			<from-outcome>advertisementList</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNewStepOne</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepOne.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNewStepTwo</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepTwo.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementPrepareNewStepThree</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementNewStepThree.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementEditData</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementEditData.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementEditPictures</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementEditPictures.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementConsultData</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementConsultData.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementConsultPictures</from-outcome>
+	   		<to-view-id>/xhtml/advertisement/advertisementConsultPictures.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementAdminList</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisement/advertisementList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementAdminConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisement/advertisementConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Login Private Area ################ -->
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/xhtml/admin/login.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Administrators Use Case ################ -->
+		<navigation-case>
+			<from-outcome>administratorList</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>administratorConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/administrators/administratorConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Advertisement Type Use Case ################ -->
+		<navigation-case>
+			<from-outcome>advertisementTypeList</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypePrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypeEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>advertisementTypeConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/advertisementType/advertisementTypeConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Sales Use Case ################ -->
+		<navigation-case>
+			<from-outcome>salesList</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>salesConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/sales/salesConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Category Use Case ################ -->
+		<navigation-case>
+			<from-outcome>categoryList</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>categoryConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/category/categoryConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ Use Terms Use Case ################ -->
+		<navigation-case>
+			<from-outcome>useTerm</from-outcome>
+	   		<to-view-id>/xhtml/useTerm/useTerm.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermList</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermPrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>useTermConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/useTerm/useTermConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+		<!-- ################ About Site Use Case ################ -->
+		<navigation-case>
+			<from-outcome>aboutSite</from-outcome>
+	   		<to-view-id>/xhtml/aboutSite/aboutSite.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteList</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteList.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSitePrepareNew</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteNew.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteEdit</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>aboutSiteConsult</from-outcome>
+	   		<to-view-id>/xhtml/admin/aboutSite/aboutSiteConsult.xhtml</to-view-id>
+		</navigation-case>
+		
+	</navigation-rule>
+</faces-config>
