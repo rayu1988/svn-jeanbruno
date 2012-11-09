@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	
+	<h:column />
+	<h:column>
+		<!-- function to remove picture of the panel -->
+		<a4j:jsFunction name="removePicturePrepareAdvertisement" 
+			render="listAdvertisementPictures sheetOfTheAdvertisement" 
+			action="#{advertisementBean.removePicturePrepareAdvertisement}"
+			execute="@this"
+			onbegin="popupLoading(true);"
+			oncomplete="popupLoading(false);">
+			<a4j:param value="valor" name="param1" assignTo="#{advertisementBean.pictureIndexToRemove}" />
+ 	    </a4j:jsFunction>
+	</h:column>
+	
+	<!-- list advertisement pictures -->
+	<h:outputLabel value="#{msg.advertisementPictures}:" for="listAdvertisementPictures"/>
+	<rich:fileUpload id="listAdvertisementPictures"
+					fileUploadListener="#{advertisementBean.uploadFile}"
+					acceptedTypes="png, jpg, jpeg"
+					noDuplicate="true"
+					addLabel="#{msg.fileUploadAddLabel}"
+					clearAllLabel="#{msg.fileUploadClearLabel}"
+					clearLabel="#{msg.fileUploadDeleteLabel}"
+					deleteLabel="#{msg.fileUploadDeleteLabel}"
+					uploadLabel="#{msg.fileUploadUploadLabel}"
+					sizeExceededLabel="#{msg.fileUploadSizeExceededLabel}"
+					doneLabel="#{msg.fileUploadDoneLabel}"
+					maxFilesQuantity="1"
+					
+					disabled="#{bargas:sizeCollection(advertisementBean.listAdvertisementPictures) ge advertisementBean.selectedAdvertisementType.totalPictures}"
+					
+					onfilesubmit="popupLoading(true);"
+					onuploadcomplete="popupLoading(false);"
+					ontyperejected="alert('#{msg.fileUploadRejected}');"
+					
+					render="listAdvertisementPictures sheetOfTheAdvertisement">
+	</rich:fileUpload>
+
+	<!-- sheet of the advertisement -->
+	<h:column />
+	<h:panelGroup id="sheetOfTheAdvertisement">
+		<h:outputText value="#{msg.advertisementThereIsNoMessageYet}" rendered="#{not bargas:isCollectionOk(advertisementBean.listAdvertisementPictures)}"/>
+		<h:panelGrid columns="2"
+			styleClass="panelDetailsWarning"
+			style="background: none;"
+			rendered="#{bargas:isCollectionOk(advertisementBean.listAdvertisementPictures)}">
+			
+			<t:selectOneRadio id="showListAdvertisementPictures"  
+					converter="SelectAdvertisementSheetConverter"
+					layout="spread"
+					value="#{advertisementBean.selectedSheetPicture}">
+				<f:selectItems value="#{advertisementBean.listAdvertisementPictures}" />
+			</t:selectOneRadio>
+			
+			<t:dataTable var="currentSelectItem"
+				value="#{advertisementBean.listAdvertisementPictures}"
+				rowIndexVar="indexSelectItem"
+				rowClasses="simpleRow"
+				style="width: 100%; text-align: left;"
+				cellspacing="0"
+				cellpadding="0">
+				
+				<t:column headerstyle="width: 25%;" style="padding: 5px;">
+					<f:facet name="header">
+						<h:outputText value="#{msg.advertisementListPictures}"/>
+					</f:facet>
+				
+					<h:graphicImage value="/fileserver?q=#{currentSelectItem.value.thumbnail.keyAsString}" />
+				</t:column>
+			
+				<t:column headerstyle="width: 60%;" style="padding: 5px;">
+					<f:facet name="header">
+						<h:outputText value="#{msg.advertisementSheet}"/>
+					</f:facet>
+				
+					<t:radio for=":formNavigation:showListAdvertisementPictures" index="#{indexSelectItem}"/>
+				</t:column>
+				
+				<t:column style="padding: 5px;">
+					<f:facet name="header">
+						<h:outputText value=" "/>
+					</f:facet>
+
+					<a4j:commandLink value="#{msg.fileUploadDeleteLabel}"
+						onclick="removePicturePrepareAdvertisement('#{indexSelectItem}')"
+						styleClass="customButton2 buttonMainForm"/>
+				</t:column>
+				
+			</t:dataTable>
+		</h:panelGrid>
+	</h:panelGroup>
+	
+</ui:composition>

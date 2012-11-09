@@ -1,0 +1,11 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+   	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<ui:param name="rendered" value="#{rendered eq null ? true : rendered}"></ui:param>
+	<h:panelGroup styleClass="#{styleClass}" layout="block" rendered="#{rendered}">
+		<h:outputText id="#{id}" value="#{value}" />
+	</h:panelGroup>
+	
+</ui:composition>

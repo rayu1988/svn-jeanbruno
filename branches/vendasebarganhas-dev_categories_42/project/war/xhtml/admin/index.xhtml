@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/adminbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<ui:define name="formDescription">
+		<h:outputText value="#{msg.privateAreaAdminatrators} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton buttonMainForm" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" />
+	</ui:define>
+	
+</ui:composition>
