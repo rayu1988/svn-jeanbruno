@@ -1,1 +1,0 @@
-#Diretório destinado ao desenvolvimento da aplicação em termos de código. (Projetos JAVA)
