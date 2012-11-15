@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<!--
+		https://github.com/plentz/jquery-maskmoney 
+	 -->
+	 <ui:param name="allowZero" value="#{allowZero eq null ? true : allowZero}"/>
+	 <ui:param name="rendered" value="#{rendered eq null ? true : rendered}"/>
+	<h:panelGroup rendered="#{rendered}">
+		<h:outputScript>
+			$j(document).ready( function() {
+				$j("#" + "#{id}").maskMoney({showSymbol: false, thousands: '.', decimal: ',', allowZero: #{allowZero} });
+			});
+		</h:outputScript>
+		<h:inputText id="#{id}" value="#{value}" maxlength="#{maxlength}" styleClass="#{styleClass}"/>
+	</h:panelGroup>
+	
+</ui:composition>

@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="bodyNavigation">
+		<h:panelGroup layout="block" styleClass="contactViewWrapper">
+			<h:panelGroup layout="block" styleClass="contactViewTitle">
+				<h:outputText value="#{msg.siteContactTitle}" />
+			</h:panelGroup>
+		
+			<h:panelGrid columns="2" columnClasses="columnLabel, columnInput" style="margin: 50px auto;">
+				<h:outputLabel value="#{msg.siteContactName}:" for="contactName"/>
+				<h:inputText id="contactName" value="#{siteContactBean.siteContact.name}" maxlength="50" styleClass="inputMainForm inputLogin"/>
+				
+				<h:outputLabel value="#{msg.siteContactEmail}:" for="contactEmail"/>
+				<h:inputText id="contactEmail" value="#{siteContactBean.siteContact.email}" maxlength="50" styleClass="inputMainForm inputLogin"/>
+				
+				<h:outputLabel value="#{msg.siteContactMessage}:" for="contactMessage"/>
+				<h:inputTextarea id="contactMessage" value="#{siteContactBean.siteContact.stringMessage}" styleClass="inputMainForm bigInputMainForm" rows="7">
+				</h:inputTextarea>
+				
+				<h:column />
+				<h:panelGrid columns="2" style="margin-top: 35px;">
+					<h:commandButton value="#{msg.msgSend}"
+						styleClass="customButton2 buttonMainForm"
+						action="#{siteContactBean.sendMessage}"
+						immediate="false" />
+						
+					<h:commandButton value="#{msg.privateAreaActionCancel}"
+						styleClass="customButton2 buttonMainForm"
+						action="#{siteBean.goToIndex}"
+						immediate="true" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</h:panelGroup>
+		
+		<t:saveState value="#{siteContactBean.siteContact}"/>
+	</ui:define>
+</ui:composition>

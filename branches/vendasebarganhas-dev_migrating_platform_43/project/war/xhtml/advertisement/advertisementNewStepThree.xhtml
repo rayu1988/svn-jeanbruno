@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/advertisementNewBase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew} ( #{msg.advertisementHeaderStepThree} ) "/>
+	</ui:define>
+	
+	<!-- defining the scope of advertisementNewBase -->
+	<ui:define name="advertisementFormBody">
+		
+		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				
+				<!-- sales code -->
+				<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
+				<h:inputText id="salesCode" value="#{advertisementBean.salesCode}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+				
+				<!-- pag seguro -->
+				<h:outputLabel value="#{msg.advertisementWaysToPay}:" />
+				<h:graphicImage value="#{request.contextPath}/images/pagseguro/todos_estatico_550_100.gif"/>
+				
+				<!-- use term -->
+				<h:column />
+				<h:inputTextarea id="useTerm" value="#{advertisementBean.useTerm.stringText}" rows="13" styleClass="inputMainForm bigInputMainForm"
+					readonly="true" style="margin-top: 40px;">
+				</h:inputTextarea>
+				
+				<!-- agree terms -->
+				<h:column />
+				<h:panelGroup>
+					<h:selectBooleanCheckbox id="agreeTerms" value="#{advertisementBean.agreeTerms}" />
+					<h:outputLabel value=" #{msg.advertisementAgreeTerms}" for="agreeTerms" style="font-size: 110%"/>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:panelGroup>
+		
+		<t:saveState value="#{advertisementBean.salesCode}"/>
+		<t:saveState value="#{advertisementBean.useTerm}"/>
+		<t:saveState value="#{advertisementBean.agreeTerms}"/>
+	</ui:define>
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.msgTurnBack}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.backToStepTwo}" immediate="true" />
+		<h:commandButton value="#{msg.advertisementPublishUp}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.insert}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

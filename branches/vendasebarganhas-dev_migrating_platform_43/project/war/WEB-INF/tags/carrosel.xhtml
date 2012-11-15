@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+   	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<h:panelGroup class="carrosel" layout="block">
+		<h:panelGroup id="#{id}AdvertisementLeft" class="carroselLeftArrow" layout="block" >
+			<h:graphicImage value="#{request.contextPath}/images/left-arrow-15x13.png" />
+		</h:panelGroup>
+		
+		<h:panelGroup class="indexListItens" layout="block">
+			<ul id="#{id}Advertisement">
+				<ui:repeat var="advertisement" value="#{listAdvertisement}">
+					<li>
+						<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+							<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+						</a>
+						
+						<p class="descProduct">
+							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+								<h:outputText value="#{bargas:truncateString(advertisement.title, 35)}" />
+							</a>
+						</p>
+						<p class="priceBox">
+							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+								<h:outputText value="#{msg.msgRealCurrency} "/>
+								<h:outputText value="#{advertisement.value}">
+									<f:converter converterId="ConverterCurrencyReal"/>
+								</h:outputText>
+							</a>
+						</p>
+					</li>
+				</ui:repeat>
+			</ul>
+			
+			<h:panelGroup id="#{id}AdvertisementRight" class="carroselRightArrow" layout="block">
+				<h:graphicImage value="#{request.contextPath}/images/right-arrow-15x13.png" />
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:panelGroup>
+	
+	<h:outputScript>
+		try {
+			$j(document).ready( function() {
+				$j("#" + "#{id}AdvertisementLeft").click(function(){
+					$j("#" + "#{id}Advertisement").animate({"margin-left": "+=597px"}, "slow");
+				});
+				$j("#" + "#{id}AdvertisementRight").click(function(){
+					$j("#" + "#{id}Advertisement").animate({"margin-left": "-=597px"}, "slow");
+				});
+			});
+		} catch(e) {
+			alert(e);
+		}
+	</h:outputScript>
+	
+</ui:composition>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<states>
+	<state name="Acre" acronym="AC" />
+	<state name="Alagoas" acronym="AL" />
+	<state name="Amapá" acronym="AP" />
+	<state name="Amazonas" acronym="AM" />
+	<state name="Bahia" acronym="BA" />
+	<state name="Ceará" acronym="CE" />
+	<state name="Distrito Federal" acronym="DF" />
+	<state name="Goiás" acronym="GO" />
+	<state name="Espírito Santo" acronym="ES" />
+	<state name="Maranhão" acronym="MA" />
+	<state name="Mato Grosso" acronym="MT" />
+	<state name="Mato Grosso do Sul" acronym="MS" />
+	<state name="Minas Gerais" acronym="MG" />
+	<state name="Pará" acronym="PA" />
+	<state name="Paraiba" acronym="PB" />
+	<state name="Paraná" acronym="PR" />
+	<state name="Pernambuco" acronym="PE" />
+	<state name="Piauí" acronym="PI" />
+	<state name="Rio de Janeiro" acronym="RJ" />
+	<state name="Rio Grande do Norte" acronym="RN" />
+	<state name="Rio Grande do Sul" acronym="RS" />
+	<state name="Rondônia" acronym="RO" />
+	<state name="Rorâima" acronym="RR" />
+	<state name="Santa Catarina" acronym="SC" />
+	<state name="São Paulo" acronym="SP" />
+	<state name="Sergipe" acronym="SE" />
+	<state name="Tocantins" acronym="TO" />
+</states>

@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/accountbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="userAccountContent">
+		<ui:insert name="advertisementFormBody"/>
+	
+		<t:saveState value="#{advertisementBean.advertisement}"/>
+		<t:saveState value="#{advertisementBean.selectedAdvertisementType}"/>
+		<t:saveState value="#{advertisementBean.selectedCategory}"/>
+		<t:saveState value="#{advertisementBean.listAdvertisementPictures}"/>
+		<t:saveState value="#{advertisementBean.selectedSheetPicture}"/>
+		<t:saveState value="#{advertisementBean.isProductNew}"/>
+	</ui:define>
+</ui:composition>

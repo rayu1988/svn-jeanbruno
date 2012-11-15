@@ -1,0 +1,22 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:t="http://myfaces.apache.org/tomahawk"
+				xmlns:f="http://java.sun.com/jsf/core">
+				
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userName"/>
+		<h:inputText id="userName" value="#{administratorBean.administrator.fullname}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+
+		<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmail"/>
+		<h:inputText id="userEmail" value="#{administratorBean.administrator.email}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNickname"/>
+		<h:inputText id="userNickname" value="#{administratorBean.administrator.nickname}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+
+		<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPassword"/>
+		<h:inputSecret id="userPassword" value="#{administratorBean.administrator.password}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+	</h:panelGrid>
+
+	<t:saveState value="#{administratorBean.administrator}"/>
+</ui:composition>

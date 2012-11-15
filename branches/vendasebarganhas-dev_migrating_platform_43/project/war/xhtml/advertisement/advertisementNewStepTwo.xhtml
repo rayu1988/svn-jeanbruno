@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/advertisementNewBase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew} ( #{msg.advertisementHeaderStepTwo} ) "/>
+	</ui:define>
+	
+	<!-- defining the scope of advertisementNewBase -->
+	<ui:define name="advertisementFormBody">
+		
+		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				
+				<ui:include src="/xhtml/advertisement/advertisementSelectPictures.xhtml"/>
+				
+			</h:panelGrid>
+		</h:panelGroup>
+	</ui:define>
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.msgTurnBack}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.backToStepOne}" immediate="true" />
+		<h:commandButton value="#{msg.msgGoNext}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.prepareNewStepThree}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>
