@@ -1,64 +1,67 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class UseTermPO extends AppPersistency {
+public class UseTermPO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<UseTermTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(UseTermTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
 		
-		List<UseTermTO> listReturn = new ArrayList<UseTermTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(UseTermTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public UseTermTO insert(UseTermTO useTerm) {
-		boolean alreadyExists = GeneralsHelper.isCollectionOk(this.getSimplePreparedQuery(UseTermTO.class).asList(FetchOptions.Builder.withLimit(1)));
-		useTerm.setDefaultUseTerm(!alreadyExists);
-		return this.persist(useTerm);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
+		
+		boolean alreadyExists = GeneralsHelper.isBooleanTrue(this.getHibernateDao().queryCount(hql.toString()) > 0);
+		
+		useTerm.setIsDefault(!alreadyExists);
+		
+		this.getHibernateDao().insert(useTerm);
+		
+		return useTerm;
 	}
 	
 	public UseTermTO save(UseTermTO useTerm) {
-		return this.persist(useTerm);
-	}
-
-	public UseTermTO consult(UseTermTO useTerm) throws EntityNotFoundException {
-		return this.consultByKey(useTerm);
-	}
-
-	public UseTermTO getDefaultUseTerm() throws EntityNotFoundException {
-		Query query = this.getQuery(UseTermTO.class);
-		query.setFilter(new Query.FilterPredicate("defaultUseTerm", Query.FilterOperator.EQUAL, true));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
+		this.getHibernateDao().update(useTerm);
 		
-		if (entity == null) {
+		return useTerm;
+	}
+
+	public UseTermTO consult(UseTermTO useTerm) {
+		return this.getHibernateDao().consult(useTerm);
+	}
+
+	public UseTermTO getDefaultUseTerm() {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
+		hql.append(" where USE_TERM.isDefault is true ");
+		
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		UseTermTO useTerm = (UseTermTO) query.uniqueResult();
+		
+		if (useTerm == null) {
 			throw new AppException("useTermDefaultNotFound");
 		}
 		
-		return AnnotationUtils.getTransferObjectFromEntity(UseTermTO.class, entity);
+		return useTerm;
 	}
 	
 	public void delete(UseTermTO useTerm) {
-		this.deleteEntity(useTerm);
+		this.getHibernateDao().delete(useTerm);
 	}
 }

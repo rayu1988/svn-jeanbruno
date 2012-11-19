@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.business.services.persistencies.UseTermPO;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
 
 @Service("useTermBO")
 public class UseTermBO implements UseTerm {
@@ -22,116 +21,57 @@ public class UseTermBO implements UseTerm {
 	private UseTermPO								persistencyLayer;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<UseTermTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<UseTermTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public UseTermTO insert(UseTermTO useTerm) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			useTerm = this.persistencyLayer.insert(useTerm);
-			
-			transaction.commit();
-			return useTerm;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(useTerm);
 	}
 	
 	@Override
-	public UseTermTO consult(UseTermTO useTerm) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			useTerm = this.persistencyLayer.consult(useTerm);
-			transaction.commit();
-			return useTerm;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(readOnly = true)
+	public UseTermTO consult(UseTermTO useTerm) {
+		return this.persistencyLayer.consult(useTerm);
 	}
 	
 	@Override
-	public UseTermTO getDefaultUseTerm() throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			UseTermTO useTerm = this.persistencyLayer.getDefaultUseTerm();
-			transaction.commit();
-			return useTerm;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+	@Transactional(readOnly = true)
+	public UseTermTO getDefaultUseTerm() {
+		return this.persistencyLayer.getDefaultUseTerm();
 	}
 	
 	@Override
-	public UseTermTO turnUseTermDefault(UseTermTO useTerm) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			try {
-				UseTermTO currentDefaultUseTerm = this.persistencyLayer.getDefaultUseTerm();
-				currentDefaultUseTerm.setDefaultUseTerm(false);
-				this.save(currentDefaultUseTerm);
-			} catch (AppException e) { } 
-			
-			useTerm.setDefaultUseTerm(true);
-			useTerm = this.save(useTerm);
-			
-			transaction.commit();
-			return useTerm;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public UseTermTO turnUseTermDefault(UseTermTO useTerm) {
+		UseTermTO currentDefaultUseTerm = this.persistencyLayer.getDefaultUseTerm();
+		currentDefaultUseTerm.setIsDefault(false);
+		this.save(currentDefaultUseTerm);
+		
+		useTerm.setIsDefault(true);
+		useTerm = this.save(useTerm);
+		
+		return useTerm;
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public UseTermTO save(UseTermTO useTerm) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			useTerm = this.persistencyLayer.save(useTerm);
-			
-			transaction.commit();
-			return useTerm;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.save(useTerm);
 	}
 
 	@Override
-	public void delete(UseTermTO useTerm) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			useTerm = this.consult(useTerm);
-			
-			if (useTerm.getDefaultUseTerm()) {
-				throw new AppException("useTermDefaultCantBeDeleted");
-			}
-			
-			this.persistencyLayer.delete(useTerm);
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void delete(UseTermTO useTerm) {
+		useTerm = this.consult(useTerm);
+		
+		if (useTerm.getIsDefault()) {
+			throw new AppException("useTermDefaultCantBeDeleted");
 		}
+		
+		this.persistencyLayer.delete(useTerm);
 	}
 }

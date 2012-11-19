@@ -18,8 +18,6 @@ import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.AppManagedBean;
 
-import com.google.appengine.api.datastore.KeyFactory;
-
 @SuppressWarnings("serial")
 public class CheckUserMailServlet extends HttpServlet {
 	
@@ -44,8 +42,8 @@ public class CheckUserMailServlet extends HttpServlet {
 			UserAccount service = managedBean.getServiceBusinessFactory().getUserAccount();
 			XORCryption decoder = new XORCryption(Mail.MAIL_KEY);
 			query = decoder.decodeFromBase64(query);
-			UserAccountTO userAccount = new UserAccountTO(KeyFactory.stringToKey(query));
-			userAccount = service.activate(userAccount);
+			UserAccountTO userAccount = new UserAccountTO(new Long(query));
+			service.activate(userAccount);
 			logger.log(Level.INFO, "User activated successfully: nickname " + userAccount.getNickname() + ", email " + userAccount.getEmail());
 			
 			managedBean.setRequestMessage(req, new RequestMessage("userAccountActivatedSuccessfully", SeverityMessage.SUCCESS));

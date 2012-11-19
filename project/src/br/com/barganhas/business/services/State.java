@@ -2,8 +2,6 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import br.com.barganhas.business.entities.StateTO;
 
 public interface State {
@@ -12,7 +10,7 @@ public interface State {
 	
 	StateTO insert(StateTO state);
 	
-	StateTO consult(StateTO state) throws EntityNotFoundException;
+	StateTO consult(StateTO state);
 	
 	StateTO consultAcronym(String acronym);
 

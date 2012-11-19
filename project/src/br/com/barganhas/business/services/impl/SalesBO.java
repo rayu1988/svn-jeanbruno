@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.persistencies.SalesPO;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
 
 @Service("salesBO")
 public class SalesBO implements Sales {
@@ -21,91 +20,38 @@ public class SalesBO implements Sales {
 	private SalesPO									persistencyLayer;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<SalesTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<SalesTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public SalesTO insert(SalesTO sales) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			sales = this.persistencyLayer.insert(sales);
-			
-			transaction.commit();
-			return sales;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(sales);
 	}
 	
 	@Override
-	public SalesTO consult(SalesTO sales) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			sales = this.persistencyLayer.consult(sales);
-			
-			transaction.commit();
-			return sales;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(readOnly = true)
+	public SalesTO consult(SalesTO sales) {
+		return this.persistencyLayer.consult(sales);
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public SalesTO save(SalesTO sales) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			sales = this.persistencyLayer.save(sales);
-			
-			transaction.commit();
-			return sales;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.save(sales);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void delete(SalesTO sales) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.persistencyLayer.delete(sales);
-			
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.persistencyLayer.delete(sales);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public SalesTO consultBySalesCode(String salesCode) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			SalesTO sales = this.persistencyLayer.consultBySalesCode(salesCode);
-			transaction.commit();
-			
-			return sales;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		return this.persistencyLayer.consultBySalesCode(salesCode);
 	}
 }

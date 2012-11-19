@@ -2,8 +2,6 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.commons.SearchingRequest;
@@ -17,34 +15,34 @@ public interface Advertisement {
 	
 	List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount);
 
-	List<AdvertisementTO> lastAdvertisements() throws EntityNotFoundException;
+	List<AdvertisementTO> lastAdvertisements();
 
-	List<AdvertisementTO> mostViewed() throws EntityNotFoundException;
+	List<AdvertisementTO> mostViewed();
 
-	List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) throws EntityNotFoundException;
+	List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount);
 
-	AdvertisementTO insert(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO insert(AdvertisementTO advertisement);
 
-	AdvertisementTO adminConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO adminConsult(AdvertisementTO advertisement);
 	
-	AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO consult(AdvertisementTO advertisement);
 	
-	AdvertisementTO lock(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO lock(AdvertisementTO advertisement);
 
-	AdvertisementTO unlock(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO unlock(AdvertisementTO advertisement);
 
-	AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO publicConsult(AdvertisementTO advertisement);
 	
-	SearchingResponse publicSearch(SearchingRequest searchingRequest) throws EntityNotFoundException;
+	SearchingResponse publicSearch(SearchingRequest searchingRequest);
 	
-	AdvertisementTO save(AdvertisementTO advertisement) throws EntityNotFoundException;
+	AdvertisementTO save(AdvertisementTO advertisement);
 
-	void delete(AdvertisementTO advertisement) throws EntityNotFoundException;
+	void delete(AdvertisementTO advertisement);
 
 	/**
 	 * Method to delete every UserAccount's advertisement.
 	 * @param owner
 	 * @throws EntityNotFoundException
 	 */
-	void delete(UserAccountTO owner) throws EntityNotFoundException;
+	void delete(UserAccountTO owner);
 }

@@ -1,119 +1,98 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.querylanguage.QLWhereClause;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.commons.AnnotationUtils;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 import br.com.barganhas.enums.UserAccountStatus;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
 
 @SuppressWarnings("serial")
 @Repository
-public class UserAccountPO extends AppPersistency {
+public class UserAccountPO extends AppPersistencyManagement {
 	
+	@SuppressWarnings("unchecked")
 	public List<UserAccountTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(UserAccountTO.class).asList(FetchOptions.Builder.withDefaults());
-		
-		List<UserAccountTO> listReturn = new ArrayList<UserAccountTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity));
-		}
-		
-		return listReturn;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<UserAccountTO> filter(UserAccountTO userAccount) {
-		Query query = this.getQuery(UserAccountTO.class);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
 		
-		List<Filter> filters = new ArrayList<Query.Filter>();
+		QLWhereClause where = new QLWhereClause();
+		
 		if (GeneralsHelper.isStringOk(userAccount.getFullname())) {
-			filters.add(new FilterPredicate("fullname", FilterOperator.EQUAL, userAccount.getFullname()));
+			where.and(" USER_ACCOUNT.fullname like '%" + userAccount.getFullname() + "%' ");
 		}
 		if (GeneralsHelper.isStringOk(userAccount.getNickname())) {
-			filters.add(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getNickname()));
+			where.and(" USER_ACCOUNT.nickname like '%" + userAccount.getNickname() + "%' ");
 		}
 		if (GeneralsHelper.isStringOk(userAccount.getEmail())) {
-			filters.add(new FilterPredicate("email", FilterOperator.EQUAL, userAccount.getEmail()));
+			where.and(" USER_ACCOUNT.email like '%" + userAccount.getEmail() + "%' ");
 		}
 		
-		if (!GeneralsHelper.isCollectionOk(filters)) {
-			return this.list();
-		} else if (filters.size() == 1) {
-			query.setFilter(filters.get(0));
-		} else if (filters.size() > 1) {
-			query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
-		}
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		hql.append(where.toString());
 		
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-		List<UserAccountTO> listReturn = new ArrayList<UserAccountTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public UserAccountTO insert(UserAccountTO userAccount) {
-		return this.persist(userAccount);
+		this.getHibernateDao().insert(userAccount);
+		return userAccount;
 	}
 	
 	public UserAccountTO save(UserAccountTO userAccount) {
-		return this.persist(userAccount);
+		this.getHibernateDao().update(userAccount);
+		return userAccount;
 	}
 
-	public UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException {
-		return this.consultByKey(userAccount);
+	public UserAccountTO consult(UserAccountTO userAccount) {
+		return this.getHibernateDao().consult(userAccount);
 	}
 
 	public void delete(UserAccountTO userAccount) {
-		this.deleteEntity(userAccount);
+		this.getHibernateDao().delete(userAccount);
 	}
 	
 	public boolean nicknameAlreadyExist(UserAccountTO userAccount) {
-		Query query = this.getQuery(UserAccountTO.class);
-		query.setFilter(new FilterPredicate("nickname", FilterOperator.EQUAL, userAccount.getNickname()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults()) > 0;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" where USER_ACCOUNT.nickname = '" + userAccount.getNickname() + "' ");
+		
+		return this.getHibernateDao().queryCount(hql.toString()) > 0;
 	}
 	
 	public boolean emailAlreadyExist(UserAccountTO userAccount) {
-		Query query = this.getQuery(UserAccountTO.class);
-		query.setFilter(new FilterPredicate("email", FilterOperator.EQUAL, userAccount.getEmail()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		return preparedQuery.countEntities(FetchOptions.Builder.withDefaults()) > 0;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" where USER_ACCOUNT.email = '" + userAccount.getEmail() + "' ");
+		
+		return this.getHibernateDao().queryCount(hql.toString()) > 0;
 	}
 
 	public UserAccountTO validateLogin(UserAccountTO userAccount) {
-		Query query = this.getQuery(UserAccountTO.class);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" where USER_ACCOUNT.nickname = :nickname ");
+		hql.append(" and USER_ACCOUNT.password = :password ");
 		
-		List<Filter> filters = new ArrayList<Query.Filter>();
-//		filters.add(new FilterPredicate("status", Query.FilterOperator.EQUAL, UserAccountStatus.ACTIVE.toString()));
-		filters.add(new FilterPredicate("nickname", Query.FilterOperator.EQUAL, userAccount.getNickname()));
-		filters.add(new FilterPredicate("password", Query.FilterOperator.EQUAL, userAccount.getPassword()));
-		query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
+		userAccount = (UserAccountTO) this.getHibernateDao().createQueryTransform(hql.toString());
 		
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
-		
-		if (entity == null) {
+		if (userAccount == null) {
 			throw new AppException("loginErrorUserNotFound");
 		}
-		userAccount = AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity);
 		if (!userAccount.getStatus().equals(UserAccountStatus.ACTIVE)) {
 			throw new AppException("userAccountUserNotActivatedYet");
 		}
@@ -121,17 +100,34 @@ public class UserAccountPO extends AppPersistency {
 		return userAccount;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<UserAccountTO> listHighlightedUsers() {
-		Query query = this.getQuery(UserAccountTO.class);
-		query.addSort("countAdvertisement", SortDirection.DESCENDING);
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(4));
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select USER_ACCOUNT from ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" join USER_ACCOUNT.listAdvertisement ADVERTISEMENT ");
+		hql.append(" order by ADVERTISEMENT.countView DESC ");
 		
-		List<UserAccountTO> list = new ArrayList<UserAccountTO>();
-		for (Entity entity : entities) {
-			list.add(AnnotationUtils.getTransferObjectFromEntity(UserAccountTO.class, entity));
-		}
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(4);
 		
-		return list;
+		return query.list();
+	}
+	
+	public void lock(UserAccountTO userAccount) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" update ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" set USER_ACCOUNT.status = ").append(UserAccountStatus.LOCKED);
+		hql.append(" where USER_ACCOUNT = ").append(userAccount.getId());
+		
+		this.getHibernateDao().createQuery(hql.toString()).executeUpdate();
+	}
+	
+	public void activate(UserAccountTO userAccount) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" update ").append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
+		hql.append(" set USER_ACCOUNT.status = ").append(UserAccountStatus.ACTIVE);
+		hql.append(" where USER_ACCOUNT = ").append(userAccount.getId());
+		
+		this.getHibernateDao().createQuery(hql.toString()).executeUpdate();
 	}
 }

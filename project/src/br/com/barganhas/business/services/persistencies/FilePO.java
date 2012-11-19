@@ -1,62 +1,41 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.FileTO;
-import br.com.barganhas.business.entities.TransferObject;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.PropertyProjection;
-import com.google.appengine.api.datastore.Query;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class FilePO extends AppPersistency {
+public class FilePO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<FileTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(FileTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select FILE from ").append(FileTO.class.getName()).append(" FILE ");
 		
-		List<FileTO> listReturn = new ArrayList<FileTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(FileTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public FileTO insert(FileTO file) {
-		return this.persist(file);
-	}
-	
-	public FileTO insert(FileTO file, TransferObject ancestorTO) {
-		return this.persist(file, ancestorTO);
+		this.getHibernateDao().insert(file);
+		return file;
 	}
 	
 	public FileTO save(FileTO file) {
-		return this.persist(file);
+		this.getHibernateDao().update(file);
+		return file;
 	}
 
-	public FileTO consult(FileTO file) throws EntityNotFoundException {
-		return this.consultByKey(file);
+	public FileTO consult(FileTO file) {
+		return this.getHibernateDao().consult(file);
 	}
 	
-	public FileTO consultProjection(FileTO file) {
-		Query query = this.getQuery(FileTO.class);
-		query.addProjection(new PropertyProjection("fileName", String.class));
-		query.setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, file.getKey().getId()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
-		return AnnotationUtils.getTransferObjectFromEntity(FileTO.class, entity);
-	}
-
 	public void delete(FileTO file) {
-		this.deleteEntity(file);
+		this.getHibernateDao().delete(file);
 	}
 }

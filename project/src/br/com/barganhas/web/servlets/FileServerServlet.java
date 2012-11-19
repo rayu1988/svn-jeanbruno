@@ -15,8 +15,6 @@ import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 
-import com.google.appengine.api.datastore.KeyFactory;
-
 @SuppressWarnings("serial")
 public class FileServerServlet extends HttpServlet {
 
@@ -38,10 +36,10 @@ public class FileServerServlet extends HttpServlet {
 			try {
 				ServiceBusinessFactory serviceBusinessFactory = ServiceBusinessFactory.getInstance();
 				File serivce = serviceBusinessFactory.getFile();
-				FileTO file = serivce.consult(new FileTO(KeyFactory.stringToKey(query)));
+				FileTO file = serivce.consult(new FileTO(new Long(query)));
 				
 				resp.setContentType(file.getContentType());
-				resp.getOutputStream().write(file.getData().getBytes());
+				resp.getOutputStream().write(file.getData());
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}

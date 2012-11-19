@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.services.City;
-import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.persistencies.CityPO;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
+import br.com.barganhas.commons.SearchingRequest;
 
 @Service("cityBO")
 public class CityBO implements City {
@@ -22,78 +21,39 @@ public class CityBO implements City {
 	@Autowired
 	private CityPO									persistencyLayer;
 	
-	@Autowired
-	private State									serviceState;
-	
 	@Override
+	@Transactional(readOnly = true)
 	public List<CityTO> list(StateTO state) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<CityTO> list = this.persistencyLayer.list(state);
-			transaction.commit();
-			return list;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		return this.persistencyLayer.list(state);
 	}
 	
 	@Override
-	public CityTO consult(CityTO city) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			city = this.persistencyLayer.consult(city);
-			city.setState(this.serviceState.consult(new StateTO(city.getKeyState())));
-			
-			transaction.commit();
-			return city;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+	@Transactional(readOnly = true)
+	public List<CityTO> listFiter(SearchingRequest searchingRequest) {
+		return this.persistencyLayer.listFiter(searchingRequest);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
+	public CityTO consult(CityTO city) {
+		return this.persistencyLayer.consult(city);
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public CityTO insert(CityTO city) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			city = this.persistencyLayer.insert(city);
-			
-			transaction.commit();
-			return city;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(city);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean alreadyExists() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			boolean exists = this.persistencyLayer.alreadyExists();
-			transaction.commit();
-			return exists;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		return this.persistencyLayer.alreadyExists();
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public void removeAll() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.persistencyLayer.removeAll();
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		this.persistencyLayer.removeAll();
 	}
 }

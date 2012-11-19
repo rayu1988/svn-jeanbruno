@@ -71,7 +71,7 @@ public class CityServiceServlet extends HttpServlet {
 					
 					CityTO city = new CityTO();
 					city.setName(cityTag.getAttributeValue("name"));
-					city.setKeyState(state.getKey());
+					city.setState(state);
 					
 					cityService.insert(city);
 				}

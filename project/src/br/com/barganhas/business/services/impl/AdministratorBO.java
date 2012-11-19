@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.services.Administrator;
@@ -21,128 +20,60 @@ public class AdministratorBO implements Administrator {
 	private AdministratorPO							persistencyLayer;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<AdministratorTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<AdministratorTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<AdministratorTO> filter(AdministratorTO administrator) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<AdministratorTO> listReturn = this.persistencyLayer.filter(administrator);
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.filter(administrator);
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public AdministratorTO insert(AdministratorTO administrator) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			administrator = this.persistencyLayer.insert(administrator);
-			
-			transaction.commit();
-			return administrator;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(administrator);
 	}
 	
 	@Override
-	public AdministratorTO consult(AdministratorTO administrator) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			administrator = this.persistencyLayer.consult(administrator);
-			
-			transaction.commit();
-			return administrator;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(readOnly = true)
+	public AdministratorTO consult(AdministratorTO administrator) {
+		return this.persistencyLayer.consult(administrator);
 	}
 	
 	@Override
-	public AdministratorTO save(AdministratorTO administrator) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			administrator = this.persistencyLayer.save(administrator);
-			
-			transaction.commit();
-			return administrator;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public AdministratorTO save(AdministratorTO administrator) {
+		return this.persistencyLayer.save(administrator);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void delete(AdministratorTO administrator) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.persistencyLayer.delete(administrator);
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.persistencyLayer.delete(administrator);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			administrator = this.persistencyLayer.validateLogin(administrator);
-			transaction.commit();
-			return administrator;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.validateLogin(administrator);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void registerFirstAdministrator() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			int totalAdministrators = this.persistencyLayer.count(AdministratorTO.class);
+		long totalAdministrators = this.persistencyLayer.countAdvertisements();
+		
+		if (totalAdministrators <= 0) {
+			AdministratorTO administrator = new AdministratorTO();
+			administrator.setFullname("Administrator Master");
+			administrator.setEmail("admin@mail.com");
+			administrator.setNickname("admin");
+			administrator.setPassword("admin");
 			
-			if (totalAdministrators <= 0) {
-				AdministratorTO administrator = new AdministratorTO();
-				administrator.setFullname("Administrator Master");
-				administrator.setEmail("admin@mail.com");
-				administrator.setNickname("admin");
-				administrator.setPassword("admin");
-				
-				this.insert(administrator);
-			}
-			
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
+			this.insert(administrator);
 		}
 	}
 }

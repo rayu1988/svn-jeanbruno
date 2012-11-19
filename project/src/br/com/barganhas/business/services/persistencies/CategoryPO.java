@@ -1,45 +1,71 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.querylanguage.QLWhereClause;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
+import br.com.barganhas.commons.SearchingRequest;
 
 @SuppressWarnings("serial")
 @Repository
-public class CategoryPO extends AppPersistency {
+public class CategoryPO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<CategoryTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(CategoryTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select CATEGORY from ").append(CategoryTO.class.getName()).append(" CATEGORY ");
 		
-		List<CategoryTO> listReturn = new ArrayList<CategoryTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(CategoryTO.class, entity));
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CategoryTO> listFiter(SearchingRequest searchingRequest) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select distinct CATEGORY.id, CATEGORY.name from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" join ADVERTISEMENT.category CATEGORY ");
+		hql.append(" join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+		
+		QLWhereClause where = new QLWhereClause();
+		
+		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+		}
+		if (searchingRequest.getFilterCurrencyFrom() != null) {
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		}
+		if (searchingRequest.getFilterCurrencyUpTo() != null) {
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		}
+		if (searchingRequest.getCity() != null) {
+			where.and(" USER_ACCOUNT.city = " + searchingRequest.getCity().getId());
 		}
 		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString(), CategoryTO.class, "category");
+		return query.list();
 	}
 	
 	public CategoryTO insert(CategoryTO category) {
-		return this.persist(category);
+		this.getHibernateDao().insert(category);
+		return category;
 	}
 	
 	public CategoryTO save(CategoryTO category) {
-		return this.persist(category);
+		this.getHibernateDao().update(category);
+		return category;
 	}
 
-	public CategoryTO consult(CategoryTO category) throws EntityNotFoundException {
-		return this.consultByKey(category);
+	public CategoryTO consult(CategoryTO category) {
+		return this.getHibernateDao().consult(category);
 	}
 
 	public void delete(CategoryTO category) {
-		this.deleteEntity(category);
+		this.getHibernateDao().delete(category);
 	}
 }

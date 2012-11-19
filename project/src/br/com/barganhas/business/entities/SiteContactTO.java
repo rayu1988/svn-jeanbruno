@@ -1,74 +1,82 @@
 package br.com.barganhas.business.entities;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Text;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="SITE_CONTACT")
 public class SiteContactTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_site_contact")
 	private Long			id;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "name", nullable = false, length = 50)
 	private String			name;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "email", nullable = false, length = 50)
 	private String			email;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
-	private Text			message;
+	@Column(name = "message", nullable = false, length = 2500)
+	private String			message;
 	
 	public SiteContactTO() {
-		super(null);
 	}
 
-	public SiteContactTO(Key key) {
-		super(key);
-	}
-
-	@Override
-	public void setId(Long id) {
+	public SiteContactTO(Long id) {
 		this.id = id;
 	}
+
 	@Override
-	public Long getId() {
-		return id;
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
+	}
+
+	@Override
+	public Serializable getKey() {
+		return getId();
 	}
 
 	// GETTERS AND SETTERS //
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getEmail() {
 		return email;
 	}
-
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public Text getMessage() {
+	
+	public String getMessage() {
 		return message;
 	}
-
-	public void setMessage(Text message) {
+	
+	public void setMessage(String message) {
 		this.message = message;
-	}
-	
-	public String getStringMessage() {
-		return message != null ? message.getValue() : "";
-	}
-	
-	public void setStringMessage(String message) {
-		this.message = message != null ? new Text(message) : null;
 	}
 }

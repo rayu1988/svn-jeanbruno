@@ -2,8 +2,6 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import br.com.barganhas.business.entities.AboutSiteTO;
 
 public interface AboutSite {
@@ -12,13 +10,13 @@ public interface AboutSite {
 	
 	AboutSiteTO insert(AboutSiteTO aboutSite);
 
-	AboutSiteTO consult(AboutSiteTO aboutSite) throws EntityNotFoundException;
+	AboutSiteTO consult(AboutSiteTO aboutSite);
 
-	AboutSiteTO getDefault() throws EntityNotFoundException;
+	AboutSiteTO getDefault();
 
-	AboutSiteTO turnDefault(AboutSiteTO aboutSite) throws EntityNotFoundException;
+	AboutSiteTO turnDefault(AboutSiteTO aboutSite);
 	
 	AboutSiteTO save(AboutSiteTO aboutSite);
 
-	void delete(AboutSiteTO aboutSite) throws EntityNotFoundException;
+	void delete(AboutSiteTO aboutSite);
 }

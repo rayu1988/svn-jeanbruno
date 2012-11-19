@@ -7,7 +7,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.DataModelEvent;
 import javax.faces.model.DataModelListener;
 
-import br.com.barganhas.business.entities.TransferObject;
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
 public class CustomDataModel extends DataModel<Object> implements Serializable{

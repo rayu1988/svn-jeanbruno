@@ -60,7 +60,7 @@ public class SiteContactBean extends AppManagedBean {
 		} else if (!GeneralsHelper.isEmailOk(this.siteContact.getEmail())) {
 			messages.add(new RequestMessage("siteContactMsgEmailInvalid", SeverityMessage.ERROR));
 		}
-		if (!GeneralsHelper.isStringOk(this.siteContact.getStringMessage())) {
+		if (!GeneralsHelper.isStringOk(this.siteContact.getMessage())) {
 			messages.add(new RequestMessage("siteContactMsgMessageRequired", SeverityMessage.ERROR));
 		}
 		return messages;

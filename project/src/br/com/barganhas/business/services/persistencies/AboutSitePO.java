@@ -1,64 +1,65 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AboutSiteTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class AboutSitePO extends AppPersistency {
-
+public class AboutSitePO extends AppPersistencyManagement {
+	
+	@SuppressWarnings("unchecked")
 	public List<AboutSiteTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(AboutSiteTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
 		
-		List<AboutSiteTO> listReturn = new ArrayList<AboutSiteTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AboutSiteTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public AboutSiteTO insert(AboutSiteTO aboutSite) {
-		boolean alreadyExists = GeneralsHelper.isCollectionOk(this.getSimplePreparedQuery(AboutSiteTO.class).asList(FetchOptions.Builder.withLimit(1)));
-		aboutSite.setDefaultAboutSite(!alreadyExists);
-		return this.persist(aboutSite);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
+		
+		boolean alreadyExists = GeneralsHelper.isBooleanTrue(this.getHibernateDao().queryCount(hql.toString()) > 0);
+		aboutSite.setIsDefault(!alreadyExists);
+		
+		this.getHibernateDao().insert(aboutSite);
+		
+		return aboutSite;
 	}
 	
 	public AboutSiteTO save(AboutSiteTO aboutSite) {
-		return this.persist(aboutSite);
+		this.getHibernateDao().update(aboutSite);
+		return aboutSite;
 	}
 
-	public AboutSiteTO consult(AboutSiteTO aboutSite) throws EntityNotFoundException {
-		return this.consultByKey(aboutSite);
+	public AboutSiteTO consult(AboutSiteTO aboutSite) {
+		return this.getHibernateDao().consult(aboutSite);
 	}
 
-	public AboutSiteTO getDefault() throws EntityNotFoundException {
-		Query query = this.getQuery(AboutSiteTO.class);
-		query.setFilter(new Query.FilterPredicate("defaultAboutSite", Query.FilterOperator.EQUAL, true));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
+	public AboutSiteTO getDefault() {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
+		hql.append(" where ABOUT_SITE.isDefault is true ");
 		
-		if (entity == null) {
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		AboutSiteTO aboutSite = (AboutSiteTO) query.uniqueResult();
+		
+		if (aboutSite == null) {
 			throw new AppException("aboutSiteDefaultNotFound");
 		}
 		
-		return AnnotationUtils.getTransferObjectFromEntity(AboutSiteTO.class, entity);
+		return aboutSite;
 	}
 	
 	public void delete(AboutSiteTO aboutSite) {
-		this.deleteEntity(aboutSite);
+		this.getHibernateDao().delete(aboutSite);
 	}
 }

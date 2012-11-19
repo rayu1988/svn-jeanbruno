@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
-import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 
 public interface UserAccount {
@@ -21,23 +18,19 @@ public interface UserAccount {
 	
 	UserAccountTO insert(UserAccountTO userAccount);
 	
-	UserAccountTO incrementCountAdvertisement(UserAccountTO userAccount) throws EntityNotFoundException;
-
-	List<UserAccountTO> listHighlightedUsers() throws EntityNotFoundException;
+	List<UserAccountTO> listHighlightedUsers();
 	
-	UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException;
+	UserAccountTO consult(UserAccountTO userAccount);
 	
-	UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException;
+	void lock(UserAccountTO userAccount);
 
-	UserAccountTO unlock(UserAccountTO userAccount) throws EntityNotFoundException;
+	void unlock(UserAccountTO userAccount);
 
-	UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException;
+	void activate(UserAccountTO userAccount);
 	
-	UserAccountTO save(UserAccountTO userAccount) throws EntityNotFoundException;
+	UserAccountTO save(UserAccountTO userAccount);
 
-	UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException;
-
-	void delete(UserAccountTO userAccount) throws EntityNotFoundException;
+	void delete(UserAccountTO userAccount);
 
 	boolean nicknameAlreadyExist(UserAccountTO userAccount);
 	

@@ -19,9 +19,6 @@ import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.SearchingRequest;
 import br.com.barganhas.commons.SearchingResponse;
-import br.com.barganhas.commons.Util;
-
-import com.google.appengine.api.datastore.Key;
 
 @ManagedBean
 @RequestScoped
@@ -37,7 +34,6 @@ public class SiteBean extends AppManagedBean {
 	private List<AdvertisementTO>				userAccountLastAdvertisements;
 	
 	private AdvertisementTO						advertisement;
-	private Key									advertisementPicture;
 	
 	// manage if the list will be shown as grid or in line
 	private Boolean								listAsGrid = false;
@@ -76,13 +72,11 @@ public class SiteBean extends AppManagedBean {
 			// check request by URL parameter
 			if (this.advertisement == null) {
 				String query = this.getHttpServletRequest().getParameter("q");
-				this.advertisement = new AdvertisementTO(Util.getKeyFromString(query));
+				this.advertisement = new AdvertisementTO(new Long(query));
 			}
 			
 			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
 			this.advertisement = service.publicConsult(this.advertisement);
-			
-			this.advertisementPicture = this.advertisement.getSheetPicture().getKeyPicture();
 			
 			return "publicAdvertisementConsult";
 		} catch (Exception e) {
@@ -242,14 +236,6 @@ public class SiteBean extends AppManagedBean {
 
 	public void setAdvertisement(AdvertisementTO advertisement) {
 		this.advertisement = advertisement;
-	}
-
-	public Key getAdvertisementPicture() {
-		return advertisementPicture;
-	}
-
-	public void setAdvertisementPicture(Key advertisementPicture) {
-		this.advertisementPicture = advertisementPicture;
 	}
 
 	public String getSearchText() {

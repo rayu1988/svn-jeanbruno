@@ -50,11 +50,11 @@
     <!-- 
        We need to set annotation lifecycyle provider manually as org.apache.myfaces.config.annotation.NoInjectionAnnotationLifecycleProvider.
        Other providers use some classes that are restricted on Google App Engine.   
-    -->
     <context-param>
         <param-name>org.apache.myfaces.config.annotation.LifecycleProvider</param-name>
         <param-value>org.apache.myfaces.config.annotation.NoInjectionAnnotationLifecycleProvider</param-value>
     </context-param>
+    -->
     <context-param>
         <param-name>org.apache.myfaces.EXPRESSION_FACTORY</param-name>
         <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
@@ -87,7 +87,7 @@
     </context-param>
     <context-param>
         <param-name>org.richfaces.executeAWTInitializer</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <context-param>
         <param-name>org.richfaces.resourceMapping.enabled</param-name>
@@ -95,17 +95,17 @@
     </context-param>
     <context-param>
         <param-name>org.richfaces.fileUpload.createTempFiles</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <!-- 
     	required parameter even with empty value to tempFilesDirectory, because without it
     	the default behavior of the richfaces file upload is try get the user home directory (System.getProperty(uesr.dir))
     	wich makes use of java.io.File that is restricted by GAE. 
-    -->
     <context-param>
         <param-name>org.richfaces.fileUpload.tempFilesDirectory</param-name>
         <param-value></param-value>
     </context-param>
+    -->
     <context-param>
     	<!--
     		To limit the maximum size of the uploaded files, define the byte size with the

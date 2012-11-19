@@ -1,42 +1,30 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.FileTempTO;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class FileTempPO extends AppPersistency {
+public class FileTempPO extends AppPersistencyManagement {
 
 	public void clearTempFiles() {
-		Calendar calendar =GregorianCalendar.getInstance();
+		Calendar calendar = GregorianCalendar.getInstance();
 		calendar.add(Calendar.DATE, -1);
 		Date yesterday = calendar.getTime();
 		
-		Query query = this.getQuery(FileTempTO.class);
-		query.setKeysOnly();
-		query.setFilter(new Query.FilterPredicate("persistedDate", Query.FilterOperator.LESS_THAN_OR_EQUAL, yesterday));
-		query.addSort("persistedDate", SortDirection.ASCENDING);
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" delete from ").append(FileTempTO.class.getName()).append(" FILE_TEMP ");
+		hql.append(" where FILE_TEMP.sinceDate = :sinceDate ");
 		
-		List<Entity> tempFiles = preparedQuery.asList(FetchOptions.Builder.withLimit(1000));
-		List<Key> keysToDelete = new ArrayList<Key>();
-		for (Entity tempFile : tempFiles) {
-			keysToDelete.add(tempFile.getKey());
-		}
-		this.getDataStoreService().delete(keysToDelete);
+		Query query = this.getHibernateDao().createQuery(hql.toString());
+		query.setDate("sinceDate", yesterday);
+		query.executeUpdate();
 	}
 }

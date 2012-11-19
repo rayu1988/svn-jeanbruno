@@ -31,8 +31,6 @@ import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
 
-import com.google.appengine.api.datastore.Blob;
-
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
@@ -70,7 +68,7 @@ public class UserAccountBean extends AppManagedBean {
 	public String adminLockUser() {
 		try {
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-			this.userAccount = service.lock(this.userAccount);
+			service.lock(this.userAccount);
 			this.setRequestMessage(new RequestMessage("userAccountHadBeenLocked", SeverityMessage.SUCCESS));
 			return this.adminConsultUser();
 		} catch (Exception e) {
@@ -81,7 +79,7 @@ public class UserAccountBean extends AppManagedBean {
 	public String adminUnlockUser() {
 		try {
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-			this.userAccount = service.unlock(this.userAccount);
+			service.unlock(this.userAccount);
 			this.setRequestMessage(new RequestMessage("userAccountHadBeenUnlocked", SeverityMessage.SUCCESS));
 			return this.adminConsultUser();
 		} catch (Exception e) {
@@ -148,8 +146,7 @@ public class UserAccountBean extends AppManagedBean {
 			}
 			
 			if (!this.returnMessage.hasMessage()) {
-				this.userAccount.setKeyState(this.selectedState.getKey());
-				this.userAccount.setKeyCity(this.selectedCity.getKey());
+				this.userAccount.setCity(this.selectedCity);
 				
 				service.registerNewUser(this.userAccount);
 				
@@ -180,7 +177,7 @@ public class UserAccountBean extends AppManagedBean {
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
 			this.userAccount = service.consult(this.userAccount);
 			
-			this.selectedState = this.userAccount.getState();
+			this.selectedState = this.userAccount.getCity().getState();
 			this.prepareListStates();
 			
 			this.prepareListCities(null);
@@ -199,7 +196,7 @@ public class UserAccountBean extends AppManagedBean {
 				byte[] bytes = uploadedFile.getData();
 				
 				this.profileImage = new FileTO();
-				this.profileImage.setData(new Blob(bytes));
+				this.profileImage.setData(bytes);
 				this.profileImage.setContentType(uploadedFile.getContentType());
 				this.profileImage.setFileName(uploadedFile.getName());
 			} else {
@@ -215,15 +212,10 @@ public class UserAccountBean extends AppManagedBean {
 			if (this.selectedState == null || this.selectedCity == null) {
 				throw new AppException("userAccountStateAndCityAreRequired");
 			}
-			this.userAccount.setKeyState(this.selectedState.getKey());
-			this.userAccount.setKeyCity(this.selectedCity.getKey());
+			this.userAccount.setCity(this.selectedCity);
 			
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-			if (this.profileImage != null) {
-				this.userAccount = service.save(this.userAccount, this.profileImage);
-			} else {
-				this.userAccount = service.save(this.userAccount);
-			}
+			this.userAccount = service.save(this.userAccount);
 			this.getManagedBean(AppSessionBean.class).setUserAccount(this.userAccount);
 			
 			return this.consult();

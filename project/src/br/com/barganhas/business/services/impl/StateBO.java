@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.persistencies.StatePO;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
 
 @Service("stateBO")
 public class StateBO implements State {
@@ -21,87 +20,39 @@ public class StateBO implements State {
 	private StatePO									persistencyLayer;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<StateTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<StateTO> list = this.persistencyLayer.list();
-			transaction.commit();
-			return list;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public StateTO insert(StateTO state) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			state = this.persistencyLayer.insert(state);
-			
-			transaction.commit();
-			return state;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(state);
 	}
 	
 	@Override
-	public StateTO consult(StateTO state) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			state = this.persistencyLayer.consult(state);
-			transaction.commit();
-			return state;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			}
-		}
+	@Transactional(readOnly = true)
+	public StateTO consult(StateTO state) {
+		return this.persistencyLayer.consult(state);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public StateTO consultAcronym(String acronym) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			StateTO state = this.persistencyLayer.consultAcronym(acronym);
-			transaction.commit();
-			return state;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.consultAcronym(acronym);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean alreadyExists() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			boolean exists = this.persistencyLayer.alreadyExists();
-			transaction.commit();
-			return exists;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.alreadyExists();
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public void removeAll() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.persistencyLayer.removeAll();
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.persistencyLayer.removeAll();
 	}
 	
 }
