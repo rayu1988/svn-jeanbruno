@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.barganhas.business.entities.AdvertisementTypeTO;
 import br.com.barganhas.business.services.AdvertisementType;
@@ -21,75 +20,32 @@ public class AdvertisementTypeBO implements AdvertisementType {
 	private AdvertisementTypePO						persistencyLayer;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<AdvertisementTypeTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<AdvertisementTypeTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public AdvertisementTypeTO insert(AdvertisementTypeTO advertisementType) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			advertisementType = this.persistencyLayer.insert(advertisementType);
-			
-			transaction.commit();
-			return advertisementType;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.insert(advertisementType);
 	}
 	
 	@Override
-	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			advertisementType = this.persistencyLayer.consult(advertisementType);
-			
-			transaction.commit();
-			return advertisementType;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(readOnly = true)
+	public AdvertisementTypeTO consult(AdvertisementTypeTO advertisementType) {
+		return this.persistencyLayer.consult(advertisementType);
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public AdvertisementTypeTO save(AdvertisementTypeTO advertisementType) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			advertisementType = this.persistencyLayer.save(advertisementType);
-			
-			transaction.commit();
-			return advertisementType;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.save(advertisementType);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void delete(AdvertisementTypeTO advertisementType) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.persistencyLayer.delete(advertisementType);
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.persistencyLayer.delete(advertisementType);
 	}
 }

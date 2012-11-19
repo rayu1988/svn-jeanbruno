@@ -1,16 +1,18 @@
 package br.com.barganhas.business.entities;
 
-import com.google.appengine.api.datastore.Key;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="ADMINISTRATOR")
 public class AdministratorTO extends UserTO {
 	
 	public AdministratorTO() {
-		super(null);
 	}
 	
-	public AdministratorTO(Key key) {
-		super(key);
+	public AdministratorTO(Long id) {
+		this.setId(id);
 	}
 
 }

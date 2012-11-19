@@ -1,6 +1,6 @@
 package br.com.barganhas.business.services;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import java.io.IOException;
 
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.FileTO;
@@ -13,11 +13,11 @@ public interface AdvertisementPicture {
 	int 	MAX_WIDTH_PICTURE = 588;
 	int 	MAX_HEIGHT_PICTURE = 441;
 	
-	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase);
+	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase) throws IOException;
 
-	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase) throws EntityNotFoundException;
+	AdvertisementPictureTO insert(AdvertisementPictureTO advertisementPictureBase);
 	
-	AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException;
+	AdvertisementPictureTO consult(AdvertisementPictureTO advertisementPicture);
 	
-	void delete(AdvertisementPictureTO advertisementPicture) throws EntityNotFoundException;
+	void delete(AdvertisementPictureTO advertisementPicture);
 }

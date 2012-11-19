@@ -9,25 +9,15 @@ import javax.mail.MessagingException;
 import org.com.tatu.helper.GeneralsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import br.com.barganhas.business.entities.CityTO;
-import br.com.barganhas.business.entities.FileTO;
-import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.business.services.Advertisement;
-import br.com.barganhas.business.services.City;
-import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.Mail;
-import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.business.services.persistencies.UserAccountPO;
-import br.com.barganhas.commons.Util;
 import br.com.barganhas.enums.UserAccountStatus;
-
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Transaction;
 
 @Service("userAccountBO")
 public class UserAccountBO implements UserAccount {
@@ -38,257 +28,106 @@ public class UserAccountBO implements UserAccount {
 	private UserAccountPO							persistencyLayer;
 	
 	@Autowired
-	private File									fileService;
-
-	@Autowired
 	private Mail									mailService;
 	
-	@Autowired
-	private Advertisement							serviceAdvertisement;
-	
-	@Autowired
-	private State									serviceState;
-	
-	@Autowired
-	private City									serviceCity;
-	
 	@Override
+	@Transactional(readOnly = true)
 	public List<UserAccountTO> list() {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<UserAccountTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.list();
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<UserAccountTO> filter(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<UserAccountTO> listReturn = this.persistencyLayer.filter(userAccount);
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.filter(userAccount);
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public UserAccountTO insert(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.beforePersist(userAccount);
-			
-			userAccount = this.persistencyLayer.insert(userAccount);
-			
-			transaction.commit();
-			return userAccount;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		this.beforePersist(userAccount);
+		return this.persistencyLayer.insert(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO consult(UserAccountTO userAccount) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			userAccount = this.persistencyLayer.consult(userAccount);
-			userAccount.setState(this.serviceState.consult(new StateTO(userAccount.getKeyState())));
-			userAccount.setCity(this.serviceCity.consult(new CityTO(userAccount.getKeyCity())));
-			
-			transaction.commit();
-			return userAccount;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(readOnly = true)
+	public UserAccountTO consult(UserAccountTO userAccount) {
+		return this.persistencyLayer.consult(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO incrementCountAdvertisement(UserAccountTO userAccount) throws EntityNotFoundException {
-		userAccount = this.consult(userAccount);
-		Long currentCount = userAccount.getCountAdvertisement() != null ? userAccount.getCountAdvertisement() : 0l;
-		currentCount++;
-		userAccount.setCountAdvertisement(currentCount);
-		return this.save(userAccount);
+	@Transactional(readOnly = true)
+	public List<UserAccountTO> listHighlightedUsers() {
+		return this.persistencyLayer.listHighlightedUsers();
 	}
 	
 	@Override
-	public List<UserAccountTO> listHighlightedUsers() throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<UserAccountTO> list = this.persistencyLayer.listHighlightedUsers();
-			transaction.commit();
-			return list;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void lock(UserAccountTO userAccount) {
+		this.persistencyLayer.lock(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO lock(UserAccountTO userAccount) throws EntityNotFoundException {
-		userAccount = this.consult(userAccount);
-		userAccount.setStatus(UserAccountStatus.LOCKED);
-		return this.save(userAccount);
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void unlock(UserAccountTO userAccount) {
+		this.persistencyLayer.activate(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO unlock(UserAccountTO userAccount) throws EntityNotFoundException {
-		userAccount = this.consult(userAccount);
-		userAccount.setStatus(UserAccountStatus.ACTIVE);
-		return this.save(userAccount);
-	}
-	
-	@Override
-	public UserAccountTO activate(UserAccountTO userAccount) throws EntityNotFoundException {
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void activate(UserAccountTO userAccount) {
 		userAccount = this.consult(userAccount);
 		if (userAccount == null || !userAccount.getStatus().equals(UserAccountStatus.PENDING)) {
 			throw new AppException("userAccountActivatedProblem");
 		}
-		userAccount.setStatus(UserAccountStatus.ACTIVE);
-		return this.save(userAccount);
+		
+		this.persistencyLayer.activate(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO save(UserAccountTO userAccount) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			UserAccountTO syncronized = this.consult(userAccount);
-			if (!GeneralsHelper.isStringOk(userAccount.getPassword())) {
-				userAccount.setPassword(syncronized.getPassword());
-			}
-			
-			this.beforePersist(userAccount);
-			userAccount = this.persistencyLayer.save(userAccount);
-			
-			transaction.commit();
-			return userAccount;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public UserAccountTO save(UserAccountTO userAccount) {
+		UserAccountTO syncronized = this.consult(userAccount);
+		if (!GeneralsHelper.isStringOk(userAccount.getPassword())) {
+			userAccount.setPassword(syncronized.getPassword());
 		}
+		
+		this.beforePersist(userAccount);
+		return this.persistencyLayer.save(userAccount);
 	}
 	
 	@Override
-	public UserAccountTO save(UserAccountTO userAccount, FileTO fileImage) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			if (fileImage != null) {
-				Blob profileImage = Util.transformBlobImage(fileImage.getData(), MAX_HEIGHT_IMG_PROFILE, MAX_WIDTH_IMG_PROFILE);
-				if (userAccount.getKeyProfileImage() == null) {
-					fileImage.setData(profileImage);
-					fileImage = this.fileService.insert(fileImage, userAccount);
-					userAccount.setKeyProfileImage(fileImage.getKey());
-				} else {
-					FileTO synchronizedProfileImage = this.fileService.consult(new FileTO(userAccount.getKeyProfileImage()));
-					synchronizedProfileImage.setContentType(fileImage.getContentType());
-					synchronizedProfileImage.setFileName(fileImage.getFileName());
-					synchronizedProfileImage.setData(profileImage);
-					this.fileService.save(synchronizedProfileImage);
-				}
-			}
-			userAccount = this.save(userAccount);
-			
-			transaction.commit();
-			return userAccount;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
-	}
-
-	@Override
-	public void delete(UserAccountTO userAccount) throws EntityNotFoundException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			this.serviceAdvertisement.delete(userAccount);
-			
-			this.persistencyLayer.delete(userAccount);
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void delete(UserAccountTO userAccount) {
+		this.persistencyLayer.delete(userAccount);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public boolean nicknameAlreadyExist(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			boolean checking = this.persistencyLayer.nicknameAlreadyExist(userAccount);
-			
-			transaction.commit();
-			return checking;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.nicknameAlreadyExist(userAccount);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public boolean emailAlreadyExist(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			boolean checking = this.persistencyLayer.emailAlreadyExist(userAccount);
-			
-			transaction.commit();
-			return checking;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.emailAlreadyExist(userAccount);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public UserAccountTO validateLogin(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			userAccount = this.persistencyLayer.validateLogin(userAccount);
-			
-			transaction.commit();
-			return userAccount;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		return this.persistencyLayer.validateLogin(userAccount);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void registerNewUser(UserAccountTO userAccount) throws UnsupportedEncodingException, MessagingException {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			userAccount.setSinceDate(new Date());
-			userAccount.setStatus(UserAccountStatus.PENDING);
-			userAccount = this.persistencyLayer.insert(userAccount);
-			
-			this.mailService.mailNewUser(userAccount);
-
-			transaction.commit();
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
+		userAccount.setSinceDate(new Date());
+		userAccount.setStatus(UserAccountStatus.PENDING);
+		userAccount = this.persistencyLayer.insert(userAccount);
+		
+		this.mailService.mailNewUser(userAccount);
 	}
 	
 	private void beforePersist(UserAccountTO userAccount) {

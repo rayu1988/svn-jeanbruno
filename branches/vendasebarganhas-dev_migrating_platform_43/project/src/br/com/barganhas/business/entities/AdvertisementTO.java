@@ -1,331 +1,265 @@
 package br.com.barganhas.business.entities;
 
-import java.util.Comparator;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 import br.com.barganhas.enums.AdvertisementStatus;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Text;
-
 @SuppressWarnings("serial")
+@Entity
+@Table(name="ADVERTISEMENT")
 public class AdvertisementTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_advertisement")
 	private Long								id;
 	
-	@PropertyField(notNull=true)
-	private Long								score;
-	
-	@PropertyField(notNull=true)
+	@Column(name = "since_date", nullable = false)
 	private Date								sinceDate;
 
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "title", nullable = false, length = 100)
 	private String								title;
 	
-	@PropertyField
-	private Text								description;
+	@Column(name = "description", nullable = false, length = 2500)
+	private String								description;
 	
-	@PropertyField
-	private String								contactPhoneNumberOne;
-	
-	@PropertyField
-	private String								contactPhoneNumberTwo;
-	
-	@PropertyField
-	private String								contactEmail;
-	
-	@PropertyField
+	@Column(name = "value", nullable = false)
 	private Double								value;
 
-	@PropertyField(notNull=true)
+	@Column(name = "contact_phone_number_one", nullable = false, length = 50)
+	private String					contactPhoneNumberOne;
+	
+	@Column(name = "contact_phone_number_two", nullable = false, length = 50)
+	private String					contactPhoneNumberTwo;
+	
+	@Column(name = "contact_email", nullable = false, length = 50)
+	private String					contactEmail;
+	
+	@Column(name = "status", nullable = false)
 	private AdvertisementStatus					status;
 	
-	@PropertyField(notNull=true)
-	private Key									keyAdvertisementType;
-	private AdvertisementTypeTO					advertisementType;
+	@Column(name = "exchange_by", nullable = false, length = 250)
+	private String								exchangeBy;
 	
-	@PropertyField(notNull=true)
-	private Key									keyUserAccount;
-	private UserAccountTO						userAccount;
-	
-	@PropertyField(notNull=true)
-	private Key									keyCategory;
-	private CategoryTO							category;
-	
-	@PropertyField
-	private Key									keySales;
-	private SalesTO								sales;
-	
-	@PropertyField
-	private String								listExchangeBy;
-	
-	@PropertyField
+	@Column(name = "is_new_product", nullable = false)
 	private Boolean								isNewProduct;
 	
-	@PropertyField
+	@Column(name = "count_view", nullable = false)
 	private Long								countView;
+
+	@ManyToOne
+	@JoinColumn(name = "id_advertisement_type", nullable = false)
+	private AdvertisementTypeTO					advertisementType;
 	
-	@PropertyField
-	private List<Key>							pictures;
-	private List<AdvertisementPictureTO> 		listAdvertisementPictures;
+	@ManyToOne
+	@JoinColumn(name = "id_user_account", nullable = false)
+	private UserAccountTO						userAccount;
 	
-	@PropertyField
-	private Key									keySheetPicture;
+	@ManyToOne
+	@JoinColumn(name = "id_category", nullable = false)
+	private CategoryTO							category;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_sales", nullable = false)
+	private SalesTO								sales;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name="id_advertisement")
+	private Set<AdvertisementPictureTO> 		listAdvertisementPictures;
+
+	@OneToOne(cascade=CascadeType.REMOVE, orphanRemoval = true)
+	@JoinColumn(name = "id_sheet_picture", nullable = false)
 	private AdvertisementPictureTO				sheetPicture;
 
-	@PropertyField
-	private Key									keyUseTerm;
+	@ManyToOne
+	@JoinColumn(name = "id_use_term", nullable = false)
+	private UseTermTO							useTerm;
 	
 	public AdvertisementTO() {
-		super(null);
 	}
 
-	public AdvertisementTO(Key key) {
-		super(key);
-	}
-
-	@Override
-	public void setId(Long id) {
+	public AdvertisementTO(Long id) {
 		this.id = id;
 	}
+
 	@Override
-	public Long getId() {
-		return id;
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
 	}
 
-	public static Comparator<AdvertisementTO> LowerPrice() {
-		return new Comparator<AdvertisementTO>() {
-			@Override
-			public int compare(AdvertisementTO firstAdvertisement, AdvertisementTO anotherAdvertisement) {
-				if (anotherAdvertisement == null || firstAdvertisement.value < anotherAdvertisement.value) {
-					return -1;
-				} else if (firstAdvertisement.value > anotherAdvertisement.value) {
-					return 1;
-				}
-				return 0;
-			}
-		};
-	}
-	
-	public static Comparator<AdvertisementTO> HigherPrice(){
-		return new Comparator<AdvertisementTO>() {
-			@Override
-			public int compare(AdvertisementTO firstAdvertisement, AdvertisementTO anotherAdvertisement) {
-				if (anotherAdvertisement == null || firstAdvertisement.value < anotherAdvertisement.value) {
-					return 1;
-				} else if (firstAdvertisement.value > anotherAdvertisement.value) {
-					return -1;
-				}
-				return 0;
-			}
-		};
+	@Override
+	public Serializable getKey() {
+		return getId();
 	}
 	
 	// GETTERS AND SETTERS //
-
-	public String getTitle() {
-		return title;
+	public Long getId() {
+		return id;
 	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return this.description != null ? this.description.getValue() : "";
-	}
-
-	public void setDescription(String description) {
-		this.description = new Text(description);
-	}
-
-	public Double getValue() {
-		return value;
-	}
-
-	public void setValue(Double value) {
-		this.value = value;
-	}
-
-	public AdvertisementStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(AdvertisementStatus status) {
-		this.status = status;
-	}
-
-	public String getListExchangeBy() {
-		return listExchangeBy;
-	}
-
-	public void setListExchangeBy(String listExchangeBy) {
-		this.listExchangeBy = listExchangeBy;
-	}
-
-	public List<Key> getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(List<Key> pictures) {
-		this.pictures = pictures;
-	}
-
-	public Key getKeyAdvertisementType() {
-		return keyAdvertisementType;
-	}
-
-	public void setKeyAdvertisementType(Key keyAdvertisementType) {
-		this.keyAdvertisementType = keyAdvertisementType;
-	}
-
-	public AdvertisementTypeTO getAdvertisementType() {
-		return advertisementType;
-	}
-
-	public void setAdvertisementType(AdvertisementTypeTO advertisementType) {
-		this.advertisementType = advertisementType;
-	}
-
-	public Key getKeyUserAccount() {
-		return keyUserAccount;
-	}
-
-	public void setKeyUserAccount(Key keyUserAccount) {
-		this.keyUserAccount = keyUserAccount;
-	}
-
-	public UserAccountTO getUserAccount() {
-		return userAccount;
-	}
-
-	public void setUserAccount(UserAccountTO userAccount) {
-		this.userAccount = userAccount;
-	}
-
+	
 	public Date getSinceDate() {
 		return sinceDate;
 	}
-
-	public void setSinceDate(Date sinceDate) {
-		this.sinceDate = sinceDate;
+	
+	public String getTitle() {
+		return title;
 	}
-
-	public Key getKeyCategory() {
-		return keyCategory;
+	
+	public String getDescription() {
+		return description;
 	}
-
-	public void setKeyCategory(Key keyCategory) {
-		this.keyCategory = keyCategory;
+	
+	public Double getValue() {
+		return value;
 	}
-
-	public CategoryTO getCategory() {
-		return category;
+	
+	public AdvertisementStatus getStatus() {
+		return status;
 	}
-
-	public void setCategory(CategoryTO category) {
-		this.category = category;
+	
+	public String getExchangeBy() {
+		return exchangeBy;
 	}
-
-	public Key getKeySales() {
-		return keySales;
+	
+	public Boolean getIsNewProduct() {
+		return isNewProduct;
 	}
-
-	public void setKeySales(Key keySales) {
-		this.keySales = keySales;
-	}
-
-	public SalesTO getSales() {
-		return sales;
-	}
-
-	public void setSales(SalesTO sales) {
-		this.sales = sales;
-	}
-
-	public List<AdvertisementPictureTO> getListAdvertisementPictures() {
-		return listAdvertisementPictures;
-	}
-
-	public void setListAdvertisementPictures(
-			List<AdvertisementPictureTO> listAdvertisementPictures) {
-		this.listAdvertisementPictures = listAdvertisementPictures;
-	}
-
-	public Key getKeySheetPicture() {
-		return keySheetPicture;
-	}
-
-	public void setKeySheetPicture(Key keySheetPicture) {
-		this.keySheetPicture = keySheetPicture;
-	}
-
-	public AdvertisementPictureTO getSheetPicture() {
-		return sheetPicture;
-	}
-
-	public void setSheetPicture(AdvertisementPictureTO sheetPicture) {
-		this.sheetPicture = sheetPicture;
-	}
-
+	
 	public Long getCountView() {
 		return countView;
 	}
-
+	
+	public AdvertisementTypeTO getAdvertisementType() {
+		return advertisementType;
+	}
+	
+	public UserAccountTO getUserAccount() {
+		return userAccount;
+	}
+	
+	public CategoryTO getCategory() {
+		return category;
+	}
+	
+	public SalesTO getSales() {
+		return sales;
+	}
+	
+	public Set<AdvertisementPictureTO> getListAdvertisementPictures() {
+		return listAdvertisementPictures;
+	}
+	
+	public AdvertisementPictureTO getSheetPicture() {
+		return sheetPicture;
+	}
+	
+	public UseTermTO getUseTerm() {
+		return useTerm;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public void setSinceDate(Date sinceDate) {
+		this.sinceDate = sinceDate;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setValue(Double value) {
+		this.value = value;
+	}
+	
+	public void setStatus(AdvertisementStatus status) {
+		this.status = status;
+	}
+	
+	public void setExchangeBy(String exchangeBy) {
+		this.exchangeBy = exchangeBy;
+	}
+	
+	public void setIsNewProduct(Boolean isNewProduct) {
+		this.isNewProduct = isNewProduct;
+	}
+	
 	public void setCountView(Long countView) {
 		this.countView = countView;
 	}
-
-	public Key getKeyUseTerm() {
-		return keyUseTerm;
+	
+	public void setAdvertisementType(AdvertisementTypeTO advertisementType) {
+		this.advertisementType = advertisementType;
 	}
-
-	public void setKeyUseTerm(Key keyUseTerm) {
-		this.keyUseTerm = keyUseTerm;
+	
+	public void setUserAccount(UserAccountTO userAccount) {
+		this.userAccount = userAccount;
 	}
-
-	public Long getScore() {
-		return score;
+	
+	public void setCategory(CategoryTO category) {
+		this.category = category;
 	}
-
-	public void setScore(Long score) {
-		this.score = score;
+	
+	public void setSales(SalesTO sales) {
+		this.sales = sales;
+	}
+	
+	public void setListAdvertisementPictures(
+			Set<AdvertisementPictureTO> listAdvertisementPictures) {
+		this.listAdvertisementPictures = listAdvertisementPictures;
+	}
+	
+	public void setSheetPicture(AdvertisementPictureTO sheetPicture) {
+		this.sheetPicture = sheetPicture;
+	}
+	
+	public void setUseTerm(UseTermTO useTerm) {
+		this.useTerm = useTerm;
 	}
 
 	public String getContactPhoneNumberOne() {
 		return contactPhoneNumberOne;
 	}
 
-	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
-		this.contactPhoneNumberOne = contactPhoneNumberOne;
-	}
-
 	public String getContactPhoneNumberTwo() {
 		return contactPhoneNumberTwo;
-	}
-
-	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
-		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
 	}
 
 	public String getContactEmail() {
 		return contactEmail;
 	}
 
+	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
+		this.contactPhoneNumberOne = contactPhoneNumberOne;
+	}
+
+	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
+		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
+	}
+
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
 	}
 
-	public Boolean getIsNewProduct() {
-		return isNewProduct;
-	}
-
-	public void setIsNewProduct(Boolean isNewProduct) {
-		this.isNewProduct = isNewProduct;
-	}
 }

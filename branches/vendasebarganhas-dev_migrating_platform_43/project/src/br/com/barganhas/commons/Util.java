@@ -1,5 +1,11 @@
 package br.com.barganhas.commons;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Locale;
@@ -8,17 +14,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.HtmlHelper;
-
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.images.Image;
-import com.google.appengine.api.images.ImagesService;
-import com.google.appengine.api.images.ImagesServiceFactory;
-import com.google.appengine.api.images.Transform;
+import org.imgscalr.Scalr;
 
 public final class Util {
 
@@ -85,34 +85,36 @@ public final class Util {
 		}
 	}
 	
-	public static Blob transformBlobImage(Blob baseImage, int maxHeight, int maxWidth) {
-		ImagesService imagesService = ImagesServiceFactory.getImagesService();
-		Image oldImage = ImagesServiceFactory.makeImage(baseImage.getBytes());
-		
-		double height = oldImage.getHeight();
-		double width = oldImage.getWidth();
-		
-		if (width > maxWidth) {
-			height = (maxWidth * 100 / width) * height / 100;
-			width = maxWidth;
-		}
-		
-		if (height > maxHeight) {
-			width = (maxHeight * 100 / height) * width / 100;
-			height = maxHeight;
-		}
-		
-		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);
-		Image newImage = imagesService.applyTransform(transform, oldImage);
-		return new Blob(newImage.getImageData());
-	}
+//	public static Blob transformBlobImage(Blob baseImage, int maxHeight, int maxWidth) {
+//		ImagesService imagesService = ImagesServiceFactory.getImagesService();
+//		Image oldImage = ImagesServiceFactory.makeImage(baseImage.getBytes());
+//		
+//		double height = oldImage.getHeight();
+//		double width = oldImage.getWidth();
+//		
+//		if (width > maxWidth) {
+//			height = (maxWidth * 100 / width) * height / 100;
+//			width = maxWidth;
+//		}
+//		
+//		if (height > maxHeight) {
+//			width = (maxHeight * 100 / height) * width / 100;
+//			height = maxHeight;
+//		}
+//		
+//		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);
+//		Image newImage = imagesService.applyTransform(transform, oldImage);
+//		return new Blob(newImage.getImageData());
+//	}
 	
-	public static String getStringFromKey(Key keyBase) {
-		return keyBase != null ? KeyFactory.keyToString(keyBase) : "";
-	}
-	
-	public static Key getKeyFromString(String str) {
-		return KeyFactory.stringToKey(str);
+	public static byte[] getImageByteArray(byte[] imageData, int maxWidth, int maxHeight) throws IOException {
+		InputStream in = new ByteArrayInputStream(imageData);
+		BufferedImage bufferedOldImage = ImageIO.read(in);
+		BufferedImage bufferedNewImage = Scalr.resize(bufferedOldImage, maxWidth, maxHeight);
+		WritableRaster raster = bufferedNewImage.getRaster();
+		DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
+		
+		return data.getData();
 	}
 	
 	public static String truncateString(String strBase, int maxSize) {

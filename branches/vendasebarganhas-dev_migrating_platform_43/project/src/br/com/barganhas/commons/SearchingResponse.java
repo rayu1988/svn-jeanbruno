@@ -1,7 +1,6 @@
 package br.com.barganhas.commons;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
@@ -11,14 +10,14 @@ import br.com.barganhas.business.entities.CityTO;
 public class SearchingResponse {
 
 	private List<AdvertisementTO>				listAdvertisement;
-	private HashSet<CityTO>						listCities;
-	private HashSet<CategoryTO>					listCategory;
+	private List<CityTO>						listCities;
+	private List<CategoryTO>					listCategory;
 	private Integer								totalCriteriaSize;
 	
 	public SearchingResponse() {
 		this.listAdvertisement = new ArrayList<AdvertisementTO>();
-		this.listCities = new HashSet<CityTO>();
-		this.listCategory = new HashSet<CategoryTO>();
+		this.listCities = new ArrayList<CityTO>();
+		this.listCategory = new ArrayList<CategoryTO>();
 		this.totalCriteriaSize = 1;
 	}
 	
@@ -40,11 +39,11 @@ public class SearchingResponse {
 		this.listAdvertisement = listAdvertisement;
 	}
 
-	public HashSet<CategoryTO> getListCategory() {
+	public List<CategoryTO> getListCategory() {
 		return listCategory;
 	}
 
-	public void setListCategory(HashSet<CategoryTO> listCategory) {
+	public void setListCategory(List<CategoryTO> listCategory) {
 		this.listCategory = listCategory;
 	}
 
@@ -56,11 +55,11 @@ public class SearchingResponse {
 		this.totalCriteriaSize = totalCriteriaSize;
 	}
 
-	public HashSet<CityTO> getListCities() {
+	public List<CityTO> getListCities() {
 		return listCities;
 	}
 
-	public void setListCities(HashSet<CityTO> listCities) {
+	public void setListCities(List<CityTO> listCities) {
 		this.listCities = listCities;
 	}
 

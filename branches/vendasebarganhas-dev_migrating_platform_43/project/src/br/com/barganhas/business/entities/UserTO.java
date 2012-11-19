@@ -1,72 +1,97 @@
 package br.com.barganhas.business.entities;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Key;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
-public abstract class UserTO extends TransferObject {
+@Entity
+@Inheritance(strategy=InheritanceType.JOINED)
+@Table(name="USER")
+public class UserTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_user")
 	private Long			id;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "nickname", nullable = false, length = 50)
 	private String			nickname;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "fullname", nullable = false, length = 100)
 	private String			fullname;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "email", nullable = false, length = 100)
 	private String			email;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "password", nullable = false, length = 100)
 	private String 			password;
 	
-	public UserTO(Key key) {
-		super(key);
+	public UserTO() {
+	}
+	
+	public UserTO(Long id) {
+		this.id = id;
 	}
 
 	@Override
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
 	}
+
 	@Override
+	public Serializable getKey() {
+		return getId();
+	}
+
+	// GETTERS AND SETTERS //
 	public Long getId() {
 		return id;
 	}
 	
-	// GETTERS AND SETTERS //
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getNickname() {
 		return nickname;
 	}
-
+	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
+	
 	public String getFullname() {
 		return fullname;
 	}
-
+	
 	public void setFullname(String fullname) {
 		this.fullname = fullname;
 	}
-
+	
 	public String getEmail() {
 		return email;
 	}
-
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
 	public String getPassword() {
 		return password;
 	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 }

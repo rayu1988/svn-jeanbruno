@@ -1,106 +1,101 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.querylanguage.QLWhereClause;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AdministratorTO;
+import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class AdministratorPO extends AppPersistency {
+public class AdministratorPO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<AdministratorTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(AdministratorTO.class).asList(FetchOptions.Builder.withDefaults());
-		
-		List<AdministratorTO> listReturn = new ArrayList<AdministratorTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity));
-		}
-		
-		return listReturn;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
+
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdministratorTO> filter(AdministratorTO administrator) {
-		Query query = this.getQuery(AdministratorTO.class);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
 		
-		List<Filter> filters = new ArrayList<Query.Filter>();
+		QLWhereClause where = new QLWhereClause();
+		
 		if (GeneralsHelper.isStringOk(administrator.getFullname())) {
-			filters.add(new FilterPredicate("fullname", FilterOperator.EQUAL, administrator.getFullname()));
+			where.and(" ADMINISTRATOR.fullname like '%" + administrator.getFullname() + "'% ");
 		}
 		if (GeneralsHelper.isStringOk(administrator.getNickname())) {
-			filters.add(new FilterPredicate("nickname", FilterOperator.EQUAL, administrator.getNickname()));
+			where.and(" ADMINISTRATOR.nickname like '%" + administrator.getNickname() + "'% ");
 		}
 		if (GeneralsHelper.isStringOk(administrator.getEmail())) {
-			filters.add(new FilterPredicate("email", FilterOperator.EQUAL, administrator.getEmail()));
+			where.and(" ADMINISTRATOR.email like '%" + administrator.getEmail() + "'% ");
 		}
 		
-		if (!GeneralsHelper.isCollectionOk(filters)) {
-			return this.list();
-		} else if (filters.size() == 1) {
-			query.setFilter(filters.get(0));
-		} else if (filters.size() > 1) {
-			query.setFilter(new Query.CompositeFilter(Query.CompositeFilterOperator.AND, filters));
-		}
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
+		hql.append(where.toString());
 		
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-		List<AdministratorTO> listReturn = new ArrayList<AdministratorTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public AdministratorTO insert(AdministratorTO administrator) {
-		return this.persist(administrator);
+		this.getHibernateDao().insert(administrator);
+		return administrator;
 	}
 	
-	public AdministratorTO save(AdministratorTO administrator) throws EntityNotFoundException {
+	public AdministratorTO save(AdministratorTO administrator) {
 		if (!GeneralsHelper.isStringOk(administrator.getPassword())) {
-			AdministratorTO syncronizedTO = this.consult(administrator);
+			AdministratorTO syncronizedTO = this.getHibernateDao().load(administrator);
 			administrator.setPassword(syncronizedTO.getPassword());
 		}
 		
-		return this.persist(administrator);
+		this.getHibernateDao().update(administrator);
+		
+		return administrator;
 	}
 
-	public AdministratorTO consult(AdministratorTO administrator) throws EntityNotFoundException {
-		return this.consultByKey(administrator);
+	public AdministratorTO consult(AdministratorTO administrator) {
+		return this.getHibernateDao().consult(administrator);
 	}
 
 	public void delete(AdministratorTO administrator) {
-		this.deleteEntity(administrator);
+		this.getHibernateDao().delete(administrator);
 	}
 	
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
-		Query query = this.getQuery(AdministratorTO.class);
-		query.setFilter(CompositeFilterOperator.and(
-				new FilterPredicate("nickname", Query.FilterOperator.EQUAL, administrator.getNickname()),
-				new FilterPredicate("password", Query.FilterOperator.EQUAL, administrator.getPassword())
-				));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
+		hql.append(" where ADMINISTRATOR.nickname = :nickname ");
+		hql.append(" and ADMINISTRATOR.password = :password ");
 		
-		if (entity == null) {
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setString("nickname", administrator.getNickname());
+		query.setString("password", administrator.getPassword());
+		
+		administrator = (AdministratorTO) query.uniqueResult();
+		
+		if (administrator == null) {
 			throw new AppException("loginErrorUserNotFound");
 		}
 
-		return AnnotationUtils.getTransferObjectFromEntity(AdministratorTO.class, entity);
+		return administrator;
 	}
+	
+	public long countAdvertisements() {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		
+		return this.getHibernateDao().queryCount(hql.toString());
+	}
+	
 }

@@ -2,8 +2,6 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import br.com.barganhas.business.entities.UseTermTO;
 
 public interface UseTerm {
@@ -12,13 +10,13 @@ public interface UseTerm {
 	
 	UseTermTO insert(UseTermTO useTerm);
 
-	UseTermTO consult(UseTermTO useTerm) throws EntityNotFoundException;
+	UseTermTO consult(UseTermTO useTerm);
 
-	UseTermTO getDefaultUseTerm() throws EntityNotFoundException;
+	UseTermTO getDefaultUseTerm();
 
-	UseTermTO turnUseTermDefault(UseTermTO useTerm) throws EntityNotFoundException;
+	UseTermTO turnUseTermDefault(UseTermTO useTerm);
 	
 	UseTermTO save(UseTermTO useTerm);
 
-	void delete(UseTermTO useTerm) throws EntityNotFoundException;
+	void delete(UseTermTO useTerm);
 }

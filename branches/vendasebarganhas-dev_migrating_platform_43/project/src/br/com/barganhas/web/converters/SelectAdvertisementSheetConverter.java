@@ -14,7 +14,7 @@ public class SelectAdvertisementSheetConverter extends SelectItemsConverter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
 		if (value instanceof AdvertisementPictureTO) {
 			AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) value;
-			return advertisementPicture.getThumbnail().getKeyAsString();
+			return advertisementPicture.getThumbnail().getId().toString();
 		}
 		return null;
 	}

@@ -1,62 +1,59 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.SalesTO;
 import br.com.barganhas.business.exceptions.AppException;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterOperator;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
 @SuppressWarnings("serial")
 @Repository
-public class SalesPO extends AppPersistency {
+public class SalesPO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<SalesTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(SalesTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select SALES from ").append(SalesTO.class.getName()).append(" SALES ");
 		
-		List<SalesTO> listReturn = new ArrayList<SalesTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	public SalesTO insert(SalesTO sales) {
-		return this.persist(sales);
+		this.getHibernateDao().insert(sales);
+		return sales;
 	}
 	
 	public SalesTO save(SalesTO sales) {
-		return this.persist(sales);
+		this.getHibernateDao().update(sales);
+		return sales;
 	}
 
-	public SalesTO consult(SalesTO sales) throws EntityNotFoundException {
-		return this.consultByKey(sales);
+	public SalesTO consult(SalesTO sales) {
+		return this.getHibernateDao().consult(sales);
 	}
 
 	public void delete(SalesTO sales) {
-		this.deleteEntity(sales);
+		this.getHibernateDao().delete(sales);
 	}
 	
 	public SalesTO consultBySalesCode(String salesCode) {
-		Query query = this.getQuery(SalesTO.class);
-		query.setFilter(new Query.FilterPredicate("salesCode", FilterOperator.EQUAL, salesCode.trim()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		Entity entity = preparedQuery.asSingleEntity();
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select SALES from ").append(SalesTO.class.getName()).append(" SALES ");
+		hql.append(" where SALES.salesCode = :salesCode ");
 		
-		if (entity == null) {
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setString("salesCode", salesCode);
+		
+		SalesTO sales = (SalesTO) query.uniqueResult();
+		
+		if (sales == null) {
 			throw new AppException("advertisementInvalidSalesCode");
 		}
 		
-		return (SalesTO) AnnotationUtils.getTransferObjectFromEntity(SalesTO.class, entity);
+		return sales;
 	}
 }

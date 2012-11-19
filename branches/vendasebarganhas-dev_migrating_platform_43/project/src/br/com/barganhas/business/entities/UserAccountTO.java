@@ -1,144 +1,121 @@
 package br.com.barganhas.business.entities;
 
 import java.util.Date;
+import java.util.Set;
 
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import br.com.barganhas.enums.UserAccountStatus;
 
-import com.google.appengine.api.datastore.Key;
-
 @SuppressWarnings("serial")
+@Entity
+@Table(name="USER_ACCOUNT")
 public class UserAccountTO extends UserTO {
 
-	@PropertyField
+	@Column(name = "since_date", nullable = false)
 	private Date					sinceDate;
 	
-	@PropertyField
+	@Column(name = "status", nullable = false)
 	private UserAccountStatus 		status;
 	
-	@PropertyField
+	@Column(name = "contact_phone_number_one", nullable = false, length = 50)
 	private String					contactPhoneNumberOne;
 	
-	@PropertyField
+	@Column(name = "contact_phone_number_two", nullable = false, length = 50)
 	private String					contactPhoneNumberTwo;
 	
-	@PropertyField
+	@Column(name = "contact_email", nullable = false, length = 50)
 	private String					contactEmail;
 	
-	@PropertyField
-	private Key						keyProfileImage;
+	@OneToOne
+	@JoinColumn(name = "id_profile_image", nullable = false)
+	private FileTO					profileImage;
 	
-	@PropertyField
-	private Key						keyState;
-	private StateTO					state;
-	
-	@PropertyField
-	private Key						keyCity;
+	@ManyToOne
+	@JoinColumn(name = "id_city", nullable = false)
 	private CityTO					city;
 	
-	@PropertyField
-	private Long					countAdvertisement;
+	@OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+	private Set<AdvertisementTO>	listAdvertisement;
 	
 	public UserAccountTO() {
-		super(null);
 	}
 	
-	public UserAccountTO(Key key) {
-		super(key);
+	public UserAccountTO(Long id) {
+		this.setId(id);
 	}
 	
-	// anonymous attribute : firstName
-	public String getFirstName() {
-		return this.getFullname() != null ? this.getFullname().split(" ")[0] : "";
-	}
-
 	// GETTERS AND SETTERS //
-	public UserAccountStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(UserAccountStatus status) {
-		this.status = status;
-	}
-
 	public Date getSinceDate() {
 		return sinceDate;
 	}
-
-	public void setSinceDate(Date sinceDate) {
-		this.sinceDate = sinceDate;
+	
+	public UserAccountStatus getStatus() {
+		return status;
 	}
-
-	public Key getKeyProfileImage() {
-		return keyProfileImage;
+	
+	public String getContactPhoneNumberOne() {
+		return contactPhoneNumberOne;
 	}
-
-	public void setKeyProfileImage(Key keyProfileImage) {
-		this.keyProfileImage = keyProfileImage;
+	
+	public String getContactPhoneNumberTwo() {
+		return contactPhoneNumberTwo;
 	}
-
-	public Key getKeyState() {
-		return keyState;
+	
+	public String getContactEmail() {
+		return contactEmail;
 	}
-
-	public void setKeyState(Key keyState) {
-		this.keyState = keyState;
+	
+	public FileTO getProfileImage() {
+		return profileImage;
 	}
-
-	public Key getKeyCity() {
-		return keyCity;
-	}
-
-	public void setKeyCity(Key keyCity) {
-		this.keyCity = keyCity;
-	}
-
-	public StateTO getState() {
-		return state;
-	}
-
-	public void setState(StateTO state) {
-		this.state = state;
-	}
-
+	
 	public CityTO getCity() {
 		return city;
 	}
-
+	
+	public void setSinceDate(Date sinceDate) {
+		this.sinceDate = sinceDate;
+	}
+	
+	public void setStatus(UserAccountStatus status) {
+		this.status = status;
+	}
+	
+	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
+		this.contactPhoneNumberOne = contactPhoneNumberOne;
+	}
+	
+	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
+		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
+	}
+	
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
+	}
+	
+	public void setProfileImage(FileTO profileImage) {
+		this.profileImage = profileImage;
+	}
+	
 	public void setCity(CityTO city) {
 		this.city = city;
 	}
 
-	public Long getCountAdvertisement() {
-		return countAdvertisement;
+	public Set<AdvertisementTO> getListAdvertisement() {
+		return listAdvertisement;
 	}
 
-	public void setCountAdvertisement(Long countAdvertisement) {
-		this.countAdvertisement = countAdvertisement;
-	}
-
-	public String getContactPhoneNumberOne() {
-		return contactPhoneNumberOne;
-	}
-
-	public void setContactPhoneNumberOne(String contactPhoneNumberOne) {
-		this.contactPhoneNumberOne = contactPhoneNumberOne;
-	}
-
-	public String getContactPhoneNumberTwo() {
-		return contactPhoneNumberTwo;
-	}
-
-	public void setContactPhoneNumberTwo(String contactPhoneNumberTwo) {
-		this.contactPhoneNumberTwo = contactPhoneNumberTwo;
-	}
-
-	public String getContactEmail() {
-		return contactEmail;
-	}
-
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
+	public void setListAdvertisement(Set<AdvertisementTO> listAdvertisement) {
+		this.listAdvertisement = listAdvertisement;
 	}
 	
 }

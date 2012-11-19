@@ -1,7 +1,9 @@
 package br.com.barganhas.web.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -32,8 +34,6 @@ import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.commons.RequestMessage;
 import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.datamodel.CustomDataModel;
-
-import com.google.appengine.api.datastore.Blob;
 
 @ManagedBean
 @RequestScoped
@@ -208,7 +208,7 @@ public class AdvertisementBean extends AppManagedBean {
 				byte[] bytes = uploadedFile.getData();
 				
 				FileTO picture = new FileTO();
-				picture.setData(new Blob(bytes));
+				picture.setData(bytes);
 				picture.setContentType(uploadedFile.getContentType());
 				picture.setFileName(uploadedFile.getName());
 				
@@ -234,7 +234,7 @@ public class AdvertisementBean extends AppManagedBean {
 			if (!GeneralsHelper.isBooleanTrue(this.agreeTerms)) {
 				throw new AppException("advertisementAgreeIsRequired");
 			}
-			this.advertisement.setKeyUseTerm(this.useTerm.getKey());
+			this.advertisement.setUseTerm(this.useTerm);
 			
 			if (GeneralsHelper.isStringOk(this.salesCode)) {
 				Sales serviceSales = this.getServiceBusinessFactory().getSales();
@@ -296,7 +296,7 @@ public class AdvertisementBean extends AppManagedBean {
 				SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
 				
 				AdvertisementPictureTO sheetPicture = this.advertisement.getSheetPicture();
-				FileTO thumbnail = fileService.consultProjection(new FileTO(sheetPicture.getKeyThumbnail()));
+				FileTO thumbnail = fileService.consult(new FileTO(sheetPicture.getId()));
 				sheetPicture.setThumbnail(thumbnail);
 				
 				selectItemsBuilder.add(sheetPicture, sheetPicture.getThumbnail().getFileName());
@@ -304,7 +304,7 @@ public class AdvertisementBean extends AppManagedBean {
 				
 				if (GeneralsHelper.isCollectionOk(this.advertisement.getListAdvertisementPictures())) {
 					for (AdvertisementPictureTO advertisementPicture : this.advertisement.getListAdvertisementPictures()) {
-						thumbnail = fileService.consultProjection(new FileTO(advertisementPicture.getKeyThumbnail()));
+						thumbnail = fileService.consult(new FileTO(advertisementPicture.getId()));
 						advertisementPicture.setThumbnail(thumbnail);
 						
 						selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
@@ -372,8 +372,8 @@ public class AdvertisementBean extends AppManagedBean {
 		}
 	}
 	
-	private List<AdvertisementPictureTO> buildListPictures(List<SelectItem> listSelectItensPictures, AdvertisementPictureTO selectedSheetPicture) {
-		List<AdvertisementPictureTO> listAdvertisementPictures = new ArrayList<AdvertisementPictureTO>();
+	private Set<AdvertisementPictureTO> buildListPictures(List<SelectItem> listSelectItensPictures, AdvertisementPictureTO selectedSheetPicture) {
+		Set<AdvertisementPictureTO> listAdvertisementPictures = new HashSet<AdvertisementPictureTO>();
 		for (SelectItem selectItem : listSelectItensPictures) {
 			AdvertisementPictureTO advertisementPicture = (AdvertisementPictureTO) selectItem.getValue();
 			if (!advertisementPicture.getThumbnail().equals(selectedSheetPicture.getThumbnail())) {

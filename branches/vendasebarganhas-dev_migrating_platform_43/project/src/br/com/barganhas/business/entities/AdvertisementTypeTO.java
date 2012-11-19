@@ -1,99 +1,117 @@
 package br.com.barganhas.business.entities;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Key;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="ADVERTISEMENT_TYPE")
 public class AdvertisementTypeTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_advertisement_type")
 	private Long			id;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "title", nullable = false, length = 50)
 	private String			title;
 	
-	@PropertyField
+	@Column(name = "description", nullable = false, length = 500)
 	private String			description;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
-	private String			value;
+	@Column(name = "value", nullable = false)
+	private Double			value;
 	
-	@PropertyField(notNull=true)
-	private Long			advertisementScore;
+	@Column(name = "score", nullable = false)
+	private Byte			score;
 	
-	@PropertyField(notNull=true)
-	private Long			totalPictures;
+	@Column(name = "total_pictures", nullable = false)
+	private Byte			totalPictures;
 	
-	@PropertyField(notNull=true)
-	private Long			daysToExpire;
+	@Column(name = "days_to_expire", nullable = false)
+	private Integer			daysToExpire;
 	
 	public AdvertisementTypeTO() {
-		super(null);
 	}
 
-	public AdvertisementTypeTO(Key key) {
-		super(key);
-	}
-
-	@Override
-	public void setId(Long id) {
+	public AdvertisementTypeTO(Long id) {
 		this.id = id;
 	}
+
 	@Override
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
+	}
+
+	@Override
+	public Serializable getKey() {
+		return getId();
+	}
+
+	// GETTERS AND SETTERS //
 	public Long getId() {
 		return id;
 	}
 	
-	// GETTERS AND SETTERS //
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
-
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public Long getAdvertisementScore() {
-		return advertisementScore;
-	}
-
-	public Long getTotalPictures() {
-		return totalPictures;
-	}
-
-	public void setAdvertisementScore(Long advertisementScore) {
-		this.advertisementScore = advertisementScore;
-	}
-
-	public void setTotalPictures(Long totalPictures) {
-		this.totalPictures = totalPictures;
-	}
-
+	
 	public String getDescription() {
 		return description;
 	}
-
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Long getDaysToExpire() {
+	
+	public Double getValue() {
+		return value;
+	}
+	
+	public void setValue(Double value) {
+		this.value = value;
+	}
+	
+	public Byte getScore() {
+		return score;
+	}
+	
+	public void setScore(Byte score) {
+		this.score = score;
+	}
+	
+	public Byte getTotalPictures() {
+		return totalPictures;
+	}
+	
+	public void setTotalPictures(Byte totalPictures) {
+		this.totalPictures = totalPictures;
+	}
+	
+	public Integer getDaysToExpire() {
 		return daysToExpire;
 	}
-
-	public void setDaysToExpire(Long daysToExpire) {
+	
+	public void setDaysToExpire(Integer daysToExpire) {
 		this.daysToExpire = daysToExpire;
 	}
+	
 
 }

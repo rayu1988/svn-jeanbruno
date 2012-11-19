@@ -1,66 +1,94 @@
 package br.com.barganhas.business.entities;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import java.io.Serializable;
+import java.util.Date;
 
-import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="FILE")
 public class FileTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_file")
 	private Long			id;
 	
-	@PropertyField(notNull=true)
-	private Blob			data;
+	@Column(name="data", nullable=true)
+	private byte[]			data;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "content_type", nullable = false)
 	private String			contentType;
 	
-	@PropertyField(notNull=true, allowEmpty=false)
+	@Column(name = "file_name", nullable = false)
 	private String			fileName;
 	
+	@Column(name = "since_date", nullable = false)
+	private Date			sinceDate;
+	
 	public FileTO() {
-		super(null);
 	}
 	
-	public FileTO(Key key) {
-		super(key);
+	public FileTO(Long id) {
+		this.id = id;
 	}
 
 	@Override
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
 	}
+
 	@Override
-	public Long getId() {
-		return id;
+	public Serializable getKey() {
+		return getId();
 	}
 
 	// GETTERS AND SETTERS //
-	public Blob getData() {
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public byte[] getData() {
 		return data;
 	}
-
+	
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+	
 	public String getContentType() {
 		return contentType;
 	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setData(Blob data) {
-		this.data = data;
-	}
-
+	
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-
+	
+	public String getFileName() {
+		return fileName;
+	}
+	
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public Date getSinceDate() {
+		return sinceDate;
+	}
+
+	public void setSinceDate(Date sinceDate) {
+		this.sinceDate = sinceDate;
 	}
 }

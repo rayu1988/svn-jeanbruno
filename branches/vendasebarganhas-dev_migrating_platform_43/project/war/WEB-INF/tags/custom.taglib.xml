@@ -9,11 +9,6 @@
     <!-- start functions -->
     <function>
     	<function-class>br.com.barganhas.commons.Util</function-class>
-    	<function-name>getStringFromKey</function-name>
-    	<function-signature>java.lang.String getStringFromKey(com.google.appengine.api.datastore.Key)</function-signature>
-    </function>
-    <function>
-    	<function-class>br.com.barganhas.commons.Util</function-class>
     	<function-name>isStringOk</function-name>
     	<function-signature>boolean isStringOk(java.lang.String)</function-signature>
     </function>

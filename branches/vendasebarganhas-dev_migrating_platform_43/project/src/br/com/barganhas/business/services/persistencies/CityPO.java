@@ -1,56 +1,80 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.querylanguage.QLWhereClause;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.StateTO;
-import br.com.barganhas.commons.AnnotationUtils;
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
+import br.com.barganhas.commons.SearchingRequest;
 
 @SuppressWarnings("serial")
 @Repository
-public class CityPO extends AppPersistency {
+public class CityPO extends AppPersistencyManagement {
 
+	@SuppressWarnings("unchecked")
 	public List<CityTO> list(StateTO state) {
-		Query query = this.getQuery(CityTO.class);
-		query.setFilter(new Query.FilterPredicate("keyState", Query.FilterOperator.EQUAL, state.getKey()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-		
-		List<CityTO> listReturn = new ArrayList<CityTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(CityTO.class, entity));
-		}
-		
-		return listReturn;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select CITY from ").append(CityTO.class.getName()).append(" CITY ");
+		hql.append(" where CITY.state = ").append(state.getId());
+
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
-	public CityTO consult(CityTO city) throws EntityNotFoundException {
-		return this.consultByKey(city);
+	@SuppressWarnings("unchecked")
+	public List<CityTO> listFiter(SearchingRequest searchingRequest) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select distinct CITY.id, CITY.name, STATE.id, STATE.name, STATE.acronym from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+		hql.append(" join USER_ACCOUNT.city CITY ");
+		hql.append(" join CITY.state STATE ");
+		
+		QLWhereClause where = new QLWhereClause();
+		
+		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+		}
+		if (searchingRequest.getFilterCurrencyFrom() != null) {
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		}
+		if (searchingRequest.getFilterCurrencyUpTo() != null) {
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		}
+		if (searchingRequest.getCategory() != null) {
+			where.and(" ADVERTISEMENT.category = " + searchingRequest.getCategory().getId());
+		}
+		
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString(), CityTO.class, "userAccount.city");
+		return query.list();
+	}
+	
+	public CityTO consult(CityTO city) {
+		return this.getHibernateDao().consult(city);
 	}
 	
 	public CityTO insert(CityTO city) {
-		return this.persist(city);
+		this.getHibernateDao().insert(city);
+		return city;
 	}
 	
 	public boolean alreadyExists() {
-		return this.getSimplePreparedQuery(CityTO.class).countEntities(FetchOptions.Builder.withLimit(1)) > 0;
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select CITY from ").append(CityTO.class.getName()).append(" CITY ");
+		
+		return this.getHibernateDao().queryCount(hql.toString()) > 0;
 	}
 	
 	public void removeAll() {
-		Query query = this.getQuery(CityTO.class);
-		query.setKeysOnly();
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		for (Entity entity : preparedQuery.asList(FetchOptions.Builder.withLimit(500))) {
-			this.getDataStoreService().delete(entity.getKey());
-		}
+		StringBuffer hql = new StringBuffer();
+		hql.append(" delete from ").append(CityTO.class.getName());
+		
+		Query query = this.getHibernateDao().createQuery(hql.toString());
+		query.executeUpdate();
 	}
 }

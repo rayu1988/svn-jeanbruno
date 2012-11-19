@@ -1,72 +1,76 @@
 package br.com.barganhas.business.entities;
 
-import br.com.barganhas.business.entities.annotations.IdField;
-import br.com.barganhas.business.entities.annotations.PropertyField;
+import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Key;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="ADVERTISEMENT_PICTURE")
 public class AdvertisementPictureTO extends TransferObject {
 
-	@IdField
-	@PropertyField
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id_advertisement_picture")
 	private Long				id;
 	
-	@PropertyField(notNull=true)
-	private Key					keyThumbnail;
+	@OneToOne
+	@JoinColumn(name = "id_thumbnail", nullable = false)
 	private FileTO				thumbnail;
 	
-	@PropertyField(notNull=true)
-	private Key					keyPicture;
+	@OneToOne
+	@JoinColumn(name = "id_picture", nullable = false)
 	private FileTO				picture;
 	
 	public AdvertisementPictureTO() {
-		super(null);
 	}
 	
-	public AdvertisementPictureTO(Key key) {
-		super(key);
+	public AdvertisementPictureTO(Long id) {
+		this.id = id;
 	}
 
 	@Override
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Serializable id) {
+		this.id = (Long)id;
 	}
+
 	@Override
-	public Long getId() {
-		return id;
+	public Serializable getKey() {
+		return getId();
 	}
 
 	// GETTERS AND SETTERS //
-	public Key getKeyThumbnail() {
-		return keyThumbnail;
+	public Long getId() {
+		return id;
 	}
-
-	public void setKeyThumbnail(Key keyThumbnail) {
-		this.keyThumbnail = keyThumbnail;
-	}
-
-	public Key getKeyPicture() {
-		return keyPicture;
-	}
-
-	public void setKeyPicture(Key keyPicture) {
-		this.keyPicture = keyPicture;
-	}
-
+	
 	public FileTO getThumbnail() {
 		return thumbnail;
 	}
-
-	public void setThumbnail(FileTO thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
+	
 	public FileTO getPicture() {
 		return picture;
 	}
-
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public void setThumbnail(FileTO thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
 	public void setPicture(FileTO picture) {
 		this.picture = picture;
 	}
+	
 }

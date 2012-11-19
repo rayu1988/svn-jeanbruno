@@ -1,80 +1,34 @@
 package br.com.barganhas.business.services.persistencies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
+import org.com.tatu.helper.querylanguage.QLWhereClause;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.UserAccountTO;
-import br.com.barganhas.commons.AnnotationUtils;
+import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 import br.com.barganhas.commons.SearchingRequest;
 import br.com.barganhas.enums.AdvertisementStatus;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.SortDirection;
-
 @SuppressWarnings("serial")
 @Repository
-public class AdvertisementPO extends AppPersistency {
+public class AdvertisementPO extends AppPersistencyManagement {
 
 	/**
 	 * Method used in;
 	 * 		admin List
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTO.class).asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
-	}
-	
-	private PreparedQuery getPreparedQueryPublicSearch(SearchingRequest searchingRequest) {
-		List<Filter> filterTitle = new ArrayList<Query.Filter>();
-		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
-			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.GREATER_THAN_OR_EQUAL, searchingRequest.getText()));
-			filterTitle.add(new Query.FilterPredicate("title", Query.FilterOperator.LESS_THAN_OR_EQUAL, searchingRequest.getText()));
-		}
-		
-		Filter categoryFilter = null;
-		if (searchingRequest.getCategory() != null) {
-			categoryFilter = new Query.FilterPredicate("keyCategory", Query.FilterOperator.EQUAL, searchingRequest.getCategory().getKey());
-		}
-		
-		Filter searchFilter = null;
-		Filter advertisementEnabledFilter = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		if (categoryFilter != null) {
-			searchFilter = CompositeFilterOperator.and(categoryFilter, advertisementEnabledFilter);
-		} else {
-			searchFilter = advertisementEnabledFilter;
-		}
-		
-		Filter filter = null;
-		
-		if (GeneralsHelper.isCollectionOk(filterTitle)) {
-			filter = CompositeFilterOperator.and(searchFilter, CompositeFilterOperator.or(filterTitle));
-		} else {
-			filter = searchFilter;
-		}
-		
-		Query query = this.getQuery(AdvertisementTO.class);
-		query.addSort("title");
-		query.addSort("score", SortDirection.DESCENDING);
-		query.setFilter(filter);
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		return preparedQuery;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
 	/**
@@ -84,114 +38,150 @@ public class AdvertisementPO extends AppPersistency {
 	 * @param searchText
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> listEntitiesPublicSearch(SearchingRequest searchingRequest) {
-		PreparedQuery preparedQuery = this.getPreparedQueryPublicSearch(searchingRequest);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.description, ADVERTISEMENT.value, ADVERTISEMENT.exchangeBy ");
+		hql.append(" from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" left join ADVERTISEMENT.advertisementType ADVERTISEMENT_TYPE ");
+		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
 		
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(500));
-		List<AdvertisementTO> listAdvertisement = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listAdvertisement.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+		QLWhereClause where = new QLWhereClause();
+		where.and(" ADVERTISEMENT.status = " + AdvertisementStatus.ENABLED);
+		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+		}
+		if (searchingRequest.getFilterCurrencyFrom() != null) {
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		}
+		if (searchingRequest.getFilterCurrencyUpTo() != null) {
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		}
+		if (searchingRequest.getCategory() != null) {
+			where.and(" ADVERTISEMENT.category = " + searchingRequest.getCategory().getId());
+		}
+		if (searchingRequest.getCity() != null) {
+			where.and(" USER_ACCOUNT.city = " + searchingRequest.getCity().getId());
+		}
+		hql.append(where.toString());
+		
+		if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
+			hql.append(" order by ADVERTISEMENT_TYPE.score DESC ");
+		} else {
+			if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
+				hql.append(" order by ADVERTISEMENT.value ASC ");
+			} else {
+				hql.append(" order by ADVERTISEMENT.value DESC ");
+			}
 		}
 		
-		return listAdvertisement;
+		int limit = searchingRequest.getTotalItensPerPage();
+		int offset = (searchingRequest.getCurrentPage() - 1) * limit;
+		
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(limit);
+		query.setFirstResult(offset);
+		
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> list(UserAccountTO userAccount) {
-		Query query = this.getQuery(AdvertisementTO.class, userAccount);
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount) {
-		Query query = this.getQuery(AdvertisementTO.class, userAccount);
-		query.addSort("id",	SortDirection.DESCENDING);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.userAccount = ").append(userAccount.getId());
+		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(10));
-		
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(10);
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> lastAdvertisements() {
-		Query query = this.getQuery(AdvertisementTO.class);
-		query.addSort("id",	SortDirection.DESCENDING);
-		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		query.setFilter(filterStatus);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(12);
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> mostViewed() {
-		Query query = this.getQuery(AdvertisementTO.class);
-		query.addSort("countView",	SortDirection.DESCENDING);
-		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		query.setFilter(filterStatus);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" order by ADVERTISEMENT.countView DESC ");
 		
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(12);
+		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) {
-		Query query = this.getQuery(AdvertisementTO.class, userAccount);
-		query.addSort("id",	SortDirection.DESCENDING);
-		Filter filterStatus = new Query.FilterPredicate("status", Query.FilterOperator.EQUAL, AdvertisementStatus.ENABLED.toString());
-		query.setFilter(filterStatus);
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" and ADVERTISEMENT.userAccount = ").append(userAccount.getId());
+		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withLimit(12));
-		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
-		for (Entity entity : entities) {
-			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
-		}
-		
-		return listReturn;
+		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
+		query.setMaxResults(12);
+		return query.list();
 	}
 	
-	public AdvertisementTO insert(AdvertisementTO advertisement, UserAccountTO userAccount) {
-		return this.persist(advertisement, userAccount);
+	public AdvertisementTO insert(AdvertisementTO advertisement) {
+		this.getHibernateDao().insert(advertisement);
+		return advertisement;
 	}
 	
 	public AdvertisementTO save(AdvertisementTO advertisement) {
-		return this.persist(advertisement);
+		this.getHibernateDao().update(advertisement);
+		return advertisement;
 	}
 
-	public AdvertisementTO consult(AdvertisementTO advertisement) throws EntityNotFoundException {
-		return this.consultByKey(advertisement);
+	public AdvertisementTO consult(AdvertisementTO advertisement) {
+		return this.getHibernateDao().consult(advertisement);
 	}
 	
-	public AdvertisementTO publicConsult(AdvertisementTO advertisement) throws EntityNotFoundException {
-		advertisement = this.consultByKey(advertisement);
-		Long currentCount = advertisement.getCountView() != null ? advertisement.getCountView() + 1 : 0l;
-		advertisement.setCountView(currentCount);
-		return this.save(advertisement);
+	private void incrementCountView(AdvertisementTO advertisement) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" update ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" set ADVERTISEMENT.countView = ").append(advertisement.getCountView() + 1);
+		hql.append(" where ADVERTISEMENT = ").append(advertisement.getId());
+		
+		this.getHibernateDao().createQuery(hql.toString()).executeUpdate();
+	}
+	
+	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
+		advertisement = this.consult(advertisement);
+		
+		this.incrementCountView(advertisement);
+		
+		return advertisement;
 	}
 
 	public void delete(AdvertisementTO advertisement) {
-		this.deleteEntity(advertisement);
+		this.getHibernateDao().delete(advertisement);
+	}
+	
+	public void delete(UserAccountTO owner) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" delete from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.userAccount = ").append(owner.getId());
 	}
 }
