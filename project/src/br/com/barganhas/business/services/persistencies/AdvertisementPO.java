@@ -47,7 +47,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
 		
 		QLWhereClause where = new QLWhereClause();
-		where.and(" ADVERTISEMENT.status = " + AdvertisementStatus.ENABLED);
+		where.and(" ADVERTISEMENT.status = '" + AdvertisementStatus.ENABLED + "' ");
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
 			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
 		}
@@ -111,7 +111,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	public List<AdvertisementTO> lastAdvertisements() {
 		StringBuffer hql = new StringBuffer();
 		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -123,7 +123,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	public List<AdvertisementTO> mostViewed() {
 		StringBuffer hql = new StringBuffer();
 		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
 		hql.append(" order by ADVERTISEMENT.countView DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -135,7 +135,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) {
 		StringBuffer hql = new StringBuffer();
 		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED);
+		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
 		hql.append(" and ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		

@@ -30,10 +30,10 @@
 			<h:panelGroup id="productsList" layout="block">
 				<h:panelGroup layout="block" id="bannerSite" style="text-align: center;">
 					<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="550" height="403" id="banner" align="">
-						<param name="movie" value="/images/banner/projeto5_1_3.swf" />
+						<param name="movie" value="#{request.contextPath}/images/banner/projeto5_1_3.swf" />
 						<param name="quality" value="high" />
 						<param name="wmode" value="transparent" />
-						<embed src="/images/banner/projeto5_1_3.swf" quality="high" bgcolor="#FFFFFF" width="550" height="403" name="banner" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+						<embed src="#{request.contextPath}/images/banner/projeto5_1_3.swf" quality="high" bgcolor="#FFFFFF" width="550" height="403" name="banner" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 					</object>
 				</h:panelGroup>
 				
@@ -59,9 +59,9 @@
 								<ui:repeat var="user" value="#{siteBean.highlightedUsers}">
 									<li>
 										<h:commandLink action="#{siteBean.loadUserAccountConsult}">
-											<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png"
+											<h:graphicImage value="/images/anonymous_profile.png"
 												rendered="#{user.keyProfileImage eq null}"/>
-											<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(user.keyProfileImage)}"
+											<h:graphicImage value="/fileserver?q=#{user.id}"
 												rendered="#{user.keyProfileImage ne null}"/>
 												
 											<f:setPropertyActionListener target="#{siteBean.userAccount}" value="#{user}"/>
@@ -156,15 +156,15 @@
 				</c:choose>
 				
 				<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="290" height="100" id="anuncie" align="">
-					<param name="movie" value="/images/banner/Anuncie_v1.swf" />
+					<param name="movie" value="#{request.contextPath}/images/banner/Anuncie_v1.swf" />
 					<param name="quality" value="high" />
 					<param name="wmode" value="transparent" />
-					<embed wmode="transparent" src="/images/banner/Anuncie_v1.swf" quality="high" bgcolor="#FFFFFF" width="290" height="100" name="anuncie" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+					<embed wmode="transparent" src="#{request.contextPath}/images/banner/Anuncie_v1.swf" quality="high" bgcolor="#FFFFFF" width="290" height="100" name="anuncie" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
 				</object>
 
 				<h:panelGroup layout="block" styleClass="advertisementBannerRight">
 					<a href="http://www.nacprint.com.br" target="_blank">
-						<h:graphicImage value="#{request.contextPath}/images/banner/nacprint-v3.png" />
+						<h:graphicImage value="/images/banner/nacprint-v3.png" />
 					</a>
 				</h:panelGroup>
 			</h:panelGroup>

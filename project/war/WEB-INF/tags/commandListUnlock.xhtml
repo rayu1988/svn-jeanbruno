@@ -16,7 +16,7 @@
 	<ui:param name="toolTipMessage" value="#{toolTipMessage == null ? msg.msgUnlock : toolTipMessage}"/>
 	<ui:param name="rendered" value="#{rendered == null ? true : rendered}"/>
 	<h:commandLink action="#{backingBean[action]}" onclick="#{msg.actionConfirmUnlock}" id="#{id}" rendered="#{rendered}">
-		<h:graphicImage value="#{request.contextPath}/images/icon_unlock.png"/>
+		<h:graphicImage value="/images/icon_unlock.png"/>
 		<f:setPropertyActionListener value="#{propertyFrom}" target="#{backingBean[targetProperty]}"/>
 		
 		<rich:tooltip target="#{id}" attached="true" direction="auto" followMouse="true" showDelay="500"

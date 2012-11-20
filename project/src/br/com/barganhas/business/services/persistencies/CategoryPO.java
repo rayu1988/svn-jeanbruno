@@ -19,7 +19,7 @@ public class CategoryPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<CategoryTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select CATEGORY from ").append(CategoryTO.class.getName()).append(" CATEGORY ");
+		hql.append(" select CATEGORY.id, CATEGORY.name, CATEGORY.description from ").append(CategoryTO.class.getName()).append(" CATEGORY ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();

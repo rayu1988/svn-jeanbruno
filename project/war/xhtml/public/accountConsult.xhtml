@@ -11,7 +11,7 @@
 		<h:panelGroup layout="block" styleClass="wrapperUserAccount">
 			<h:panelGrid columns="2" columnClasses="userAccountColumn1, userAccountColumn2" style="width: 100%;">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
-					<h:graphicImage value="#{request.contextPath}/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
+					<h:graphicImage value="/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
 								rendered="#{siteBean.userAccount.keyProfileImage eq null}"/>
 					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.userAccount.keyProfileImage)}" styleClass="boxAccountProfileImage"
 								rendered="#{siteBean.userAccount.keyProfileImage ne null}"/>

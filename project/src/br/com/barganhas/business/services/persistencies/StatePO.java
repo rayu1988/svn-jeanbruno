@@ -15,7 +15,7 @@ public class StatePO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<StateTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select STATE from ").append(StateTO.class.getName()).append(" STATE ");
+		hql.append(" select STATE.id, STATE.name, STATE.acronym from ").append(StateTO.class.getName()).append(" STATE ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -23,7 +23,7 @@ public class StatePO extends AppPersistencyManagement {
 	
 	public boolean alreadyExists() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select STATE from ").append(StateTO.class.getName()).append(" STATE ");
+		hql.append(" select count(STATE) from ").append(StateTO.class.getName()).append(" STATE ");
 		
 		return this.getHibernateDao().queryCount(hql.toString()) > 0;
 	}
@@ -39,7 +39,7 @@ public class StatePO extends AppPersistencyManagement {
 
 	public StateTO consultAcronym(String acronym) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select STATE from ").append(StateTO.class.getName()).append(" STATE ");
+		hql.append(" select STATE.id, STATE.name, STATE.acronym from ").append(StateTO.class.getName()).append(" STATE ");
 		hql.append(" where STATE.acronym = :acronym ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());

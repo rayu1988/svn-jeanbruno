@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.AdministratorTO;
-import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 
@@ -74,7 +73,8 @@ public class AdministratorPO extends AppPersistencyManagement {
 	
 	public AdministratorTO validateLogin(AdministratorTO administrator) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
+		hql.append(" select ADMINISTRATOR.id, ADMINISTRATOR.nickname, ADMINISTRATOR.fullname, ADMINISTRATOR.email from ");
+		hql.append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
 		hql.append(" where ADMINISTRATOR.nickname = :nickname ");
 		hql.append(" and ADMINISTRATOR.password = :password ");
 		
@@ -93,7 +93,7 @@ public class AdministratorPO extends AppPersistencyManagement {
 	
 	public long countAdvertisements() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" select count(ADVERTISEMENT.id) from ").append(AdministratorTO.class.getName()).append(" ADVERTISEMENT ");
 		
 		return this.getHibernateDao().queryCount(hql.toString());
 	}

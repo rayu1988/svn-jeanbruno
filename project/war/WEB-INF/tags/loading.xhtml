@@ -45,13 +45,13 @@
 			function popupLoading(show) {
 				try {
 					if (show) {
-						var windowHeight = $j(window).height();
-						var windowWidth = $j(window).width();
+						var windowHeight = jQuery(window).height();
+						var windowWidth = jQuery(window).width();
 		
-						$j('#popup-loading-box').css({'top': (windowHeight/2 - 50), 'left' : (windowWidth/2 - 100)});
-						$j('#popup-loading').css({'display': 'block'});
+						jQuery('#popup-loading-box').css({'top': (windowHeight/2 - 50), 'left' : (windowWidth/2 - 100)});
+						jQuery('#popup-loading').css({'display': 'block'});
 					} else {
-						$j('#popup-loading').css({'display': 'none'});
+						jQuery('#popup-loading').css({'display': 'none'});
 					}
 				} catch(e) {
 					alert(e);
@@ -62,7 +62,7 @@
 		<h:panelGroup styleClass="popup-loading-box-shadow" layout="block">
 	   	</h:panelGroup>
 		<h:panelGrid id="popup-loading-box" styleClass="popup-loading-content" columns="2" cellpadding="2" cellspacing="2">
-			<h:graphicImage value="#{request.contextPath}/images/animated/enginer-loader.gif"/>
+			<h:graphicImage value="/images/animated/enginer-loader.gif"/>
 			<h:outputText value="#{msg.msgLoading}" styleClass="popup-loading-content-text"/>
 		</h:panelGrid>
 	</h:panelGroup>

@@ -61,7 +61,7 @@ public class AdmAccessFilter implements Filter {
 	}
 	
 	private void redirectToLogin(HttpServletResponse response, HttpServletRequest request) throws IOException {
-		response.sendRedirect("/xhtml/admin/login.jsf");
+		response.sendRedirect(request.getContextPath() + "/xhtml/admin/login.jsf");
 	}
 	
 	@Override
