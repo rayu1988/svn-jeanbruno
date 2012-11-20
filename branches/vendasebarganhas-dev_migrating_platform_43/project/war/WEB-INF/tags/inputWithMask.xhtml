@@ -7,8 +7,8 @@
 	<h:panelGroup rendered="#{rendered}">
 		<h:outputScript>
 			try {
-				$j(document).ready( function() {
-					$j("#" + "#{id}").mask({ mask: "#{mask}" });
+				jQuery(document).ready( function() {
+					jQuery("#" + "#{id}").mask({ mask: "#{mask}" });
 				});
 			} catch (e) {
 				alert(e);

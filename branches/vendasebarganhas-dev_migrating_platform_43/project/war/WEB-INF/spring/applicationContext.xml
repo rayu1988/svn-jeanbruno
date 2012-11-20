@@ -16,10 +16,10 @@
 	<!-- ###################################### starts definitions to Hibernate ###################################### -->
 	<!-- dataSource connection definition -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-    	<property name="driverClassName" value=""/>
-    	<property name="url" value=""/>
-    	<property name="username" value=""/>
-    	<property name="password" value=""/>
+    	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    	<property name="url" value="jdbc:mysql://localhost:3306/vendasebarganhas"/>
+    	<property name="username" value="root"/>
+    	<property name="password" value="jean"/>
     	<property name="removeAbandonedTimeout" value="60"/>
     	<property name="logAbandoned" value="true"/>
     	<property name="removeAbandoned" value="true"/>
@@ -40,8 +40,8 @@
 		
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>

@@ -10,8 +10,8 @@
 	<ui:param name="rendered" value="#{rendered eq null ? true : rendered}"/>
 	<h:panelGroup rendered="#{rendered}">
 		<h:outputScript>
-			$j(document).ready( function() {
-				$j("#" + "#{id}").maskMoney({showSymbol: false, thousands: '.', decimal: ',', allowZero: #{allowZero} });
+			jQuery(document).ready( function() {
+				jQuery("#" + "#{id}").maskMoney({showSymbol: false, thousands: '.', decimal: ',', allowZero: #{allowZero} });
 			});
 		</h:outputScript>
 		<h:inputText id="#{id}" value="#{value}" maxlength="#{maxlength}" styleClass="#{styleClass}">

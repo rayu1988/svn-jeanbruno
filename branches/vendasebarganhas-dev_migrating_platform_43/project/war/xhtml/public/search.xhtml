@@ -118,11 +118,11 @@
 					<!-- choose list or grid -->
 					<h:panelGroup layout="block">
 						<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
-							<h:graphicImage value="#{request.contextPath}/images/list.png"/>
+							<h:graphicImage value="/images/list.png"/>
 							<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{false}"/>
 						</h:commandLink>
 						<h:commandLink action="#{siteBean.search}" onclick="popupLoading(true);">
-							<h:graphicImage value="#{request.contextPath}/images/grid.png"/>
+							<h:graphicImage value="/images/grid.png"/>
 							<f:setPropertyActionListener target="#{siteBean.listAsGrid}" value="#{true}"/>
 						</h:commandLink>
 					</h:panelGroup>
@@ -138,7 +138,7 @@
 						
 						<h:selectOneMenu id="totalItensPerPage" value="#{siteBean.totalItensPerPage}" converter="omnifaces.SelectItemsConverter">
 							<f:selectItems value="#{siteBean.listItensPerPage}" />
-							<f:ajax event="change" onevent="$j('#hiddenLinkItensPerPage').click()"/>
+							<f:ajax event="change" onevent="jQuery('#hiddenLinkItensPerPage').click()"/>
 						</h:selectOneMenu>
 					</h:panelGrid>
 					

@@ -6,7 +6,7 @@
 	<a4j:outputPanel ajaxRendered="true" rendered="true">
 		<h:panelGroup id="wrapperBoxMessages" styleClass="wrapperMessages" layout="block">
 			<div class="messages">
-				<h:graphicImage class="closePopupMessage" value="#{request.contextPath}/images/close-modal-on.png" onclick="hideMessageBox('wrapperBoxMessages');"/>
+				<h:graphicImage class="closePopupMessage" value="/images/close-modal-on.png" onclick="hideMessageBox('wrapperBoxMessages');"/>
 				<ul class="listmessages">
 					<ui:repeat var="listMessages" value="#{LIST_TEXT_MESSAGES}">
 						<li class="textmessage #{listMessages.severityMessage eq 'SUCCESS' ? 'successmessage' : listMessages.severityMessage eq 'WARNING' ? 'warningmessage' : 'errormessage' }">

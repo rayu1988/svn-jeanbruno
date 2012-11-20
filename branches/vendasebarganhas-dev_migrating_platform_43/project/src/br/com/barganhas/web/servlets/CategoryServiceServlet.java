@@ -73,11 +73,11 @@ public class CategoryServiceServlet extends HttpServlet {
 			}
 			
 			logger.log(Level.INFO, "Ending checking Categories.");
-			resp.sendRedirect("/xhtml/index.jsf");
+			resp.sendRedirect(req.getContextPath() + "/xhtml/index.jsf");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Problems while checking Categories", e);
 			try {
-				resp.sendRedirect("/xhtml/exceptions/pageNotFoundException.jsf");
+				resp.sendRedirect(req.getContextPath() + "/xhtml/exceptions/pageNotFoundException.jsf");
 			} catch (IOException ioException) { }
 		}
 	}

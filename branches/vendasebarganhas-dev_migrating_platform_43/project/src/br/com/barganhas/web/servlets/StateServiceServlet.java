@@ -77,11 +77,11 @@ public class StateServiceServlet extends HttpServlet {
 			}
 			
 			logger.log(Level.INFO, "Ending checking States.");
-			resp.sendRedirect("/xhtml/index.jsf");
+			resp.sendRedirect(req.getContextPath() +"/xhtml/index.jsf");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Problems while checking States", e);
 			try {
-				resp.sendRedirect("/xhtml/exceptions/pageNotFoundException.jsf");
+				resp.sendRedirect(req.getContextPath() + "/xhtml/exceptions/pageNotFoundException.jsf");
 			} catch (IOException ioException) { }
 		}
 	}

@@ -52,8 +52,7 @@ public class CityServiceServlet extends HttpServlet {
 			}
 			
 			String query = req.getParameter("action");
-			String set = req.getParameter("set");
-			if (!GeneralsHelper.isStringOk(query) && !GeneralsHelper.isStringOk(set)) {
+			if (!GeneralsHelper.isStringOk(query)) {
 				throw new IllegalArgumentException();
 			}
 			
@@ -64,7 +63,7 @@ public class CityServiceServlet extends HttpServlet {
 				InputStream inputStream = servletContext.getResourceAsStream("/xml-data/brazil-cities.xml");
 				
 				Source citySource = new Source(inputStream);
-				List<Element> listCities = citySource.getAllElements("set", set, true);
+				List<Element> listCities = citySource.getAllElements("city");
 				
 				for (Element cityTag : listCities) {
 					StateTO state = stateService.consultAcronym(cityTag.getAttributeValue("state"));
@@ -82,11 +81,11 @@ public class CityServiceServlet extends HttpServlet {
 			}
 			
 			logger.log(Level.INFO, "Ending checking Cities.");
-			resp.sendRedirect("/xhtml/index.jsf");
+			resp.sendRedirect(req.getContextPath() +"/xhtml/index.jsf");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Problems while checking Cities", e);
 			try {
-				resp.sendRedirect("/xhtml/exceptions/pageNotFoundException.jsf");
+				resp.sendRedirect(req.getContextPath() +"/xhtml/exceptions/pageNotFoundException.jsf");
 			} catch (IOException ioException) { }
 		}
 	}

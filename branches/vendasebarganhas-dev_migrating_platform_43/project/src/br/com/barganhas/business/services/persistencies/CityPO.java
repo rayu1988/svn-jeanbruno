@@ -20,7 +20,8 @@ public class CityPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<CityTO> list(StateTO state) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select CITY from ").append(CityTO.class.getName()).append(" CITY ");
+		hql.append(" select CITY.id, CITY.name, STATE.id, STATE.name from ").append(CityTO.class.getName()).append(" CITY ");
+		hql.append(" join CITY.state STATE ");
 		hql.append(" where CITY.state = ").append(state.getId());
 
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -65,7 +66,7 @@ public class CityPO extends AppPersistencyManagement {
 	
 	public boolean alreadyExists() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select CITY from ").append(CityTO.class.getName()).append(" CITY ");
+		hql.append(" select count(CITY.id) from ").append(CityTO.class.getName()).append(" CITY ");
 		
 		return this.getHibernateDao().queryCount(hql.toString()) > 0;
 	}

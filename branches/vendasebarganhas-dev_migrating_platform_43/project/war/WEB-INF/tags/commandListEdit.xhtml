@@ -15,7 +15,7 @@
 	 
 	<ui:param name="toolTipMessage" value="#{toolTipMessage == null ? msg.privateAreaActionEdit : toolTipMessage}"/>
 	<h:commandLink action="#{backingBean[action]}" id="#{id}">
-		<h:graphicImage value="#{request.contextPath}/images/configure.png"/>
+		<h:graphicImage value="/images/configure.png"/>
 		<f:setPropertyActionListener value="#{propertyFrom}" target="#{backingBean[targetProperty]}"/>
 		
 		<rich:tooltip target="#{id}" attached="true" direction="auto" followMouse="true" showDelay="500"

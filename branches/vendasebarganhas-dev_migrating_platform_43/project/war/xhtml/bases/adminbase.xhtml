@@ -24,10 +24,10 @@
    				<h:form prependId="false">
 	   				<h:panelGroup id="header" layout="block">
 	   					<a href="#{request.contextPath}/" id="logoHeader" >
-	   						<h:graphicImage value="#{request.contextPath}/images/logo/logo2-3.png" width="350px"/>
+	   						<h:graphicImage value="/images/logo/logo2-3.png" width="350px"/>
 	   					</a>
 						<h:panelGroup layout="block" id="headerPrivateLogin">
-							<h:graphicImage value="#{request.contextPath}/images/lock.png"/>
+							<h:graphicImage value="/images/lock.png"/>
 							<h:outputText value="#{appSessionBean.administrator.nickname}"/>
 							<h:commandLink value="#{msg.logoffMsg}" action="#{loginBean.logoff}" style="margin-left: 10px;" />
 						</h:panelGroup>

@@ -22,7 +22,7 @@
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-messages.css" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-richfaces.css" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-shared.css" />
-   			<script type="text/javascript" src="/org.richfaces.resources/javax.faces.resource/org.richfaces.staticResource/4.2.2.Final/PackedCompressed/jquery.js"></script>
+<!--    			<script type="text/javascript" src="/org.richfaces.resources/javax.faces.resource/org.richfaces.staticResource/4.2.2.Final/PackedCompressed/jquery.js"></script> -->
    			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    			<script src="#{request.contextPath}/javascript/jquery.maskMoney.js" type="text/javascript" />
    		</h:head>
@@ -89,7 +89,7 @@
 							<h:panelGrid columns="2" columnClasses="columnLogo, columnSearchForm" styleClass="tableTopSearch">
 								<h:column>
 									<a href="#{request.contextPath}/" id="logo" >
-										<h:graphicImage value="#{request.contextPath}/images/logo/logo2-3.png" width="350px"/>
+										<h:graphicImage value="/images/logo/logo2-3.png" width="350px"/>
 									</a>
 								</h:column>
 								
@@ -125,9 +125,9 @@
 					
 					<h:outputScript>
 						function validateInputSearch() {
-							if (lessThan($j("#searchField").val().length, 1)) {
+							if (lessThan(jQuery("#searchField").val().length, 1)) {
 								alert("Indique um texto para busca!");
-								$j("#searchField").focus();
+								jQuery("#searchField").focus();
 								return false;
 							}
 							return true;
