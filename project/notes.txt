@@ -1,28 +1,13 @@
-# use the following argument (parameter) to run server without tries check update
---disable_update_check
+-- FILE USED TO KEEP SOME IMPORTANT NOTES 
 
-Index Configurations
-It's a good idea to occasionally move index configuration from datastore-indexes-auto.xml to datastore-indexes.xml, 
-then disable automatic index configuration and test your app in the development server. 
-This makes it easy to maintain indexes without having to manage two files, and ensures that your testing will 
-reproduce errors caused by missing index configuration.
-
-load categories, states and cities
+-- load/remove states
 /service/states?action=updateAll
 /service/states?action=removeAll
+
+-- load/remove cities
 /service/cities?action=updateAll
 /service/cities?action=removeAll
+
+-- load/remove categories
 /service/categories?action=updateAll
-
--- JBV --
-appcfg -e brunopib@gmail.com -A vendasebarganhas -V default update war
-
-
-
--- JDD --
-appcfg -e zi.jesus@gmail.com -A vendasebarganhas -V beta21 download_app c:\vvv
-
-appcfg -e zi.jesus@gmail.com -A vendasebarganhas -V beta22 update \
-
-
-
+/service/categories?action=removeAll
