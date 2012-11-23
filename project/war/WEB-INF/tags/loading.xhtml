@@ -45,13 +45,13 @@
 			function popupLoading(show) {
 				try {
 					if (show) {
-						var windowHeight = jQuery(window).height();
-						var windowWidth = jQuery(window).width();
+						var windowHeight = $j(window).height();
+						var windowWidth = $j(window).width();
 		
-						jQuery('#popup-loading-box').css({'top': (windowHeight/2 - 50), 'left' : (windowWidth/2 - 100)});
-						jQuery('#popup-loading').css({'display': 'block'});
+						$j('#popup-loading-box').css({'top': (windowHeight/2 - 50), 'left' : (windowWidth/2 - 100)});
+						$j('#popup-loading').css({'display': 'block'});
 					} else {
-						jQuery('#popup-loading').css({'display': 'none'});
+						$j('#popup-loading').css({'display': 'none'});
 					}
 				} catch(e) {
 					alert(e);

@@ -42,14 +42,14 @@ public class AdvertisementTO extends TransferObject {
 	@Column(name = "value", nullable = false)
 	private Double								value;
 
-	@Column(name = "contact_phone_number_one", nullable = false, length = 50)
-	private String					contactPhoneNumberOne;
+	@Column(name = "contact_phone_number_one", nullable = true, length = 50)
+	private String								contactPhoneNumberOne;
 	
-	@Column(name = "contact_phone_number_two", nullable = false, length = 50)
-	private String					contactPhoneNumberTwo;
+	@Column(name = "contact_phone_number_two", nullable = true, length = 50)
+	private String								contactPhoneNumberTwo;
 	
-	@Column(name = "contact_email", nullable = false, length = 50)
-	private String					contactEmail;
+	@Column(name = "contact_email", nullable = true, length = 50)
+	private String								contactEmail;
 	
 	@Column(name = "status", nullable = false)
 	private AdvertisementStatus					status;
@@ -76,14 +76,14 @@ public class AdvertisementTO extends TransferObject {
 	private CategoryTO							category;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_sales", nullable = false)
+	@JoinColumn(name = "id_sales", nullable = true)
 	private SalesTO								sales;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="id_advertisement")
 	private Set<AdvertisementPictureTO> 		listAdvertisementPictures;
 
-	@OneToOne(cascade=CascadeType.REMOVE, orphanRemoval = true)
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "id_sheet_picture", nullable = false)
 	private AdvertisementPictureTO				sheetPicture;
 

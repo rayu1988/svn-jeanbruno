@@ -1,9 +1,8 @@
 package br.com.barganhas.commons;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -19,6 +18,11 @@ import javax.imageio.ImageIO;
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.HtmlHelper;
 import org.imgscalr.Scalr;
+
+import br.com.barganhas.business.entities.UserAccountTO;
+import br.com.barganhas.business.entities.UserTO;
+import br.com.barganhas.business.entities.management.TransferObject;
+import br.com.barganhas.business.exceptions.AppException;
 
 public final class Util {
 
@@ -85,36 +89,45 @@ public final class Util {
 		}
 	}
 	
-//	public static Blob transformBlobImage(Blob baseImage, int maxHeight, int maxWidth) {
-//		ImagesService imagesService = ImagesServiceFactory.getImagesService();
-//		Image oldImage = ImagesServiceFactory.makeImage(baseImage.getBytes());
-//		
-//		double height = oldImage.getHeight();
-//		double width = oldImage.getWidth();
-//		
-//		if (width > maxWidth) {
-//			height = (maxWidth * 100 / width) * height / 100;
-//			width = maxWidth;
-//		}
-//		
-//		if (height > maxHeight) {
-//			width = (maxHeight * 100 / height) * width / 100;
-//			height = maxHeight;
-//		}
-//		
-//		Transform transform = ImagesServiceFactory.makeResize((int)width, (int)height);
-//		Image newImage = imagesService.applyTransform(transform, oldImage);
-//		return new Blob(newImage.getImageData());
-//	}
-	
-	public static byte[] getImageByteArray(byte[] imageData, int maxWidth, int maxHeight) throws IOException {
+	public static byte[] getImageByteArray(byte[] imageData, String formatName, int maxWidth, int maxHeight) throws IOException {
+		if (formatName.contains("jpeg") || formatName.contains("jpg")) {
+			formatName = "jpg";
+		} else if (formatName.contains("png")) {
+			formatName = "png";
+		} else {
+			throw new IllegalStateException("Unknow file type");
+		}
+		
 		InputStream in = new ByteArrayInputStream(imageData);
 		BufferedImage bufferedOldImage = ImageIO.read(in);
 		BufferedImage bufferedNewImage = Scalr.resize(bufferedOldImage, maxWidth, maxHeight);
-		WritableRaster raster = bufferedNewImage.getRaster();
-		DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
 		
-		return data.getData();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(bufferedNewImage, formatName, baos);
+		baos.flush();
+		
+		byte[] data = baos.toByteArray();
+		baos.close();
+		
+		return data;
+	}
+	
+	public static TransferObject getProperlyTransferObject(TransferObject toBase){
+		Class<?> clazz = null;
+		try{
+			clazz = toBase.getClass();
+			while(clazz.getSuperclass() != TransferObject.class){
+				  if(clazz == Object.class) {
+					  throw new Exception("Invalid Object " + clazz.getName());
+				  }
+				  clazz = clazz.getSuperclass();
+			}
+			TransferObject properlyTransferObject = (TransferObject) clazz.newInstance();
+			properlyTransferObject.setKey(toBase.getKey());
+			return properlyTransferObject;
+		}catch(Exception e) {
+			throw new AppException(e);
+		}
 	}
 	
 	public static String truncateString(String strBase, int maxSize) {
@@ -127,5 +140,9 @@ public final class Util {
 	
 	public static String textToHtml(String text) {
 		return new HtmlHelper().toHtml(text);
+	}
+	
+	public static String getFirstName(UserAccountTO user) {
+		return user.getFullname().split(" ")[0];
 	}
 }

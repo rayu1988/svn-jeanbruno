@@ -36,13 +36,13 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 		FileTempTO thumbnail = new FileTempTO();
 		thumbnail.setContentType(imageBase.getContentType());
 		thumbnail.setFileName(imageBase.getFileName());
-		thumbnail.setData(Util.getImageByteArray(imageBase.getData(), MAX_HEIGHT_THUMBNAIL, MAX_WIDTH_THUMBNAIL));
+		thumbnail.setData(Util.getImageByteArray(imageBase.getData(), thumbnail.getContentType(), MAX_HEIGHT_THUMBNAIL, MAX_WIDTH_THUMBNAIL));
 		thumbnail.setSinceDate(currentDate);
 		
 		FileTempTO picture = new FileTempTO();
 		picture.setContentType(imageBase.getContentType());
 		picture.setFileName(imageBase.getFileName());
-		picture.setData(Util.getImageByteArray(imageBase.getData(), MAX_HEIGHT_PICTURE, MAX_WIDTH_PICTURE));
+		picture.setData(Util.getImageByteArray(imageBase.getData(), thumbnail.getContentType(), MAX_HEIGHT_PICTURE, MAX_WIDTH_PICTURE));
 		picture.setSinceDate(currentDate);
 
 		thumbnail = (FileTempTO) fileService.insert(thumbnail);

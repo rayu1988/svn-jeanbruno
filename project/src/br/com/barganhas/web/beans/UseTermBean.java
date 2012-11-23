@@ -24,6 +24,9 @@ public class UseTermBean extends AppManagedBean {
 		try {
 			UseTerm service = this.getServiceBusinessFactory().getUseTerm();
 			this.useTerm = service.getDefaultUseTerm();
+			
+			this.useTerm = this.service.load(new UseTermTO(this.useTerm.getId()));
+			
 			return "useTerm";
 		} catch (Exception e) {
 			return this.manageException(e);

@@ -12,9 +12,9 @@
 			<h:panelGrid columns="2" columnClasses="userAccountColumn1, userAccountColumn2" style="width: 100%">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
-								rendered="#{appSessionBean.userAccount.keyProfileImage eq null}"/>
-					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(appSessionBean.userAccount.keyProfileImage)}" styleClass="boxAccountProfileImage"
-								rendered="#{appSessionBean.userAccount.keyProfileImage ne null}"/>
+								rendered="#{appSessionBean.userAccount.profileImage eq null}"/>
+					<h:graphicImage value="/fileserver?q=#{appSessionBean.userAccount.profileImage.id}" styleClass="boxAccountProfileImage"
+								rendered="#{appSessionBean.userAccount.profileImage.id ne null}"/>
 					
 					<ul style="text-align: left;">
 						<li><h:commandLink value="#{msg.myRegister}" action="#{userAccountBean.consult}" immediate="true" styleClass="menuOptionUserAccount"/></li>

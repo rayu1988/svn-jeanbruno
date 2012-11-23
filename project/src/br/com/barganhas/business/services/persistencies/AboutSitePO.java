@@ -17,7 +17,8 @@ public class AboutSitePO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AboutSiteTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
+		hql.append(" select ABOUT_SITE.id, ABOUT_SITE.title, ABOUT_SITE.isDefault from ");
+		hql.append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -25,7 +26,7 @@ public class AboutSitePO extends AppPersistencyManagement {
 	
 	public AboutSiteTO insert(AboutSiteTO aboutSite) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
+		hql.append(" select count(ABOUT_SITE.id) from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE where ABOUT_SITE.isDefault is true ");
 		
 		boolean alreadyExists = GeneralsHelper.isBooleanTrue(this.getHibernateDao().queryCount(hql.toString()) > 0);
 		aboutSite.setIsDefault(!alreadyExists);
@@ -46,7 +47,7 @@ public class AboutSitePO extends AppPersistencyManagement {
 
 	public AboutSiteTO getDefault() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ABOUT_SITE from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
+		hql.append(" select ABOUT_SITE.id, ABOUT_SITE.title, ABOUT_SITE.isDefault from ").append(AboutSiteTO.class.getName()).append(" ABOUT_SITE ");
 		hql.append(" where ABOUT_SITE.isDefault is true ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());

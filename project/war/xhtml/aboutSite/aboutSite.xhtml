@@ -8,7 +8,7 @@
 	<ui:define name="bodyNavigation">
 		<h1>#{aboutSiteBean.aboutSite.title}</h1>
 		
-		<h:outputText value="#{bargas:textToHtml(aboutSiteBean.aboutSite.stringText)}" escape="false"/>
+		<h:outputText value="#{bargas:textToHtml(aboutSiteBean.aboutSite.text)}" escape="false"/>
 		
 		<t:saveState value="#{aboutSiteBean.aboutSite}"/>
 	</ui:define>

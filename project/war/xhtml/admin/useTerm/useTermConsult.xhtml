@@ -17,12 +17,12 @@
 			
 			<!-- text -->
 			<h:outputLabel value="#{msg.useTermText}:" for="text"/>
-			<h:inputTextarea id="text" value="#{useTermBean.useTerm.stringText}" rows="7" styleClass="inputMainForm bigInputMainForm" readonly="true" >
+			<h:inputTextarea id="text" value="#{useTermBean.useTerm.text}" rows="7" styleClass="inputMainForm bigInputMainForm" readonly="true" >
 			</h:inputTextarea>
 			
 			<!-- default use term -->
 			<h:outputLabel value="#{msg.useDefault}:" for="defaultUseTerm"/>
-			<h:outputText id="defaultUseTerm" value="#{useTermBean.useTerm.defaultUseTerm ? msg.msgYes : msg.msgNo}" />
+			<h:outputText id="defaultUseTerm" value="#{useTermBean.useTerm.isDefault ? msg.msgYes : msg.msgNo}" />
 		</h:panelGrid>
 		
 		<t:saveState value="#{useTermBean.useTerm}"/>

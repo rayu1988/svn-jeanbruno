@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import br.com.barganhas.business.entities.management.TransferObject;
 
 @SuppressWarnings("serial")
@@ -23,6 +25,7 @@ public class FileTO extends TransferObject {
 	private Long			id;
 	
 	@Column(name="data", nullable=true)
+	@Type(type="br.com.barganhas.business.services.persistencies.hbn.AppHbnBinayType")
 	private byte[]			data;
 	
 	@Column(name = "content_type", nullable = false)

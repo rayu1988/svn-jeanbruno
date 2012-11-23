@@ -15,6 +15,7 @@ import org.com.tatu.helper.GeneralsHelper;
 import br.com.barganhas.business.entities.AdministratorTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
+import br.com.barganhas.business.services.Service;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.commons.JSFunctionTimeRunning.JSFunctionBoxing;
 import br.com.barganhas.commons.RequestMessage;
@@ -23,6 +24,8 @@ import br.com.barganhas.enums.SeverityMessage;
 import br.com.barganhas.web.beans.control.ControlRequest;
 
 public class AppManagedBean extends ControlRequest implements Serializable {
+	
+	protected transient Service 	service = this.getServiceBusinessFactory().getService();
 	
 	private static final long 		serialVersionUID = 5997769430729017199L;
 	private static final Logger 	logger = Logger.getLogger(AppManagedBean.class.getCanonicalName());

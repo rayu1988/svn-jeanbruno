@@ -17,12 +17,12 @@
 			
 			<!-- text -->
 			<h:outputLabel value="#{msg.aboutSiteText}:" for="text"/>
-			<h:inputTextarea id="text" value="#{aboutSiteBean.aboutSite.stringText}" rows="7" styleClass="inputMainForm bigInputMainForm" readonly="true" >
+			<h:inputTextarea id="text" value="#{aboutSiteBean.aboutSite.text}" rows="7" styleClass="inputMainForm bigInputMainForm" readonly="true" >
 			</h:inputTextarea>
 			
 			<!-- default use term -->
 			<h:outputLabel value="#{msg.useDefault}:" for="defaultAboutSite"/>
-			<h:outputText id="defaultAboutSite" value="#{aboutSiteBean.aboutSite.defaultAboutSite ? msg.msgYes : msg.msgNo}" />
+			<h:outputText id="defaultAboutSite" value="#{aboutSiteBean.aboutSite.isDefault ? msg.msgYes : msg.msgNo}" />
 		</h:panelGrid>
 		
 		<t:saveState value="#{aboutSiteBean.aboutSite}"/>

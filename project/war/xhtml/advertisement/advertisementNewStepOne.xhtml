@@ -30,7 +30,7 @@
 				<!-- advertisement type's warning -->
 				<h:column/>
 				<h:panelGroup id="panelAdvertisementTypeDetails" layout="block">
-					<h:panelGrid columns="1" rendered="#{advertisementBean.selectedAdvertisementType.key ne null}" styleClass="panelDetailsWarning">
+					<h:panelGrid columns="1" rendered="#{advertisementBean.selectedAdvertisementType.id ne null}" styleClass="panelDetailsWarning">
 						<h:outputText value="#{msg.advertisementAdvertisementTypeWarning}."/>
 						<h:outputText value="#{msg.advertisementAdvertisementTypeTotalImg} #{advertisementBean.selectedAdvertisementType.totalPictures} #{msg.advertisementAdvertisementTypeTotalImgs}
 												#{msg.advertisementAdvertisementTypeCost} #{msg.privateAreaCurrencySymbolReal} #{advertisementBean.selectedAdvertisementType.value}."/>
@@ -89,7 +89,7 @@
 				<!-- list exchange by -->
 				<h:outputLabel value="#{msg.advertisementListExchangeBy}:" for="listExchangeBy"/>
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
-					<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.listExchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
+					<h:inputTextarea id="listExchangeBy" value="#{advertisementBean.advertisement.exchangeBy}" rows="3" styleClass="inputTextAreaMainForm mediumInputMainForm">
 					</h:inputTextarea>
 					
 					<h:graphicImage id="listExchangeByInfo" value="/images/help.png" style="margin-left: 10px;">

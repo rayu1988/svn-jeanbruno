@@ -2,6 +2,7 @@ package br.com.barganhas.business.services.impl;
 
 import java.util.List;
 
+import org.com.tatu.helper.parameter.ParameterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,12 +49,10 @@ public class UseTermBO implements UseTerm {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public UseTermTO turnUseTermDefault(UseTermTO useTerm) {
 		UseTermTO currentDefaultUseTerm = this.persistencyLayer.getDefaultUseTerm();
-		currentDefaultUseTerm.setIsDefault(false);
-		this.save(currentDefaultUseTerm);
+		this.persistencyLayer.getHibernateDao().update(currentDefaultUseTerm, ParameterWrapper.instance("isDefault", Boolean.FALSE));
 		
-		useTerm.setIsDefault(true);
-		useTerm = this.save(useTerm);
-		
+		this.persistencyLayer.getHibernateDao().update(useTerm, ParameterWrapper.instance("isDefault", Boolean.TRUE));
+
 		return useTerm;
 	}
 	

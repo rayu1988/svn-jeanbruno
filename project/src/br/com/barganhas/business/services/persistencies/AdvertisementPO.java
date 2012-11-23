@@ -25,7 +25,8 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" select ADVADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.statusERTISEMENT from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -47,7 +48,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
 		
 		QLWhereClause where = new QLWhereClause();
-		where.and(" ADVERTISEMENT.status = '" + AdvertisementStatus.ENABLED + "' ");
+		where.and(" ADVERTISEMENT.status = " + AdvertisementStatus.ENABLED.ordinal());
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
 			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
 		}
@@ -88,7 +89,8 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> list(UserAccountTO userAccount) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		hql.append(" where ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -98,7 +100,8 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		hql.append(" where ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
@@ -110,8 +113,11 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> lastAdvertisements() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status, THUMBNAIL.id from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
+		hql.append(" left join SHEET_PICTURE.thumbnail THUMBNAIL ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED.ordinal());
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -122,8 +128,11 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> mostViewed() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status, THUMBNAIL.id from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
+		hql.append(" left join SHEET_PICTURE.thumbnail THUMBNAIL ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED.ordinal());
 		hql.append(" order by ADVERTISEMENT.countView DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
@@ -134,8 +143,9 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" where ADVERTISEMENT.status = '").append(AdvertisementStatus.ENABLED + "' ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status from ");
+		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED.ordinal());
 		hql.append(" and ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
@@ -158,23 +168,26 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		return this.getHibernateDao().consult(advertisement);
 	}
 	
-	private void incrementCountView(AdvertisementTO advertisement) {
+	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" update ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" set ADVERTISEMENT.countView = ").append(advertisement.getCountView() + 1);
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.countView, ADVERTISEMENT.description, ADVERTISEMENT.isNewProduct ");
+		hql.append(" , ADVERTISEMENT.contactPhoneNumberOne, ADVERTISEMENT.contactPhoneNumberTwo, ADVERTISEMENT.contactEmail, ADVERTISEMENT.value ");
+		hql.append(" , SHEET_PICTURE.id, SHEET_PICTURE_THUMB.id, SHEET_PICTURE_PIC.id ");
+		hql.append(" , USER_ACCOUNT.id, USER_ACCOUNT.fullname, USER_ACCOUNT.nickname ");
+		hql.append(" , CITY.id, CITY.name, STATE.id, STATE.name, STATE.acronym ");
+		hql.append(" from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
+		hql.append(" left join SHEET_PICTURE.thumbnail SHEET_PICTURE_THUMB ");
+		hql.append(" left join SHEET_PICTURE.picture SHEET_PICTURE_PIC ");
+		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+		hql.append(" left join USER_ACCOUNT.city CITY ");
+		hql.append(" left join CITY.state STATE ");
+//		hql.append(" join ADVERTISEMENT.listAdvertisementPictures PICTURES ");
 		hql.append(" where ADVERTISEMENT = ").append(advertisement.getId());
 		
-		this.getHibernateDao().createQuery(hql.toString()).executeUpdate();
+		return (AdvertisementTO) this.getHibernateDao().createQueryTransform(hql.toString()).uniqueResult();
 	}
 	
-	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
-		advertisement = this.consult(advertisement);
-		
-		this.incrementCountView(advertisement);
-		
-		return advertisement;
-	}
-
 	public void delete(AdvertisementTO advertisement) {
 		this.getHibernateDao().delete(advertisement);
 	}

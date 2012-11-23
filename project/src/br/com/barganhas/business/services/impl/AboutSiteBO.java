@@ -2,6 +2,7 @@ package br.com.barganhas.business.services.impl;
 
 import java.util.List;
 
+import org.com.tatu.helper.parameter.ParameterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,11 +49,11 @@ public class AboutSiteBO implements AboutSite {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public AboutSiteTO turnDefault(AboutSiteTO aboutSite) {
 		AboutSiteTO currentDefault = this.persistencyLayer.getDefault();
-		currentDefault.setIsDefault(false);
-		this.save(currentDefault);
+		this.persistencyLayer.getHibernateDao().update(currentDefault, ParameterWrapper.instance("isDefault", Boolean.FALSE));
 		
-		aboutSite.setIsDefault(true);
-		return this.save(aboutSite);
+		this.persistencyLayer.getHibernateDao().update(aboutSite, ParameterWrapper.instance("isDefault", Boolean.TRUE));
+		
+		return aboutSite;
 	}
 	
 	@Override

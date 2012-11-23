@@ -15,14 +15,14 @@
 			<h:panelGrid columns="1" styleClass="panelDetailsWarning" style="background: none;">
 				<!-- sheet picture -->
 				<h:panelGrid columns="2">
-					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementBean.advertisement.sheetPicture.keyThumbnail)}" />
+					<h:graphicImage value="/fileserver?q=#{advertisementBean.advertisement.sheetPicture.thumbnail.id}" />
 					<h:outputText value="#{msg.advertisementSheet}"/>
 				</h:panelGrid>
 			
 				<!-- set pictures -->
 				<t:dataTable var="advertisementPicture" value="#{advertisementBean.advertisement.listAdvertisementPictures}" >
 					<h:column>
-						<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementPicture.keyThumbnail)}" />
+						<h:graphicImage value="/fileserver?q=#{advertisementPicture.thumbnail.id}" />
 					</h:column>
 				</t:dataTable>
 			</h:panelGrid>

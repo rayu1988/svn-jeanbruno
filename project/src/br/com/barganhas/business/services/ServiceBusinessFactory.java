@@ -18,6 +18,7 @@ import br.com.barganhas.business.services.impl.SalesBO;
 import br.com.barganhas.business.services.impl.StateBO;
 import br.com.barganhas.business.services.impl.UseTermBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
+import br.com.barganhas.business.services.persistencies.ServicePO;
 
 @SuppressWarnings("serial")
 public class ServiceBusinessFactory implements Serializable {
@@ -34,6 +35,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public void registerApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+	
+	public Service getService() {
+		return (Service) this.applicationContext.getBean(ServicePO.BEAN_ALIAS);
 	}
 	
 	public State getState() {

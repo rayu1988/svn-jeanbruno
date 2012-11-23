@@ -16,7 +16,6 @@ public class LoginBean extends AppManagedBean {
 	private String								user;
 	private String								password;
 	
-	
 	public String login() {
 		try {
 			Administrator service = this.getServiceBusinessFactory().getAdministrator();

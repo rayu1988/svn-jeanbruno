@@ -138,7 +138,7 @@
 						
 						<h:selectOneMenu id="totalItensPerPage" value="#{siteBean.totalItensPerPage}" converter="omnifaces.SelectItemsConverter">
 							<f:selectItems value="#{siteBean.listItensPerPage}" />
-							<f:ajax event="change" onevent="jQuery('#hiddenLinkItensPerPage').click()"/>
+							<f:ajax event="change" onevent="$j('#hiddenLinkItensPerPage').click()"/>
 						</h:selectOneMenu>
 					</h:panelGrid>
 					
@@ -175,17 +175,17 @@
 							<li style="#{siteBean.listAsGrid ? '' : 'position: relative;'}">
 								
 								<!-- image base -->
-								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
+								<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}"
 									class="#{siteBean.listAsGrid ? 'imagesSearchGrid' : 'imagesSearchList'}">
 									
-									<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisement.sheetPicture.keyThumbnail)}"/>
+									<h:graphicImage value="/fileserver?q=#{advertisement.sheetPicture.thumbnail.id}"/>
 								</a>
 								
 								<!-- desc box -->
 								<div class="#{siteBean.listAsGrid ? 'descGridSearchListBox' : 'descSearchListBox'}">
 								
 									<!-- title -->
-									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}"
+									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}"
 										class="descProduct-itensInList">
 										
 										<h:outputText value="#{bargas:truncateString(advertisement.title, 52)}"/>
@@ -199,7 +199,7 @@
 								
 								<!-- price -->
 								<p class="#{siteBean.listAsGrid ? 'priceBox' : 'searchListPriceBox'}">
-									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisement.key)}">
+									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}">
 										<h:outputText value="#{msg.msgRealCurrency} "/>
 										<h:outputText value="#{advertisement.value}">
 											<f:converter converterId="ConverterCurrencyReal"/>
@@ -209,7 +209,7 @@
 								
 								<!-- list exchange by -->
 								<p class="#{siteBean.listAsGrid ? 'searchGridExchangeBox' : 'searchListExchangeBox'}">
-									<h:outputText value="#{bargas:truncateString(advertisement.listExchangeBy, 95)}"/>
+									<h:outputText value="#{bargas:truncateString(advertisement.exchangeBy, 95)}"/>
 								</p>
 							</li>
 						</ui:repeat>
