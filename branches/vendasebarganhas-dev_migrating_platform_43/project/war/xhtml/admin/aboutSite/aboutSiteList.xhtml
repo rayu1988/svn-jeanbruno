@@ -32,7 +32,7 @@
 				<bargas:commandListDelete id="deleteAboutSite" targetProperty="aboutSite" backingBean="#{aboutSiteBean}"
 						action="delete" propertyFrom="#{aboutSite}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.aboutSite}"/>
 				<bargas:commandListUnlock targetProperty="aboutSite" id="turnDefault" backingBean="#{aboutSiteBean}" propertyFrom="#{aboutSite}"
-						action="turnDefault" rendered="#{not aboutSite.defaultAboutSite}"/>
+						action="turnDefault" rendered="#{not aboutSite.isDefault}"/>
 			</rich:column>
 			
 			<!-- title -->
@@ -55,7 +55,7 @@
 				</f:facet>
 			
 				<h:commandLink action="#{aboutSiteBean.consult}" >
-					<h:outputText value="#{aboutSite.defaultAboutSite ? msg.msgYes : msg.msgNo}" />
+					<h:outputText value="#{aboutSite.isDefault ? msg.msgYes : msg.msgNo}" />
 					<f:setPropertyActionListener value="#{aboutSite}" target="#{aboutSiteBean.aboutSite}"/>
 				</h:commandLink>
 			</rich:column>

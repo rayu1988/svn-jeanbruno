@@ -118,8 +118,8 @@ public class AdministratorBean extends AppManagedBean {
 	
 	public String consult() {
 		try {
-			Administrator service = this.getServiceBusinessFactory().getAdministrator();
-			this.administrator = service.consult(this.administrator);
+			this.service.evict(this.administrator);
+			this.administrator = this.service.load(this.administrator);
 			
 			return "administratorConsult";
 		} catch (Exception e) {
@@ -129,8 +129,8 @@ public class AdministratorBean extends AppManagedBean {
 
 	public String delete() {
 		try {
-			Administrator service = this.getServiceBusinessFactory().getAdministrator();
-			service.delete(this.administrator);
+			this.administrator = this.service.load(new AdministratorTO(this.administrator.getId()));
+			this.service.delete(this.administrator);
 			
 			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();

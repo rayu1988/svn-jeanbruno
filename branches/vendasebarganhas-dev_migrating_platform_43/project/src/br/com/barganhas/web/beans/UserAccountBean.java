@@ -1,6 +1,7 @@
 package br.com.barganhas.web.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -22,6 +23,7 @@ import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.City;
+import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.State;
 import br.com.barganhas.business.services.UserAccount;
 import br.com.barganhas.commons.JSFunctionTimeRunning;
@@ -196,9 +198,15 @@ public class UserAccountBean extends AppManagedBean {
 				byte[] bytes = uploadedFile.getData();
 				
 				this.profileImage = new FileTO();
-				this.profileImage.setData(bytes);
+				this.profileImage.setSinceDate(new Date());
+				this.profileImage.setData(
+					Util.getImageByteArray(bytes, uploadedFile.getContentType(), UserAccount.MAX_HEIGHT_IMG_PROFILE, UserAccount.MAX_WIDTH_IMG_PROFILE)
+				);
 				this.profileImage.setContentType(uploadedFile.getContentType());
 				this.profileImage.setFileName(uploadedFile.getName());
+				
+				File service = this.getServiceBusinessFactory().getFile();
+				this.profileImage = service.insert(this.profileImage);
 			} else {
 				this.profileImage = null;
 			}
@@ -212,6 +220,7 @@ public class UserAccountBean extends AppManagedBean {
 			if (this.selectedState == null || this.selectedCity == null) {
 				throw new AppException("userAccountStateAndCityAreRequired");
 			}
+			this.userAccount.setProfileImage(this.profileImage);
 			this.userAccount.setCity(this.selectedCity);
 			
 			UserAccount service = this.getServiceBusinessFactory().getUserAccount();

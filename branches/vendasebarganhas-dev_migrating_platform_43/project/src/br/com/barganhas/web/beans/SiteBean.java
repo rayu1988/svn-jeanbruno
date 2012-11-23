@@ -34,6 +34,7 @@ public class SiteBean extends AppManagedBean {
 	private List<AdvertisementTO>				userAccountLastAdvertisements;
 	
 	private AdvertisementTO						advertisement;
+	private Long								idAux;
 	
 	// manage if the list will be shown as grid or in line
 	private Boolean								listAsGrid = false;
@@ -375,6 +376,14 @@ public class SiteBean extends AppManagedBean {
 	public void setUserAccountLastAdvertisements(
 			List<AdvertisementTO> userAccountLastAdvertisements) {
 		this.userAccountLastAdvertisements = userAccountLastAdvertisements;
+	}
+
+	public Long getIdAux() {
+		return idAux;
+	}
+
+	public void setIdAux(Long idAux) {
+		this.idAux = idAux;
 	}
 
 }

@@ -35,7 +35,7 @@
 
 	<ui:define name="accountBottomButtons">
 		<h:commandButton value="#{msg.privateAreaActionEdit}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.edit}" immediate="false" />
-		<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{bargas:getStringFromKey(advertisementBean.advertisement.key)}"
+		<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisementBean.advertisement.id}"
 			class="customButton2 buttonMainForm">
 			
 			<h:outputText value="#{msg.advertisementViewPublic}" />

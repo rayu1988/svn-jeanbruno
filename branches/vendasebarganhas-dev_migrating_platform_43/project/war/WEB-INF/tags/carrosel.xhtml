@@ -13,7 +13,7 @@
 				<ui:repeat var="advertisement" value="#{listAdvertisement}">
 					<li>
 						<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}">
-							<h:graphicImage value="/fileserver?q=#{advertisement.sheetPicture.id}"/>
+							<h:graphicImage value="/fileserver?q=#{advertisement.sheetPicture.thumbnail.id}"/>
 						</a>
 						
 						<p class="descProduct">
@@ -41,12 +41,12 @@
 	
 	<h:outputScript>
 		try {
-			jQuery(document).ready( function() {
-				jQuery("#" + "#{id}AdvertisementLeft").click(function(){
-					jQuery("#" + "#{id}Advertisement").animate({"margin-left": "+=597px"}, "slow");
+			$j(document).ready( function() {
+				$j("#" + "#{id}AdvertisementLeft").click(function(){
+					$j("#" + "#{id}Advertisement").animate({"margin-left": "+=597px"}, "slow");
 				});
-				jQuery("#" + "#{id}AdvertisementRight").click(function(){
-					jQuery("#" + "#{id}Advertisement").animate({"margin-left": "-=597px"}, "slow");
+				$j("#" + "#{id}AdvertisementRight").click(function(){
+					$j("#" + "#{id}Advertisement").animate({"margin-left": "-=597px"}, "slow");
 				});
 			});
 		} catch(e) {

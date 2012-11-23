@@ -17,11 +17,12 @@
 		
 		<!-- currency -->
 		<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currency"/>
-		<bargas:inputCurrency id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="12" styleClass="inputMainForm mediumInputMainForm"/>
+		<bargas:inputCurrencyConverted id="currency" value="#{advertisementTypeBean.advertisementType.value}" maxlength="12" 
+					styleClass="inputMainForm mediumInputMainForm" converterId="ConverterCurrencyReal"/>
 		
 		<!-- advertisiment score -->
 		<h:outputLabel value="#{msg.privateAreaAdvertisementScore}:" for="advertisementScore"/>
-		<rich:inputNumberSpinner id="advertisementScore" value="#{advertisementTypeBean.advertisementType.advertisementScore}" 
+		<rich:inputNumberSpinner id="advertisementScore" value="#{advertisementTypeBean.advertisementType.score}" 
 				minValue="0" maxValue="127"/>
 		
 		<!-- total pictures -->

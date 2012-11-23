@@ -18,7 +18,8 @@ public class AdministratorPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdministratorTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
+		hql.append(" select ADMINISTRATOR.id, ADMINISTRATOR.nickname, ADMINISTRATOR.fullname, ADMINISTRATOR.email from ");
+		hql.append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
 
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -27,7 +28,8 @@ public class AdministratorPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdministratorTO> filter(AdministratorTO administrator) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADMINISTRATOR from ").append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
+		hql.append(" select ADMINISTRATOR.id, ADMINISTRATOR.nickname, ADMINISTRATOR.fullname, ADMINISTRATOR.email from ");
+		hql.append(AdministratorTO.class.getName()).append(" ADMINISTRATOR ");
 		
 		QLWhereClause where = new QLWhereClause();
 		
@@ -48,13 +50,20 @@ public class AdministratorPO extends AppPersistencyManagement {
 	}
 	
 	public AdministratorTO insert(AdministratorTO administrator) {
+		String hql = " select count(AD.id) from " + AdministratorTO.class.getName() + " AD where AD.nickname = '" + administrator.getNickname() + "' ";
+		if (this.getHibernateDao().queryCount(hql) > 0) {
+			throw new AppException("administratorUserAccountAlreadyExists");
+		}
+		
 		this.getHibernateDao().insert(administrator);
 		return administrator;
 	}
 	
 	public AdministratorTO save(AdministratorTO administrator) {
 		if (!GeneralsHelper.isStringOk(administrator.getPassword())) {
-			AdministratorTO syncronizedTO = this.getHibernateDao().load(administrator);
+			String hql = " select AD.id, AD.password from " + AdministratorTO.class.getName() + " AD where AD = " + administrator.getId();
+			
+			AdministratorTO syncronizedTO = (AdministratorTO) this.getHibernateDao().createQueryTransform(hql).uniqueResult();
 			administrator.setPassword(syncronizedTO.getPassword());
 		}
 		

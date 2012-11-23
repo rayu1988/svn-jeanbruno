@@ -26,17 +26,17 @@ public class UserAccountTO extends UserTO {
 	@Column(name = "status", nullable = false)
 	private UserAccountStatus 		status;
 	
-	@Column(name = "contact_phone_number_one", nullable = false, length = 50)
+	@Column(name = "contact_phone_number_one", nullable = true, length = 50)
 	private String					contactPhoneNumberOne;
 	
-	@Column(name = "contact_phone_number_two", nullable = false, length = 50)
+	@Column(name = "contact_phone_number_two", nullable = true, length = 50)
 	private String					contactPhoneNumberTwo;
 	
-	@Column(name = "contact_email", nullable = false, length = 50)
+	@Column(name = "contact_email", nullable = true, length = 50)
 	private String					contactEmail;
 	
 	@OneToOne
-	@JoinColumn(name = "id_profile_image", nullable = false)
+	@JoinColumn(name = "id_profile_image")
 	private FileTO					profileImage;
 	
 	@ManyToOne

@@ -60,9 +60,9 @@
 									<li>
 										<h:commandLink action="#{siteBean.loadUserAccountConsult}">
 											<h:graphicImage value="/images/anonymous_profile.png"
-												rendered="#{user.keyProfileImage eq null}"/>
-											<h:graphicImage value="/fileserver?q=#{user.id}"
-												rendered="#{user.keyProfileImage ne null}"/>
+												rendered="#{user.profileImage eq null}"/>
+											<h:graphicImage value="/fileserver?q=#{user.profileImage.id}"
+												rendered="#{user.profileImage ne null}"/>
 												
 											<f:setPropertyActionListener target="#{siteBean.userAccount}" value="#{user}"/>
 										</h:commandLink>

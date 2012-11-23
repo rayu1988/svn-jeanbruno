@@ -17,7 +17,7 @@ public class UseTermPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<UseTermTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
+		hql.append(" select USE_TERM.id, USE_TERM.title, USE_TERM.isDefault from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -25,7 +25,7 @@ public class UseTermPO extends AppPersistencyManagement {
 	
 	public UseTermTO insert(UseTermTO useTerm) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
+		hql.append(" select count(USE_TERM.id) from ").append(UseTermTO.class.getName()).append(" USE_TERM where USE_TERM.isDefault is true ");
 		
 		boolean alreadyExists = GeneralsHelper.isBooleanTrue(this.getHibernateDao().queryCount(hql.toString()) > 0);
 		
@@ -48,7 +48,7 @@ public class UseTermPO extends AppPersistencyManagement {
 
 	public UseTermTO getDefaultUseTerm() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select USE_TERM from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
+		hql.append(" select USE_TERM.id, USE_TERM.isDefault from ").append(UseTermTO.class.getName()).append(" USE_TERM ");
 		hql.append(" where USE_TERM.isDefault is true ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());

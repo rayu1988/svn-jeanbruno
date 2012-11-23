@@ -32,6 +32,11 @@
     	<function-name>textToHtml</function-name>
     	<function-signature>java.lang.String textToHtml(java.lang.String)</function-signature>
     </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>getFirstName</function-name>
+    	<function-signature>java.lang.String getFirstName(br.com.barganhas.business.entities.UserAccountTO)</function-signature>
+    </function>
     <!-- ends functions -->
     
     <!-- start tags -->

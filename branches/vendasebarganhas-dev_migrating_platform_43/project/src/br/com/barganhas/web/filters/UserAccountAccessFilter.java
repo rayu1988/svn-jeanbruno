@@ -61,7 +61,7 @@ public class UserAccountAccessFilter implements Filter {
 	}
 	
 	private void redirectToLogin(HttpServletResponse response, HttpServletRequest request) throws IOException {
-		response.sendRedirect("/xhtml/account/login.jsf");
+		response.sendRedirect(request.getContextPath() + "/xhtml/account/login.jsf");
 	}
 	
 	@Override

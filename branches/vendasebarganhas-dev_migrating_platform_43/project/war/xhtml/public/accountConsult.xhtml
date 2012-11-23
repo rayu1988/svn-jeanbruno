@@ -12,9 +12,9 @@
 			<h:panelGrid columns="2" columnClasses="userAccountColumn1, userAccountColumn2" style="width: 100%;">
 				<h:panelGroup layout="block" id="boxAccountProfileLeftSide">
 					<h:graphicImage value="/images/anonymous_profile.png" styleClass="boxAccountProfileImage"
-								rendered="#{siteBean.userAccount.keyProfileImage eq null}"/>
-					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.userAccount.keyProfileImage)}" styleClass="boxAccountProfileImage"
-								rendered="#{siteBean.userAccount.keyProfileImage ne null}"/>
+								rendered="#{siteBean.userAccount.profileImage eq null}"/>
+					<h:graphicImage value="/fileserver?q=#{siteBean.userAccount.profileImage.id}" styleClass="boxAccountProfileImage"
+								rendered="#{siteBean.userAccount.profileImage ne null}"/>
 					
 					<ul style="text-align: left;">
 						
@@ -41,7 +41,7 @@
 							
 							<!-- state -->
 							<h:outputLabel value="#{msg.stateTitle}:" for="useAccountState"/>
-							<bargas:outputText id="useAccountState" value="#{siteBean.userAccount.state.name} (#{siteBean.userAccount.state.acronym})"
+							<bargas:outputText id="useAccountState" value="#{siteBean.userAccount.city.state.name} (#{siteBean.userAccount.city.state.acronym})"
 								styleClass="inputMainForm bigInputMainForm inputDisable"/>
 							
 							<!-- city -->

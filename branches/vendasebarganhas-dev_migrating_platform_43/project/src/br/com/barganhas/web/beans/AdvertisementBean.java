@@ -28,7 +28,6 @@ import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.AdvertisementPicture;
 import br.com.barganhas.business.services.AdvertisementType;
 import br.com.barganhas.business.services.Category;
-import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.Sales;
 import br.com.barganhas.business.services.UseTerm;
 import br.com.barganhas.commons.RequestMessage;
@@ -170,6 +169,7 @@ public class AdvertisementBean extends AppManagedBean {
 			
 			UseTerm useTermService = this.getServiceBusinessFactory().getUseTerm();
 			this.useTerm = useTermService.getDefaultUseTerm();
+			this.useTerm = this.service.load(this.useTerm);
 			
 			return "advertisementPrepareNewStepThree";
 		} catch (Exception e) {
@@ -265,8 +265,8 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String edit() {
 		try {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.advertisement = service.consult(this.advertisement);
+			this.advertisement = this.service.load(new AdvertisementTO(this.advertisement.getId()));
+			
 			this.selectedCategory = this.advertisement.getCategory();
 			this.prepareListCategories();
 			
@@ -291,21 +291,19 @@ public class AdvertisementBean extends AppManagedBean {
 			this.selectedTab = "picturesTab";
 			
 			if (!GeneralsHelper.isCollectionOk(this.listAdvertisementPictures)) {
-				File fileService = this.getServiceBusinessFactory().getFile();
+				this.advertisement = this.service.load(new AdvertisementTO(this.advertisement.getId()));
 				
 				SelectItemsBuilder selectItemsBuilder = new SelectItemsBuilder();
 				
 				AdvertisementPictureTO sheetPicture = this.advertisement.getSheetPicture();
-				FileTO thumbnail = fileService.consult(new FileTO(sheetPicture.getId()));
-				sheetPicture.setThumbnail(thumbnail);
+				sheetPicture.setThumbnail(sheetPicture.getThumbnail());
 				
 				selectItemsBuilder.add(sheetPicture, sheetPicture.getThumbnail().getFileName());
 				this.selectedSheetPicture = sheetPicture;
 				
 				if (GeneralsHelper.isCollectionOk(this.advertisement.getListAdvertisementPictures())) {
 					for (AdvertisementPictureTO advertisementPicture : this.advertisement.getListAdvertisementPictures()) {
-						thumbnail = fileService.consult(new FileTO(advertisementPicture.getId()));
-						advertisementPicture.setThumbnail(thumbnail);
+						advertisementPicture.setThumbnail(advertisementPicture.getThumbnail());
 						
 						selectItemsBuilder.add(advertisementPicture, advertisementPicture.getThumbnail().getFileName());
 					}
@@ -395,8 +393,8 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String consult() {
 		try {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.advertisement = service.consult(this.advertisement);
+			this.service.evict(this.advertisement);
+			this.advertisement = this.service.load(new AdvertisementTO(this.advertisement.getId()));
 			
 			this.listAdvertisementPictures = null;
 			
@@ -408,9 +406,6 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String consultTabData() {
 		try {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.advertisement = service.consult(this.advertisement);
-			
 			this.selectedTab = "dataTab";
 			
 			return "advertisementConsultData";
@@ -421,9 +416,8 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String consultTabPictures() {
 		try {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			this.advertisement = service.consult(this.advertisement);
-			
+			this.advertisement = this.service.load(new AdvertisementTO(this.advertisement.getId()));
+
 			this.selectedTab = "picturesTab";
 			
 			return "advertisementConsultPictures";

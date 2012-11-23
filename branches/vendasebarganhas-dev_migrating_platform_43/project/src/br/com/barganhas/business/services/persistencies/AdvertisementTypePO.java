@@ -15,7 +15,8 @@ public class AdvertisementTypePO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTypeTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT_TYPE from ").append(AdvertisementTypeTO.class.getName()).append(" ADVERTISEMENT_TYPE ");
+		hql.append(" select ADVERTISEMENT_TYPE.id, ADVERTISEMENT_TYPE.title, ADVERTISEMENT_TYPE.value, ADVERTISEMENT_TYPE.score, ADVERTISEMENT_TYPE.totalPictures ");
+		hql.append(" , ADVERTISEMENT_TYPE.daysToExpire from ").append(AdvertisementTypeTO.class.getName()).append(" ADVERTISEMENT_TYPE ");
 
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();

@@ -24,6 +24,9 @@ public class AboutSiteBean extends AppManagedBean {
 		try {
 			AboutSite service = this.getServiceBusinessFactory().getAboutSite();
 			this.aboutSite = service.getDefault();
+			
+			this.aboutSite = this.service.load(new AboutSiteTO(this.aboutSite.getId()));
+			
 			return "aboutSite";
 		} catch (Exception e) {
 			return this.manageException(e);

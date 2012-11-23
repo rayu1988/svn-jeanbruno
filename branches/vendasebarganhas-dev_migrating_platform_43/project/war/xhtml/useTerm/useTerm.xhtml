@@ -8,7 +8,7 @@
 	<ui:define name="bodyNavigation">
 		<h1>#{useTermBean.useTerm.title}</h1>
 		
-		<h:outputText value="#{bargas:textToHtml(useTermBean.useTerm.stringText)}" escape="false"/>
+		<h:outputText value="#{bargas:textToHtml(useTermBean.useTerm.text)}" escape="false"/>
 		
 		<t:saveState value="#{useTermBean.useTerm}"/>
 	</ui:define>

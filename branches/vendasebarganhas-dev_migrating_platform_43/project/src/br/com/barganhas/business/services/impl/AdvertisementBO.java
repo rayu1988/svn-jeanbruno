@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.com.tatu.helper.parameter.ParameterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -114,9 +115,13 @@ public class AdvertisementBO implements Advertisement {
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public AdvertisementTO publicConsult(AdvertisementTO advertisement) {
-		return this.persistencyLayer.publicConsult(advertisement);
+		advertisement = this.persistencyLayer.publicConsult(advertisement);
+		
+		this.persistencyLayer.getHibernateDao().update(advertisement, ParameterWrapper.instance("countView", (advertisement.getCountView() + 1) ));
+		
+		return advertisement;
 	}
 	
 	@Override

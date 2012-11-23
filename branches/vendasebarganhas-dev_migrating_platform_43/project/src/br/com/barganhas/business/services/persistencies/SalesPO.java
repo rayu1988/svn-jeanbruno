@@ -16,7 +16,7 @@ public class SalesPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<SalesTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select SALES from ").append(SalesTO.class.getName()).append(" SALES ");
+		hql.append(" select SALES.id, SALES.title, SALES.salesCode, SALES.description from ").append(SalesTO.class.getName()).append(" SALES ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
 		return query.list();
@@ -42,7 +42,7 @@ public class SalesPO extends AppPersistencyManagement {
 	
 	public SalesTO consultBySalesCode(String salesCode) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select SALES from ").append(SalesTO.class.getName()).append(" SALES ");
+		hql.append(" select SALES.id, SALES.title, SALES.salesCode, SALES.description from ").append(SalesTO.class.getName()).append(" SALES ");
 		hql.append(" where SALES.salesCode = :salesCode ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());

@@ -32,7 +32,7 @@
 				<bargas:commandListDelete id="deleteUseTerm" targetProperty="useTerm" backingBean="#{useTermBean}"
 						action="delete" propertyFrom="#{useTerm}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.useTerm}"/>
 				<bargas:commandListUnlock targetProperty="useTerm" id="turnUseTermDefault" backingBean="#{useTermBean}" propertyFrom="#{useTerm}"
-						action="turnUseTermDefault" rendered="#{not useTerm.defaultUseTerm}"/>
+						action="turnUseTermDefault" rendered="#{not useTerm.isDefault}"/>
 			</rich:column>
 			
 			<!-- title -->
@@ -55,7 +55,7 @@
 				</f:facet>
 			
 				<h:commandLink action="#{useTermBean.consult}" >
-					<h:outputText value="#{useTerm.defaultUseTerm ? msg.msgYes : msg.msgNo}" />
+					<h:outputText value="#{useTerm.isDefault ? msg.msgYes : msg.msgNo}" />
 					<f:setPropertyActionListener value="#{useTerm}" target="#{useTermBean.useTerm}"/>
 				</h:commandLink>
 			</rich:column>

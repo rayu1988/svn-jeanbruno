@@ -13,14 +13,14 @@
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-admin.css" />
 			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/styles-messages.css" />
    			<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-   			<script type="text/javascript" src="/org.richfaces.resources/javax.faces.resource/org.richfaces.staticResource/4.2.2.Final/PackedCompressed/jquery.js"></script>
+   			<script type="text/javascript" src="#{request.contextPath}/org.richfaces.resources/javax.faces.resource/org.richfaces.staticResource/4.2.2.Final/Packed/jquery.js"></script>
    			<script src="#{request.contextPath}/javascript/module.js" type="text/javascript" />
    		</h:head>
    		
    		<h:body>
    			<h:outputScript>
-   				jQuery(document).ready( function() {
-					jQuery("#userName").focus();
+   				$j(document).ready( function() {
+					$j("#userName").focus();
 				});
    			</h:outputScript>
    			<bargas:messages />

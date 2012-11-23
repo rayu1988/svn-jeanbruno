@@ -21,22 +21,22 @@
 		<h:panelGrid columns="2" columnClasses="columnTop, advertisementDetailColumnTop">
 			<h:panelGrid>
 				<h:panelGroup id="advertisementMainPicture" layout="block">
-					<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.advertisementPicture)}"/>
+					<h:graphicImage value="/fileserver?q=#{siteBean.advertisement.sheetPicture.picture.id}"/>
 				</h:panelGroup>
 				
 				<h:panelGroup id="advertisementBoxThumbnails" layout="block">
 					<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
 						<a4j:commandLink render="advertisementMainPicture" execute="@this" onbegin="popupLoading(true);" oncomplete="popupLoading(false);">
-							<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(siteBean.advertisement.sheetPicture.keyThumbnail)}"/>
-							<f:setPropertyActionListener value="#{siteBean.advertisement.sheetPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
+							<h:graphicImage value="/fileserver?q=#{siteBean.advertisement.sheetPicture.thumbnail.id}"/>
+							<f:setPropertyActionListener value="#{siteBean.advertisement.sheetPicture.picture.id}" target="#{siteBean.idAux}"/>
 						</a4j:commandLink>
 					</h:panelGroup>
 					
 					<ui:repeat var="advertisementPicture" value="#{siteBean.advertisement.listAdvertisementPictures}">
 						<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
 							<a4j:commandLink render="advertisementMainPicture" execute="@this" onbegin="popupLoading(true);" oncomplete="popupLoading(false);">
-								<h:graphicImage value="/fileserver?q=#{bargas:getStringFromKey(advertisementPicture.keyThumbnail)}"/>
-								<f:setPropertyActionListener value="#{advertisementPicture.keyPicture}" target="#{siteBean.advertisementPicture}"/>
+								<h:graphicImage value="/fileserver?q=#{advertisementPicture.thumbnail.id}"/>
+								<f:setPropertyActionListener value="#{advertisementPicture.picture.id}" target="#{siteBean.idAux}"/>
 							</a4j:commandLink>
 						</h:panelGroup>
 					</ui:repeat>
@@ -60,7 +60,7 @@
 				<bargas:outputText id="userAccount" value="#{msg.advertisementUserAccount}" styleClass="advertisementDetailHeader"/>
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:panelGrid columns="2" style="width: 100%;" columnClasses="columnLeft, columnRight">
-						<h:outputText value="#{siteBean.advertisement.userAccount.firstName}"/>
+						<h:outputText value="#{bargas:getFirstName(siteBean.advertisement.userAccount)}"/>
 						<h:commandLink value="#{msg.userAccountViewPublicProfile}" action="#{siteBean.loadUserAccountConsult}">
 							<f:setPropertyActionListener target="#{siteBean.userAccount}" value="#{siteBean.advertisement.userAccount}"/>
 						</h:commandLink>
@@ -88,19 +88,19 @@
 				<h:panelGroup layout="block" class="advertisementDetails">
 					<h:outputText value="#{siteBean.advertisement.userAccount.city.name}"/>
 					<h:outputText value=" - " />
-					<h:outputText value="#{siteBean.advertisement.userAccount.state.name}"/>
+					<h:outputText value="#{siteBean.advertisement.userAccount.city.state.name}"/>
 				</h:panelGroup>
 				
 				<!-- listExchangeBy -->
 				<bargas:outputText id="listExchangeBy" 
 					value="#{msg.advertisementListExchangeBy}" 
 					styleClass="advertisementDetailHeader" 
-					rendered="#{bargas:isStringOk(siteBean.advertisement.listExchangeBy)}"/>
+					rendered="#{bargas:isStringOk(siteBean.advertisement.exchangeBy)}"/>
 				<h:panelGroup layout="block" 
 					class="advertisementDetails" 
-					rendered="#{bargas:isStringOk(siteBean.advertisement.listExchangeBy)}">
+					rendered="#{bargas:isStringOk(siteBean.advertisement.exchangeBy)}">
 					
-					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.listExchangeBy)}" escape="false"/>
+					<h:outputText value="#{bargas:textToHtml(siteBean.advertisement.exchangeBy)}" escape="false"/>
 				</h:panelGroup>
 				
 				<!-- value -->
@@ -120,6 +120,6 @@
 		</h:panelGrid>
 		
 		<t:saveState value="#{siteBean.advertisement}"/>
-		<t:saveState value="#{siteBean.advertisementPicture}"/>
+		<t:saveState value="#{siteBean.idAux}"/>
 	</ui:define>
 </ui:composition>

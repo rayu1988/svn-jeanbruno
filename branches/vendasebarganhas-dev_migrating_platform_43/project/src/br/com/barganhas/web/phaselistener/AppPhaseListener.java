@@ -15,7 +15,7 @@ public class AppPhaseListener implements PhaseListener {
 		FacesContext context = phaseEvent.getFacesContext();
 		if (context.getViewRoot() == null) {
 			try {
-				context.getExternalContext().redirect("/xhtml/exceptions/expiredException.jsf");
+				context.getExternalContext().redirect(context.getExternalContext().getRequestContextPath() + "/xhtml/exceptions/expiredException.jsf");
 				context.responseComplete();
 			} catch (IOException e) {
 				e.printStackTrace();

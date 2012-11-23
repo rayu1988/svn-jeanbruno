@@ -90,8 +90,8 @@ public class AdvertisementTypeBean extends AppManagedBean {
 
 	public String delete() {
 		try {
-			AdvertisementType service = this.getServiceBusinessFactory().getAdvertisementType();
-			service.delete(this.advertisementType);
+			this.advertisementType = this.service.load(new AdvertisementTypeTO(this.advertisementType.getId()));
+			this.service.delete(this.advertisementType);
 			
 			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();

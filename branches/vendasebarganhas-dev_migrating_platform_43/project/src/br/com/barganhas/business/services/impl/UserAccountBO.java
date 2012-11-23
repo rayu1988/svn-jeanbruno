@@ -87,9 +87,9 @@ public class UserAccountBO implements UserAccount {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public UserAccountTO save(UserAccountTO userAccount) {
-		UserAccountTO syncronized = this.consult(userAccount);
 		if (!GeneralsHelper.isStringOk(userAccount.getPassword())) {
-			userAccount.setPassword(syncronized.getPassword());
+			UserAccountTO synchronizedObj = this.persistencyLayer.getSincronizedPassword(userAccount);
+			userAccount.setPassword(synchronizedObj.getPassword());
 		}
 		
 		this.beforePersist(userAccount);
