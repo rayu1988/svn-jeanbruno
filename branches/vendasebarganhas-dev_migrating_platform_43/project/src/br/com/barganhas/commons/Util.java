@@ -6,9 +6,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +23,6 @@ import org.com.tatu.helper.HtmlHelper;
 import org.imgscalr.Scalr;
 
 import br.com.barganhas.business.entities.UserAccountTO;
-import br.com.barganhas.business.entities.UserTO;
 import br.com.barganhas.business.entities.management.TransferObject;
 import br.com.barganhas.business.exceptions.AppException;
 
@@ -144,5 +146,9 @@ public final class Util {
 	
 	public static String getFirstName(UserAccountTO user) {
 		return user.getFullname().split(" ")[0];
+	}
+	
+	public static <T extends TransferObject> List<T> getListAsSet(Set<T> set) {
+		return new ArrayList<T>(set);
 	}
 }

@@ -77,6 +77,12 @@ public class AppHibernateDAO extends HibernateDaoSupport {
 		return query;
 	}
 	
+	public Query createQueryTransform(String hql, boolean up) {
+		Query query = this.getSession().createQuery(hql);
+		query.setResultTransformer(new AppHbnResultTransformer(hql, up));
+		return query;
+	}
+	
 	public Query createQueryTransform(String hql, Class<? extends TransferObject> clazz, String strCut) {
 		Query query = this.getSession().createQuery(hql);
 		query.setResultTransformer(new AppHbnResultTransformer(hql, clazz, strCut, false));

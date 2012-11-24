@@ -175,6 +175,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" , SHEET_PICTURE.id, SHEET_PICTURE_THUMB.id, SHEET_PICTURE_PIC.id ");
 		hql.append(" , USER_ACCOUNT.id, USER_ACCOUNT.fullname, USER_ACCOUNT.nickname ");
 		hql.append(" , CITY.id, CITY.name, STATE.id, STATE.name, STATE.acronym ");
+		hql.append(" , PICTURES.id, THUMBNAILS.id");
 		hql.append(" from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
 		hql.append(" left join SHEET_PICTURE.thumbnail SHEET_PICTURE_THUMB ");
@@ -182,10 +183,12 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
 		hql.append(" left join USER_ACCOUNT.city CITY ");
 		hql.append(" left join CITY.state STATE ");
-//		hql.append(" join ADVERTISEMENT.listAdvertisementPictures PICTURES ");
+		hql.append(" left join ADVERTISEMENT.listAdvertisementPictures LIST_PICTURES ");
+		hql.append(" left join LIST_PICTURES.picture PICTURES ");
+		hql.append(" left join LIST_PICTURES.thumbnail THUMBNAILS ");
 		hql.append(" where ADVERTISEMENT = ").append(advertisement.getId());
 		
-		return (AdvertisementTO) this.getHibernateDao().createQueryTransform(hql.toString()).uniqueResult();
+		return (AdvertisementTO) this.getHibernateDao().createQueryTransform(hql.toString(), true).uniqueResult();
 	}
 	
 	public void delete(AdvertisementTO advertisement) {

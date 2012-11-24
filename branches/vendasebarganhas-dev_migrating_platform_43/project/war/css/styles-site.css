@@ -939,11 +939,17 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	background: url("../images/animated/litle-circle-loader.gif") no-repeat center center;
 	text-align: center;
 }
+#advertisementBoxThumbnails {
+	margin-top: 40px;
+}
 .advertisementPictureThumbnail {
 	width: 110px;
 	height: 83px;
 	display: inline;
 	margin-right: 10px;
+}
+.advertisementPictureThumbnail img {
+	cursor: pointer;
 }
 .advertisementDetailMainHeader {
 	border: 2px solid #256CAC;

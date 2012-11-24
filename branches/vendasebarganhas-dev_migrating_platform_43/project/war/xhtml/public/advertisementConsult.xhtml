@@ -20,24 +20,20 @@
 		
 		<h:panelGrid columns="2" columnClasses="columnTop, advertisementDetailColumnTop">
 			<h:panelGrid>
-				<h:panelGroup id="advertisementMainPicture" layout="block">
-					<h:graphicImage value="/fileserver?q=#{siteBean.advertisement.sheetPicture.picture.id}"/>
+				<h:panelGroup layout="block">
+					<h:graphicImage id="advertisementMainPicture" value="/fileserver?q=#{siteBean.advertisement.sheetPicture.picture.id}"/>
 				</h:panelGroup>
 				
 				<h:panelGroup id="advertisementBoxThumbnails" layout="block">
 					<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
-						<a4j:commandLink render="advertisementMainPicture" execute="@this" onbegin="popupLoading(true);" oncomplete="popupLoading(false);">
-							<h:graphicImage value="/fileserver?q=#{siteBean.advertisement.sheetPicture.thumbnail.id}"/>
-							<f:setPropertyActionListener value="#{siteBean.advertisement.sheetPicture.picture.id}" target="#{siteBean.idAux}"/>
-						</a4j:commandLink>
+						<h:graphicImage value="/fileserver?q=#{siteBean.advertisement.sheetPicture.thumbnail.id}"
+							onclick="changeSrcImage('advertisementMainPicture', '#{request.contextPath}/fileserver?q=#{siteBean.advertisement.sheetPicture.picture.id}');"/>
 					</h:panelGroup>
 					
-					<ui:repeat var="advertisementPicture" value="#{siteBean.advertisement.listAdvertisementPictures}">
+					<ui:repeat var="advertisementPicture" value="#{bargas:getListAsSet(siteBean.advertisement.listAdvertisementPictures)}">
 						<h:panelGroup styleClass="advertisementPictureThumbnail" layout="block">
-							<a4j:commandLink render="advertisementMainPicture" execute="@this" onbegin="popupLoading(true);" oncomplete="popupLoading(false);">
-								<h:graphicImage value="/fileserver?q=#{advertisementPicture.thumbnail.id}"/>
-								<f:setPropertyActionListener value="#{advertisementPicture.picture.id}" target="#{siteBean.idAux}"/>
-							</a4j:commandLink>
+							<h:graphicImage value="/fileserver?q=#{advertisementPicture.thumbnail.id}"
+								onclick="changeSrcImage('advertisementMainPicture', '#{request.contextPath}/fileserver?q=#{advertisementPicture.picture.id}');"/>
 						</h:panelGroup>
 					</ui:repeat>
 				</h:panelGroup>
@@ -120,6 +116,5 @@
 		</h:panelGrid>
 		
 		<t:saveState value="#{siteBean.advertisement}"/>
-		<t:saveState value="#{siteBean.idAux}"/>
 	</ui:define>
 </ui:composition>

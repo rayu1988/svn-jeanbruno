@@ -37,6 +37,11 @@
     	<function-name>getFirstName</function-name>
     	<function-signature>java.lang.String getFirstName(br.com.barganhas.business.entities.UserAccountTO)</function-signature>
     </function>
+    <function>
+    	<function-class>br.com.barganhas.commons.Util</function-class>
+    	<function-name>getListAsSet</function-name>
+    	<function-signature>java.util.List getListAsSet(java.util.Set)</function-signature>
+    </function>
     <!-- ends functions -->
     
     <!-- start tags -->
