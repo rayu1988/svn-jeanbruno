@@ -30,6 +30,9 @@ function lessThan(value, comparator) {
 	return value < comparator;
 }
 
+function changeSrcImage(idImg, newSrc) {
+	$j("#" + idImg).attr("src", newSrc);
+}
 
 /** Original:  Ronnie T. Moore
  * Web Site:  The JavaScript Source
