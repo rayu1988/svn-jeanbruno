@@ -1,0 +1,20 @@
+<project name="vendasebarganhas" default="build-war" basedir=".">
+	
+	<tstamp>
+		<format property="day" pattern="yyyyMMdd.HHmm"/>
+	</tstamp>
+	
+	<property name="vendasebarganhas-project" value="../vendasebarganhas" />
+	<property name="vendasebarganhas-web-home" value="${vendasebarganhas-project}/war" />
+	<property name="vendasebarganhas-dist" value="${vendasebarganhas-project}/dist" />
+	<property name="vendasebarganhas-war" value="vendasebarganhas.${day}.war" />
+	
+	<target name="build-war" description="Criating the war file">
+									
+		<mkdir dir="${vendasebarganhas-dist}"/>
+								
+	    <zip destfile="${vendasebarganhas-dist}/${vendasebarganhas-war}">
+			<zipfileset dir="${vendasebarganhas-web-home}" />
+	    </zip>
+	</target>
+</project>
