@@ -19,8 +19,8 @@ public class SearchingRequest {
 	private String				text;
 	private CityTO				city;
 	private CategoryTO			category;
-	private Double				filterCurrencyFrom;
-	private Double				filterCurrencyUpTo;
+	private String				filterCurrencyFrom;
+	private String				filterCurrencyUpTo;
 	private SearchOrdering		searchOrdering;
 	private Integer				totalItensPerPage;
 	private Integer				currentPage;
@@ -38,16 +38,16 @@ public class SearchingRequest {
 	public void setCategory(CategoryTO category) {
 		this.category = category;
 	}
-	public Double getFilterCurrencyFrom() {
+	public String getFilterCurrencyFrom() {
 		return filterCurrencyFrom;
 	}
-	public Double getFilterCurrencyUpTo() {
+	public String getFilterCurrencyUpTo() {
 		return filterCurrencyUpTo;
 	}
-	public void setFilterCurrencyFrom(Double filterCurrencyFrom) {
+	public void setFilterCurrencyFrom(String filterCurrencyFrom) {
 		this.filterCurrencyFrom = filterCurrencyFrom;
 	}
-	public void setFilterCurrencyUpTo(Double filterCurrencyUpTo) {
+	public void setFilterCurrencyUpTo(String filterCurrencyUpTo) {
 		this.filterCurrencyUpTo = filterCurrencyUpTo;
 	}
 	public SearchOrdering getSearchOrdering() {

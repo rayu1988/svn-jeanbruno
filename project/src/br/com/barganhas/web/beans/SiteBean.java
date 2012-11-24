@@ -44,8 +44,8 @@ public class SiteBean extends AppManagedBean {
 	private CategoryTO							categoryFilter;
 	private List<CityTO>						listFilterCity;
 	private CityTO								cityFilter;
-	private Double								filterCurrencyFrom;
-	private Double								filterCurrencyUpTo;
+	private String								filterCurrencyFrom;
+	private String								filterCurrencyUpTo;
 	private List<SelectItem>					listItensPerPage;
 	private Integer								totalItensPerPage = 10;
 	private List<Integer>						listPageNumbers; 
@@ -90,9 +90,7 @@ public class SiteBean extends AppManagedBean {
 	 */
 	public String loadUserAccountConsult() {
 		try {
-			UserAccount service = this.getServiceBusinessFactory().getUserAccount();
-			this.userAccount = service.consult(this.userAccount);
-
+			this.userAccount = this.service.load(new UserAccountTO(this.userAccount.getId()));
 			
 			Advertisement serviceAdvertisement = this.getServiceBusinessFactory().getAdvertisement();
 			this.userAccountLastAdvertisements = serviceAdvertisement.userAccountLastAdvertisements(this.userAccount);
@@ -269,19 +267,19 @@ public class SiteBean extends AppManagedBean {
 		this.categoryFilter = categoryFilter;
 	}
 
-	public Double getFilterCurrencyFrom() {
+	public String getFilterCurrencyFrom() {
 		return filterCurrencyFrom;
 	}
 
-	public Double getFilterCurrencyUpTo() {
+	public String getFilterCurrencyUpTo() {
 		return filterCurrencyUpTo;
 	}
 
-	public void setFilterCurrencyFrom(Double filterCurrencyFrom) {
+	public void setFilterCurrencyFrom(String filterCurrencyFrom) {
 		this.filterCurrencyFrom = filterCurrencyFrom;
 	}
 
-	public void setFilterCurrencyUpTo(Double filterCurrencyUpTo) {
+	public void setFilterCurrencyUpTo(String filterCurrencyUpTo) {
 		this.filterCurrencyUpTo = filterCurrencyUpTo;
 	}
 

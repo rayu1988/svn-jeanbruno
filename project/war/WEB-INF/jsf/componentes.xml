@@ -12,8 +12,12 @@
 	
 	<!-- converters -->
 	<converter>
-		<converter-id>ConverterCurrencyReal</converter-id>
-		<converter-class>br.com.barganhas.web.converters.ConverterCurrencyReal</converter-class>
+		<converter-id>ConverterDoubleCurrencyReal</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterDoubleCurrencyReal</converter-class>
+	</converter>
+	<converter>
+		<converter-id>ConverterStringCurrencyReal</converter-id>
+		<converter-class>br.com.barganhas.web.converters.ConverterStringCurrencyReal</converter-class>
 	</converter>
 	<converter>
 		<converter-id>ConverterUserAccountStatus</converter-id>

@@ -74,7 +74,7 @@
 						<ul>
 							<ui:repeat var="city" value="#{siteBean.listFilterCity}">
 								<li>
-									<h:commandLink value="#{city.name} - #{city.state.name}" action="#{siteBean.search}" onclick="popupLoading(true);">
+									<h:commandLink value="#{city.name} - #{city.state.acronym}" action="#{siteBean.search}" onclick="popupLoading(true);">
 										<f:setPropertyActionListener target="#{siteBean.cityFilter}" value="#{city}"/>
 										<f:setPropertyActionListener target="#{siteBean.currentPage}" value="1"/>
 									</h:commandLink>
@@ -92,11 +92,11 @@
 					
 					<h:panelGrid columns="2">
 						<h:outputLabel value="#{msg.msgFrom} #{msg.msgRealCurrency} " for="filterCurrencyFrom" style="font-size: 13px;"/>
-						<bargas:inputCurrencyConverted id="filterCurrencyFrom" converterId="ConverterCurrencyReal"
+						<bargas:inputCurrencyConverted id="filterCurrencyFrom" converterId="ConverterStringCurrencyReal"
 							maxlength="12" value="#{siteBean.filterCurrencyFrom}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:outputLabel value="#{msg.msgUpTo} #{msg.msgRealCurrency} " for="filterCurrencyUpTo" style="font-size: 13px;"/>
-						<bargas:inputCurrencyConverted id="filterCurrencyUpTo" converterId="ConverterCurrencyReal"
+						<bargas:inputCurrencyConverted id="filterCurrencyUpTo" converterId="ConverterStringCurrencyReal"
 							maxlength="12" value="#{siteBean.filterCurrencyUpTo}" styleClass="currencyFilter" allowZero="false"/>
 						
 						<h:column />
@@ -202,7 +202,7 @@
 									<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}">
 										<h:outputText value="#{msg.msgRealCurrency} "/>
 										<h:outputText value="#{advertisement.value}">
-											<f:converter converterId="ConverterCurrencyReal"/>
+											<f:converter converterId="ConverterDoubleCurrencyReal"/>
 										</h:outputText>
 									</a>
 								</p>

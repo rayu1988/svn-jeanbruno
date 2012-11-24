@@ -25,7 +25,7 @@
 							<a href="#{request.contextPath}/xhtml/public/advertisementConsult.jsf?q=#{advertisement.id}">
 								<h:outputText value="#{msg.msgRealCurrency} "/>
 								<h:outputText value="#{advertisement.value}">
-									<f:converter converterId="ConverterCurrencyReal"/>
+									<f:converter converterId="ConverterDoubleCurrencyReal"/>
 								</h:outputText>
 							</a>
 						</p>

@@ -7,7 +7,7 @@ import javax.faces.convert.ConverterException;
 
 import org.com.tatu.helper.GeneralsHelper;
 
-public class ConverterCurrencyReal implements Converter {
+public class ConverterStringCurrencyReal implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
@@ -18,20 +18,23 @@ public class ConverterCurrencyReal implements Converter {
 		// e.g. 2.873,93 -> 2873.93
 		// e.g. 2.873,20 -> 2873.2
 		// e.g. 2.873,00 -> 2873.0
-		value = value.replace(".", "").replace(",", ".");
-		return new Double(value);
+		return value.replace(".", "").replace(",", ".");
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) throws ConverterException {
+		String stringValue = "";
 		if (value == null) {
 			return "";
+		} else if (value instanceof String) {
+			stringValue = (String) value;
+			if (!GeneralsHelper.isStringOk(stringValue))
+				return "";
 		}
 		
 		// e.g. 2873.93 -> 2.873,93
 		// e.g. 2873.2  -> 2.873,20
 		// e.g. 2873.0  -> 2.873,00
-		String stringValue = ((Double)value).toString();
 		stringValue = formatDecimal(stringValue);
 		stringValue = formatThousands(stringValue);
 		

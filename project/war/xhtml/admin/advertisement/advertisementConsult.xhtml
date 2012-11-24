@@ -39,7 +39,7 @@
 			<!-- value -->
 			<h:outputLabel value="#{msg.privateAreaCurrencyValue} ( #{msg.privateAreaCurrencySymbolReal} ):" for="currencyValue" />
 			<h:outputText id="currencyValue" value="#{advertisementBean.advertisement.value}">
-				<f:converter converterId="ConverterCurrencyReal"/>
+				<f:converter converterId="ConverterDoubleCurrencyReal"/>
 			</h:outputText>
 			
 			<!-- list exchange by -->
