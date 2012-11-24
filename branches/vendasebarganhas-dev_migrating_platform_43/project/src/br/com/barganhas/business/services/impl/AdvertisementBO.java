@@ -131,6 +131,7 @@ public class AdvertisementBO implements Advertisement {
 		
 		// start getting advertisement
 		searchingResponse.setListAdvertisement(this.persistencyLayer.listEntitiesPublicSearch(searchingRequest));
+		searchingResponse.setTotalCriteriaSize(this.persistencyLayer.countPublicSearch(searchingRequest).intValue());
 		if (searchingRequest.getCategory() == null) {
 			searchingResponse.setListCategory(this.serviceCategory.listFiter(searchingRequest));
 		}

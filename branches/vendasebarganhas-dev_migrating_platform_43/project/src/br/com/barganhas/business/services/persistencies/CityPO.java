@@ -1,13 +1,14 @@
 package br.com.barganhas.business.services.persistencies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.querylanguage.QLWhereClause;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CityTO;
 import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
@@ -28,31 +29,43 @@ public class CityPO extends AppPersistencyManagement {
 		return query.list();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<CityTO> listFiter(SearchingRequest searchingRequest) {
-		StringBuffer hql = new StringBuffer();
-		hql.append(" select distinct CITY.id, CITY.name, STATE.id, STATE.name, STATE.acronym from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" join ADVERTISEMENT.userAccount USER_ACCOUNT ");
-		hql.append(" join USER_ACCOUNT.city CITY ");
-		hql.append(" join CITY.state STATE ");
+		StringBuffer sql = new StringBuffer();
+		sql.append(" select distinct city.id_city, city.name, state.id_state, state.acronym from city ");
+		sql.append(" left join state on city.id_state = state.id_state ");
+		sql.append(" join user_account on city.id_city = user_account.id_city ");
+		sql.append(" join advertisement on user_account.id_user = advertisement.id_user_account ");
 		
 		QLWhereClause where = new QLWhereClause();
-		
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
-			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+			where.and(" advertisement.title like '%" + searchingRequest.getText() + "%' ");
 		}
-		if (searchingRequest.getFilterCurrencyFrom() != null) {
-			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
+			where.and(" advertisement.value >= " + searchingRequest.getFilterCurrencyFrom());
 		}
-		if (searchingRequest.getFilterCurrencyUpTo() != null) {
-			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
+			where.and(" advertisement.value <= " + searchingRequest.getFilterCurrencyUpTo());
 		}
 		if (searchingRequest.getCategory() != null) {
-			where.and(" ADVERTISEMENT.category = " + searchingRequest.getCategory().getId());
+			where.and(" advertisement.id_category = " + searchingRequest.getCategory().getId());
+		}
+		sql.append(where.toString());
+		
+		SQLQuery query = this.getHibernateDao().createSQLQuery(sql.toString());
+		List<CityTO> returning = new ArrayList<CityTO>();
+		for (Object result : query.list()) {
+			Object[] array = (Object[]) result;
+			CityTO city = new CityTO(((Number)array[0]).longValue());
+			city.setName((String) array[1]);
+			
+			StateTO state = new StateTO(((Number)array[2]).longValue());
+			state.setAcronym((String)array[3]);
+			
+			city.setState(state);
+			returning.add(city);
 		}
 		
-		Query query = this.getHibernateDao().createQueryTransform(hql.toString(), CityTO.class, "userAccount.city");
-		return query.list();
+		return returning;
 	}
 	
 	public CityTO consult(CityTO city) {

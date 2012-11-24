@@ -1,13 +1,14 @@
 package br.com.barganhas.business.services.persistencies;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.querylanguage.QLWhereClause;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import br.com.barganhas.business.entities.AdvertisementTO;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
 import br.com.barganhas.commons.SearchingRequest;
@@ -25,30 +26,39 @@ public class CategoryPO extends AppPersistencyManagement {
 		return query.list();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<CategoryTO> listFiter(SearchingRequest searchingRequest) {
-		StringBuffer hql = new StringBuffer();
-		hql.append(" select distinct CATEGORY.id, CATEGORY.name from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" join ADVERTISEMENT.category CATEGORY ");
-		hql.append(" join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+		StringBuffer sql = new StringBuffer();
+		sql.append(" select distinct category.id_category, category.name from category ");
+		sql.append(" join advertisement on category.id_category = advertisement.id_category ");
 		
 		QLWhereClause where = new QLWhereClause();
 		
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
-			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+			where.and(" advertisement.title like '%" + searchingRequest.getText() + "%' ");
 		}
-		if (searchingRequest.getFilterCurrencyFrom() != null) {
-			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
+			where.and(" advertisement.value >= " + searchingRequest.getFilterCurrencyFrom());
 		}
-		if (searchingRequest.getFilterCurrencyUpTo() != null) {
-			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
+			where.and(" advertisement.value <= " + searchingRequest.getFilterCurrencyUpTo());
 		}
 		if (searchingRequest.getCity() != null) {
-			where.and(" USER_ACCOUNT.city = " + searchingRequest.getCity().getId());
+			sql.append(" left join user_account on advertisement.id_user_account = user_account.id_user ");
+			where.and(" user_account.id_city = " + searchingRequest.getCity().getId());
 		}
 		
-		Query query = this.getHibernateDao().createQueryTransform(hql.toString(), CategoryTO.class, "category");
-		return query.list();
+		sql.append(where.toString());
+		
+		SQLQuery query = this.getHibernateDao().createSQLQuery(sql.toString());
+		List<CategoryTO> returning = new ArrayList<CategoryTO>();
+		for (Object result : query.list()) {
+			Object[] array = (Object[])result;
+			CategoryTO category = new CategoryTO(((Number)array[0]).longValue());
+			category.setName((String)array[1]);
+			returning.add(category);
+		}
+		
+		return returning;
 	}
 	
 	public CategoryTO insert(CategoryTO category) {

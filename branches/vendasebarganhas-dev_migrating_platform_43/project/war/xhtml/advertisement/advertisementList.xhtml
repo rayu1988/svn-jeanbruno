@@ -50,7 +50,7 @@
 					
 					<h:commandLink action="#{advertisementBean.consult}" >
 						<h:outputText value="#{advertisement.value}">
-							<f:converter converterId="ConverterCurrencyReal"/>
+							<f:converter converterId="ConverterDoubleCurrencyReal"/>
 						</h:outputText>
 						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
 					</h:commandLink>

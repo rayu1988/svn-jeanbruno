@@ -32,6 +32,34 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		return query.list();
 	}
 	
+	public Long countPublicSearch(SearchingRequest searchingRequest) {
+		StringBuffer hql = new StringBuffer();
+		hql.append(" select count(ADVERTISEMENT.id) ");
+		hql.append(" from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		
+		QLWhereClause where = new QLWhereClause();
+		where.and(" ADVERTISEMENT.status = " + AdvertisementStatus.ENABLED.ordinal());
+		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
+		}
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
+		}
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
+		}
+		if (searchingRequest.getCategory() != null) {
+			where.and(" ADVERTISEMENT.category = " + searchingRequest.getCategory().getId());
+		}
+		if (searchingRequest.getCity() != null) {
+			hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+			where.and(" USER_ACCOUNT.city = " + searchingRequest.getCity().getId());
+		}
+		hql.append(where.toString());
+		
+		return this.getHibernateDao().queryCount(hql.toString());
+	}
+	
 	/**
 	 * Method used in;
 	 * 		public search in the public site
@@ -43,38 +71,44 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	public List<AdvertisementTO> listEntitiesPublicSearch(SearchingRequest searchingRequest) {
 		StringBuffer hql = new StringBuffer();
 		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.description, ADVERTISEMENT.value, ADVERTISEMENT.exchangeBy ");
+		hql.append(" , THUMBNAIL.id ");
 		hql.append(" from ").append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
-		hql.append(" left join ADVERTISEMENT.advertisementType ADVERTISEMENT_TYPE ");
-		hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
+		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
+		hql.append(" left join SHEET_PICTURE.thumbnail THUMBNAIL ");
 		
 		QLWhereClause where = new QLWhereClause();
 		where.and(" ADVERTISEMENT.status = " + AdvertisementStatus.ENABLED.ordinal());
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
 			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
 		}
-		if (searchingRequest.getFilterCurrencyFrom() != null) {
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
 			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
 		}
-		if (searchingRequest.getFilterCurrencyUpTo() != null) {
+		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
 			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
 		}
 		if (searchingRequest.getCategory() != null) {
 			where.and(" ADVERTISEMENT.category = " + searchingRequest.getCategory().getId());
 		}
 		if (searchingRequest.getCity() != null) {
+			hql.append(" left join ADVERTISEMENT.userAccount USER_ACCOUNT ");
 			where.and(" USER_ACCOUNT.city = " + searchingRequest.getCity().getId());
 		}
-		hql.append(where.toString());
 		
+		String orderBy;
 		if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.MOST_RELEVANT)) {
-			hql.append(" order by ADVERTISEMENT_TYPE.score DESC ");
+			hql.append(" left join ADVERTISEMENT.advertisementType ADVERTISEMENT_TYPE ");
+			orderBy = " order by ADVERTISEMENT_TYPE.score DESC ";
 		} else {
 			if (searchingRequest.getSearchOrdering().equals(SearchingRequest.SearchOrdering.LOWER_PRICE)) {
-				hql.append(" order by ADVERTISEMENT.value ASC ");
+				orderBy = " order by ADVERTISEMENT.value ASC ";
 			} else {
-				hql.append(" order by ADVERTISEMENT.value DESC ");
+				orderBy = " order by ADVERTISEMENT.value DESC ";
 			}
 		}
+		
+		hql.append(where.toString()); // where
+		hql.append(orderBy); // order by
 		
 		int limit = searchingRequest.getTotalItensPerPage();
 		int offset = (searchingRequest.getCurrentPage() - 1) * limit;
@@ -143,8 +177,10 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> userAccountLastAdvertisements(UserAccountTO userAccount) {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status from ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status, THUMBNAIL.id from ");
 		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
+		hql.append(" left join ADVERTISEMENT.sheetPicture SHEET_PICTURE ");
+		hql.append(" left join SHEET_PICTURE.thumbnail THUMBNAIL ");
 		hql.append(" where ADVERTISEMENT.status = ").append(AdvertisementStatus.ENABLED.ordinal());
 		hql.append(" and ADVERTISEMENT.userAccount = ").append(userAccount.getId());
 		hql.append(" order by ADVERTISEMENT.id DESC ");
