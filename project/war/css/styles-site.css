@@ -933,7 +933,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	color: #C60;
 	margin-bottom: 0px;
 }
-#advertisementMainPicture {
+#wrapperAdvertisementMainPicture {
 	width: 588px;
 	height: 448px;
 	background: url("../images/animated/litle-circle-loader.gif") no-repeat center center;
