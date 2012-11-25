@@ -118,7 +118,7 @@ public class UserAccountPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<UserAccountTO> listHighlightedUsers() {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select count(id_advertisement) as aux, id_user_account from advertisement group by id_user_account order by aux DESC limit 4 ");
+		sql.append(" select count(id_advertisement) as aux, id_user_account from ADVERTISEMENT group by id_user_account order by aux DESC limit 4 ");
 		List<Long> selectedIds = new ArrayList<Long>();
 		for (Object result : this.getHibernateDao().createSQLQuery(sql.toString()).list()) {
 			Object[] ids = (Object[]) result;

@@ -31,23 +31,23 @@ public class CityPO extends AppPersistencyManagement {
 	
 	public List<CityTO> listFiter(SearchingRequest searchingRequest) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select distinct city.id_city, city.name, state.id_state, state.acronym from city ");
-		sql.append(" left join state on city.id_state = state.id_state ");
-		sql.append(" join user_account on city.id_city = user_account.id_city ");
-		sql.append(" join advertisement on user_account.id_user = advertisement.id_user_account ");
+		sql.append(" select distinct CITY.id_city, CITY.name, STATE.id_state, STATE.acronym from CITY ");
+		sql.append(" left join STATE on CITY.id_state = STATE.id_state ");
+		sql.append(" join USER_ACCOUNT on CITY.id_city = USER_ACCOUNT.id_city ");
+		sql.append(" join ADVERTISEMENT on USER_ACCOUNT.id_user = ADVERTISEMENT.id_user_account ");
 		
 		QLWhereClause where = new QLWhereClause();
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
-			where.and(" advertisement.title like '%" + searchingRequest.getText() + "%' ");
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
 		}
 		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
-			where.and(" advertisement.value >= " + searchingRequest.getFilterCurrencyFrom());
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
 		}
 		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
-			where.and(" advertisement.value <= " + searchingRequest.getFilterCurrencyUpTo());
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
 		}
 		if (searchingRequest.getCategory() != null) {
-			where.and(" advertisement.id_category = " + searchingRequest.getCategory().getId());
+			where.and(" ADVERTISEMENT.id_category = " + searchingRequest.getCategory().getId());
 		}
 		sql.append(where.toString());
 		
