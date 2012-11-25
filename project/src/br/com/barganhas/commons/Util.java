@@ -102,7 +102,26 @@ public final class Util {
 		
 		InputStream in = new ByteArrayInputStream(imageData);
 		BufferedImage bufferedOldImage = ImageIO.read(in);
-		BufferedImage bufferedNewImage = Scalr.resize(bufferedOldImage, maxWidth, maxHeight);
+		
+		int height = bufferedOldImage.getHeight();
+		int width = bufferedOldImage.getWidth();
+		boolean resize = false;
+		
+		if (width > maxWidth) {
+			resize = true;
+			height = (maxWidth * 100 / width) * height / 100;
+			width = maxWidth;
+		}
+		if (height > maxHeight) {
+			resize = true;
+			width = (maxHeight * 100 / height) * width / 100;
+			height = maxHeight;
+		}
+		
+		// if there's no resize to do, so just return the current image's array data
+		if (!resize) return imageData;
+		
+		BufferedImage bufferedNewImage = Scalr.resize(bufferedOldImage, width, height);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(bufferedNewImage, formatName, baos);
