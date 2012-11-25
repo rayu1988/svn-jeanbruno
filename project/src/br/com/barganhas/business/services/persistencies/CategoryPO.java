@@ -28,23 +28,23 @@ public class CategoryPO extends AppPersistencyManagement {
 	
 	public List<CategoryTO> listFiter(SearchingRequest searchingRequest) {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select distinct category.id_category, category.name from category ");
-		sql.append(" join advertisement on category.id_category = advertisement.id_category ");
+		sql.append(" select distinct CATEGORY.id_category, CATEGORY.name from CATEGORY ");
+		sql.append(" join ADVERTISEMENT on CATEGORY.id_category = ADVERTISEMENT.id_category ");
 		
 		QLWhereClause where = new QLWhereClause();
 		
 		if (GeneralsHelper.isStringOk(searchingRequest.getText())) {
-			where.and(" advertisement.title like '%" + searchingRequest.getText() + "%' ");
+			where.and(" ADVERTISEMENT.title like '%" + searchingRequest.getText() + "%' ");
 		}
 		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyFrom())) {
-			where.and(" advertisement.value >= " + searchingRequest.getFilterCurrencyFrom());
+			where.and(" ADVERTISEMENT.value >= " + searchingRequest.getFilterCurrencyFrom());
 		}
 		if (GeneralsHelper.isStringOk(searchingRequest.getFilterCurrencyUpTo())) {
-			where.and(" advertisement.value <= " + searchingRequest.getFilterCurrencyUpTo());
+			where.and(" ADVERTISEMENT.value <= " + searchingRequest.getFilterCurrencyUpTo());
 		}
 		if (searchingRequest.getCity() != null) {
-			sql.append(" left join user_account on advertisement.id_user_account = user_account.id_user ");
-			where.and(" user_account.id_city = " + searchingRequest.getCity().getId());
+			sql.append(" left join USER_ACCOUNT on ADVERTISEMENT.id_user_account = USER_ACCOUNT.id_user ");
+			where.and(" USER_ACCOUNT.id_city = " + searchingRequest.getCity().getId());
 		}
 		
 		sql.append(where.toString());
