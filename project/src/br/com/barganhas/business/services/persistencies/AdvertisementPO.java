@@ -25,7 +25,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 	@SuppressWarnings("unchecked")
 	public List<AdvertisementTO> list() {
 		StringBuffer hql = new StringBuffer();
-		hql.append(" select ADVADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.statusERTISEMENT from ");
+		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.value, ADVERTISEMENT.status from ");
 		hql.append(AdvertisementTO.class.getName()).append(" ADVERTISEMENT ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
