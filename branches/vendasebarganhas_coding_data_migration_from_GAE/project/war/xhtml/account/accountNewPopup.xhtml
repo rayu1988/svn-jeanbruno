@@ -1,0 +1,171 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:rich="http://richfaces.org/rich"
+				xmlns:a4j="http://richfaces.org/a4j"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:t="http://myfaces.apache.org/tomahawk"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<rich:popupPanel id="accountNewPopupPanel"
+				styleClass="appStyle"
+				modal="true"
+				moveable="false"
+				autosized="true"
+				resizeable="false">
+				
+		<f:facet name="controls">
+			<div class="closeModal" onclick="closePopup('accountNewPopupPanel');">
+			</div>
+		</f:facet>
+		
+		<h:form id="accountNewPopupForm" prependId="false">
+		
+			<h:panelGroup rendered="#{userAccountBean.returnMessage.inUse}" layout="block">
+				<h:panelGroup layout="block" styleClass="popupMessage #{userAccountBean.returnMessage.success ? 'popupSuccessMessage' : 'popupErrorMessage'}">
+					<ul>
+						<ui:repeat var="message" value="#{userAccountBean.returnMessage.messages}">
+							<li>#{message}</li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGrid columns="2" columnClasses="columnTop, columnTop">
+				
+				<!-- register your self -->
+				<h:panelGroup>
+					<h:outputText value="#{msg.registerYourSelf}" styleClass="headerPopupRegister"/>
+					<h:panelGrid styleClass="tableInputFormUserAccount" 
+							columns="2" 
+							columnClasses="columnLabelPopupRegister, columnInput">
+							
+						<!-- fullname -->
+						<h:outputLabel value="#{msg.privateAreaLoginName}:" for="userNamePopupForm"/>
+						<h:inputText id="userNamePopupForm" value="#{userAccountBean.userAccount.fullname}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+									
+						<!-- nickname -->
+						<h:outputLabel value="#{msg.privateAreaLoginUser}:" for="userNicknamePopupForm"/>
+						<h:inputText id="userNicknamePopupForm" value="#{userAccountBean.userAccount.nickname}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+						
+						<!-- state -->
+						<h:outputLabel value="#{msg.stateTitle}:" for="userAccountStatePopupForm"/>
+						<h:selectOneMenu id="userAccountStatePopupForm" value="#{userAccountBean.selectedState}"
+							 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter" disabled="#{userAccountBean.returnMessage.success}">
+							
+							<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+							<f:selectItems value="#{userAccountBean.listStates}" />
+							
+							<a4j:ajax event="change" listener="#{userAccountBean.prepareListCities}"
+								execute="@this" render="userAccountCityPopupForm" onbeforesubmit="popupLoading(true);" oncomplete="popupLoading(false);"/>
+						</h:selectOneMenu>
+						
+						<!-- city -->
+						<h:outputLabel value="#{msg.cityTitle}:" for="userAccountCityPopupForm"/>
+						<h:selectOneMenu id="userAccountCityPopupForm" value="#{userAccountBean.selectedCity}"
+							 styleClass="inputMainForm mediumInputuMainFormSelectMenu" converter="omnifaces.SelectItemsConverter"
+							 disabled="#{userAccountBean.returnMessage.success}">
+							
+							<f:selectItem itemLabel="#{msg.msgSelect}" itemValue=" " noSelectionOption="true"/>
+							<f:selectItems value="#{userAccountBean.listCities}" />
+						</h:selectOneMenu>
+						
+						<!-- email -->
+						<h:outputLabel value="#{msg.privateAreaLoginEmail}:" for="userEmailPopupForm"/>
+						<h:inputText id="userEmailPopupForm" value="#{userAccountBean.userAccount.email}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+						
+						<!-- confirm email -->
+						<h:outputLabel value="#{msg.privateAreaLoginConfirmEmail}:" for="userConfirmEmailPopupForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+						<h:inputText id="userConfirmEmailPopupForm" value="#{userAccountBean.confirmEmail}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+									
+						<!-- password -->
+						<h:outputLabel value="#{msg.privateAreaLoginPassword}:" for="userPasswordPopupForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+						<h:inputSecret id="userPasswordPopupForm" value="#{userAccountBean.userAccount.password}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+						
+						<!-- confirm password -->
+						<h:outputLabel value="#{msg.privateAreaLoginConfirmPassword}:" for="userConfirmPasswordPopupForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+						<h:inputSecret id="userConfirmPasswordPopupForm" value="#{userAccountBean.confirmPassword}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									rendered="#{not userAccountBean.returnMessage.success}"/>
+									
+					</h:panelGrid>
+				</h:panelGroup>
+			
+				<!-- contacts data -->
+				<h:panelGroup>
+					<h:outputText value="#{msg.registerContactsData}" styleClass="headerPopupRegister"/>
+					<h:panelGrid styleClass="tableInputFormUserAccount" 
+							columns="2"
+							columnClasses="columnLabelPopupRegister, columnInput">
+							
+						<!-- contact phone number 1 -->
+						<h:outputLabel value="#{msg.userAccountContactPhoneNumberOne}:" for="userContactPhoneNumberOnePopupForm"/>
+						<h:inputText id="userContactPhoneNumberOnePopupForm" value="#{userAccountBean.userAccount.contactPhoneNumberOne}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+	
+						<!-- contact phone number 2 -->
+						<h:outputLabel value="#{msg.userAccountContactPhoneNumberTwo}:" for="userContactPhoneNumberTwoPopupForm"/>
+						<h:inputText id="userContactPhoneNumberTwoPopupForm" value="#{userAccountBean.userAccount.contactPhoneNumberTwo}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+	
+						<!-- contact email -->
+						<h:outputLabel value="#{msg.userAccountContactMail}:" for="userContactEmailPopupForm"/>
+						<h:inputText id="userContactEmailPopupForm" value="#{userAccountBean.userAccount.contactEmail}"
+									maxlength="50"
+									styleClass="inputMainForm mediumInputMainForm"
+									disabled="#{userAccountBean.returnMessage.success}"/>
+					</h:panelGrid>
+				</h:panelGroup>
+				
+			</h:panelGrid>
+			
+			<h:panelGroup layout="block" style="margin-top: 30px; text-align: center;">
+				<a4j:commandButton
+							execute="@form" 
+							value="#{msg.applyRegistering}"
+							styleClass="customButton2 buttonMainForm"
+							actionListener="#{userAccountBean.registerUser}" 
+							immediate="false"
+							render="accountNewPopupForm"
+							rendered="#{not userAccountBean.returnMessage.success}"
+							onclick="popupLoading(true);" oncomplete="popupLoading(false);"/>
+
+				<a4j:commandButton execute="@none" 
+							value="Fechar"
+							styleClass="customButton2 buttonMainForm"
+							onclick="closePopup('accountNewPopupPanel');"
+							immediate="true"/>
+			</h:panelGroup>
+			
+			<t:saveState value="#{userAccountBean.returnMessage}"/>
+			<t:saveState value="#{userAccountBean.userAccount}"/>
+			<t:saveState value="#{userAccountBean.listStates}"/>
+			<t:saveState value="#{userAccountBean.selectedState}"/>
+			<t:saveState value="#{userAccountBean.listCities}"/>
+			<t:saveState value="#{userAccountBean.selectedCity}"/>
+		</h:form>
+	</rich:popupPanel>
+</ui:composition>

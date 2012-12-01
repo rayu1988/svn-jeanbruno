@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:t="http://myfaces.apache.org/tomahawk"
+		xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<!-- title -->
+		<h:outputLabel value="#{msg.useTermTitle}:" for="title"/>
+		<h:inputText id="title" value="#{useTermBean.useTerm.title}" maxlength="50" styleClass="inputMainForm mediumInputMainForm"/>
+
+		<h:column />
+		<h:panelGrid columns="2">
+			<h:commandButton value="#{msg.buttonFind}" styleClass="customButton buttonMainForm" action="#{useTermBean.filter}" immediate="false" />
+			<h:commandButton value="#{msg.buttonClear}" styleClass="customButton buttonMainForm" action="#{useTermBean.list}" immediate="true" />
+		</h:panelGrid>
+	</h:panelGrid>
+
+	<t:saveState value="#{useTermBean.useTerm}"/>
+</ui:composition>

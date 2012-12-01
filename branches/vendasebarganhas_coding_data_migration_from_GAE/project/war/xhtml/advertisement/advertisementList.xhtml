@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/accountbase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionList}"/>
+	</ui:define>
+	
+	<ui:define name="userAccountContent">
+		<h:panelGroup layout="block" styleClass="userAccountPanelList">
+			<rich:dataTable id="listAdvertisements"
+							styleClass="tableFormList"
+							style="border-bottom: 0; border-top: 0;"
+							rendered="true"
+							rows="#{advertisementBean.dataModel.itensPerPage}"
+							rowClasses="rowOdd, rowEven"
+							value="#{advertisementBean.dataModel}"
+							var="advertisement">
+				
+				<!-- actions -->
+				<rich:column styleClass="columnListActions">
+					<bargas:commandListEdit id="editAdvertisement" targetProperty="advertisement" backingBean="#{advertisementBean}"
+							action="edit" propertyFrom="#{advertisement}"/>
+					<bargas:commandListDelete id="deleteAdvertisement" targetProperty="advertisement" backingBean="#{advertisementBean}"
+							action="delete" propertyFrom="#{advertisement}"/>
+				</rich:column>
+				
+				<!-- title -->
+				<rich:column >
+					<f:facet name="header">
+						<h:outputText value="#{msg.privateAreaTitle}"/>
+					</f:facet>
+					
+					<h:commandLink action="#{advertisementBean.consult}" >
+						<h:outputText value="#{advertisement.title}"/>
+						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
+					</h:commandLink>
+				</rich:column>
+				
+				<!-- value -->
+				<rich:column >
+					<f:facet name="header">
+						<h:outputText value="#{msg.privateAreaCurrencyValue}"/>
+					</f:facet>
+					
+					<h:commandLink action="#{advertisementBean.consult}" >
+						<h:outputText value="#{advertisement.value}">
+							<f:converter converterId="ConverterCurrencyReal"/>
+						</h:outputText>
+						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
+					</h:commandLink>
+				</rich:column>
+				
+				<!-- status -->
+				<rich:column >
+					<f:facet name="header">
+						<h:outputText value="#{msg.msgStatus}"/>
+					</f:facet>
+					
+					<h:commandLink action="#{advertisementBean.consult}" >
+						<h:outputText value="#{advertisement.status}">
+							<f:converter converterId="ConverterAdvertisementStatus"/>
+						</h:outputText>
+						<f:setPropertyActionListener value="#{advertisement}" target="#{advertisementBean.advertisement}"/>
+					</h:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</h:panelGroup>
+		
+		<t:saveState value="#{advertisementBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.prepareNewStepOne}" immediate="true" />
+	</ui:define>
+	
+</ui:composition>

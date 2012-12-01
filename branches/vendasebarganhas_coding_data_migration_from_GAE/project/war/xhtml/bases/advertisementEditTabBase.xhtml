@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/advertisementNewBase.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountHeader">
+		<h:outputText value="#{msg.userAccountMyAdvertisements} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionEdit}"/>
+	</ui:define>
+	
+	<!-- defining the scope of advertisementNewBase -->
+	<ui:define name="advertisementFormBody">
+		
+		<h:panelGroup styleClass="boxUserAccountForm boxAdvertisementGroupTabs" layout="block">
+			<h:panelGrid columns="2">
+				<h:commandLink value="#{msg.advertisementTabData}"
+					action="#{advertisementBean.editTabData}"
+					styleClass="#{advertisementBean.selectedTab eq 'dataTab' ? 'boxAdvertisementGroupTabsSelected' : 'boxAdvertisementGroupTabsUnselected'}"
+					onclick="popupLoading(true);"/>
+				<h:commandLink value="#{msg.advertisementTabImages}"
+					action="#{advertisementBean.editTabPictures}"
+					styleClass="#{advertisementBean.selectedTab eq 'picturesTab' ? 'boxAdvertisementGroupTabsSelected' : 'boxAdvertisementGroupTabsUnselected'}"
+					onclick="popupLoading(true);"/>
+			</h:panelGrid>
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="boxUserAccountForm boxUserAccountFormInputs" layout="block">
+			<h:panelGrid styleClass="tableInputFormUserAccount" columns="2" columnClasses="columnLabel, columnInput">
+				
+				<ui:insert name="tabFormContent"/>
+			
+			</h:panelGrid>
+		</h:panelGroup>
+		
+		<t:saveState value="#{advertisementBean.listCategories}"/>
+	</ui:define>
+
+
+	<!-- defining the scope of accountbase -->
+	<ui:define name="accountBottomButtons">
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.save}" immediate="false" />
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton2 buttonMainForm" action="#{advertisementBean.consult}" immediate="false"/>
+	</ui:define>
+	
+</ui:composition>

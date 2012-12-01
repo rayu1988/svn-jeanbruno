@@ -1,0 +1,21 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:t="http://myfaces.apache.org/tomahawk">
+				
+	<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		<!-- title -->
+		<h:outputLabel value="#{msg.privateAreaTitle}:" for="title"/>
+		<h:inputText id="title" value="#{salesBean.sales.title}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<!-- description -->
+		<h:outputLabel value="#{msg.privateAreaDescription}:" for="description"/>
+		<h:inputText id="description" value="#{salesBean.sales.description}" maxlength="50" styleClass="inputMainForm bigInputMainForm"/>
+		
+		<!-- salesCode -->
+		<h:outputLabel value="#{msg.privateAreaSalesCode}:" for="salesCode"/>
+		<h:inputText id="salesCode" value="#{salesBean.sales.salesCode}" maxlength="50" styleClass="inputMainForm mediumInputMainForm" readonly="true"/>
+	</h:panelGrid>
+
+	<t:saveState value="#{salesBean.sales}"/>
+</ui:composition>

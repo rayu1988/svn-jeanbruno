@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<h:panelGroup id="popup-loading" layout="block">
+		<h:outputStylesheet>
+			#popup-loading {
+				display: none;
+			}
+		
+			.popup-loading-box-shadow {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: #D0D0D0;
+				opacity: .5;
+				z-index: 9999;
+			}
+			
+			.popup-loading-content {
+				width: 250px;
+				height: 100px;
+				padding: 0px 30px;
+				
+				background-color: #FFF;
+				z-index: 9999;
+				position: fixed;
+				
+				border: 2px solid #C60;
+				border-radius: 10px;
+			}
+			
+			.popup-loading-content-text {
+				color: #256CAC;
+				font-weight: bold;
+				margin-left: 10px;
+				font-size: 20px;
+			}
+		</h:outputStylesheet>
+	
+		<h:outputScript>
+			function popupLoading(show) {
+				try {
+					if (show) {
+						var windowHeight = $j(window).height();
+						var windowWidth = $j(window).width();
+		
+						$j('#popup-loading-box').css({'top': (windowHeight/2 - 50), 'left' : (windowWidth/2 - 100)});
+						$j('#popup-loading').css({'display': 'block'});
+					} else {
+						$j('#popup-loading').css({'display': 'none'});
+					}
+				} catch(e) {
+					alert(e);
+				}
+			}
+		</h:outputScript>
+	
+		<h:panelGroup styleClass="popup-loading-box-shadow" layout="block">
+	   	</h:panelGroup>
+		<h:panelGrid id="popup-loading-box" styleClass="popup-loading-content" columns="2" cellpadding="2" cellspacing="2">
+			<h:graphicImage value="#{request.contextPath}/images/animated/enginer-loader.gif"/>
+			<h:outputText value="#{msg.msgLoading}" styleClass="popup-loading-content-text"/>
+		</h:panelGrid>
+	</h:panelGroup>
+	
+</ui:composition>
