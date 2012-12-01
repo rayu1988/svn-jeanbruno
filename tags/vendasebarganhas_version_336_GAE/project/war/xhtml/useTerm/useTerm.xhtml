@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/bases/base.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:bargas="http://barganhas.com.br/barganhas">
+	
+	<ui:define name="bodyNavigation">
+		<h1>#{useTermBean.useTerm.title}</h1>
+		
+		<h:outputText value="#{bargas:textToHtml(useTermBean.useTerm.stringText)}" escape="false"/>
+		
+		<t:saveState value="#{useTermBean.useTerm}"/>
+	</ui:define>
+</ui:composition>
