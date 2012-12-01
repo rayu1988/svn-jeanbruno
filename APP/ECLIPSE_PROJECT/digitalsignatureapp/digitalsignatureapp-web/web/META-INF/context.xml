@@ -1,3 +1,0 @@
-<Context docBase="digitalsignatureapp-web" path="/digitalsignatureapp-web" reloadable="false">
-	<Loader delegate="true"/>
-</Context>
