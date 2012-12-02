@@ -3,9 +3,8 @@ package br.com.barganhas.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.com.tatu.cypher.Base64;
 
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
 import br.com.barganhas.business.entities.AdvertisementTO;
@@ -16,13 +15,14 @@ import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
 @SuppressWarnings("serial")
 public class ExportingAdvertisementServlet extends ExportingServlet {
 	
-	protected void printEntity(HttpServletResponse resp) throws IOException {
+	protected void printEntity(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		this.setHeaders(resp, this.getClass());
 		
 		PrintWriter out = resp.getWriter();
@@ -33,8 +33,9 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 					"count_view, description, exchange_by, is_new_product, since_date, status, title, value, id_advertisement_type, " +
 					"id_category, id_sales, id_sheet_picture, id_use_term, id_user_account");
 			
+			Integer startFrom = Integer.parseInt(req.getParameter("from"));
 			//print body
-			for (AdvertisementTO to : service.list()) {
+			for (AdvertisementTO to : service.list(startFrom)) {
 				AdvertisementTypeTO advertisementType = ServiceBusinessFactory.getInstance().getAdvertisementType().consult(new AdvertisementTypeTO(to.getKeyAdvertisementType()));
 				CategoryTO category = ServiceBusinessFactory.getInstance().getCategory().consult(new CategoryTO(to.getKeyCategory()));
 				SalesTO sales = null;
@@ -48,16 +49,16 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 				out.println(
 					this.getLine(
 							to.getId().toString(),
-							Base64.encode(to.getContactEmail().getBytes()),
-							Base64.encode(to.getContactPhoneNumberOne().getBytes()),
-							Base64.encode(to.getContactPhoneNumberTwo().getBytes()),
+							Util.bytesToHex(to.getContactEmail().getBytes()),
+							Util.bytesToHex(to.getContactPhoneNumberOne().getBytes()),
+							Util.bytesToHex(to.getContactPhoneNumberTwo().getBytes()),
 							to.getCountView().toString(),
-							Base64.encode(to.getDescription().getBytes()),
-							Base64.encode(to.getListExchangeBy().getBytes()),
+							Util.bytesToHex(to.getDescription().getBytes()),
+							Util.bytesToHex(to.getListExchangeBy().getBytes()),
 							to.getIsNewProduct().toString(),
 							formater.format(to.getSinceDate()),
 							to.getStatus().toString(),
-							Base64.encode(to.getTitle().getBytes()),
+							Util.bytesToHex(to.getTitle().getBytes()),
 							to.getValue().toString(),
 							advertisementType.getId().toString(),
 							category.getId().toString(),

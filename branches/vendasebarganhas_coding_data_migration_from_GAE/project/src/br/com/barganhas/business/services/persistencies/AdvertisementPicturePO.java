@@ -17,8 +17,8 @@ import br.com.barganhas.commons.AnnotationUtils;
 @Repository
 public class AdvertisementPicturePO extends AppPersistency {
 
-	public List<AdvertisementPictureTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementPictureTO.class).asList(FetchOptions.Builder.withDefaults());
+	public List<AdvertisementPictureTO> list(Integer startFrom) {
+		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementPictureTO.class).asList(FetchOptions.Builder.withOffset(startFrom).limit(50));
 		
 		List<AdvertisementPictureTO> listReturn = new ArrayList<AdvertisementPictureTO>();
 		for (Entity entity : entities) {

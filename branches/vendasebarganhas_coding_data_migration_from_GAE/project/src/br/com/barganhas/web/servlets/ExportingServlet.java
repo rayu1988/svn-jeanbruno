@@ -38,14 +38,14 @@ public abstract class ExportingServlet extends HttpServlet {
 	}
 	
 	protected String getLine(String... properties) {
-		StringBuffer returning = new StringBuffer();
+		StringBuffer returning = new StringBuffer(" VALUES ");
 		
 		for (int i = 0; i < properties.length; i++) {
 			String value = properties[i];
 			if (value == null) {
-				returning.append("null");
+				returning.append("''");
 			} else {
-				returning.append(value);
+				returning.append("'" + value + "'");
 			}
 			
 			if ((i+1) < properties.length) {

@@ -13,6 +13,8 @@ public interface Advertisement {
 
 	List<AdvertisementTO> list();
 
+	List<AdvertisementTO> list(Integer startFrom);
+
 	List<AdvertisementTO> list(UserAccountTO userAccount);
 	
 	List<AdvertisementTO> myLastAdvertisements(UserAccountTO userAccount);

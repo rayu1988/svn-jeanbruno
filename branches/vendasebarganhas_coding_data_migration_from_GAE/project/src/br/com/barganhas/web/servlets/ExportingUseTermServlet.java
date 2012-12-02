@@ -5,11 +5,10 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.com.tatu.cypher.Base64;
-
 import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.business.services.UseTerm;
+import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
 public class ExportingUseTermServlet extends ExportingServlet {
@@ -28,8 +27,8 @@ public class ExportingUseTermServlet extends ExportingServlet {
 			out.println(
 				this.getLine(
 						to.getId().toString(),
-						Base64.encode(to.getTitle().getBytes()),
-						Base64.encode(to.getText().getValue().getBytes()),
+						Util.bytesToHex(to.getTitle().getBytes()),
+						Util.bytesToHex(to.getText().getValue().getBytes()),
 						to.getDefaultUseTerm().toString()
 				)
 			);

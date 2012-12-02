@@ -15,7 +15,7 @@ public interface AdvertisementPicture {
 	int 	MAX_WIDTH_PICTURE = 588;
 	int 	MAX_HEIGHT_PICTURE = 441;
 	
-	List<AdvertisementPictureTO> list();
+	List<AdvertisementPictureTO> list(Integer startFrom);
 	
 	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase);
 

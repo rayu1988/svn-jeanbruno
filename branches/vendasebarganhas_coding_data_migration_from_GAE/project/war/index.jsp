@@ -137,7 +137,11 @@
 			<tr>
 				<td>10</td>
 				<td>
-					<a href="exportingUserAccount">Exporting User Accounts</a>
+					<a href="exportingUserAccount?from=0">Exporting User Accounts (1-50)</a>
+					<br/>
+					<a href="exportingUserAccount?from=50">Exporting User Accounts (51-100)</a>
+					<br/>
+					<a href="exportingUserAccount?from=100">Exporting User Accounts (101-150)</a>
 				</td>
 				<td>
 					<a href="counterEntities?entity=10">count</a>
@@ -146,7 +150,17 @@
 			<tr>
 				<td>11</td>
 				<td>
-					<a href="exportingAdvertisementPicture">Exporting Advertisement Pictures</a>
+					<a href="exportingAdvertisementPicture?from=0">Exporting Advertisement Pictures (0-50)</a>
+					<br/>
+					<a href="exportingAdvertisementPicture?from=50">Exporting Advertisement Pictures (51-100)</a>
+					<br/>
+					<a href="exportingAdvertisementPicture?from=100">Exporting Advertisement Pictures (101-150)</a>
+					<br/>
+					<a href="exportingAdvertisementPicture?from=150">Exporting Advertisement Pictures (151-200)</a>
+					<br/>
+					<a href="exportingAdvertisementPicture?from=200">Exporting Advertisement Pictures (201-250)</a>
+					<br/>
+					<a href="exportingAdvertisementPicture?from=250">Exporting Advertisement Pictures (251-300)</a>
 				</td>
 				<td>
 					<a href="counterEntities?entity=11">count</a>
@@ -155,7 +169,11 @@
 			<tr>
 				<td>12</td>
 				<td>
-					<a href="exportingAdvertisement">Exporting Advertisements</a>
+					<a href="exportingAdvertisement?from=0">Exporting Advertisements (1-50)</a>
+					<br/>
+					<a href="exportingAdvertisement?from=50">Exporting Advertisements (51-100)</a>
+					<br/>
+					<a href="exportingAdvertisement?from=100">Exporting Advertisements (101-150)</a>
 				</td>
 				<td>
 					<a href="counterEntities?entity=12">count</a>

@@ -70,6 +70,21 @@ public class AdvertisementBO implements Advertisement {
 		} finally {
 			if (transaction.isActive()) {
 				transaction.rollback();
+			}
+		}
+	}
+	
+	@Override
+	public List<AdvertisementTO> list(Integer startFrom) {
+		Transaction transaction = this.persistencyLayer.beginTransaction();
+		try {
+			List<AdvertisementTO> listReturn = this.persistencyLayer.list(startFrom);
+			
+			transaction.commit();
+			return listReturn;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
 		    }
 		}
 	}
