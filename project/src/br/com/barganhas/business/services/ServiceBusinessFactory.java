@@ -15,6 +15,7 @@ import br.com.barganhas.business.services.impl.FileBO;
 import br.com.barganhas.business.services.impl.FileTempBO;
 import br.com.barganhas.business.services.impl.MailBO;
 import br.com.barganhas.business.services.impl.SalesBO;
+import br.com.barganhas.business.services.impl.ServiceBO;
 import br.com.barganhas.business.services.impl.StateBO;
 import br.com.barganhas.business.services.impl.UseTermBO;
 import br.com.barganhas.business.services.impl.UserAccountBO;
@@ -34,6 +35,10 @@ public class ServiceBusinessFactory implements Serializable {
 	
 	public void registerApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
+	}
+	
+	public Service getService() {
+		return (Service) this.applicationContext.getBean(ServiceBO.BEAN_ALIAS);
 	}
 	
 	public State getState() {

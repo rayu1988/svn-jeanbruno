@@ -14,16 +14,12 @@ public class RequestMessage implements Serializable {
 	
 	public RequestMessage(String textMessage, SeverityMessage severityMessage) {
 		Parameter.check(textMessage, severityMessage).notNull();
-		this.setTextMessage(textMessage);
 		this.setSeverityMessage(severityMessage);
 	}
 	
 	// GETTERS AND SETTERS //
 	public String getTextMessage() {
 		return textMessage;
-	}
-	public void setTextMessage(String textMessage) {
-		this.textMessage = Util.getMessageResourceString(textMessage);
 	}
 	public SeverityMessage getSeverityMessage() {
 		return severityMessage;

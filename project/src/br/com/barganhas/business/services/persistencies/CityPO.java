@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.barganhas.business.entities.CityTO;
-import br.com.barganhas.business.entities.StateTO;
 import br.com.barganhas.commons.AnnotationUtils;
 
 import com.google.appengine.api.datastore.Entity;
@@ -19,17 +18,13 @@ import com.google.appengine.api.datastore.Query;
 @Repository
 public class CityPO extends AppPersistency {
 
-	public List<CityTO> list(StateTO state) {
-		Query query = this.getQuery(CityTO.class);
-		query.setFilter(new Query.FilterPredicate("keyState", Query.FilterOperator.EQUAL, state.getKey()));
-		PreparedQuery preparedQuery = this.getDataStoreService().prepare(query);
-		List<Entity> entities = preparedQuery.asList(FetchOptions.Builder.withDefaults());
-		
+	public List<CityTO> list(Integer startFrom) {
+		List<Entity> entities = this.getSimplePreparedQuery(CityTO.class).asList(FetchOptions.Builder.withOffset(startFrom).limit(600));
 		List<CityTO> listReturn = new ArrayList<CityTO>();
 		for (Entity entity : entities) {
 			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(CityTO.class, entity));
 		}
-		
+
 		return listReturn;
 	}
 	

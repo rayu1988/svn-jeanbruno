@@ -26,10 +26,10 @@ public class CityBO implements City {
 	private State									serviceState;
 	
 	@Override
-	public List<CityTO> list(StateTO state) {
+	public List<CityTO> list(Integer startFrom) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			List<CityTO> list = this.persistencyLayer.list(state);
+			List<CityTO> list = this.persistencyLayer.list(startFrom);
 			transaction.commit();
 			return list;
 		} finally {
