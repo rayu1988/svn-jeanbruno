@@ -138,8 +138,8 @@ public class AdvertisementPictureBO implements AdvertisementPicture {
 	}
 
 	@Override
-	public List<AdvertisementPictureTO> list() {
-		return this.persistencyLayer.list();
+	public List<AdvertisementPictureTO> list(Integer startFrom) {
+		return this.persistencyLayer.list(startFrom);
 	}
 	
 }

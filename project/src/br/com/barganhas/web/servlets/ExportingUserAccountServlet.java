@@ -3,6 +3,7 @@ package br.com.barganhas.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.barganhas.business.entities.CityTO;
@@ -16,7 +17,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 @SuppressWarnings("serial")
 public class ExportingUserAccountServlet extends ExportingServlet {
 	
-	protected void printEntity(HttpServletResponse resp) throws IOException {
+	protected void printEntity(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		this.setHeaders(resp, this.getClass());
 		
 		PrintWriter out = resp.getWriter();
@@ -27,7 +28,8 @@ public class ExportingUserAccountServlet extends ExportingServlet {
 					" contact_phone_number_two, since_date, status, id_city, id_profile_image");
 		
 			//print body
-			for (UserAccountTO to : service.list()) {
+			Integer startFrom = Integer.parseInt(req.getParameter("from"));
+			for (UserAccountTO to : service.list(startFrom)) {
 				CityTO city = ServiceBusinessFactory.getInstance().getCity().consult(new CityTO(to.getKeyCity()));
 				
 				FileTO file = null;

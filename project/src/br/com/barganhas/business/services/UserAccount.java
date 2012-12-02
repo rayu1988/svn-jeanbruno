@@ -15,10 +15,8 @@ public interface UserAccount {
 	int 	MAX_WIDTH_IMG_PROFILE = 128;
 	int 	MAX_HEIGHT_IMG_PROFILE = 128;
 	
-	List<UserAccountTO> list();
+	List<UserAccountTO> list(Integer startFrom);
 
-	List<UserAccountTO> filter(UserAccountTO userAccount);
-	
 	UserAccountTO insert(UserAccountTO userAccount);
 	
 	UserAccountTO incrementCountAdvertisement(UserAccountTO userAccount) throws EntityNotFoundException;

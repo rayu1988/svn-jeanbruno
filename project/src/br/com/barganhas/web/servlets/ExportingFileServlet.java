@@ -6,11 +6,10 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.com.tatu.cypher.Base64;
-
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
 public class ExportingFileServlet extends ExportingServlet {
@@ -32,7 +31,7 @@ public class ExportingFileServlet extends ExportingServlet {
 						to.getId().toString(),
 						to.getContentType(),
 						to.getFileName(),
-						Base64.encode(to.getData().getBytes())
+						Util.bytesToHex(to.getData().getBytes())
 				)
 			);
 		}

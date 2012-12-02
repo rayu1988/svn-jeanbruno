@@ -25,13 +25,19 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 @Repository
 public class AdvertisementPO extends AppPersistency {
 
-	/**
-	 * Method used in;
-	 * 		admin List
-	 * @return
-	 */
 	public List<AdvertisementTO> list() {
 		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTO.class).asList(FetchOptions.Builder.withDefaults());
+		
+		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
+		for (Entity entity : entities) {
+			listReturn.add(AnnotationUtils.getTransferObjectFromEntity(AdvertisementTO.class, entity));
+		}
+		
+		return listReturn;
+	}
+	
+	public List<AdvertisementTO> list(Integer startFrom) {
+		List<Entity> entities = this.getSimplePreparedQuery(AdvertisementTO.class).asList(FetchOptions.Builder.withOffset(startFrom).limit(50));
 		
 		List<AdvertisementTO> listReturn = new ArrayList<AdvertisementTO>();
 		for (Entity entity : entities) {

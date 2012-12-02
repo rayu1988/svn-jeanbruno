@@ -53,25 +53,10 @@ public class UserAccountBO implements UserAccount {
 	private City									serviceCity;
 	
 	@Override
-	public List<UserAccountTO> list() {
+	public List<UserAccountTO> list(Integer startFrom) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			List<UserAccountTO> listReturn = this.persistencyLayer.list();
-			
-			transaction.commit();
-			return listReturn;
-		} finally {
-			if (transaction.isActive()) {
-				transaction.rollback();
-		    }
-		}
-	}
-	
-	@Override
-	public List<UserAccountTO> filter(UserAccountTO userAccount) {
-		Transaction transaction = this.persistencyLayer.beginTransaction();
-		try {
-			List<UserAccountTO> listReturn = this.persistencyLayer.filter(userAccount);
+			List<UserAccountTO> listReturn = this.persistencyLayer.list(startFrom);
 			
 			transaction.commit();
 			return listReturn;
