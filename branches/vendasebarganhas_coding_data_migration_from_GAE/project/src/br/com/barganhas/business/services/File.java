@@ -9,7 +9,7 @@ import br.com.barganhas.business.entities.TransferObject;
 
 public interface File {
 
-	List<FileTO> list();
+	List<FileTO> list(Integer startFrom);
 
 	FileTO insert(FileTO file);
 	

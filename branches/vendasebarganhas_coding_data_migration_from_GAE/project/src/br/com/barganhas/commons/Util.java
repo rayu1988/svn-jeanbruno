@@ -1,13 +1,8 @@
 package br.com.barganhas.commons;
 
-import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.faces.context.FacesContext;
 
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.HtmlHelper;
@@ -57,32 +52,6 @@ public final class Util {
 			loader = defaultObject.getClass().getClassLoader();
 		}
 		return loader;
-	}
-	
-	public static String getMessageResourceString(String key, Object... params) {
-		String text = null;
-		FacesContext context = FacesContext.getCurrentInstance();
-		String bundleName = context != null ? context.getApplication().getMessageBundle() : "messages";
-		Locale locale = getLocale(context);
-		ResourceBundle bundle = ResourceBundle.getBundle(bundleName, locale, getCurrentClassLoader(params));
-		try {
-			text = bundle.getString(key);
-		} catch (Exception e) {
-			text = key;
-		}
-		if (params != null) {
-			MessageFormat mf = new MessageFormat(text, locale);
-			text = mf.format(params, new StringBuffer(), null).toString();
-		}
-		return text;
-	}
-	
-	public static Locale getLocale(FacesContext context) {
-		if (context !=null && (context.getViewRoot() != null && context.getViewRoot().getLocale() != null)) {
-			return context.getViewRoot().getLocale();
-		} else {
-			return new Locale("pt", "pt_BR");
-		}
 	}
 	
 	public static Blob transformBlobImage(Blob baseImage, int maxHeight, int maxWidth) {

@@ -20,8 +20,8 @@ import com.google.appengine.api.datastore.Query;
 @Repository
 public class FilePO extends AppPersistency {
 
-	public List<FileTO> list() {
-		List<Entity> entities = this.getSimplePreparedQuery(FileTO.class).asList(FetchOptions.Builder.withDefaults());
+	public List<FileTO> list(Integer startFrom) {
+		List<Entity> entities = this.getSimplePreparedQuery(FileTO.class).asList(FetchOptions.Builder.withOffset(startFrom).limit(50));
 		
 		List<FileTO> listReturn = new ArrayList<FileTO>();
 		for (Entity entity : entities) {

@@ -22,10 +22,10 @@ public class FileBO implements File {
 	private FilePO									persistencyLayer;
 	
 	@Override
-	public List<FileTO> list() {
+	public List<FileTO> list(Integer startFrom) {
 		Transaction transaction = this.persistencyLayer.beginTransaction();
 		try {
-			List<FileTO> listReturn = this.persistencyLayer.list();
+			List<FileTO> listReturn = this.persistencyLayer.list(startFrom);
 			
 			transaction.commit();
 			return listReturn;

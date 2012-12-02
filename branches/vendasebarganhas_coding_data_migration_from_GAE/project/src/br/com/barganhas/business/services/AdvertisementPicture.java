@@ -1,5 +1,7 @@
 package br.com.barganhas.business.services;
 
+import java.util.List;
+
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
 import br.com.barganhas.business.entities.AdvertisementPictureTO;
@@ -12,6 +14,8 @@ public interface AdvertisementPicture {
 	int 	MAX_HEIGHT_THUMBNAIL = 83;
 	int 	MAX_WIDTH_PICTURE = 588;
 	int 	MAX_HEIGHT_PICTURE = 441;
+	
+	List<AdvertisementPictureTO> list();
 	
 	AdvertisementPictureTO newAdvertisementPicture(FileTO imageBase);
 

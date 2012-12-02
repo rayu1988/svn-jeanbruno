@@ -2,14 +2,13 @@ package br.com.barganhas.business.services;
 
 import java.util.List;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
-
 import br.com.barganhas.business.entities.CityTO;
-import br.com.barganhas.business.entities.StateTO;
+
+import com.google.appengine.api.datastore.EntityNotFoundException;
 
 public interface City {
 
-	List<CityTO> list(StateTO state);
+	List<CityTO> list(Integer startFrom);
 	
 	CityTO insert(CityTO state);
 
