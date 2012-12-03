@@ -83,7 +83,11 @@ public class FileHelper {
 	
 	private boolean isMapped(String str) {
 		for (String mapped : this.filePattern) {
-			if (mapped.equals(str)) return true;
+			if (str.equals(mapped)) return true;
+			if (mapped.startsWith("*")) {
+				mapped = mapped.substring(1);
+				return str.contains(mapped);
+			}
 		}
 		return false;
 	}
