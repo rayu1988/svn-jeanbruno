@@ -13,7 +13,7 @@ import br.com.barganhas.commons.Util;
 @SuppressWarnings("serial")
 public abstract class ExportingServlet extends HttpServlet {
 	
-	protected static final SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
+	protected static final SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -52,12 +52,16 @@ public abstract class ExportingServlet extends HttpServlet {
 			Object obj = properties[i];
 			String value;
 			if (obj == null) {
-				value = "''";
+				value = "null";
 			} else if (obj instanceof String) {
 				value = (String)obj;
+				value = value.replace("'", "");
 				value = "'" + value + "'";
 			} else if (obj instanceof UNHEX) {
 				value = ((UNHEX)obj).getUNHEXValue();
+			} else if (obj instanceof Boolean) {
+				Boolean b = (Boolean)obj;
+				value = b?"1":"0";
 			} else throw new IllegalStateException("unknow type.");
 			
 			returning.append(value);
