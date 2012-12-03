@@ -15,8 +15,6 @@ import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
-import br.com.barganhas.commons.UNHEX;
-import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
@@ -42,19 +40,23 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 				UseTermTO useTerm = ServiceBusinessFactory.getInstance().getUseTerm().consult(new UseTermTO(to.getKeyUseTerm()));
 				UserAccountTO userAccount = ServiceBusinessFactory.getInstance().getUserAccount().consult(new UserAccountTO(to.getKeyUserAccount()));
 				
+				String title = to.getTitle();
+				if (title.length() > 100) {
+					title = title.substring(0, 99);
+				}
 				out.println(
 					this.getInsertStatement(
 							to.getId().toString(),
-							new UNHEX(Util.bytesToHex(to.getContactEmail().getBytes())),
-							new UNHEX(Util.bytesToHex(to.getContactPhoneNumberOne().getBytes())),
-							new UNHEX(Util.bytesToHex(to.getContactPhoneNumberTwo().getBytes())),
+							to.getContactEmail(),
+							to.getContactPhoneNumberOne(),
+							to.getContactPhoneNumberTwo(),
 							to.getCountView().toString(),
-							new UNHEX(Util.bytesToHex(to.getDescription().getBytes())),
-							new UNHEX(Util.bytesToHex(to.getListExchangeBy().getBytes())),
-							to.getIsNewProduct().toString(),
+							to.getDescription(),
+							to.getListExchangeBy(),
+							to.getIsNewProduct(),
 							formater.format(to.getSinceDate()),
-							to.getStatus().toString(),
-							new UNHEX(Util.bytesToHex(to.getTitle().getBytes())),
+							"1",
+							title,
 							to.getValue().toString(),
 							advertisementType.getId().toString(),
 							category.getId().toString(),

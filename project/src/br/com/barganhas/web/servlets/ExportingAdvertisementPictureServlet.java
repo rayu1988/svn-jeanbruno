@@ -32,8 +32,8 @@ public class ExportingAdvertisementPictureServlet extends ExportingServlet {
 				out.println(
 					this.getInsertStatement(
 							to.getId().toString(),
-							thumbnail.getId().toString(),
-							picture.getId().toString()
+							picture.getId().toString(),
+							thumbnail.getId().toString()
 					)
 				);
 			}
