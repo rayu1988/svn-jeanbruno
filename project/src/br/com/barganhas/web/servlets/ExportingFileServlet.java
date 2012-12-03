@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.services.File;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.UNHEX;
 import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
@@ -19,22 +20,30 @@ public class ExportingFileServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		File service = ServiceBusinessFactory.getInstance().getFile();
-		out.println("id_file, content_type, file_name, data");
-		
 		//print body
 		Integer startFrom = Integer.parseInt(req.getParameter("from"));
 		for (FileTO to : service.list(startFrom)) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
+						"FileTO",
 						to.getId().toString(),
 						to.getContentType(),
 						to.getFileName(),
-						Util.bytesToHex(to.getData().getBytes())
+						new UNHEX(Util.bytesToHex(to.getData().getBytes()))
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "FILE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "DTYPE, id_file, content_type, file_name, since_date, data";
 	}
 	
 }

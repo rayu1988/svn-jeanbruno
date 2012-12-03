@@ -23,7 +23,6 @@ public class ExportingCityServlet extends ExportingServlet {
 		
 		//print header
 		City service = ServiceBusinessFactory.getInstance().getCity();
-		out.println("id_city, name, id_state");
 		
 		//print body
 		Integer startFrom = Integer.parseInt(req.getParameter("from"));
@@ -31,7 +30,7 @@ public class ExportingCityServlet extends ExportingServlet {
 			try {
 				StateTO state = ServiceBusinessFactory.getInstance().getState().consult(new StateTO(to.getKeyState()));
 				out.println(
-						this.getLine(
+						this.getInsertStatement(
 								to.getId().toString(),
 								to.getName(),
 								state.getId().toString()
@@ -41,6 +40,16 @@ public class ExportingCityServlet extends ExportingServlet {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "CITY";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_city, name, id_state";
 	}
 	
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.barganhas.business.entities.CategoryTO;
 import br.com.barganhas.business.services.Category;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.UNHEX;
 import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
@@ -18,20 +19,27 @@ public class ExportingCategoryServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		Category service = ServiceBusinessFactory.getInstance().getCategory();
-		out.println("id_category, description, name");
-		
 		//print body
 		for (CategoryTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
-						Util.bytesToHex(to.getDescription().getBytes()),
-						Util.bytesToHex(to.getName().getBytes())
+						new UNHEX(Util.bytesToHex(to.getDescription().getBytes())),
+						new UNHEX(Util.bytesToHex(to.getName().getBytes()))
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "CATEGORY";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_category, description, name";
 	}
 	
 }

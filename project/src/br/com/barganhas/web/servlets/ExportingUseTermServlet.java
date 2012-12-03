@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
 import br.com.barganhas.business.services.UseTerm;
+import br.com.barganhas.commons.UNHEX;
 import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
@@ -18,21 +19,28 @@ public class ExportingUseTermServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		UseTerm service = ServiceBusinessFactory.getInstance().getUseTerm();
-		out.println("id_use_term, title, text, is_default");
-		
 		//print body
 		for (UseTermTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
-						Util.bytesToHex(to.getTitle().getBytes()),
-						Util.bytesToHex(to.getText().getValue().getBytes()),
-						to.getDefaultUseTerm().toString()
+						to.getDefaultUseTerm().toString(),
+						new UNHEX(Util.bytesToHex(to.getText().getValue().getBytes())),
+						new UNHEX(Util.bytesToHex(to.getTitle().getBytes()))
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "USE_TERM";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_use_term, is_default, text, title";
 	}
 	
 }

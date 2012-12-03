@@ -17,14 +17,11 @@ public class ExportingAdministratorServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		Administrator service = ServiceBusinessFactory.getInstance().getAdministrator();
-		out.println("id_user, email, fullname, nickname, password");
-		
 		//print body
 		for (AdministratorTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
 						to.getEmail(),
 						to.getFullname(),
@@ -33,6 +30,16 @@ public class ExportingAdministratorServlet extends ExportingServlet {
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ADMINISTRATOR";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_user, email, fullname, nickname, password";
 	}
 	
 }
