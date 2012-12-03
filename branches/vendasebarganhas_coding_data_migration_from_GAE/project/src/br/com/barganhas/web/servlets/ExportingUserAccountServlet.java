@@ -22,11 +22,7 @@ public class ExportingUserAccountServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		try {
-			//print header
 			UserAccount service = ServiceBusinessFactory.getInstance().getUserAccount();
-			out.println("id_user, email, fullname, nickname, password, contact_email, contact_phone_number_one, " +
-					" contact_phone_number_two, since_date, status, id_city, id_profile_image");
-		
 			//print body
 			Integer startFrom = Integer.parseInt(req.getParameter("from"));
 			for (UserAccountTO to : service.list(startFrom)) {
@@ -38,7 +34,7 @@ public class ExportingUserAccountServlet extends ExportingServlet {
 				}
 				
 				out.println(
-					this.getLine(
+					this.getInsertStatement(
 							to.getId().toString(),
 							to.getEmail(),
 							to.getFullname(),
@@ -57,6 +53,17 @@ public class ExportingUserAccountServlet extends ExportingServlet {
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "USER_ACCOUNT";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_user, email, fullname, nickname, password, contact_email, contact_phone_number_one, " +
+				" contact_phone_number_two, since_date, status, id_city, id_profile_image";
 	}
 	
 }

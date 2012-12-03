@@ -15,6 +15,7 @@ import br.com.barganhas.business.entities.UseTermTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.services.Advertisement;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.UNHEX;
 import br.com.barganhas.commons.Util;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -27,12 +28,7 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		try {
-			//print header
 			Advertisement service = ServiceBusinessFactory.getInstance().getAdvertisement();
-			out.println("id_advertisement, contact_email, contact_phone_number_one, contact_phone_number_two, " +
-					"count_view, description, exchange_by, is_new_product, since_date, status, title, value, id_advertisement_type, " +
-					"id_category, id_sales, id_sheet_picture, id_use_term, id_user_account");
-			
 			Integer startFrom = Integer.parseInt(req.getParameter("from"));
 			//print body
 			for (AdvertisementTO to : service.list(startFrom)) {
@@ -47,18 +43,18 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 				UserAccountTO userAccount = ServiceBusinessFactory.getInstance().getUserAccount().consult(new UserAccountTO(to.getKeyUserAccount()));
 				
 				out.println(
-					this.getLine(
+					this.getInsertStatement(
 							to.getId().toString(),
-							Util.bytesToHex(to.getContactEmail().getBytes()),
-							Util.bytesToHex(to.getContactPhoneNumberOne().getBytes()),
-							Util.bytesToHex(to.getContactPhoneNumberTwo().getBytes()),
+							new UNHEX(Util.bytesToHex(to.getContactEmail().getBytes())),
+							new UNHEX(Util.bytesToHex(to.getContactPhoneNumberOne().getBytes())),
+							new UNHEX(Util.bytesToHex(to.getContactPhoneNumberTwo().getBytes())),
 							to.getCountView().toString(),
-							Util.bytesToHex(to.getDescription().getBytes()),
-							Util.bytesToHex(to.getListExchangeBy().getBytes()),
+							new UNHEX(Util.bytesToHex(to.getDescription().getBytes())),
+							new UNHEX(Util.bytesToHex(to.getListExchangeBy().getBytes())),
 							to.getIsNewProduct().toString(),
 							formater.format(to.getSinceDate()),
 							to.getStatus().toString(),
-							Util.bytesToHex(to.getTitle().getBytes()),
+							new UNHEX(Util.bytesToHex(to.getTitle().getBytes())),
 							to.getValue().toString(),
 							advertisementType.getId().toString(),
 							category.getId().toString(),
@@ -72,6 +68,18 @@ public class ExportingAdvertisementServlet extends ExportingServlet {
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ADVERTISEMENT";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_advertisement, contact_email, contact_phone_number_one, contact_phone_number_two, " +
+				"count_view, description, exchange_by, is_new_product, since_date, status, title, value, id_advertisement_type, " +
+				"id_category, id_sales, id_sheet_picture, id_use_term, id_user_account";
 	}
 	
 }

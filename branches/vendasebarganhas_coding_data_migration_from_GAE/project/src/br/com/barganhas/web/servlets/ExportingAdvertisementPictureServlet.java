@@ -21,19 +21,16 @@ public class ExportingAdvertisementPictureServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		try {
-			//print header
 			AdvertisementPicture service = ServiceBusinessFactory.getInstance().getAdvertisementPicture();
-			out.println("id_advertisement_picture, id_picture, id_thumbnail");
 			
 			Integer startFrom = Integer.parseInt(req.getParameter("from"));
 			//print body
 			for (AdvertisementPictureTO to : service.list(startFrom)) {
 				FileTO thumbnail = ServiceBusinessFactory.getInstance().getFile().consult(new FileTO(to.getKeyThumbnail()));
-				FileTO picture;
-					picture = ServiceBusinessFactory.getInstance().getFile().consult(new FileTO(to.getKeyPicture()));
+				FileTO picture = ServiceBusinessFactory.getInstance().getFile().consult(new FileTO(to.getKeyPicture()));
 				
 				out.println(
-					this.getLine(
+					this.getInsertStatement(
 							to.getId().toString(),
 							thumbnail.getId().toString(),
 							picture.getId().toString()
@@ -43,6 +40,16 @@ public class ExportingAdvertisementPictureServlet extends ExportingServlet {
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ADVERTISEMENT_PICTURE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_advertisement_picture, id_picture, id_thumbnail";
 	}
 	
 }

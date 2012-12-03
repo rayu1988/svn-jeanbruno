@@ -17,14 +17,11 @@ public class ExportingSalesServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		Sales service = ServiceBusinessFactory.getInstance().getSales();
-		out.println("id_sales, description, sales_code, title");
-		
 		//print body
 		for (SalesTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
 						to.getDescription(),
 						to.getSalesCode(),
@@ -32,6 +29,16 @@ public class ExportingSalesServlet extends ExportingServlet {
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "SALES";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_sales, description, sales_code, title";
 	}
 	
 }

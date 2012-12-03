@@ -17,20 +17,27 @@ public class ExportingStateServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		State service = ServiceBusinessFactory.getInstance().getState();
-		out.println("id_state, name, acronym");
-		
 		//print body
 		for (StateTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
 						to.getName(),
 						to.getAcronym()
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "STATE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_state, name, acronym";
 	}
 	
 }

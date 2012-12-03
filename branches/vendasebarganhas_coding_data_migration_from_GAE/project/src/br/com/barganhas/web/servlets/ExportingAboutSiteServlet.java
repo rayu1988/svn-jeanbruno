@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.barganhas.business.entities.AboutSiteTO;
 import br.com.barganhas.business.services.AboutSite;
 import br.com.barganhas.business.services.ServiceBusinessFactory;
+import br.com.barganhas.commons.UNHEX;
 import br.com.barganhas.commons.Util;
 
 @SuppressWarnings("serial")
@@ -18,21 +19,28 @@ public class ExportingAboutSiteServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		AboutSite service = ServiceBusinessFactory.getInstance().getAboutSite();
-		out.println("id_about_site, title, text, is_default");
-		
 		//print body
 		for (AboutSiteTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
-						Util.bytesToHex(to.getTitle().getBytes()),
-						Util.bytesToHex(to.getText().getValue().getBytes()),
-						to.getDefaultAboutSite().toString()
+						to.getDefaultAboutSite().toString(),
+						new UNHEX(Util.bytesToHex(to.getText().getValue().getBytes())),
+						new UNHEX(Util.bytesToHex(to.getTitle().getBytes()))
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ABOUT_SITE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_about_site, is_default, text, title";
 	}
 	
 }

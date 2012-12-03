@@ -17,14 +17,12 @@ public class ExportingAdvertisementTypeServlet extends ExportingServlet {
 		
 		PrintWriter out = resp.getWriter();
 		
-		//print header
 		AdvertisementType service = ServiceBusinessFactory.getInstance().getAdvertisementType();
-		out.println("id_advertisement_type, days_to_expire, description, score, title, total_pictures, value");
 		
 		//print body
 		for (AdvertisementTypeTO to : service.list()) {
 			out.println(
-				this.getLine(
+				this.getInsertStatement(
 						to.getId().toString(),
 						to.getDaysToExpire().toString(),
 						to.getDescription(),
@@ -35,6 +33,16 @@ public class ExportingAdvertisementTypeServlet extends ExportingServlet {
 				)
 			);
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ADVERTISEMENT_TYPE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_advertisement_type, days_to_expire, description, score, title, total_pictures, value";
 	}
 	
 }

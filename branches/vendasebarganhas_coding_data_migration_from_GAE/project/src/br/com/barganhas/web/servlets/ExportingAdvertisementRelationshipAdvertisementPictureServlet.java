@@ -22,28 +22,30 @@ public class ExportingAdvertisementRelationshipAdvertisementPictureServlet exten
 		
 		PrintWriter out = resp.getWriter();
 		try {
-			//print header
 			Advertisement service = ServiceBusinessFactory.getInstance().getAdvertisement();
-			out.println("id_advertisement, id_advertisement_picture");
-			
 			//print body
 			for (AdvertisementTO to : service.list()) {
 				if (Util.isCollectionOk(to.getPictures())) {
 					for (Key keyAdvertisementPicture : to.getPictures()) {
 						AdvertisementPictureTO picture = ServiceBusinessFactory.getInstance().getAdvertisementPicture().consult(new AdvertisementPictureTO(keyAdvertisementPicture));
 						
-						out.println(
-								this.getLine(
-										to.getId().toString(),
-										picture.getId().toString()
-										)
-								);
+						out.println("update ADVERTISEMENT_PICTURE set id_advertisement = " + to.getId() + " where id_advertisement_picture = " + picture.getId() + " ;");
 					}
 				}
 			}
 		} catch (EntityNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected String getTable() {
+		return "ADVERTISEMENT_PICTURE";
+	}
+
+	@Override
+	protected String getFields() {
+		return "id_advertisement, id_advertisement_picture";
 	}
 	
 }
