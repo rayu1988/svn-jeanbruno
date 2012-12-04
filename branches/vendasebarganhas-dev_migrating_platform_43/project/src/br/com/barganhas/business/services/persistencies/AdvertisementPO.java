@@ -208,6 +208,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		StringBuffer hql = new StringBuffer();
 		hql.append(" select ADVERTISEMENT.id, ADVERTISEMENT.title, ADVERTISEMENT.countView, ADVERTISEMENT.description, ADVERTISEMENT.isNewProduct ");
 		hql.append(" , ADVERTISEMENT.contactPhoneNumberOne, ADVERTISEMENT.contactPhoneNumberTwo, ADVERTISEMENT.contactEmail, ADVERTISEMENT.value ");
+		hql.append(" , ADVERTISEMENT.exchangeBy ");
 		hql.append(" , SHEET_PICTURE.id, SHEET_PICTURE_THUMB.id, SHEET_PICTURE_PIC.id ");
 		hql.append(" , USER_ACCOUNT.id, USER_ACCOUNT.fullname, USER_ACCOUNT.nickname ");
 		hql.append(" , CITY.id, CITY.name, STATE.id, STATE.name, STATE.acronym ");
