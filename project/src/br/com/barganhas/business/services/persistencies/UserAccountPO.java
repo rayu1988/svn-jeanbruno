@@ -3,12 +3,12 @@ package br.com.barganhas.business.services.persistencies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.com.tatu.helper.GeneralsHelper;
 import org.com.tatu.helper.querylanguage.QLWhereClause;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import br.com.barganhas.business.entities.FileTO;
 import br.com.barganhas.business.entities.UserAccountTO;
 import br.com.barganhas.business.exceptions.AppException;
 import br.com.barganhas.business.services.persistencies.management.AppPersistencyManagement;
@@ -115,26 +115,30 @@ public class UserAccountPO extends AppPersistencyManagement {
 		return userAccount;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<UserAccountTO> listHighlightedUsers() {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select count(id_advertisement) as aux, id_user_account from ADVERTISEMENT group by id_user_account order by aux DESC limit 4 ");
-		List<Long> selectedIds = new ArrayList<Long>();
-		for (Object result : this.getHibernateDao().createSQLQuery(sql.toString()).list()) {
-			Object[] ids = (Object[]) result;
-			selectedIds.add(((Number)ids[1]).longValue());
+		sql.append(" select user_account.id_user, user_account.id_profile_image, user.nickname from user_account ");
+		sql.append(" inner join user on user_account.id_user = user.id_user ");
+		sql.append(" inner join ");
+		sql.append(" ( ");
+		sql.append(" select count(id_advertisement) as aux, id_user_account as id_user from ADVERTISEMENT group by id_user_account order by aux DESC limit 4 ");
+		sql.append(" ) as highlighteds ");
+		sql.append(" on user_account.id_user = highlighteds.id_user ");
+		
+		List<UserAccountTO> userAccountList = new ArrayList<UserAccountTO>();
+		for (Object results : this.getHibernateDao().createSQLQuery(sql.toString()).list()) {
+			Object[] result = (Object[]) results;
+			
+			UserAccountTO userAccount = new UserAccountTO(((Number)result[0]).longValue());
+			if (result[1] != null) {
+				FileTO profileImage = new FileTO(((Number)result[1]).longValue());
+				userAccount.setProfileImage(profileImage);
+			}
+			userAccount.setNickname((String)result[2]);
+			
+			userAccountList.add(userAccount);
 		}
-		
-		StringBuffer hql = new StringBuffer();
-		hql.append(" select USER_ACCOUNT.id, USER_ACCOUNT.nickname, PROFILE_IMAGE.id from ");
-		hql.append(UserAccountTO.class.getName()).append(" USER_ACCOUNT ");
-		hql.append(" left join USER_ACCOUNT.profileImage PROFILE_IMAGE ");
-		hql.append(" where USER_ACCOUNT.id in (").append( StringUtils.join(selectedIds, ", ") ).append(")");
-		hql.append(" order by USER_ACCOUNT.id DESC ");
-		
-		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
-		
-		return query.list();
+		return userAccountList;
 	}
 	
 	public void lock(UserAccountTO userAccount) {
