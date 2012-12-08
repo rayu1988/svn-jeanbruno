@@ -155,7 +155,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" order by ADVERTISEMENT.id DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
-		query.setMaxResults(12);
+		query.setMaxResults(20);
 		return query.list();
 	}
 	
@@ -170,7 +170,7 @@ public class AdvertisementPO extends AppPersistencyManagement {
 		hql.append(" order by ADVERTISEMENT.countView DESC ");
 		
 		Query query = this.getHibernateDao().createQueryTransform(hql.toString());
-		query.setMaxResults(12);
+		query.setMaxResults(20);
 		return query.list();
 	}
 	

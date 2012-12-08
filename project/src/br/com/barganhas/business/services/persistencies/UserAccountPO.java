@@ -121,7 +121,7 @@ public class UserAccountPO extends AppPersistencyManagement {
 		sql.append(" inner join user on user_account.id_user = user.id_user ");
 		sql.append(" inner join ");
 		sql.append(" ( ");
-		sql.append(" select count(id_advertisement) as aux, id_user_account as id_user from ADVERTISEMENT group by id_user_account order by aux DESC limit 4 ");
+		sql.append(" select count(id_advertisement) as aux, id_user_account as id_user from ADVERTISEMENT group by id_user_account order by aux DESC limit 8 ");
 		sql.append(" ) as highlighteds ");
 		sql.append(" on user_account.id_user = highlighteds.id_user ");
 		

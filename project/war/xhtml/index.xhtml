@@ -54,8 +54,8 @@
 					
 					<h:panelGroup class="carrosel" layout="block">
 						
-						<h:panelGroup class="indexListItens" layout="block">
-							<ul>
+						<h:panelGroup class="indexListItens" layout="block" style="height: 340px; background-color: #F7F7F7;margin-left:0; padding-left: 20px;">
+							<ul style="width: auto;">
 								<ui:repeat var="user" value="#{siteBean.highlightedUsers}">
 									<li>
 										<h:commandLink action="#{siteBean.loadUserAccountConsult}">
