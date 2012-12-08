@@ -494,7 +494,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .indexListItens {
 	overflow: hidden;
-	height: 165px;
+	height: 175px;
 	position: relative;
 	margin-left: 30px;
 /* 	background-color: #FFFBAB; */
@@ -511,6 +511,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 	list-style-type: none;
 	display: inline;
 	width: 120px;
+	height: 150px;
 	position: relative;
 	float: left;
 	margin-left: 5px;
@@ -565,7 +566,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .carroselLeftArrow {
 	width: 30px;
-	height: 165px;
+	height: 175px;
 	position: absolute;
 	cursor: pointer;
 	background-color: #F0F0F0;
@@ -577,8 +578,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .carroselLeftArrow img {
 	position: absolute;
-	top: 72px;
-	left: 5px;
+	top: 80px;
+	left: 6px;
 }
 
 .carroselLeftArrow img:hover {
@@ -586,7 +587,7 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .carroselRightArrow {
 	width: 30px;
-	height: 165px;
+	height: 175px;
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -601,8 +602,8 @@ a .customButton2:hover, a .customButton2:focus, .customButton2:hover, .customBut
 
 .carroselRightArrow img {
 	position: absolute;
-	top: 72px;
-	right: 5px;
+	top: 80px;
+	right: 6px;
 }
 
 .carroselRightArrow img:hover {
