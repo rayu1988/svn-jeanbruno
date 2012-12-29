@@ -117,13 +117,13 @@ public class UserAccountPO extends AppPersistencyManagement {
 
 	public List<UserAccountTO> listHighlightedUsers() {
 		StringBuffer sql = new StringBuffer();
-		sql.append(" select user_account.id_user, user_account.id_profile_image, user.nickname from user_account ");
-		sql.append(" inner join user on user_account.id_user = user.id_user ");
+		sql.append(" select USER_ACCOUNT.id_user, USER_ACCOUNT.id_profile_image, USER.nickname from USER_ACCOUNT ");
+		sql.append(" inner join USER on USER_ACCOUNT.id_user = USER.id_user ");
 		sql.append(" inner join ");
 		sql.append(" ( ");
 		sql.append(" select count(id_advertisement) as aux, id_user_account as id_user from ADVERTISEMENT group by id_user_account order by aux DESC limit 8 ");
 		sql.append(" ) as highlighteds ");
-		sql.append(" on user_account.id_user = highlighteds.id_user ");
+		sql.append(" on USER_ACCOUNT.id_user = highlighteds.id_user ");
 		
 		List<UserAccountTO> userAccountList = new ArrayList<UserAccountTO>();
 		for (Object results : this.getHibernateDao().createSQLQuery(sql.toString()).list()) {
