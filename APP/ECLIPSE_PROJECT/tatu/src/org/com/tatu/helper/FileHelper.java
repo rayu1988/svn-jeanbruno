@@ -54,10 +54,20 @@ public class FileHelper {
 	 * Method to clean a directory.
 	 * Optionally the file base can be deleted too.
 	 * 
+	 * @param deleteBase
+	 */
+	public void cleanDirectory(boolean deleteBase) {
+		this.cleanDirectory(new File(this.rootDirectory), deleteBase);
+	}
+	
+	/**
+	 * Method to clean a directory.
+	 * Optionally the file base can be deleted too.
+	 * 
 	 * @param base
 	 * @param deleteBase
 	 */
-	public void cleanDirectory(File base, boolean deleteBase) {
+	private void cleanDirectory(File base, boolean deleteBase) {
 		if (base.isFile()) {
 			base.delete();
 		} else if (base.isDirectory()) {
