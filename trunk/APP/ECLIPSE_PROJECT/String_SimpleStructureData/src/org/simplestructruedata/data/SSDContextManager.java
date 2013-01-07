@@ -12,6 +12,7 @@ import org.simplestructruedata.entities.SSDObject;
 import org.simplestructruedata.entities.SSDObjectLeaf;
 import org.simplestructruedata.entities.SSDObjectNode;
 import org.simplestructruedata.entities.SSDSetCharacter;
+import org.simplestructruedata.exception.SSDException;
 
 /**
  * @author carrefour
@@ -32,11 +33,11 @@ public class SSDContextManager {
 		this.addToHeap(new SSDRootObject());
 	}
 	
-	public static SSDContextManager build(String dataBase) {
+	public static SSDContextManager build(String dataBase) throws SSDException {
 		dataBase = dataBase.trim();
 		
 		if (dataBase.charAt(0) != SSDDefaultConstants.OPENS_BRACES) {
-			throw new IllegalStateException("The string base must starts with:" + SSDDefaultConstants.OPENS_BRACES);
+			throw new SSDException("The string base must starts with:" + SSDDefaultConstants.OPENS_BRACES);
 		} else {
 			SSDContextManager ctx = new SSDContextManager();
 			
@@ -88,7 +89,7 @@ public class SSDContextManager {
 		return this.heap.get(this.currentReference-1);
 	}
 	
-	private void closeObject() {
+	private void closeObject() throws SSDException {
 		if (this.getCurrentObject() instanceof SSDRootObject) {
 			return;
 		}
@@ -96,12 +97,47 @@ public class SSDContextManager {
 		if (object instanceof SSDObjectNode) {
 			SSDObjectNode nodeObject = (SSDObjectNode) object;
 			nodeObject.addAttribute(this.getCurrentObject());
-		} else throw new IllegalStateException();
+		} else throw new SSDException("Invalid type to this point");
 		this.currentReference--;
 	}
 	
 	public SSDRootObject getRootObject() {
+		if (this.heap.size() > 1) {
+			int currentSize = this.heap.size();
+			for (int i = 1; i < currentSize; i++ ) {
+				this.heap.remove(currentSize - i);
+			}
+		}
 		return (SSDRootObject) this.heap.get(0);
 	}
 	
+	public String getAsString() throws SSDException {
+		return this.getAsString(this.getRootObject());
+	}
+	
+	private String getAsString(SSDObject object) throws SSDException {
+		StringBuffer returning = new StringBuffer();
+		if (!(object instanceof SSDRootObject)) {
+			returning.append(object.getIdentifier() + " = ");
+		}
+		if (object instanceof SSDObjectLeaf) {
+			returning.append("\"");
+			returning.append(SSDUtils.formatEscapes(((SSDObjectLeaf)object).getValue()));
+			returning.append("\"");
+		} else if (object instanceof SSDObjectNode || object instanceof SSDRootObject) {
+			returning.append("{");
+			List<SSDObject> attributes = new ArrayList<SSDObject>(((SSDObjectNode) object).getAttributes());
+			int attributeSize = attributes.size();
+			if (attributeSize > 0) {
+				for (int i = 0; i < attributeSize; i++) {
+					if (i > 0) {
+						returning.append(", ");
+					}
+					returning.append(this.getAsString(attributes.get(i)));
+				}
+			}
+			returning.append("}");
+		} else throw new SSDException("Invalid type to this point");
+		return returning.toString();
+	}
 }
