@@ -26,8 +26,9 @@ public class SSDObjectNode extends SSDObject {
 		this.attributes = new HashMap<String, SSDObject>();
 	}
 	
-	public void addAttribute(SSDObject ssdObject) {
+	public SSDObjectNode addAttribute(SSDObject ssdObject) {
 		this.attributes.put(ssdObject.getIdentifier(), ssdObject);
+		return this;
 	}
 	
 	public SSDObject get(String objectIdentifier) {
