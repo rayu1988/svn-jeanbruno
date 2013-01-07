@@ -33,6 +33,10 @@ public class SSDContextManager {
 		this.addToHeap(new SSDRootObject());
 	}
 	
+	public static SSDContextManager build() throws SSDException {
+		return build("{}");
+	}
+	
 	public static SSDContextManager build(String dataBase) throws SSDException {
 		dataBase = dataBase.trim();
 		

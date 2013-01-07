@@ -14,6 +14,11 @@ public class SSDObjectLeaf extends SSDObject {
 	public SSDObjectLeaf(String identifier) {
 		super(identifier);
 	}
+	
+	public SSDObjectLeaf(String identifier, String value) {
+		super(identifier);
+		this.value = value;
+	}
 
 	// GETTERS AND SETTERS //
 	public String getValue() {
