@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class SSDException extends Exception {
+public class SSDException extends RuntimeException {
 	
 	private static final long serialVersionUID = 2966485954767238164L;
 	

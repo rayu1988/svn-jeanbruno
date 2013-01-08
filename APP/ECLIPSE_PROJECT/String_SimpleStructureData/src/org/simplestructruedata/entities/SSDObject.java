@@ -3,9 +3,11 @@
  */
 package org.simplestructruedata.entities;
 
+import org.simplestructruedata.exception.SSDIllegalIdentifier;
+
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public abstract class SSDObject {
@@ -14,10 +16,11 @@ public abstract class SSDObject {
 	
 	
 	public SSDObject(String identifier) {
+		identifier = identifier.trim();
 		if (identifier ==  null || identifier.isEmpty()) {
-			throw new IllegalArgumentException("identifier argument can't be null or empty");
+			throw new SSDIllegalIdentifier("identifier argument can't be null or empty");
 		}
-		this.identifier = identifier.trim();
+		this.identifier = identifier;
 	}
 	
 	// GETTERS AND SETTERS //

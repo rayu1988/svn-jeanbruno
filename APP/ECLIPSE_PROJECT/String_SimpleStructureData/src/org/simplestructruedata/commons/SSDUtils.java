@@ -6,7 +6,7 @@ package org.simplestructruedata.commons;
 import org.simplestructruedata.entities.SSDSetCharacter;
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public class SSDUtils {
