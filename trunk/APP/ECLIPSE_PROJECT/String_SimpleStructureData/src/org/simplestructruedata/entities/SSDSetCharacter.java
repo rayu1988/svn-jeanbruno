@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public class SSDSetCharacter {
 
-	private List<Character> string = null;
+	private List<Character> string = new ArrayList<Character>();
 	
 	public SSDSetCharacter() {
-		this.clear();
 	}
 	
 	public void add(Character character) {
@@ -23,7 +22,7 @@ public class SSDSetCharacter {
 	}
 	
 	public void clear() {
-		this.string = new ArrayList<Character>();
+		this.string.clear();
 	}
 	
 	public String getString() {

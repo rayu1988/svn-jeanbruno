@@ -4,7 +4,7 @@
 package org.simplestructruedata.entities;
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public class SSDObjectLeaf extends SSDObject {

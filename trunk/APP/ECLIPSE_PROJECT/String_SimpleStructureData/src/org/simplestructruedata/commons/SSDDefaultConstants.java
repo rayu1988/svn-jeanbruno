@@ -4,7 +4,7 @@
 package org.simplestructruedata.commons;
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public interface SSDDefaultConstants {
@@ -13,6 +13,8 @@ public interface SSDDefaultConstants {
 	char					CLOSES_BRACES = '}';
 	char					QUOTATION_MARKS = '"';
 	char					COMMA = ',';
+	char					OPENS_BRACKETS = '[';
+	char					CLOSES_BRACKETS = ']';
 	char					ASSIGN = '=';
 	char					ESCAPE = '\\';
 	char					NEW_LINE = '\n';
@@ -23,6 +25,8 @@ public interface SSDDefaultConstants {
 	 * 										} (closes braces)
 	 * 										" (quotation marks)
 	 * 										, (comma)
+	 * 										[ (opens brackets)
+	 * 										] (closes brackets)
 	 * 
 	 * These are characters to escape: 		\\ (escape)
 	 * 										\n (new line)
@@ -30,9 +34,11 @@ public interface SSDDefaultConstants {
 	 */
 	char[]					RESERVED_CHARACTERS = new char[]{OPENS_BRACES,
 															CLOSES_BRACES, 
-															ASSIGN, 
 															QUOTATION_MARKS, 
 															COMMA,
+															OPENS_BRACKETS,
+															CLOSES_BRACKETS,
+															ASSIGN, 
 															ESCAPE, 
 															NEW_LINE, 
 															TAB};

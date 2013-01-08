@@ -9,13 +9,14 @@ import java.util.List;
 import org.simplestructruedata.commons.SSDDefaultConstants;
 import org.simplestructruedata.commons.SSDUtils;
 import org.simplestructruedata.entities.SSDObject;
+import org.simplestructruedata.entities.SSDObjectArray;
 import org.simplestructruedata.entities.SSDObjectLeaf;
 import org.simplestructruedata.entities.SSDObjectNode;
 import org.simplestructruedata.entities.SSDSetCharacter;
 import org.simplestructruedata.exception.SSDException;
 
 /**
- * @author carrefour
+ * @author Jean Villete
  *
  */
 public class SSDContextManager {
@@ -33,11 +34,11 @@ public class SSDContextManager {
 		this.addToHeap(new SSDRootObject());
 	}
 	
-	public static SSDContextManager build() throws SSDException {
+	public static SSDContextManager build() {
 		return build("{}");
 	}
 	
-	public static SSDContextManager build(String dataBase) throws SSDException {
+	public static SSDContextManager build(String dataBase) {
 		dataBase = dataBase.trim();
 		
 		if (dataBase.charAt(0) != SSDDefaultConstants.OPENS_BRACES) {
@@ -49,29 +50,55 @@ public class SSDContextManager {
 			for (int i = 1; i < dataBase.length(); i++) {
 				char currentChar = dataBase.charAt(i);
 				if (SSDUtils.isReservedCharacter(currentChar)) {
+					// special escapade character
 					if (currentChar == SSDDefaultConstants.ESCAPE) {
 						currentChar = dataBase.charAt(++i);
 						string.add(currentChar);
 						continue;
 					}
+					// special assignment or comma characters
 					if (currentChar == SSDDefaultConstants.ASSIGN || currentChar == SSDDefaultConstants.COMMA) {
 						currentChar = dataBase.charAt(++i);
 					}
+					// special opens or closes braces characters
 					if (currentChar == SSDDefaultConstants.OPENS_BRACES) {
-						ctx.addToHeap(new SSDObjectNode(string.getString()));
+						if (ctx.getCurrentObject() instanceof SSDObjectArray) {
+							SSDObjectArray objectArray = (SSDObjectArray)ctx.getCurrentObject();
+							ctx.addToHeap(new SSDObjectNode(objectArray.getNextIdentifier()));
+						} else {
+							ctx.addToHeap(new SSDObjectNode(string.getString()));
+						}
 						string.clear();
 						continue;
-					}
-					if (currentChar == SSDDefaultConstants.CLOSES_BRACES) {
+					} else if (currentChar == SSDDefaultConstants.CLOSES_BRACES) {
 						ctx.closeObject();
 						string.clear();
 						continue;
 					}
+					// special opens or closes brackets characters
+					if (currentChar == SSDDefaultConstants.OPENS_BRACKETS) {
+						if (ctx.getCurrentObject() instanceof SSDObjectArray) {
+							SSDObjectArray objectArray = (SSDObjectArray)ctx.getCurrentObject();
+							ctx.addToHeap(new SSDObjectArray(objectArray.getNextIdentifier()));
+						} else {
+							ctx.addToHeap(new SSDObjectArray(string.getString()));
+						}
+						string.clear();
+						continue;
+					} else if (currentChar == SSDDefaultConstants.CLOSES_BRACKETS) {
+						ctx.closeObject();
+						string.clear();
+						continue;
+					}
+					// special quotation marks character
 					if (currentChar == SSDDefaultConstants.QUOTATION_MARKS) {
 						if (ctx.getCurrentObject() instanceof SSDObjectLeaf) {
 							SSDObjectLeaf objectLeaf = (SSDObjectLeaf) ctx.getCurrentObject();
 							objectLeaf.setValue(string.getString());
 							ctx.closeObject();
+						} else if (ctx.getCurrentObject() instanceof SSDObjectArray) {
+							SSDObjectArray objectArray = (SSDObjectArray)ctx.getCurrentObject();
+							ctx.addToHeap(new SSDObjectLeaf(objectArray.getNextIdentifier()));
 						} else {
 							ctx.addToHeap(new SSDObjectLeaf(string.getString()));
 						}
@@ -93,14 +120,21 @@ public class SSDContextManager {
 		return this.heap.get(this.currentReference-1);
 	}
 	
-	private void closeObject() throws SSDException {
+	private SSDObject getAboveObject() {
+		return this.heap.get(this.currentReference-2);
+	}
+	
+	private void closeObject() {
 		if (this.getCurrentObject() instanceof SSDRootObject) {
 			return;
 		}
-		SSDObject object = this.heap.get(this.currentReference-2);
+		SSDObject object = this.getAboveObject();
 		if (object instanceof SSDObjectNode) {
 			SSDObjectNode nodeObject = (SSDObjectNode) object;
 			nodeObject.addAttribute(this.getCurrentObject());
+		} else if (object instanceof SSDObjectArray) {
+			SSDObjectArray objectArray = (SSDObjectArray) object;
+			objectArray.addElement(this.getCurrentObject());
 		} else throw new SSDException("Invalid type to this point");
 		this.currentReference--;
 	}
@@ -115,32 +149,47 @@ public class SSDContextManager {
 		return (SSDRootObject) this.heap.get(0);
 	}
 	
-	public String getAsString() throws SSDException {
-		return this.getAsString(this.getRootObject());
+	public String getAsString() {
+		return this.getAsString(this.getRootObject(), null);
 	}
 	
-	private String getAsString(SSDObject object) throws SSDException {
+	private String getAsString(SSDObject object, String identifier) {
 		StringBuffer returning = new StringBuffer();
-		if (!(object instanceof SSDRootObject)) {
+		if (identifier != null && !identifier.isEmpty()) {
 			returning.append(object.getIdentifier() + " = ");
 		}
+		
 		if (object instanceof SSDObjectLeaf) {
+			SSDObjectLeaf objectLeaf = (SSDObjectLeaf)object;
 			returning.append("\"");
-			returning.append(SSDUtils.formatEscapes(((SSDObjectLeaf)object).getValue()));
+			returning.append(SSDUtils.formatEscapes(objectLeaf.getValue()));
 			returning.append("\"");
-		} else if (object instanceof SSDObjectNode || object instanceof SSDRootObject) {
+		} else if (object instanceof SSDObjectNode) {
+			SSDObjectNode objectNode = (SSDObjectNode)object;
 			returning.append("{");
-			List<SSDObject> attributes = new ArrayList<SSDObject>(((SSDObjectNode) object).getAttributes());
+			List<SSDObject> attributes = new ArrayList<SSDObject>(objectNode.getAttributes());
 			int attributeSize = attributes.size();
 			if (attributeSize > 0) {
 				for (int i = 0; i < attributeSize; i++) {
 					if (i > 0) {
 						returning.append(", ");
 					}
-					returning.append(this.getAsString(attributes.get(i)));
+					SSDObject attribute = attributes.get(i);
+					returning.append(this.getAsString(attribute, attribute.getIdentifier()));
 				}
 			}
 			returning.append("}");
+		} else if (object instanceof SSDObjectArray) {
+			SSDObjectArray objectArray = (SSDObjectArray)object;
+			returning.append("[");
+			List<SSDObject> elements = objectArray.getElements();
+			for (int i = 0; i < elements.size(); i++ ) {
+				if (i > 0) {
+					returning.append(", ");
+				}
+				returning.append(this.getAsString(elements.get(i), null));
+			}
+			returning.append("]");
 		} else throw new SSDException("Invalid type to this point");
 		return returning.toString();
 	}
