@@ -3,6 +3,12 @@
  */
 package org.simplestructruedata.data;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +20,7 @@ import org.simplestructruedata.entities.SSDObjectLeaf;
 import org.simplestructruedata.entities.SSDObjectNode;
 import org.simplestructruedata.entities.SSDSetCharacter;
 import org.simplestructruedata.exception.SSDException;
+import org.simplestructruedata.exception.SSDIllegalArgument;
 
 /**
  * @author Jean Villete
@@ -38,9 +45,35 @@ public class SSDContextManager {
 		return build("{}");
 	}
 	
+	public static SSDContextManager build(File fileBase) {
+		if (fileBase == null || !fileBase.isFile()) {
+			throw new SSDIllegalArgument("the argument fileBase is null or is not a valid file");
+		}
+		try {
+			FileInputStream fis = new FileInputStream(fileBase);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+			StringBuffer string = new StringBuffer();
+			String reading = null;
+			while ((reading = br.readLine()) != null) {
+				string.append(reading);
+			}
+			fis.close();
+			isr.close();
+			br.close();
+			return build(string.toString());
+		} catch (FileNotFoundException e) {
+			throw new SSDException(e);
+		} catch (IOException e) {
+			throw new SSDException(e);
+		}
+	}
+	
 	public static SSDContextManager build(String dataBase) {
+		if (dataBase == null || dataBase.isEmpty()) {
+			throw new SSDIllegalArgument("the argument dataBase is null or is empty");
+		}
 		dataBase = dataBase.trim();
-		
 		if (dataBase.charAt(0) != SSDDefaultConstants.OPENS_BRACES) {
 			throw new SSDException("The string base must starts with:" + SSDDefaultConstants.OPENS_BRACES);
 		} else {
@@ -147,6 +180,11 @@ public class SSDContextManager {
 			}
 		}
 		return (SSDRootObject) this.heap.get(0);
+	}
+	
+	@Override
+	public String toString() {
+		return this.getAsString();
 	}
 	
 	public String getAsString() {
