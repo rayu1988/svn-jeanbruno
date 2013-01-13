@@ -10,7 +10,7 @@ import java.util.List;
 import org.com.tatu.helper.parameter.Parameter;
 
 /**
- * @author villjea
+ * @author Jean Bruno
  *
  */
 public class FileHelper {
@@ -102,4 +102,7 @@ public class FileHelper {
 		return false;
 	}
 	
+	public static String removeExtension(String fileName) {
+		return fileName.substring(0, fileName.lastIndexOf("."));
+	}
 }

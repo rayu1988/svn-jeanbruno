@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * 
- * @author villjea
+ * @author Jean Bruno
  *
  */
 public class HtmlHelper {

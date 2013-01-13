@@ -4,7 +4,7 @@ import java.util.Collection;
 
 /**
  * 
- * @author villjea
+ * @author Jean Bruno
  *
  */
 public class Parameter {
