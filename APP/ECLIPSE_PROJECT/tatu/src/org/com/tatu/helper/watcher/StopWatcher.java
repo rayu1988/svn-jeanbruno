@@ -4,7 +4,7 @@ import java.io.PrintStream;
 
 /**
  * 
- * @author villjea
+ * @author Jean Bruno
  *
  */
 public class StopWatcher {

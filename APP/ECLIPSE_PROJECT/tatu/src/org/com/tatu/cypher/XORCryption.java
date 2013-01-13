@@ -4,7 +4,7 @@ import org.com.tatu.helper.parameter.Parameter;
 
 /**
  * Got from: http://forum.x86labs.org/index.php?topic=6406.0
- * @author carrefour
+ * @author Jean Bruno
  *
  */
 public class XORCryption {
