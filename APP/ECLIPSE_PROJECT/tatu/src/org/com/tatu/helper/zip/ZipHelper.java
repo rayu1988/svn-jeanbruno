@@ -24,7 +24,7 @@ public class ZipHelper {
 	private File 							input;
 	private ZipOutputStream 				zipOutputStream;
 
-	protected ZipHelper(File input, File output) throws IOException {
+	public ZipHelper(File input, File output) throws IOException {
 		if (input == null) throw new IllegalArgumentException("argument input can not be null");
 		
 		this.input = input;
@@ -71,7 +71,7 @@ public class ZipHelper {
 		}
 	}
 	
-	protected void compress() throws IOException {
+	public void compress() throws IOException {
 		if (this.input.isFile()) {
 			this.writeOut(this.input, this.input.getName());
 		} else if (this.input.isDirectory()) {

@@ -21,7 +21,7 @@ public class UnZipHelper {
 	private File							folderOutput;
 	private ZipInputStream 					zipInputStream;
 	
-	protected UnZipHelper(File input, File folderOutput) throws FileNotFoundException {
+	public UnZipHelper(File input, File folderOutput) throws FileNotFoundException {
 		if (input == null || folderOutput == null) throw new IllegalArgumentException("arguments can not be null");
 		
 		if (!folderOutput.isDirectory()) { throw new IllegalStateException("folderOutput must be a valid directory");
@@ -33,7 +33,7 @@ public class UnZipHelper {
 		this.zipInputStream = new ZipInputStream(fileInputStream);
 	}
 	
-	protected void decompress() throws IOException {
+	public void decompress() throws IOException {
 		ZipEntry currentEntry;
 		while ((currentEntry = this.zipInputStream.getNextEntry()) != null) {
 			File currentFile = new File(this.folderOutput.getPath() + System.getProperty("file.separator") + currentEntry.getName());
