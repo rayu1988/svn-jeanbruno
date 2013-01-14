@@ -38,7 +38,7 @@ public class UnZipHelper {
 		while ((currentEntry = this.zipInputStream.getNextEntry()) != null) {
 			File currentFile = new File(this.folderOutput.getPath() + System.getProperty("file.separator") + currentEntry.getName());
 			
-            if (currentFile.isDirectory()) {
+            if (currentEntry.isDirectory()) {
             	currentFile.mkdir();
             	continue;
             } else {
