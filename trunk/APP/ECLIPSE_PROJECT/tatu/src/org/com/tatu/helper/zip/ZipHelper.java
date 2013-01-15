@@ -44,9 +44,9 @@ public class ZipHelper {
 	}
 
 	private void writeOut(File file, String zipEntryName) throws IOException {
-		ZipEntry zipEntry = new ZipEntry(zipEntryName);
-		this.zipOutputStream.putNextEntry(zipEntry);
 		if (file.isFile()) {
+			ZipEntry zipEntry = new ZipEntry(zipEntryName);
+			this.zipOutputStream.putNextEntry(zipEntry);
 			FileInputStream fileInputStream = new FileInputStream(file);
 			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream, ZipConstants.BUFFER);
 			byte data[] = new byte[ZipConstants.BUFFER];
@@ -55,6 +55,10 @@ public class ZipHelper {
 				this.zipOutputStream.write(data, 0, count);
 			}
 			bufferedInputStream.close();
+		} else {
+			zipEntryName = zipEntryName.endsWith(System.getProperty("file.separator")) ? zipEntryName : zipEntryName + "/";
+			ZipEntry zipEntry = new ZipEntry(zipEntryName);
+			this.zipOutputStream.putNextEntry(zipEntry);
 		}
 	}
 	
@@ -63,10 +67,9 @@ public class ZipHelper {
 		for (File withinFile : withinDirectory) {
 			String newZipEntryName = GeneralsHelper.isStringOk(zipEntryName) ? zipEntryName + System.getProperty("file.separator") + withinFile.getName() : withinFile.getName();
 			
+			this.writeOut(withinFile, newZipEntryName);
 			if (withinFile.isDirectory()) {
 				this.compressWithinDirectory(withinFile, newZipEntryName);
-			} else {
-				this.writeOut(withinFile, newZipEntryName);
 			}
 		}
 	}
