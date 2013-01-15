@@ -6,11 +6,15 @@ import java.util.regex.Pattern;
 
 public class GeneralsHelper {
 
-	public static boolean isBooleanTrue(Boolean b){
+	public static boolean isBooleanTrue(Boolean b) {
 		if(b != null && b){
 		   return true;
 		}
 		else return false;
+	}
+	
+	public static boolean isBooleanTrue(String str) {
+		return isStringOk(str) && (str.equals("true") || str.equals("1") || str.equals("yes") || str.equals("y"));
 	}
 	
 	public static boolean isStringOk(String str) {
