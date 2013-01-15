@@ -35,6 +35,10 @@ public class ConsoleParameters {
 		}
 	}
 	
+	public void addParameters(String[] args) {
+		this.build(args);
+	}
+	
 	public String getValue(String key) {
 		return this.hashTable.get(key);
 	}
