@@ -44,4 +44,6 @@ public interface SSDDefaultConstants {
 															TAB};
 	
 	String					ROOT_OBJECT = "root_object";
+	
+	String					DEFAULT_ENCODING = "UTF-8";
 }
