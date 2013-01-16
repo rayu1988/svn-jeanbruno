@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -191,11 +190,25 @@ public class SSDContextManager {
 		return this.getAsString();
 	}
 	
-	public void toFile(File targetFile) throws FileNotFoundException, UnsupportedEncodingException {
-		FileOutputStream fos = new FileOutputStream(targetFile);
-		OutputStreamWriter osw = new OutputStreamWriter(fos, SSDDefaultConstants.DEFAULT_ENCODING);
-		PrintWriter pw = new PrintWriter(osw);
-		pw.print(this.getAsString());
+	public void toFile(File targetFile) {
+		if (targetFile == null) {
+			throw new SSDException("The parameter targetFile can't be null");
+		}
+		try {
+			if (!targetFile.exists()) {
+				targetFile.createNewFile();
+			}
+			
+			FileOutputStream fos = new FileOutputStream(targetFile);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, SSDDefaultConstants.DEFAULT_ENCODING);
+			PrintWriter pw = new PrintWriter(osw);
+			pw.print(this.getAsString());
+			pw.close();
+			osw.close();
+			fos.close();
+		} catch (Exception e) {
+			throw new SSDException(e);
+		}
 	}
 	
 	public String getAsString() {
