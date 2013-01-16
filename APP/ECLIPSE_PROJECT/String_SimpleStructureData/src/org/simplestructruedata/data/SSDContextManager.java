@@ -7,8 +7,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +55,7 @@ public class SSDContextManager {
 		}
 		try {
 			FileInputStream fis = new FileInputStream(fileBase);
-			InputStreamReader isr = new InputStreamReader(fis);
+			InputStreamReader isr = new InputStreamReader(fis, SSDDefaultConstants.DEFAULT_ENCODING);
 			BufferedReader br = new BufferedReader(isr);
 			StringBuffer string = new StringBuffer();
 			String reading = null;
@@ -185,6 +189,13 @@ public class SSDContextManager {
 	@Override
 	public String toString() {
 		return this.getAsString();
+	}
+	
+	public void toFile(File targetFile) throws FileNotFoundException, UnsupportedEncodingException {
+		FileOutputStream fos = new FileOutputStream(targetFile);
+		OutputStreamWriter osw = new OutputStreamWriter(fos, SSDDefaultConstants.DEFAULT_ENCODING);
+		PrintWriter pw = new PrintWriter(osw);
+		pw.print(this.getAsString());
 	}
 	
 	public String getAsString() {
