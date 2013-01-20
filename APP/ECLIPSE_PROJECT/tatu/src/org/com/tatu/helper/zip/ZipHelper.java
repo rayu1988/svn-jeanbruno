@@ -65,7 +65,7 @@ public class ZipHelper {
 	private void compressWithinDirectory(File directory, String zipEntryName) throws IOException {
 		File[] withinDirectory = directory.listFiles();
 		for (File withinFile : withinDirectory) {
-			String newZipEntryName = GeneralsHelper.isStringOk(zipEntryName) ? zipEntryName + System.getProperty("file.separator") + withinFile.getName() : withinFile.getName();
+			String newZipEntryName = GeneralsHelper.isStringOk(zipEntryName) ? zipEntryName + "/" + withinFile.getName() : withinFile.getName();
 			
 			this.writeOut(withinFile, newZipEntryName);
 			if (withinFile.isDirectory()) {
