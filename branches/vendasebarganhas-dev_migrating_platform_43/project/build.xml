@@ -7,14 +7,36 @@
 	<property name="vendasebarganhas-project" value="../vendasebarganhas" />
 	<property name="vendasebarganhas-web-home" value="${vendasebarganhas-project}/war" />
 	<property name="vendasebarganhas-dist" value="${vendasebarganhas-project}/dist" />
+	<property name="vendasebarganhas-dist-tmp" value="${vendasebarganhas-dist}/tmp" />
 	<property name="vendasebarganhas-war" value="vendasebarganhas.${day}.war" />
 	
 	<target name="build-war" description="Criating the war file">
-									
+		
+		<!-- create the required directories -->
 		<mkdir dir="${vendasebarganhas-dist}"/>
-								
+		<mkdir dir="${vendasebarganhas-dist-tmp}"/>
+		
+		<!-- copy the content to temp dir -->
+		<copy todir="${vendasebarganhas-dist-tmp}">
+			<fileset dir="${vendasebarganhas-web-home}"/>
+		</copy>
+		
+		<!-- replace the required content to production environment -->
+		<replace dir="${vendasebarganhas-dist-tmp}/WEB-INF" includes="web.xml">
+			<replacetoken><![CDATA[<!--ant:build:jsf:project_state--><param-value>Development</param-value><!--ant:build:jsf:project_state-->]]></replacetoken>
+			<replacevalue><![CDATA[<param-value>Production</param-value>]]></replacevalue>
+		</replace>
+		<replace dir="${vendasebarganhas-dist-tmp}/WEB-INF" includes="web.xml">
+			<replacetoken><![CDATA[<!--ant:build:jsf:refresh_period--><param-value>2</param-value><!--ant:build:jsf:refresh_period-->]]></replacetoken>
+			<replacevalue><![CDATA[<param-value>-1</param-value>]]></replacevalue>
+		</replace>
+		
+		<!-- generate the war file -->
 	    <zip destfile="${vendasebarganhas-dist}/${vendasebarganhas-war}">
-			<zipfileset dir="${vendasebarganhas-web-home}" />
+			<zipfileset dir="${vendasebarganhas-dist-tmp}" />
 	    </zip>
+		
+		<!-- delete the temp dir -->
+		<delete dir="${vendasebarganhas-dist-tmp}"/>
 	</target>
 </project>

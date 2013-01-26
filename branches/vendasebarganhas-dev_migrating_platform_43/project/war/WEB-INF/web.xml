@@ -15,13 +15,11 @@
 	</context-param>
  	<context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-<!--         <param-value>Production</param-value> -->
+        <!--ant:build:jsf:project_state--><param-value>Development</param-value><!--ant:build:jsf:project_state-->
     </context-param>
     <context-param>
  		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
-		<!-- AO PUBLICAR NO CLIENTE SETAR: -1 -->
- 		<param-value>2</param-value>
+ 		<!--ant:build:jsf:refresh_period--><param-value>2</param-value><!--ant:build:jsf:refresh_period-->
  	</context-param>
  	<context-param>
 	    <param-name>javax.faces.CONFIG_FILES</param-name>
@@ -111,6 +109,10 @@
 	
 	<!-- spring framework -->
 	<context-param>
+		<param-name>br.com.barganhas.settings.DATA_SOURCE</param-name>
+		<param-value>file:/foreign_sources/vendasebarganhas/dataSource.properties</param-value>
+	</context-param>
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/applicationContext.xml</param-value>
 	</context-param>
@@ -158,12 +160,15 @@
 		<url-pattern>/fileserver/*</url-pattern>
   	</filter-mapping>
 
-	<!-- listeners -->	
+	<!-- listeners -->
+	<listener>
+		<listener-class>br.com.barganhas.web.listeners.AppSettings</listener-class>
+  	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
 	<listener>
-		<listener-class>br.com.barganhas.web.beans.AppLoadListener</listener-class>
+		<listener-class>br.com.barganhas.web.listeners.AppLoadListener</listener-class>
   	</listener>
 	
 	<!-- SERVLETS -->

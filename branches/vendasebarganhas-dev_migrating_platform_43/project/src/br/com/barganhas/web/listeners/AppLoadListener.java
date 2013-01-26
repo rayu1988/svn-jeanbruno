@@ -1,4 +1,4 @@
-package br.com.barganhas.web.beans;
+package br.com.barganhas.web.listeners;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

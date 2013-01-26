@@ -13,13 +13,15 @@
 						   http://www.springframework.org/schema/aop http://www.springframework.org/schema/context/spring-aop-2.5.xsd
 						   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
 	
+	<context:property-placeholder location="file:${dataSource.file.path}" />
+	
 	<!-- ###################################### starts definitions to Hibernate ###################################### -->
 	<!-- dataSource connection definition -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-    	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-    	<property name="url" value="jdbc:mysql://localhost:3306/vendasebarganhas"/>
-    	<property name="username" value="root"/>
-    	<property name="password" value="jean"/>
+    	<property name="driverClassName" value="${dataSource.driverClassName}"/>
+    	<property name="url" value="${dataSource.url}"/>
+    	<property name="username" value="${dataSource.username}"/>
+    	<property name="password" value="${dataSource.password}"/>
     	<property name="removeAbandonedTimeout" value="60"/>
     	<property name="logAbandoned" value="true"/>
     	<property name="removeAbandoned" value="true"/>
@@ -40,9 +42,9 @@
 		
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">${dataSource.hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${dataSource.hibernate.format_sql}</prop>
+				<prop key="hibernate.dialect">${dataSource.hibernate.dialect}</prop>
 				<prop key="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
