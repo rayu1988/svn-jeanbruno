@@ -439,8 +439,9 @@ public class AdvertisementBean extends AppManagedBean {
 	
 	public String delete() {
 		try {
-			Advertisement service = this.getServiceBusinessFactory().getAdvertisement();
-			service.delete(this.advertisement);
+			this.service.evict(this.advertisement);
+			this.advertisement = this.service.load(new AdvertisementTO(this.advertisement.getId()));
+			this.service.delete(this.advertisement);
 			
 			this.setRequestMessage(new RequestMessage("registerDeletedSuccessfully", SeverityMessage.SUCCESS));
 			return this.list();

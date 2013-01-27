@@ -30,6 +30,18 @@
 			<replacetoken><![CDATA[<!--ant:build:jsf:refresh_period--><param-value>2</param-value><!--ant:build:jsf:refresh_period-->]]></replacetoken>
 			<replacevalue><![CDATA[<param-value>-1</param-value>]]></replacevalue>
 		</replace>
+		<replace dir="${vendasebarganhas-dist-tmp}/WEB-INF/classes" includes="log4j.properties">
+			<replacetoken><![CDATA[log4j.rootLogger=ERROR,DEV]]></replacetoken>
+			<replacevalue><![CDATA[#log4j.rootLogger=ERROR,DEV]]></replacevalue>
+		</replace>
+		<replace dir="${vendasebarganhas-dist-tmp}/WEB-INF/classes" includes="log4j.properties">
+			<replacetoken><![CDATA[log4j.appender.DEV]]></replacetoken>
+			<replacevalue><![CDATA[#log4j.appender.DEV]]></replacevalue>
+		</replace>
+		<replace dir="${vendasebarganhas-dist-tmp}/WEB-INF/classes" includes="log4j.properties">
+			<replacetoken><![CDATA[#ant:build:log#log4j]]></replacetoken>
+			<replacevalue><![CDATA[log4j]]></replacevalue>
+		</replace>
 		
 		<!-- generate the war file -->
 	    <zip destfile="${vendasebarganhas-dist}/${vendasebarganhas-war}">
