@@ -110,7 +110,7 @@
 	<!-- spring framework -->
 	<context-param>
 		<param-name>br.com.barganhas.settings.DATA_SOURCE</param-name>
-		<param-value>file:/foreign_sources/vendasebarganhas/dataSource.properties</param-value>
+		<param-value>file:/foreign_resources/vendasebarganhas/dataSource.properties</param-value>
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
