@@ -7,7 +7,7 @@
 	<property name="tatu" value="tatu"/>
 	<property name="tatu-home" value="../${tatu}"/>
 	<property name="tatu-home-dist" value="${tatu-home}/dist"/>
-	<property name="tatu-jar" value="${tatu-home-dist}/${tatu}.${day}.jar"/>
+	<property name="tatu-jar" value="${tatu-home-dist}/${tatu}-${day}.jar"/>
 	
 	<target name="dist-tatu">
 		
