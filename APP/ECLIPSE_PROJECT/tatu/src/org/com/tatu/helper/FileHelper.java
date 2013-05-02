@@ -96,7 +96,7 @@ public class FileHelper {
 			if (str.equals(mapped)) return true;
 			if (mapped.startsWith("*")) {
 				mapped = mapped.substring(1);
-				return str.contains(mapped);
+				if (str.contains(mapped)) return true;
 			}
 		}
 		return false;
