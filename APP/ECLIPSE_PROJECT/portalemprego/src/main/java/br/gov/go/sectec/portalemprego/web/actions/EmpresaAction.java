@@ -103,6 +103,8 @@ public class EmpresaAction extends PremiumAction {
 	private Long idRamoAtividade;
 
 	private Long idCidadeVaga;
+	
+	private ProcessingReturn processingReturn;
 
 	@Action(value = "/abreRemover", results = { @Result(location = "/views/empresa/teste.jsp", name = EmpresaAction.SUCCESS) })
 	public String abreRemover() {
@@ -253,31 +255,40 @@ public class EmpresaAction extends PremiumAction {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Action(value = "/salvarTelefoneEmpresa", results = { @Result(location = "updateEmpresaTelefone.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	@Action(value = "/salvarTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String salvarTelefoneEmpresa() {
+		if (!this.validarDadosTelefone()) {
+			this.processingReturn = new ProcessingReturn("Todos os campos de telefone são obrigatórios");
+			return ActionSupport.SUCCESS;
+		}
+		
 		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
 		
 		final TelefoneDTO dto = this.obterTelefone();
 		this.telefoneList.set(this.getIndexElementList().intValue(), dto);
 		
 		this.adicionarTelefoneSessao();
+		
+		this.processingReturn = new ProcessingReturn();
 		return ActionSupport.SUCCESS;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Action(value = "/excluirTelefoneEmpresa", results = { @Result(location = "updateEmpresaTelefone.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	@Action(value = "/excluirTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String excluirTelefoneEmpresa() {
 		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
 		this.telefoneList.remove(this.getIndexElementList().intValue());
 		this.adicionarTelefoneSessao();
+
+		this.processingReturn = new ProcessingReturn();
 		return ActionSupport.SUCCESS;
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Action(value = "/adicionarTelefoneEmpresa", results = { @Result(location = "updateEmpresaTelefone.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	@Action(value = "/adicionarTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String adicionarTelefoneEmpresa() {
-		final boolean isValido = this.validarDadosTelefone();
-		if (!isValido) {
+		if (!this.validarDadosTelefone()) {
+			this.processingReturn = new ProcessingReturn("Todos os campos de telefone são obrigatórios");
 			return ActionSupport.SUCCESS;
 		}
 		if (ValidatorUtil.isNull(this.obterDaSessao("telefoneList"))) {
@@ -293,6 +304,12 @@ public class EmpresaAction extends PremiumAction {
 		this.setIdTipoTelefone(null);
 		this.adicionarTelefoneSessao();
 		
+		this.processingReturn = new ProcessingReturn();
+		return ActionSupport.SUCCESS;
+	}
+	
+	@Action(value = "/loadTablePhoneNumber", results = { @Result(location = "updateEmpresaTelefone.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	public String loadTablePhoneNumber() {
 		return ActionSupport.SUCCESS;
 	}
 
@@ -564,13 +581,9 @@ public class EmpresaAction extends PremiumAction {
 	 * @return
 	 */
 	private boolean validarDadosTelefone() {
-		if (ValidatorUtil.isNull(this.getIdTipoTelefone()) || this.getIdTipoTelefone() == 0 || ValidatorUtil.isNull(this.getTelefone())
+		return !(ValidatorUtil.isNull(this.getIdTipoTelefone()) || this.getIdTipoTelefone() == 0 || ValidatorUtil.isNull(this.getTelefone())
 				|| ValidatorUtil.isNull(this.getTelefone().getNuTelefone()) || ValidatorUtil.isNull(this.getTelefone().getNuDdd())
-				|| ValidatorUtil.isNull(this.getTelefone().getNuDdi())) {
-			this.adicionarMensagemValidacao("Todos os campos de telefone são obrigatórios");
-			return false;
-		}
-		return true;
+				|| ValidatorUtil.isNull(this.getTelefone().getNuDdi()));
 	}
 
 	/**
@@ -904,5 +917,13 @@ public class EmpresaAction extends PremiumAction {
 	public void setIndexElementList(Integer indexElementList) {
 	
 		this.indexElementList = indexElementList;
+	}
+
+	public ProcessingReturn getProcessingReturn() {
+		return processingReturn;
+	}
+
+	public void setProcessingReturn(ProcessingReturn processingReturn) {
+		this.processingReturn = processingReturn;
 	}
 }

@@ -1,5 +1,6 @@
 package br.gov.go.sectec.portalemprego.web.actions;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -157,4 +158,26 @@ public class PremiumAction extends ActionSupport implements SessionAware {
 		return this.session;
 	}
 
+	public class ProcessingReturn implements Serializable {
+		
+		private static final long serialVersionUID = -622751383002173103L;
+		
+		private boolean success = true;
+		private String errorMsg;
+		
+		public ProcessingReturn() {
+		}
+		
+		public ProcessingReturn(String errorMsg) {
+			this.errorMsg = errorMsg;
+			this.success = false;
+		}
+		
+		public boolean getSuccess() {
+			return success;
+		}
+		public String getErrorMsg() {
+			return errorMsg;
+		}
+	}
 }
