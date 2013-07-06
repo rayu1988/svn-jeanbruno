@@ -24,9 +24,22 @@ function clearForm_PhoneNumber() {
 	$('#idButtonAddPhoneNumber').show();
 }
 
-function refreshPartialContent_PhoneNumber(htmlContent) {
-	$('#idDadosTelefoneTable').empty();
-	$('#idDadosTelefoneTable').html(htmlContent);
+function refreshPartialContent_PhoneNumber() {
+	$.ajax({
+		url: 'empresa/loadTablePhoneNumber.action',
+		type: 'POST',
+		data: getParameters_PhoneNumber(),
+		dataType: 'html',
+		success: function (htmlContent) {
+			clearForm_PhoneNumber();
+			
+			$('#idDadosTelefoneTable').empty();
+			$('#idDadosTelefoneTable').html(htmlContent);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			alert('An error occurred! ' + thrownError);
+		}
+	});
 }
 
 function buildHtmlContentButtons_PhoneNumber(cellval, options, rowselect, selarrrow, icon, link_class, link_action, event, rowid) {
@@ -42,10 +55,13 @@ function delete_PhoneNumber(phoneIndex) {
 		url: 'empresa/excluirTelefoneEmpresa.action',
 		type: 'POST',
 		data: getParameters_PhoneNumber(phoneIndex),
-		dataType: 'html',
-		success: function(html) {
-			clearForm_PhoneNumber();
-			refreshPartialContent_PhoneNumber(html);
+		dataType: 'json',
+		success: function (data) {
+			if (data.processingReturn.success) {
+				refreshPartialContent_PhoneNumber();
+			} else {
+				alert(data.processingReturn.errorMsg);
+			}
 		},
 		error: function(xhr, ajaxOptions, thrownError){
 			alert('An error occurred! ' + thrownError);
@@ -86,10 +102,13 @@ $(document).ready(function(){
 			url: 'empresa/adicionarTelefoneEmpresa.action',
 			type: 'POST',
 			data: getParameters_PhoneNumber(),
-			dataType: 'html',
-			success: function (html) {
-				clearForm_PhoneNumber();
-				refreshPartialContent_PhoneNumber(html);
+			dataType: 'json',
+			success: function (data) {
+				if (data.processingReturn.success) {
+					refreshPartialContent_PhoneNumber();
+				} else {
+					alert(data.processingReturn.errorMsg);
+				}
 			},
 			error: function(xhr, ajaxOptions, thrownError){
 				alert('An error occurred! ' + thrownError);
@@ -102,10 +121,13 @@ $(document).ready(function(){
 			url: 'empresa/salvarTelefoneEmpresa.action',
 			type: 'POST',
 			data: getParameters_PhoneNumber(),
-			dataType: 'html',
-			success: function (html) {
-				clearForm_PhoneNumber();
-				refreshPartialContent_PhoneNumber(html);
+			dataType: 'json',
+			success: function (data) {
+				if (data.processingReturn.success) {
+					refreshPartialContent_PhoneNumber();
+				} else {
+					alert(data.processingReturn.errorMsg);
+				}
 			},
 			error: function(xhr, ajaxOptions, thrownError){
 				alert('An error occurred! ' + thrownError);
