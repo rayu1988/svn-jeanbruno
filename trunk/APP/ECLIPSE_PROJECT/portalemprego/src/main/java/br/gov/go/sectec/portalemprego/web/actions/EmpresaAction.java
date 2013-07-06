@@ -182,37 +182,28 @@ public class EmpresaAction extends PremiumAction {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Action(value = "/adicionarVagasOfertasEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/adicionarVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String adicionarVagasOfertasEmpresa() {
-
-		final boolean isValido = this.validarDadosVagas();
-
-		if (!isValido) {
-
+		if (!(this.processingReturn = this.validateRequiredFieldsFilled()).getSuccess()) {
 			return PremiumAction.SUCCESS;
-
+		} else if (!(this.processingReturn = this.isDateFieldRightFilled()).getSuccess()) {
+			return PremiumAction.SUCCESS;
 		}
 
 		this.prepararDadosVagaDTO();
 
 		if (ValidatorUtil.isNull(this.obterDaSessao("vagaList"))) {
-
 			this.vagaList = new ArrayList<VagasOfertadasDTO>();
-
 			this.vagaList.add(this.getVaga());
-
 		} else {
-
 			this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
-
 			this.vagaList.add(this.getVaga());
-
 		}
-
+		
 		this.setVaga(null);
-
 		this.adicionarVagasSessao();
-
+		
+		this.processingReturn = new ProcessingReturn();
 		return PremiumAction.SUCCESS;
 	}
 
@@ -223,18 +214,10 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 */
 	private void prepararDadosVagaDTO() {
-
 		final Cidade cidade = this.getEmpresaBo().obterCidadePorId(this.getVaga().getIdCidade());
-
 		final AreaInteresse area = this.getEmpresaBo().obterAreaInteressePorId(this.getVaga().getIdArea());
-
 		this.getVaga().setDsCidade(cidade.getDsNome());
-
-		this.getVaga().setIdCidade(cidade.getIdCidade());
-
 		this.getVaga().setDsArea(area.getDsAreaInteresse());
-
-		this.getVaga().setIdArea(area.getIdAreaInteresse());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -250,6 +233,16 @@ public class EmpresaAction extends PremiumAction {
 		this.telefone.setNuDdi(dto.getNuDdi());
 		
 		this.setIdTipoTelefone(dto.getIdTipo());
+		
+		return ActionSupport.SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Action(value = "/editarVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
+	public String editarVagasOfertasEmpresa() {
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		VagasOfertadasDTO dto = this.vagaList.get(this.getIndexElementList().intValue());
+		this.setVaga(dto);
 		
 		return ActionSupport.SUCCESS;
 	}
@@ -274,12 +267,46 @@ public class EmpresaAction extends PremiumAction {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Action(value = "/salvarVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
+	public String salvarVagasOfertasEmpresa() {
+		if (!(this.processingReturn = this.validateRequiredFieldsFilled()).getSuccess()) {
+			return PremiumAction.SUCCESS;
+		} else if (!(this.processingReturn = this.isDateFieldRightFilled()).getSuccess()) {
+			return PremiumAction.SUCCESS;
+		}
+		
+		this.prepararDadosVagaDTO();
+		
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList.set(this.getIndexElementList().intValue(), this.getVaga());
+		
+		this.setVaga(null);
+		this.adicionarVagasSessao();
+		
+		this.processingReturn = new ProcessingReturn();
+		return ActionSupport.SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Action(value = "/excluirTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String excluirTelefoneEmpresa() {
 		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
 		this.telefoneList.remove(this.getIndexElementList().intValue());
 		this.adicionarTelefoneSessao();
 
+		this.processingReturn = new ProcessingReturn();
+		return ActionSupport.SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Action(value = "/excluirVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
+	public String excluirVagasOfertasEmpresa() {
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList.remove(this.getIndexElementList().intValue());
+		
+		this.setVaga(null);
+		this.adicionarVagasSessao();
+		
 		this.processingReturn = new ProcessingReturn();
 		return ActionSupport.SUCCESS;
 	}
@@ -308,8 +335,13 @@ public class EmpresaAction extends PremiumAction {
 		return ActionSupport.SUCCESS;
 	}
 	
-	@Action(value = "/loadTablePhoneNumber", results = { @Result(location = "updateEmpresaTelefone.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	@Action(value = "/loadTablePhoneNumber", results = { @Result(location = "loadTablePhoneNumber.page", type = "tiles", name = ActionSupport.SUCCESS) })
 	public String loadTablePhoneNumber() {
+		return ActionSupport.SUCCESS;
+	}
+	
+	@Action(value = "/loadTableJobVacancy", results = { @Result(location = "loadTableJobVacancy.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	public String loadTableJobVacancy() {
 		return ActionSupport.SUCCESS;
 	}
 
@@ -593,21 +625,34 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 * @return
 	 */
-	private boolean validarDadosVagas() {
-
-		final Date data = DataUtil.obterData(this.getVaga().getDataExpiracaoStr());
-
-		if (ValidatorUtil.isNull(this.getVaga().getIdCidade()) || ValidatorUtil.isNull(this.getVaga().getQtdVagas()) || ValidatorUtil.isNull(this.getVaga().getDataExpiracaoStr())
-				|| ValidatorUtil.isBlank(this.getVaga().getDataExpiracaoStr()) || ValidatorUtil.isNull(data) || ValidatorUtil.isNull(this.getVaga().getIdArea())) {
-
-			this.adicionarMensagemValidacao("Todos os campos de vagas são obrigatórios");
-
-			return false;
+	private ProcessingReturn validateRequiredFieldsFilled() {
+		if ( !ValidatorUtil.isNull(this.getVaga().getIdCidade()) && 
+				!this.getVaga().getIdCidade().equals(new Long(0)) && 
+				!ValidatorUtil.isNull(this.getVaga().getIdArea()) &&
+				!this.getVaga().getIdArea().equals(new Long(0)) &&
+				!ValidatorUtil.isNull(this.getVaga().getQtdVagas()) &&
+				!ValidatorUtil.isNull(this.getVaga().getDataExpiracaoStr()) && 
+				!ValidatorUtil.isBlank(this.getVaga().getDataExpiracaoStr()) &&
+				!ValidatorUtil.isBlank(this.getVaga().getDsVagaOfertada()) ) {
+			return new ProcessingReturn();
 		}
-
-		return true;
+		return new ProcessingReturn("Todos os campos do formulário para Disponibilização de Vagas são obrigatórios.");
 	}
 
+	private ProcessingReturn isDateFieldRightFilled() {
+		String errorMsg = "A data de expiração deve ter o formato dd/mm/aaaa, e ainda precisa ser maior ou igual a hoje.";
+		try {
+			final Date dataExpiracao = DataUtil.obterData(this.getVaga().getDataExpiracaoStr());
+			Date now = DataUtil.getTodayMidNight();
+			if (dataExpiracao.getTime() >= now.getTime()) {
+				return new ProcessingReturn();
+			}
+			return new ProcessingReturn(errorMsg);
+		} catch (Exception e) {
+			return new ProcessingReturn(errorMsg);
+		}
+	}
+	
 	/**
 	 * Método responsável por
 	 * 
@@ -628,17 +673,11 @@ public class EmpresaAction extends PremiumAction {
 	}
 
 	private void createIndexVagas() {
-
 		int i = 0;
-
 		for (final VagasOfertadasDTO dto : this.vagaList) {
-
 			dto.setIndex(i);
-
 			i++;
-
 		}
-
 	}
 
 	/**
@@ -661,11 +700,8 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 */
 	private void adicionarVagasSessao() {
-
 		this.createIndexVagas();
-
 		this.incluirSessao("vagaList", this.vagaList);
-
 	}
 
 	/**
@@ -809,7 +845,6 @@ public class EmpresaAction extends PremiumAction {
 	}
 
 	public VagasOfertadasDTO getVaga() {
-
 		return this.vaga;
 	}
 

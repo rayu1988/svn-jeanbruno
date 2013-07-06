@@ -35,7 +35,7 @@ public class VagasOfertadasDTO implements Serializable {
 	private String dsArea;
 
 	private Long qtdVagas;
-
+	
 	private Date dataExpiracao;
 	
 	private String dataExpiracaoStr;

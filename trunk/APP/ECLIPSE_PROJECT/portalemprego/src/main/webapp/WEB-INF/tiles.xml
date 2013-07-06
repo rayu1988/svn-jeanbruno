@@ -16,7 +16,8 @@
 		<put-attribute  name="formulario" value="/views/empresa/formulario.jsp" />
 		<put-attribute  name="appendJavaScript" value="/js/empresa/empresa.js" type="string" />
 	</definition>
-   	<definition name="updateEmpresaTelefone.page" template="/views/empresa/dados_telefone_table.jsp" />
+   	<definition name="loadTablePhoneNumber.page" template="/views/empresa/dados_telefone_table.jsp" />
+   	<definition name="loadTableJobVacancy.page" template="/views/empresa/dados_vagas_table.jsp" />
 
    	<definition name="testJSON.page" template="/testJSON.jsp"/>
 	
