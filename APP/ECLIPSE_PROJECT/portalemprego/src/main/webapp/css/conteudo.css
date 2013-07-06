@@ -1,0 +1,754 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#menu-quadro{
+		width:899px;
+		height:auto;
+		float:left;
+		border:1px #bebebe solid;
+		margin:10px 0 20px 8px;
+		padding:1px 1px 10px 1px;
+}
+ul#menu{
+	width:894px;
+	background:#00395b;
+	float:left;
+	padding:0 0 0 5px;
+	border:#bebebe;
+	list-style:none;
+}
+ul#menu li{
+	text-align:center;
+	color:#5078af;
+	background:#e3f8f8;
+	font-weight:bold;
+	float:left;
+	width:auto;
+	padding: 10px 14px 5px 14px;
+	margin: 10px 2px 0 2px;
+	font-size:12px;
+}
+ul#menu li#a{
+	text-align:center;
+	color:#C00;
+	background:#fff;
+	font-weight:bold;
+	float:left;
+	width:auto;
+	padding: 10px 14px 5px 14px;
+	margin: 10px 2px 0 2px;
+	font-size:12px;
+}
+ul#menu li a:link{
+	text-decoration:none;
+	color:#5078af;
+}
+ul#menu li a:visited{
+	text-decoration:none;
+	color:#5078af;
+}
+ul#menu li a:hover{
+	
+	text-decoration:none;
+	color:#C00;
+}	
+div#formulario{
+		width:880px;
+		float:left;
+		margin:15px 0 0 15px;
+}
+ul#dados-pessoais{
+	float:left;
+	width:820px;
+	border: 1px solid #a6c9e2;
+	list-style:none;
+	padding:10px;
+}
+ul#dados-pessoais li{
+		width:800px;
+		float:left;
+		margin:5px 0 0 0;
+}
+ul#dados-pessoais li label{
+	width:135px;
+	float:left;
+}
+ul#dados-pessoais li label spam{color:#ff0101;}
+ul#dados-pessoais li input.calendario{width:20px; height:20px; float:left; background-image:url(../img/calendario.jpg);}
+ul#dados-pessoais li.rg{width:260px; float:left;}
+ul#dados-pessoais li.om{width:280px; float:left;}
+ul#dados-pessoais li.om label {width:105px; float:left;}
+ul#dados-pessoais li.de{width:220px; float:left;}
+ul#dados-pessoais li.de label{width:110px; float:left;}
+ul#dados-pessoais li input{float:left;}
+ul#dados-pessoais li.dn{width:236px; float:left;}
+ul#dados-pessoais li.ec{width:220px; float:left;}
+ul#dados-pessoais li.ec label{width:80px; float:left;}
+ul#dados-pessoais li.se{width:150px; float:left;}
+ul#dados-pessoais li.se label{width:50px; float:left;}
+
+form.dados-pessoais{
+	float:left;
+	width:845px;
+	margin:5px 0 0 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form.dados-pessoais label{
+	width:134px;
+	float:left;
+}
+form.dados-pessoais input{
+	margin:0 0 5px 0px;
+
+}
+form.dados-pessoais label p{color:#ff0000;float:left;}
+
+div.end{
+	width:141px;
+	float:left;
+	margin:70px 0 70px 0;
+}
+ul.end{
+	width:702px;
+	float:left;
+	list-style:none;
+	margin:11px 0 0 0;
+	border:1px solid #a6c9e2;
+}
+ul.end li{ margin:5px;}
+ul.end li label spam{color:#ff0101;}
+ul.end li label{ float:left; width:100px;}
+div.fone{
+	width:141px;
+	float:left;
+	margin:40px 0 60px 0;
+}
+ul.fone{
+	width:702px;
+	float:left;
+	list-style:none;
+	margin:11px 0 0 0;
+	border:1px solid #a6c9e2;
+}
+ul.fone li{ margin:5px;}
+ul.fone li{ width:auto;}
+ul.fone li label spam{color:#ff0101;}
+div#telefones{	
+	width:273px;
+	float:left;
+	border:1px solid #a6c9e2;
+	margin:5px;
+}
+ul#number{ 
+	width:130px; 
+	float:left;
+	list-style:none;
+	padding:1px;
+	margin:0;
+}
+ul#number li.titulo{
+	width:122px;
+	height: auto;
+	border:1px solid #a6c9e2;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	text-align:center;
+	padding:3px;
+}
+ul#number li{ 
+	width:130px; 
+	float:left; 
+	color:#000;
+	height:20px;
+	font-weight:bold;
+	padding:3px 0 3px 0; 
+	margin:1px 0 0 0;
+	text-align:center;
+}
+ul#tipo{
+	width:60px; 
+	float:left;
+	list-style:none;
+	margin:1px;
+	padding:1px;; margin:0;
+	 		
+}
+ul#tipo li{ 
+	padding:3px 0 3px 0; 
+	margin:1px 0 0 0;
+	width:60px; 
+	float:left; 
+	color:#000; 
+	font-weight:bold;
+	text-align:center;
+	height: 20px;
+
+}
+ul#tipo li.titulo{
+	width:52px;
+	border:1px solid #a6c9e2;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+	height: auto;
+}
+ul#excluir{
+	width:77px; 
+	float:left;
+	list-style:none;
+	padding:1px; 
+	margin:0;
+}
+ul#excluir li{
+	padding:0;
+	margin:1px 0 0 0;
+	text-align:center; 
+	width:77px; 
+	float:left; 
+	color:#000; 
+	font-weight:bold;
+	height: 26px;
+}
+ul#excluir li.titulo{
+	float:left;
+	width:69px;
+	height: auto;
+	border:1px solid #a6c9e2;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+
+ul.detalhes{ 
+	list-style:none;
+	float:left;
+	width:840px;
+	border:1px solid #a6c9e2;
+	margin:11px 0 0 0;
+}
+
+ul.detalhes li {
+	float:left;
+	padding:5px;
+	width:840px;
+}
+ul.detalhes li.defi{	
+	float:left;
+	width:300px;
+}
+ul.detalhes li.defi label.defi{	
+	float:left;
+	width:120px;
+}
+ul.detalhes li label{
+	float:left;
+	width:170px;
+}
+ul.detalhes li input.s-n{
+	float:left;
+	width:30px;
+}
+div.s-n{float:left; width:20px;}
+div.botoes{
+	float:left;
+	width:840px;	
+	margin:15px 0 0 0;
+}
+div.botoes input{ padding:2px;}
+
+
+
+
+
+
+
+
+/*formação Academica*/
+form#formacao-academica{
+	float:left;
+	width:845px;
+	margin:5px 0 40px 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+ul.dados{
+	list-style:none;
+	float:left;
+	margin:5px;
+}
+ul.dados li{
+	margin:10px 0 0 0;
+}
+ul.dados li label{
+	width:134px;
+	float:left;
+}
+ul.dados li spam{ color:#ff0101;}
+ul.dados input.calendario{	background-image:url(../img/calendario.jpg);width:20px; height:20px;}
+div.incluir { 
+	float:left;
+	width:845px; 
+	text-align:center; 
+	margin:20px 0 20px 0;
+}
+div.incluir input.bt{ background-image:url(../img/incluir.jpg); width:78px; height:27px;}
+
+div.tabela-formacao{
+	width:720px; 
+	float:left;
+	text-align:center;
+	margin:20px 0 0 0;
+}
+ul.grau{
+	width:165px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.grau li{
+	width:165px;
+	float:left;
+	margin:1px 0 0 0;
+	height:25px;
+}
+ul.grau li.azul{background:#c8dbec;}
+
+ul.grau li.titulo{
+	width:159px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.instituicao{
+	width:150px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.instituicao li{
+	width:150px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.instituicao li.azul{background:#c8dbec;}
+
+ul.instituicao li.titulo{
+	width:144px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.curso{
+	width:144px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.curso li{
+	width:144px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.curso li.azul{background:#c8dbec;}
+
+ul.curso li.titulo{
+	width:138px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.periodo{
+	width:180px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.periodo li{
+	width:180px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.periodo li.azul{background:#c8dbec;}
+
+ul.periodo li.titulo{
+	width:174px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.delete{
+	width:70px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.delete li{
+	width:70px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.delete li.azul{background:#c8dbec;}
+
+ul.delete li.titulo{
+	width:64px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+
+
+/*experiencia profissional*/
+
+form.experiencia-profissional{
+	float:left;
+	width:845px;
+	margin:5px 0 40px 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form.experiencia-profissional spam{color:#ff0101;}
+form.experiencia-profissional .calendario{width:20px; height:20px; float:left; background-image:url(../img/calendario.jpg);}
+form.experiencia-profissional div.da{ width:150px;float:left;}
+form.experiencia-profissional div.da input{ float:left;}
+
+div#ep{width:800px; float:left; margin:10px 0; text-align:center;}
+
+ul.empresa{ width:165px; float:left;border:1px solid #fff;}
+ul.cargo{ width:147px; float:left;border:1px solid #fff;}
+ul.funcao{ width:140px; float:left;border:1px solid #fff;}
+ul.entrada{ width:125px; float:left;border:1px solid #fff;}
+ul.sai{ width:125px; float:left; border:1px solid #fff;}
+ul.del{ width:85px; float:left; border:1px solid #fff;}
+
+ul.empresa li{ width:165px; }
+ul.cargo li{ width:147px;}
+ul.funcao li{ width:140px; }
+ul.entrada li{ width:125px; }
+ul.sai li{ width:125px; }
+ul.del li{ width:85px; }
+
+li.titulo{
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px 0;
+}
+li.azul{background:#c8dbec; float:left; height:25px;}
+li.branco{background:#fff;float:left;height:25px;}
+div#termo{ float:left; margin:0 10px;}
+h1.termo{ margin:0 0 10px 0;}
+div.check{margin:10px 0;color:#000;}
+
+
+/*Encaminhamento ao Emprego*/
+
+form#encaminhando-emprego{
+	float:left;
+	width:845px;
+	margin:5px 0 40px 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form#encaminhando-emprego ul{
+	width:715px;
+	float:left;
+	margin:5px;
+	padding:0 0 30px 0;
+	border:1px solid #a6c9e2;
+}
+form#encaminhando-emprego ul li{
+	width:715px;
+	float:left;
+	margin:5px;
+	}
+form#encaminhando-emprego ul li span{ width:140px; float:left;}
+form#encaminhando-emprego ul li div{ float:left;}
+form#encaminhando-emprego ul li div.n{ margin:0 0 0 30px;float:left;}
+form#encaminhando-emprego ul li p{width:715px; padding:5px 0 10px 0;float:left;}
+
+/*buscar-curriculos*/
+
+h1#filtro{
+	color:#006699; 
+	font-size:20px; 
+	font-weight:bold;
+}
+
+form#filtros{
+	width:880px; 
+	float:left; 
+	background-color:#f2f2f2; 
+	border:1px solid # dcdcdc;
+	margin:10px 10px 0  10px;
+	padding:10px;
+	color:#000;
+	font-weight:bold;
+}
+form#filtros li{ width:500px; float:left; margin:10px 0 0 0;}
+form#filtros ul li label{width:120px;float:left; }
+
+div#curriculo-area
+	{width:450px; 
+	float:left;
+	 background:#eeeeee;
+	 margin:10px 90px 10px 10px;
+	}
+h1#curriculo{ margin:10px 0 0 10px;color:#006699; font-size:20px; font-weight:bold;}
+div#curriculo-cargo{
+	width:350px;
+	float:left;
+	background:#eeeeee;
+	 margin:10px;
+}
+h1#Curriculo-cargo{ margin:10px 0 0 10px;color:#006699; font-size:20px; font-weight:bold;}
+div#lista-curriculo{
+	width:520px;
+	float:left;
+	background:#eeeeee;
+	 margin:10px;
+}
+h1#lista-curriculo{ margin:10px 0 0 10px;color:#006699; font-size:20px; font-weight:bold;}
+ul#curriculo-area{ 
+	width:385px;
+	float:left; 
+	background:#fff; 
+	border:1px solid #cfcfcf;
+	padding:20px 20px 30px 20px; margin:10px;
+}
+
+ul#curriculo-area li.tit{ 
+	float:left;
+	width:230px; 
+	font-size:15px; 
+	font-weight:bold;
+	color:#7f7f7f;
+	border-bottom:1px solid #cfcfcf;
+	padding:0 0 15px 0; 
+	margin:0 0 10px 0;
+}
+ul#curriculo-area li.soma-total{
+	float:left;
+	width:50px; 
+	font-size:15px; 
+	font-weight:bold;
+	color:#7f7f7f;
+	border-bottom:1px solid #cfcfcf;
+	padding:0 0 15px 0;
+	margin:0 0 10px 0;
+}
+li.area{
+	float:left;
+	width:225px;
+	list-style: square;
+	margin:8px 0 0 5px;
+}
+li.total{
+	float:left;
+	width:50px;
+	margin:8px 0 0 0;
+}
+li.passar{
+	border-top:1px solid #cfcfcf;
+	width:280px;
+	float:left;
+	margin:10px 0 0 0;
+	padding:10px 0 0 0;
+	text-align:right;
+	}
+li.passar input.vir{
+	height:21px;
+	width:21px; 
+	background-image:url(../img/ir.jpg); 
+	float:left;
+	margin:0 200px 0 0 ;
+	}
+li.passar input.ir{ 
+	margin:0 5px 0 0;
+	width:21px;
+	height:21px; 
+	background-image:url(../img/vir.jpg); 
+	float:left;
+}
+ul#comercial-vendas{
+	width:315px;
+	float:left;
+	border:1px solid #cfcfcf;
+	background:#cde2ef;
+	margin:10px;
+	padding:10px 0 20px 15px;
+	list-style:none;
+}
+ul#comercial-vendas li{list-style:none; text-decoration:underline; font-weight:bold;}
+ul#comercial-vendas li.total{list-style:none; text-decoration:none; font-weight:100 ; }
+
+ul#lista-curriculo{
+	width:480px;
+	float:left;
+	border:1px solid #cfcfcf;
+	background:#fff;
+	margin:10px;
+	padding:10px 0 20px 15px;
+	list-style:none;
+}
+ul#lista-curriculo li{ 
+	background:#cde2ef; border:1px solid #fff;
+	color:#666666;
+	font-weight:bold;
+	padding:5px;
+}
+ul#lista-curriculo li.nome{ width:270px;height:25px; float:left;}
+ul#lista-curriculo li.vizualizar{ width:160px; float:left; text-align:center;}
+ul#lista-curriculo li.vizualizar input{ width:155px; height:24px; background-image:url(../img/vizualizar.jpg);}
+
+
+/*cadstro-instituicao*/
+ul#menu-empresa{
+	width:894px;
+	background:#00395b;
+	float:left;
+	padding:0 0 0 5px;
+	border:#bebebe;
+	list-style:none;
+}
+ul#menu-empresa li{
+	text-align:center;
+	color:#5078af;
+	background:#e3f8f8;
+	font-weight:bold;
+	float:left;
+	width:auto;
+	padding: 10px 14px 5px 14px;
+	margin: 10px 2px 0 2px;
+	font-size:12px;
+}
+ul#menu-empresa li#a{
+	text-align:center;
+	color:#C00;
+	background:#fff;
+	font-weight:bold;
+	float:left;
+	width:auto;
+	padding: 10px 14px 5px 14px;
+	margin: 10px 2px 0 2px;
+	font-size:12px;
+}
+ul#menu-empresa li a:link{
+	text-decoration:none;
+	color:#5078af;
+}
+ul#menu-empresa li a:visited{
+	text-decoration:none;
+	color:#5078af;
+}
+ul#menu-empresa li a:hover{
+	text-decoration:none;
+	color:#C00;
+}
+
+
+form.dados-empresariais{
+	float:left;
+	width:845px;
+	margin:5px 0 0 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+ul.atividade{float:left; margin:10px 0 0 0;}
+ul.atividade li{float:left; width:700px; margin:5px 0 0 0;}
+ul.atividade label{float:left; width:140px;}
+
+
+ul.vagas{	
+	width:700px;
+	float:left;
+	list-style:none;
+	margin:11px 0 0 0;
+	border:1px solid #a6c9e2;	
+}
+ul.vagas li{
+	width:700px;
+	float:left;
+	margin:10px 0 0 0;
+}
+ul.vagas label{
+	width:140px;
+	float:left;
+}
+ul.vagas input.incluir{ background:url(../img/incluir.jpg);width:78px; height:27px;}
+div.vagas{
+	width:135px; 
+	float:left;
+	margin:40px 5px 60px 0;
+}
+div#dis-vagas{ 
+	width:574px; 
+	float:left;
+	border:1px solid #a6c9e2; 
+	margin:10px 0 0 0;
+	text-align:center;
+}
+
+ul.cidade{width:114px; float:left; border:1px solid #fff; }
+ul.area {width:160px; float:left; border:1px solid #fff;}
+ul.qtd-vagas{width:90px; float:left; border:1px solid #fff; }
+ul.data {width:128px; float:left; border:1px solid #fff;}
+ul.dele{width:69px; float:left; border:1px solid #fff; }
+
+ul.cidade li{width:110px; float:left; padding:2px; height:25px;}
+ul.area li{width:156px; float:left; padding:2px; height:25px;}
+ul.qtd-vagas li{width:86px; float:left; padding:2px;height:25px;}
+ul.data li{width:124px; float:left; padding:2px;height:25px;}
+ul.dele li{width:65px; float:left; padding:2px;height:25px;}
+
+
+
+
+
+/*emprego efetivados*/
+form.empregos-efetivados{
+	float:left;
+	width:845px;
+	margin:5px 0 0 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form.empregos-efetivados ul{
+	float:left;
+	width:830px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form.empregos-efetivados ul li{
+	float:left;
+	width:830px;
+}
+form.empregos-efetivados ul li input{ float:left;  margin:0 0 10px 0 }
+form.empregos-efetivados ul li div{ float:left; margin:0 10px 10px 0 ;}
+form.empregos-efetivados ul li label{ margin:0 10px 10px 0 ; float:left;}
+
+.disabledbutton{
+	
+border:solid 0px #ff0000;
+cursor: pointer;
+	
+}

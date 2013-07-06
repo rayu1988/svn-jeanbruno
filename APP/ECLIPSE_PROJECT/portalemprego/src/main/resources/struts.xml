@@ -1,0 +1,24 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory"/>
+	<constant name="struts.objectFactory.spring.autoWire" value="type" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.convention.action.suffix" value="Action" />
+	<constant name="struts.convention.result.path" value="/views" />
+	<constant name="struts.convention.action.packages" value="br.gov.go.sectec.portalemprego.web.actions" />
+	<include file="struts-default.xml" />
+	<package name="portalemprego" extends="struts-default,json-default,jasperreport-default" namespace="/">
+	
+	<result-types>
+        <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" default="true"/>
+        <result-type name="json" class="org.apache.struts2.json.JSONResult" default="true"/>
+        <result-type name="jasper" class="org.apache.struts2.views.jasperreports.JasperReportsResult" default="true" />
+    </result-types> 
+    
+	</package>
+
+</struts>

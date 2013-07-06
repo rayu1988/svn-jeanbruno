@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Gemini Comunicação e Design
+www.geminicomunicacao.com.br | (62) 8236.7071
+CSS Por: Regiane Oliveira
+*/
+
+/* Resetar */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend { margin:0; padding:0; border:0; outline:0; vertical-align:baseline; background:transparent }body { line-height:1 }ol, ul { list-style:none }blockquote, q { quotes:none }blockquote:before, blockquote:after, q:before, q:after { content:''; content:none }:focus { outline:0 }ins { text-decoration:none }del { text-decoration:line-through }
+/* Final Resetar */
+
+body{
+	background: #2b3549 repeat;
+	margin:20px auto 0 auto;
+}
+* {margin:0; padding:0;}
+
+body,td,th{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color:#858383;
+	text-align:left;
+}
+h2{
+	font:bold 12px Verdana, Geneva, sans-serif;
+	color:#fff;
+}
+h1{
+	font:bold 12px Verdana, Geneva, sans-serif;
+	color:#000;
+}
+		
+div#all{
+	width:922px;
+	margin:0 auto 0 auto;
+}
+div#content{
+	width:921px;
+	background:#fff;
+	float:left;
+	margin:0 0 30px 0;
+	border-radius: 0 0 10px 10px;
+}
+
+.customizedButton {
+	background-color: rgb(221, 221, 221);
+	padding: 3px 5px;
+	font-size: 11px;
+	font-family: Arial, Verdana, sans-serif;
+}
+
+.customizedLinks {
+	color:#0078D0;
+	cursor:pointer;
+}

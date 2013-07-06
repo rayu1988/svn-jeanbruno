@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Gemini Comunicação e Design
+www.geminicomunicacao.com.br | (62) 8236.7071
+CSS Por: Regiane Oliveira
+*/
+
+div#cabecalho{ 
+	width:922px; 
+	height:238px; 
+	float:left;
+	background: url(../img/topo.jpg) no-repeat #fff;
+}

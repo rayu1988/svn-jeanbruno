@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="template.page"  template="/views/tiles/template/template.jsp">
+	</definition>
+
+	<definition name="template.filtros.page"  template="/views/tiles/template/template_filtros.jsp">
+		<put-attribute  name="formulario" value="/views/tiles/template/formulario.jsp" />
+	</definition>
+
+   	<definition name="empresa.page" extends="template.page" >
+		<put-attribute  name="menu" value="/views/empresa/menu_empresa.jsp"/>
+		<put-attribute  name="formulario" value="/views/empresa/formulario.jsp" />
+		<put-attribute  name="appendJavaScript" value="/js/empresa/empresa.js" type="string" />
+	</definition>
+   	<definition name="updateEmpresaTelefone.page" template="/views/empresa/dados_telefone_table.jsp" />
+
+   	<definition name="testJSON.page" template="/testJSON.jsp"/>
+	
+    <definition name="empregosEfetivados.page" extends="template.page" >
+		<put-attribute  name="menu" value="/views/empresa/menu_emprego.jsp"/>
+		<put-attribute  name="formulario" value="/views/empresa/formulario_emprego.jsp" />
+	</definition>
+
+    <definition name="atualizar.curriculo.dadospessoais.page" extends="template.page" >
+		<put-attribute  name="menu" value="/views/curriculo/menu_dados_pessoais.jsp"/>
+		<put-attribute  name="formulario" value="/views/curriculo/formulario_dados_pessoais.jsp" />
+	</definition>
+
+    <definition name="atualizar.curriculo.formacao.academica.page" extends="template.page" >
+		<put-attribute  name="menu" value="/views/curriculo/formacao/menu.jsp"/>
+		<put-attribute  name="formulario" value="/views/curriculo/formacao/formulario.jsp" />
+	</definition>
+
+    <definition name="atualizar.curriculo.experiencia.profissional.page" extends="template.page" >
+		<put-attribute  name="menu" value="/views/curriculo/experiencia/menu.jsp"/>
+		<put-attribute  name="formulario" value="/views/curriculo/experiencia/formulario.jsp" />
+	</definition>
+   
+    <definition name="visualizar.curriculo.page" extends="template.filtros.page" >
+		<put-attribute  name="formulario" value="/views/buscarcurriculo/formulario.jsp" />
+	</definition>
+
+</tiles-definitions>
