@@ -51,6 +51,7 @@ div#content{
 }
 
 .customizedLinks {
-	color:#0078D0;
-	cursor:pointer;
+	color: #0078D0 !important;
+	cursor: pointer;
+	text-decoration: underline !important;
 }

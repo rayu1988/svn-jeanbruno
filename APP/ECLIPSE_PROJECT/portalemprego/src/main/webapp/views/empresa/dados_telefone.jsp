@@ -28,9 +28,10 @@
 	</li>
 	<li>
 		<label> <spam>*</spam> Numero:</label>
-		<div>
-			<s:textfield name="telefone.nuTelefone" id="idTelefoneCadastro" maxLength="8" size="30" theme="simple" />
-			
+		<s:textfield name="telefone.nuTelefone" id="idTelefoneCadastro" maxLength="8" size="30" theme="simple" />
+	</li>
+	<li>
+		<div style="margin-left: 100px;">
 			<!-- incluir -->
 			<input type="button" value="Adicionar Telefone" name="buttonAddPhoneNumber" id="idButtonAddPhoneNumber" class="customizedButton"/>
 			
