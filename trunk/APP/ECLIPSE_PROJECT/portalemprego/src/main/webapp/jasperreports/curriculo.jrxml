@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="curriculo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="82554560-6989-4c6d-8cdf-080246cd65c4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM adm_aluno]]>
+	</queryString>
+	<field name="id_aluno" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificação do aluno. Os códigos auto-incrementais serão gerados pelo AVANT]]></fieldDescription>
+	</field>
+	<field name="id_naturalidade" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador da naturalidade (cidade) da pessoa física]]></fieldDescription>
+	</field>
+	<field name="id_estado_civil" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Identificador do estado civil.]]></fieldDescription>
+	</field>
+	<field name="id_escolaridade" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Chave primária da tabela]]></fieldDescription>
+	</field>
+	<field name="id_endereco" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificação do endereço do aluo. Os códigos auto-incrementais serão gerados pelo AVANT]]></fieldDescription>
+	</field>
+	<field name="id_tipo_deficiencia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Identificador do tipo de deficiência.]]></fieldDescription>
+	</field>
+	<field name="id_cargo_interesse" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificado do cargo de interesse.]]></fieldDescription>
+	</field>
+	<field name="id_controle_encaminhamento" class="java.lang.Integer"/>
+	<field name="is_deficiente" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[Boleano para identificar se é portador de deficiência.]]></fieldDescription>
+	</field>
+	<field name="is_ativo" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[Atributo que define se o aluno está ativo.]]></fieldDescription>
+	</field>
+	<field name="ds_matricula" class="java.lang.String">
+		<fieldDescription><![CDATA[Matrícula do aluno.]]></fieldDescription>
+	</field>
+	<field name="ds_nome" class="java.lang.String">
+		<fieldDescription><![CDATA[Nome do aluno.]]></fieldDescription>
+	</field>
+	<field name="nu_cpf" class="java.lang.String">
+		<fieldDescription><![CDATA[Número do CPF]]></fieldDescription>
+	</field>
+	<field name="dt_nascimento" class="java.sql.Date">
+		<fieldDescription><![CDATA[Data de nascimento]]></fieldDescription>
+	</field>
+	<field name="nu_rg" class="java.lang.String">
+		<fieldDescription><![CDATA[Número do RG]]></fieldDescription>
+	</field>
+	<field name="ds_rg_emissor" class="java.lang.String">
+		<fieldDescription><![CDATA[Órgão emissor do RG]]></fieldDescription>
+	</field>
+	<field name="dt_rg_emissao" class="java.sql.Date">
+		<fieldDescription><![CDATA[Data de emissão do RG]]></fieldDescription>
+	</field>
+	<field name="ds_login" class="java.lang.String">
+		<fieldDescription><![CDATA[Login do aluno.]]></fieldDescription>
+	</field>
+	<field name="ds_senha" class="java.lang.String">
+		<fieldDescription><![CDATA[Senha do aluno.]]></fieldDescription>
+	</field>
+	<field name="tp_sexo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Sexo da pessoa  (1=Masculino, 2=Feminino)]]></fieldDescription>
+	</field>
+	<field name="ds_email_pessoal" class="java.lang.String">
+		<fieldDescription><![CDATA[Email pessoal]]></fieldDescription>
+	</field>
+	<field name="dt_cadastro" class="java.sql.Date">
+		<fieldDescription><![CDATA[Data de cadastro do aluno]]></fieldDescription>
+	</field>
+	<field name="vl_pretensao_salarial" class="java.lang.Double">
+		<fieldDescription><![CDATA[Valor da pretensão salarial.]]></fieldDescription>
+	</field>
+	<field name="is_disponibilidade_viajar" class="java.lang.Boolean"/>
+	<field name="nu_filho" class="java.lang.Integer"/>
+	<field name="is_divulgar_dado" class="java.lang.Boolean"/>
+	<field name="is_aceite_termo_compromisso" class="java.lang.Boolean"/>
+	<field name="cargoInteresse" class="br.gov.go.sectec.portalemprego.core.entidade.CargoInteresse">
+		<fieldDescription><![CDATA[cargoInteresse]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="curriculos" class="java.util.List">
+		<fieldDescription><![CDATA[curriculos]]></fieldDescription>
+	</field>
+	<field name="dsEmailPessoal" class="java.lang.String">
+		<fieldDescription><![CDATA[dsEmailPessoal]]></fieldDescription>
+	</field>
+	<field name="dsLogin" class="java.lang.String">
+		<fieldDescription><![CDATA[dsLogin]]></fieldDescription>
+	</field>
+	<field name="dsMatricula" class="java.lang.String">
+		<fieldDescription><![CDATA[dsMatricula]]></fieldDescription>
+	</field>
+	<field name="dsNome" class="java.lang.String">
+		<fieldDescription><![CDATA[dsNome]]></fieldDescription>
+	</field>
+	<field name="dsRgEmissor" class="java.lang.String">
+		<fieldDescription><![CDATA[dsRgEmissor]]></fieldDescription>
+	</field>
+	<field name="dsSenha" class="java.lang.String">
+		<fieldDescription><![CDATA[dsSenha]]></fieldDescription>
+	</field>
+	<field name="dtCadastro" class="java.util.Date">
+		<fieldDescription><![CDATA[dtCadastro]]></fieldDescription>
+	</field>
+	<field name="dtEmisaoStr" class="java.lang.String">
+		<fieldDescription><![CDATA[dtEmisaoStr]]></fieldDescription>
+	</field>
+	<field name="dtNascimento" class="java.util.Date">
+		<fieldDescription><![CDATA[dtNascimento]]></fieldDescription>
+	</field>
+	<field name="dtNascimentoStr" class="java.lang.String">
+		<fieldDescription><![CDATA[dtNascimentoStr]]></fieldDescription>
+	</field>
+	<field name="dtRgEmissao" class="java.util.Date">
+		<fieldDescription><![CDATA[dtRgEmissao]]></fieldDescription>
+	</field>
+	<field name="endereco" class="br.gov.go.sectec.portalemprego.core.entidade.Endereco">
+		<fieldDescription><![CDATA[endereco]]></fieldDescription>
+	</field>
+	<field name="escolaridade" class="br.gov.go.sectec.portalemprego.core.entidade.Escolaridade">
+		<fieldDescription><![CDATA[escolaridade]]></fieldDescription>
+	</field>
+	<field name="estadoCivil" class="br.gov.go.sectec.portalemprego.core.entidade.EstadoCivil">
+		<fieldDescription><![CDATA[estadoCivil]]></fieldDescription>
+	</field>
+	<field name="idAluno" class="java.lang.Long">
+		<fieldDescription><![CDATA[idAluno]]></fieldDescription>
+	</field>
+	<field name="idControleEncaminhamento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[idControleEncaminhamento]]></fieldDescription>
+	</field>
+	<field name="idNaturalidade" class="java.lang.Long">
+		<fieldDescription><![CDATA[idNaturalidade]]></fieldDescription>
+	</field>
+	<field name="isAceiteTermoCompromisso" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[isAceiteTermoCompromisso]]></fieldDescription>
+	</field>
+	<field name="isAtivo" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[isAtivo]]></fieldDescription>
+	</field>
+	<field name="isDeficiente" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[isDeficiente]]></fieldDescription>
+	</field>
+	<field name="isDisponibilidadeViajar" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[isDisponibilidadeViajar]]></fieldDescription>
+	</field>
+	<field name="isDivulgarDado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[isDivulgarDado]]></fieldDescription>
+	</field>
+	<field name="nuCpf" class="java.lang.String">
+		<fieldDescription><![CDATA[nuCpf]]></fieldDescription>
+	</field>
+	<field name="nuFilho" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nuFilho]]></fieldDescription>
+	</field>
+	<field name="nuRg" class="java.lang.String">
+		<fieldDescription><![CDATA[nuRg]]></fieldDescription>
+	</field>
+	<field name="telefones" class="java.util.List">
+		<fieldDescription><![CDATA[telefones]]></fieldDescription>
+	</field>
+	<field name="tipoDeficiencia" class="br.gov.go.sectec.portalemprego.core.entidade.TipoDeficiencia">
+		<fieldDescription><![CDATA[tipoDeficiencia]]></fieldDescription>
+	</field>
+	<field name="tpSexo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[tpSexo]]></fieldDescription>
+	</field>
+	<field name="vlPretensaoSalarial" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[vlPretensaoSalarial]]></fieldDescription>
+	</field>
+	<variable name="endereco_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{endereco}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b62a96cb-b854-4467-94f7-34bd9fd75cd1" x="148" y="29" width="278" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CURRICULUM VITAE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8e65f461-86e2-4c7c-afa5-4b5c94b8d30a" x="0" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nacionalidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="76688ad3-9856-441a-975f-715c447ba7bd" x="0" y="21" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Estado Civil:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="acc6223c-ce82-4364-bc12-537be6da8a64" x="0" y="42" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3cca3e89-6985-4074-b656-0546ceda0717" x="326" y="42" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Bairro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f99127c4-e9f9-43a0-a851-de27eb2a4244" x="326" y="63" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8aff7777-163d-4eb1-82bf-061aaf54fced" x="0" y="84" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Telefones:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

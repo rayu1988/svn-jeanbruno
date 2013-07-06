@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* AGÊNCIA BAMBOO BRASIL 
+www.agenciabamboo.com.br | (62) 3091.5373
+CSS Por: Regiane Oliveira
+*/
+div#footer{
+	width:922px;
+	background:url(../img/rodape.jpg);
+	float:left;
+	margin:0 0 10px 0; 
+
+}

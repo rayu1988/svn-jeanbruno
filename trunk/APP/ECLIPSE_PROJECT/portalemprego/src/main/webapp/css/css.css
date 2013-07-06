@@ -1,0 +1,181 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/*formação Academica*/
+form#formacao-academica{
+	float:left;
+	width:845px;
+	margin:5px 0 40px 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+ul.dados{
+	list-style:none;
+	float:left;
+	margin:5px;
+}
+ul.dados li{
+	margin:10px 0 0 0;
+}
+ul.dados li label{
+	width:134px;
+	float:left;
+}
+ul.dados li spam{ color:#ff0101;}
+ul.dados input.calendario{	background-image:url(../../img/calendario.jpg);width:20px; height:20px;}
+div.incluir { 
+	float:left;
+	width:845px; 
+	text-align:center; 
+	margin:30px 0 0 0;
+}
+div.incluir input.bt{ background-image:url(../../img/incluir.jpg); width:78px; height:27px;}
+
+div.tabela-formacao{
+	width:720px; 
+	float:left;
+	text-align:center;
+	margin:20px 0 0 0;
+}
+ul.grau{
+	width:165px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.grau li{
+	width:165px;
+	float:left;
+	margin:1px 0 0 0;
+	height:25px;
+}
+ul.grau li.azul{background:#c8dbec;}
+
+ul.grau li.titulo{
+	width:159px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.instituicao{
+	width:150px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.instituicao li{
+	width:150px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.instituicao li.azul{background:#c8dbec;}
+
+ul.instituicao li.titulo{
+	width:144px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.curso{
+	width:144px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.curso li{
+	width:144px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.curso li.azul{background:#c8dbec;}
+
+ul.curso li.titulo{
+	width:138px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.periodo{
+	width:180px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.periodo li{
+	width:180px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.periodo li.azul{background:#c8dbec;}
+
+ul.periodo li.titulo{
+	width:174px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+ul.delete{
+	width:70px;
+	float:left;
+	border:1px solid #fff;
+}
+ul.delete li{
+	width:70px;
+	float:left;
+	height:25px;
+	margin:1px 0 0 0;
+}
+ul.delete li.azul{background:#c8dbec;}
+
+ul.delete li.titulo{
+	width:64px;
+	float:left;
+	height:auto;
+	background:#85b5d9;
+	color:#fff;
+	font-weight:bold;
+	padding:3px;
+}
+
+
+
+
+
+
+/*Encaminhamento ao Emprego*/
+
+form.encaminhando-emprego{
+	float:left;
+	width:845px;
+	margin:5px 0 40px 5px;
+	padding:10px;
+	border:1px solid #a6c9e2;
+}
+form.encaminhando-emprego ul{
+	width:715px;
+	float:left;
+	margin:5px;
+	padding:0 0 30px 0;
+	border:1px solid #a6c9e2;
+}
+form.encaminhando-emprego ul li{
+	width:715px;
+	float:left;
+	margin:5px;
+	}
+form.encaminhando-emprego ul li span{ width:140px; float:left;}
+form.encaminhando-emprego ul li div{ float:left;}
+form.encaminhando-emprego ul li div.n{ margin:0 0 0 30px;float:left;}
+form.encaminhando-emprego ul li p{width:715px; padding:5px 0 10px 0;float:left;}
