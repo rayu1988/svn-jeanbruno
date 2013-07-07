@@ -3,35 +3,6 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <%@ taglib prefix="grid" uri="/struts-jquery-grid-tags"%>
 
-<script type="text/javascript">
-  	function deleteLinkFormatterVagas(cellval, options, rowselect, selarrrow, icon, link_class, link_action, event, rowid) {
-  		var idDeletar = cellval;
-  		return "<a onClick='javascript: return deleteVagaModal("+ idDeletar+")'><div style='cursor:pointer' ><img src='/portalemprego/img/delete.png' alt='excluir' /></div></a>";
-  	}
-
-  	function deleteVagaModal(idDeletar) {
-  		$('input[name=idVagasEx]').val(idDeletar);
-  		$('#excluirVagaEmpresa').dialog('open');
-  	}
-  	
-  	function excluirVaga() {
-  		$.ajax({
-  		    type : "post",
-  		    url : "excluirVagasEmpresa",
-  		    data:$("#formEmpresaId").serialize(),
-  		    dataType: "json",       
-  		    success : function(data) {
-  				        $("#datagridVagas").trigger("reloadGrid");
-  		    }
-  		});
-  		fecharModal();
-  	}
-
-  	function fecharModal() {
-  		 $('#excluirVagaEmpresa').dialog('close');
-  	}
-</script>
-
 <div class="end">Disponibilizar Vagas</div>
 
 <ul class="end">

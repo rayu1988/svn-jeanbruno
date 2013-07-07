@@ -1,5 +1,7 @@
 package br.gov.go.sectec.portalemprego.negocio.dao;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -12,7 +14,6 @@ public class EmpresaDaoImpl extends PersistenciaGenericaJpa<Empresa, Integer> im
 
 	@Override
 	public Empresa buscarEmpresaPorCNPJ(String cnpj) {
-
 		final Criteria criteria = this.novoCriteria();
 		criteria.add(Restrictions.eq("empresa.numCNPJ", cnpj));
 		return (Empresa) criteria.uniqueResult();
@@ -20,10 +21,17 @@ public class EmpresaDaoImpl extends PersistenciaGenericaJpa<Empresa, Integer> im
 
 	@Override
 	public Empresa buscarEmpresaPorEmail(String email) {
-
 		final Criteria criteria = this.novoCriteria();
 		criteria.add(Restrictions.eq("empresa.emailResponsavel", email));
 		return (Empresa) criteria.uniqueResult();
+	}
+
+	@Override
+	public boolean checkExistEmpresa(String cnpj) {
+		final Criteria criteria = this.novoCriteria();
+		criteria.add(Restrictions.eq("numCNPJ", cnpj));
+		List<?> listEmpresa = criteria.list();
+		return listEmpresa != null && listEmpresa.size() > 0;
 	}
 
 }

@@ -413,29 +413,17 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	@Action(value = "/incluirEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = EmpresaAction.SUCCESS) })
 	public String incluirEmpresa() {
-
 		try {
-
 			this.getEmpresa().getEndereco().setCidade(this.getEmpresaBo().obterCidadePorId(this.getIdCidade()));
-
 			this.obterDadosTelefone();
-
 			this.getEmpresa().setRamoAtividade(this.getEmpresaBo().obterRamoAtividadePorId(this.getIdRamoAtividade()));
-
 			this.obterDadosVagasOfertadas();
-
 			this.empresaBo.incluir(this.getEmpresa());
-
 			this.limparDados();
-
 			this.adicionarMensagemSucesso(PremiumAction.OPERACAO_SUCESSO);
-
 		} catch (final NegocioException ne) {
-
 			this.adicionarMensagemValidacao(ne);
-
 		}
-
 		return PremiumAction.SUCCESS;
 	}
 
