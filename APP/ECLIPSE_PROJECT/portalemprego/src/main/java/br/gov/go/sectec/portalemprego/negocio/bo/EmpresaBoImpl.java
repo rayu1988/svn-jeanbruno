@@ -12,7 +12,6 @@ import br.gov.go.sectec.portalemprego.comum.exception.NegocioException;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.AreaInteresseBo;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.CidadeBo;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.EmpresaBo;
-import br.gov.go.sectec.portalemprego.comum.interfacebo.EnderecoBo;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.PaisBo;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.RamoAtividadeBo;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.TipoTelefoneBo;
@@ -78,9 +77,6 @@ public class EmpresaBoImpl extends PremiumBOImpl<Empresa, Integer> implements Em
 
 	@Autowired
 	private AreaInteresseBo areaBo;
-
-	@Autowired
-	private EnderecoBo enderecoBo;
 
 	/**
 	 * Método responsável por
@@ -157,29 +153,25 @@ public class EmpresaBoImpl extends PremiumBOImpl<Empresa, Integer> implements Em
 	 * @param empresa
 	 */
 	private void validarDados(final Empresa empresa) {
-
 		if (!CpfCnpjUtil.isValid(empresa.getNumCNPJ())) {
-
 			throw new NegocioException("O Cnpj " + empresa.getNumCNPJ() + " é inválido");
-
+		}
+		
+		String cpnjSemMascara = empresa.getNumCNPJ().replace(".", "").replace("/", "").replace("-", "");
+		if (this.empresaDao.checkExistEmpresa(cpnjSemMascara)) {
+			throw new NegocioException("O Cnpj " + empresa.getNumCNPJ() + " já foi cadastrado");
 		}
 
 		if (!ValidatorUtil.isBlank(empresa.getNumCPFResponsavel()) && !CpfCnpjUtil.isValid(empresa.getNumCPFResponsavel())) {
-
 			throw new NegocioException("O CPF " + empresa.getNumCPFResponsavel() + " é inválido");
-
 		}
 
 		if (!EmailUtil.validarEmail(empresa.getEmailResponsavel())) {
-
 			throw new NegocioException("O E-mail " + empresa.getEmailResponsavel() + " é inválido");
-
 		}
 
 		if (!empresa.getDsSenha().equals(empresa.getDsSenhaConfirmacao())) {
-
 			throw new NegocioException("A senha e a confimarção de senha estão diferentes");
-
 		}
 
 	}

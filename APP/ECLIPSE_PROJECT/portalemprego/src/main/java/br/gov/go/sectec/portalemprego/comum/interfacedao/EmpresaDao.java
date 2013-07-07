@@ -6,4 +6,6 @@ public interface EmpresaDao extends PersistenciaGenerica<Empresa, Integer> {
 
 	public Empresa buscarEmpresaPorCNPJ(String cnpj);
 	public Empresa buscarEmpresaPorEmail(String email);
+	public boolean checkExistEmpresa(String cnpj);
+	
 }

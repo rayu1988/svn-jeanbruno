@@ -1,11 +1,10 @@
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib prefix="grid" uri="/struts-jquery-grid-tags"%>
 
-	<s:form namespace="empresa" method="post" id="formEmpresaVagasTable" >
 	  <s:url var="obterVagasOfertadasURL" action="listarVagasOfertadas" namespace="empresa" /> 
 	  <grid:grid gridModel="vagaList"
 				id="datagridVagas"
-				formIds="formEmpresaVagasTable"
+				formIds="formEmpresaId"
 				href="%{obterVagasOfertadasURL}"
     			loadingText="Carregando..."
     			pager="true"
@@ -18,4 +17,3 @@
 	    	<grid:gridColumn name="dsVagaOfertada" index="dsVagaOfertada"  title="Descrição" sortable="false" align="left"/>
 	    	<grid:gridColumn name="index" index="index" title="Ação" sortable="left" align="center" formatter="buildHtmlContentButtons_JobVacancy" />
 		</grid:grid>
-	</s:form>
