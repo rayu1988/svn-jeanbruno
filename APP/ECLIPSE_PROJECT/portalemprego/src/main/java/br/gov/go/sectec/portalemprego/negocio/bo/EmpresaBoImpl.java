@@ -114,16 +114,20 @@ public class EmpresaBoImpl extends PremiumBOImpl<Empresa, Integer> implements Em
 	 */
 
 	public void incluir(final Empresa empresa) {
-
 		this.validarDadosObrigatorios(empresa);
-
 		this.validarDados(empresa);
-
+		this.validarCNPJJaExiste(empresa);
 		retirarMascaras(empresa);
-		
 		empresa.setDsSenha(DigestUtils.md5Hex(empresa.getDsSenha()));
 		
 		super.incluir(empresa);
+	}
+
+	private void validarCNPJJaExiste(Empresa empresa) {
+		String cpnjSemMascara = empresa.getNumCNPJ().replace(".", "").replace("/", "").replace("-", "");
+		if (this.empresaDao.checkExistEmpresa(cpnjSemMascara)) {
+			throw new NegocioException("O Cnpj " + empresa.getNumCNPJ() + " já foi cadastrado");
+		}
 	}
 
 	/**
@@ -155,11 +159,6 @@ public class EmpresaBoImpl extends PremiumBOImpl<Empresa, Integer> implements Em
 	private void validarDados(final Empresa empresa) {
 		if (!CpfCnpjUtil.isValid(empresa.getNumCNPJ())) {
 			throw new NegocioException("O Cnpj " + empresa.getNumCNPJ() + " é inválido");
-		}
-		
-		String cpnjSemMascara = empresa.getNumCNPJ().replace(".", "").replace("/", "").replace("-", "");
-		if (this.empresaDao.checkExistEmpresa(cpnjSemMascara)) {
-			throw new NegocioException("O Cnpj " + empresa.getNumCNPJ() + " já foi cadastrado");
 		}
 
 		if (!ValidatorUtil.isBlank(empresa.getNumCPFResponsavel()) && !CpfCnpjUtil.isValid(empresa.getNumCPFResponsavel())) {
@@ -466,5 +465,29 @@ public class EmpresaBoImpl extends PremiumBOImpl<Empresa, Integer> implements Em
 		} catch (final Exception e) {
 			return false;
 		}*/
+	}
+
+	@Override
+	public Empresa login(String dsLogin, String dsSenha) {
+		return this.empresaDao.login(dsLogin, DigestUtils.md5Hex(dsSenha));
+	}
+
+	@Override
+	public Empresa obterEmpresaPeloId(Long id) {
+		return this.empresaDao.obterEmpresaPeloId(id);
+	}
+
+	@Override
+	public Empresa salvar(Empresa empresa) {
+		Empresa cadastroAtual = this.obterEmpresaPeloId(empresa.getIdEmpresa());
+		
+		empresa.setDsSenha(cadastroAtual.getDsSenha());
+		empresa.getEndereco().setIdEndereco(cadastroAtual.getEndereco().getIdEndereco());
+		empresa.setDsSenhaConfirmacao(empresa.getDsSenha());
+		
+		this.validarDadosObrigatorios(empresa);
+		this.validarDados(empresa);
+		retirarMascaras(empresa);
+		return this.empresaDao.salvar(empresa);
 	}
 }

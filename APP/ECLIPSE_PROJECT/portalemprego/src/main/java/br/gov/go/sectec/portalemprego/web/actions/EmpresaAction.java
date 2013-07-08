@@ -12,8 +12,6 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 import br.gov.go.sectec.portalemprego.comum.exception.NegocioException;
 import br.gov.go.sectec.portalemprego.comum.interfacebo.EmpresaBo;
 import br.gov.go.sectec.portalemprego.comum.utilitario.DataUtil;
@@ -34,6 +32,8 @@ import br.gov.go.sectec.portalemprego.core.entidade.DTO.TelefoneDTO;
 import br.gov.go.sectec.portalemprego.core.entidade.DTO.TipoTelefoneDTO;
 import br.gov.go.sectec.portalemprego.core.entidade.DTO.UfDTO;
 import br.gov.go.sectec.portalemprego.core.entidade.DTO.VagasOfertadasDTO;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * <p>
@@ -58,65 +58,131 @@ import br.gov.go.sectec.portalemprego.core.entidade.DTO.VagasOfertadasDTO;
 public class EmpresaAction extends PremiumAction {
 
 	private static final long serialVersionUID = -4096579557902623573L;
+	
+	public static final String SESSION_EMPRESA_LOGIN = "empresaLogin";
+	
+	private static final String SESSION_VAGA_LIST = "vagaList";
+	private static final String SESSION_TELEFONE_LIST = "telefoneList";
+	private static final String SESSION_UF_LIST = "ufList";
+	private static final String SESSION_CIDADE_LIST = "cidadeList";
 
 	@Autowired
 	private EmpresaBo empresaBo;
-
-	private List<PaisDTO> paisList;
-
-	private List<UfDTO> ufList;
-
-	private List<CidadeDTO> cidadeList;
-
-	private List<CidadeDTO> cidadeVagaList;
-
-	private List<TipoTelefoneDTO> tipoTelefoneList;
-
-	private List<TelefoneDTO> telefoneList;
-
-	private List<RamoAtividadeDTO> ramoList;
-
-	private List<VagasOfertadasDTO> vagaList;
-
-	private List<AreaInteresseDTO> areaList;
-
-	private Telefone telefone;
-
-	private VagasOfertadasDTO vaga;
-
-	private Integer indexElementList;
-
-	private String idVagasEx;
-
-	private String dataEx;
-
-	private Empresa empresa;
-
-	private Long idPais;
-
-	private Long idUf;
-
-	private Long idCidade;
-
-	private Long idTipoTelefone;
-
-	private Long idRamoAtividade;
-
-	private Long idCidadeVaga;
 	
+	private List<PaisDTO> paisList;
+	private List<UfDTO> ufList;
+	private List<CidadeDTO> cidadeList;
+	private List<CidadeDTO> cidadeVagaList;
+	private List<TipoTelefoneDTO> tipoTelefoneList;
+	private List<TelefoneDTO> telefoneList;
+	private List<RamoAtividadeDTO> ramoList;
+	private List<VagasOfertadasDTO> vagaList;
+	private List<AreaInteresseDTO> areaList;
+	private Telefone telefone;
+	private VagasOfertadasDTO vaga;
+	private Integer indexElementList;
+	private String idVagasEx;
+	private String dataEx;
+	private Empresa empresa;
+	private Long idPais;
+	private Long idUf;
+	private Long idCidade;
+	private Long idTipoTelefone;
+	private Long idRamoAtividade;
+	private Long idCidadeVaga;
 	private ProcessingReturn processingReturn;
 
-	@Action(value = "/abreRemover", results = { @Result(location = "/views/empresa/teste.jsp", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/iniciarLogin", results = { @Result(location = "loginEmpresa.page", type = "tiles", name = ActionSupport.SUCCESS)} )
+	public String iniciarLogin() {
+		this.limparDados();
+		
+		return ActionSupport.SUCCESS;
+	}
+	
+	@Action(value = "/login", results = { @Result(location = "empresa.page", type = "tiles", name = ActionSupport.SUCCESS),
+										@Result(location = "loginEmpresa.page", type = "tiles", name = ActionSupport.ERROR)} )
+	public String login() {
+		try {
+			final Empresa empresa = this.getEmpresaBo().login(this.getEmpresa().getDsLogin(), this.getEmpresa().getDsSenha());
+			if (empresa == null) {
+				throw new NegocioException("Usuário ou senha inválido.");
+			}
+			this.setEmpresa(empresa);
+			this.incluirSessao(SESSION_EMPRESA_LOGIN, this.getEmpresa());
+			this.popularDadosDaTela();
+			
+			return ActionSupport.SUCCESS;
+		} catch (final NegocioException ne) {
+			this.adicionarMensagemValidacao(ne);
+			return ActionSupport.ERROR;
+		}
+	}
+	
+	@Action(value = "/alterarEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = ActionSupport.SUCCESS)} )
+	public String alterarEmpresa() {
+		this.setEmpresa((Empresa)this.obterDaSessao(SESSION_EMPRESA_LOGIN));
+		this.popularDadosDaTela();
+		
+		return ActionSupport.SUCCESS;
+	}
+	
+	private void popularDadosDaTela() {
+		// carrega lista de telefones
+		this.telefoneList = new ArrayList<TelefoneDTO>();
+		for (Telefone telefone : this.getEmpresa().getTelefones()) {
+			TelefoneDTO dto = new TelefoneDTO();
+			dto.setIdDTO(telefone.getIdTelefone());
+			dto.setNumeroDTO(telefone.getNuTelefone());
+			dto.setNuDdd(telefone.getNuDdd());
+			dto.setNuDdi(telefone.getNuDdi());
+			dto.setDsTipo(telefone.getTipoTelefone().getDsTipoTelefone());
+			dto.setIdTipo(telefone.getTipoTelefone().getIdTipoTelefone());
+			this.telefoneList.add(dto);
+		}
+		this.adicionarTelefoneSessao();
+		
+		// carrega lista de vagas
+		this.vagaList = new ArrayList<VagasOfertadasDTO>();
+		for (VagaOfertada vagaOfertada : this.getEmpresa().getVagaOfertadas()) {
+			VagasOfertadasDTO dto = new VagasOfertadasDTO();
+			dto.setDsCidade(vagaOfertada.getCidade().getDsNome());
+			dto.setIdCidade(vagaOfertada.getCidade().getIdCidade());
+			dto.setDsArea(vagaOfertada.getAreaInteresse().getDsAreaInteresse());
+			dto.setIdArea(vagaOfertada.getAreaInteresse().getIdAreaInteresse());
+			dto.setQtdVagas(vagaOfertada.getNuVagaOfertada());
+			dto.setDataExpiracaoStr(DataUtil.brazilianShortFormat.format(vagaOfertada.getDtExpiracaoVaga()));
+			dto.setDsVagaOfertada(vagaOfertada.getDsVagaOfertada());
+			this.vagaList.add(dto);
+		}
+		this.adicionarVagasSessao();
+		
+		this.setIdRamoAtividade(this.getEmpresa().getRamoAtividade().getIdRamoAtividade());
+		this.setIdPais(this.getEmpresa().getEndereco().getCidade().getUf().getPais().getIdPais());
+		this.setIdUf(this.getEmpresa().getEndereco().getCidade().getUf().getIdUf());
+		this.setIdCidade(this.getEmpresa().getEndereco().getCidade().getIdCidade());
+		
+		// inicializar as seguintes listas para a session
+		this.inicializarListaUf();
+		this.inicializarListaCidade();
+	}
+	
+	@Action(value = "/logout", results = { @Result(location = "index.page", type = "tiles", name = ActionSupport.SUCCESS)} )
+	public String logout() {
+		this.removerSessao(SESSION_EMPRESA_LOGIN);
+		this.limparDados();
+		
+		return ActionSupport.SUCCESS;
+	}
+	
+	@Action(value = "/abreRemover", results = { @Result(location = "/views/empresa/teste.jsp", name = ActionSupport.SUCCESS) })
 	public String abreRemover() {
-
-		return "success";
+		return ActionSupport.SUCCESS;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Action(value = "/excluirVagasEmpresa",results = { @Result(name = ActionSupport.SUCCESS, type = "json",params = { "includeProperties", "paisList.*"  }) })
 	public String excluirVagasEmpresa() {
-
-		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 
 		this.vagaList.remove(Integer.parseInt(this.idVagasEx));
 
@@ -127,7 +193,6 @@ public class EmpresaAction extends PremiumAction {
 
 	 @Action(value = "/obterPaisEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json",params = { "includeProperties", "paisList.*"  }) })
 	public String obterPaisEmpresa() {
-
 		this.inicializarListaPais();
 
 		return ActionSupport.SUCCESS;
@@ -135,15 +200,13 @@ public class EmpresaAction extends PremiumAction {
 
 	@Action(value = "/obterUfEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json",params = { "includeProperties", "ufList.*"  }   ) })
 	public String obterUf() {
-
 		this.inicializarListaUf();
-
+		
 		return ActionSupport.SUCCESS;
 	}
 
 	@Action(value = "/listarAreaInteresse", results = { @Result(name = "success", type = "json",params = { "includeProperties", "areaList.*"  }) })
 	public String listarAreaInteresse() {
-
 		this.setAreaList(this.getEmpresaBo().listarAreaInteresse());
 
 		return PremiumAction.SUCCESS;
@@ -167,7 +230,6 @@ public class EmpresaAction extends PremiumAction {
 
 	@Action(value = "/obterTipoTelefoneEmpresa", results = { @Result(name = "success", type = "json",params = { "includeProperties", "tipoTelefoneList.*"  }) })
 	public String obterTipoTelefoneEmpresa() {
-
 		this.setTipoTelefoneList(this.getEmpresaBo().listarTipoTelefone());
 
 		return PremiumAction.SUCCESS;
@@ -175,7 +237,6 @@ public class EmpresaAction extends PremiumAction {
 
 	@Actions({ @Action(value = "/listarRamoAtividade", results = { @Result(name = "success", type = "json",params = { "includeProperties", "ramoList.*"  }) }) })
 	public String listarRamoAtividade() {
-
 		this.setRamoList(this.getEmpresaBo().listarRamoAtividade());
 
 		return PremiumAction.SUCCESS;
@@ -192,11 +253,11 @@ public class EmpresaAction extends PremiumAction {
 
 		this.prepararDadosVagaDTO();
 
-		if (ValidatorUtil.isNull(this.obterDaSessao("vagaList"))) {
+		if (ValidatorUtil.isNull(this.obterDaSessao(SESSION_VAGA_LIST))) {
 			this.vagaList = new ArrayList<VagasOfertadasDTO>();
 			this.vagaList.add(this.getVaga());
 		} else {
-			this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+			this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 			this.vagaList.add(this.getVaga());
 		}
 		
@@ -223,7 +284,7 @@ public class EmpresaAction extends PremiumAction {
 	@SuppressWarnings("unchecked")
 	@Action(value = "/editarTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String editarTelefoneEmpresa() {
-		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
+		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
 		TelefoneDTO dto = this.telefoneList.get(this.getIndexElementList());
 		
 		this.telefone = new Telefone();
@@ -240,7 +301,7 @@ public class EmpresaAction extends PremiumAction {
 	@SuppressWarnings("unchecked")
 	@Action(value = "/editarVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String editarVagasOfertasEmpresa() {
-		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 		VagasOfertadasDTO dto = this.vagaList.get(this.getIndexElementList().intValue());
 		this.setVaga(dto);
 		
@@ -255,7 +316,7 @@ public class EmpresaAction extends PremiumAction {
 			return ActionSupport.SUCCESS;
 		}
 		
-		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
+		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
 		
 		final TelefoneDTO dto = this.obterTelefone();
 		this.telefoneList.set(this.getIndexElementList().intValue(), dto);
@@ -277,7 +338,7 @@ public class EmpresaAction extends PremiumAction {
 		
 		this.prepararDadosVagaDTO();
 		
-		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 		this.vagaList.set(this.getIndexElementList().intValue(), this.getVaga());
 		
 		this.setVaga(null);
@@ -290,7 +351,7 @@ public class EmpresaAction extends PremiumAction {
 	@SuppressWarnings("unchecked")
 	@Action(value = "/excluirTelefoneEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String excluirTelefoneEmpresa() {
-		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
+		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
 		this.telefoneList.remove(this.getIndexElementList().intValue());
 		this.adicionarTelefoneSessao();
 
@@ -301,7 +362,7 @@ public class EmpresaAction extends PremiumAction {
 	@SuppressWarnings("unchecked")
 	@Action(value = "/excluirVagasOfertasEmpresa", results = { @Result(name = ActionSupport.SUCCESS, type = "json") })
 	public String excluirVagasOfertasEmpresa() {
-		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 		this.vagaList.remove(this.getIndexElementList().intValue());
 		
 		this.setVaga(null);
@@ -318,14 +379,12 @@ public class EmpresaAction extends PremiumAction {
 			this.processingReturn = new ProcessingReturn("Todos os campos de telefone são obrigatórios");
 			return ActionSupport.SUCCESS;
 		}
-		if (ValidatorUtil.isNull(this.obterDaSessao("telefoneList"))) {
+		if (ValidatorUtil.isNull(this.obterDaSessao(SESSION_TELEFONE_LIST))) {
 			this.telefoneList = new ArrayList<TelefoneDTO>();
-			final TelefoneDTO dto = this.obterTelefone();
-			this.telefoneList.add(dto);
+			this.telefoneList.add(this.obterTelefone());
 		} else {
-			this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
-			final TelefoneDTO dto = this.obterTelefone();
-			this.telefoneList.add(dto);
+			this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
+			this.telefoneList.add(this.obterTelefone());
 		}
 		this.setTelefone(null);
 		this.setIdTipoTelefone(null);
@@ -349,7 +408,7 @@ public class EmpresaAction extends PremiumAction {
 	@Actions({ @Action(value = "/obterTelefones", results = { @Result(name = ActionSupport.SUCCESS, type = "json",params = { "includeProperties", "telefoneList.*"  }) }) })
 	public String obterTelefones() {
 
-		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
+		this.telefoneList = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
 
 		return ActionSupport.SUCCESS;
 	}
@@ -358,7 +417,7 @@ public class EmpresaAction extends PremiumAction {
 	@Actions({ @Action(value = "/listarVagasOfertadas", results = { @Result(name = PremiumAction.SUCCESS, type = "json",params = { "includeProperties", "vagaList.*"  }) }) })
 	public String listarVagasOfertadas() {
 
-		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
+		this.vagaList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 
 		return PremiumAction.SUCCESS;
 	}
@@ -370,10 +429,9 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 * @return String para localização
 	 */
-	@Action(value = "/voltarInicioEmpresa", results = { @Result(location = "/views/index.jsp", type = "redirect", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/voltarInicioEmpresa", results = { @Result(location = "/views/index.jsp", type = "redirect", name = ActionSupport.SUCCESS) })
 	public String voltarInicioEmpresa() {
-
-		return PremiumAction.SUCCESS;
+		return ActionSupport.SUCCESS;
 	}
 
 	/**
@@ -383,12 +441,11 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 * @return String para localização
 	 */
-	@Action(value = "/iniciarEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/iniciarEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = ActionSupport.SUCCESS) })
 	public String iniciarEmpresa() {
-
 		this.limparDados();
 
-		return PremiumAction.SUCCESS;
+		return ActionSupport.SUCCESS;
 	}
 
 	/**
@@ -398,10 +455,9 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 * @return tela iniciao emprego.
 	 */
-	@Action(value = "/iniciarEmprego", results = { @Result(location = "empregosEfetivados.page", type = "tiles", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/iniciarEmprego", results = { @Result(location = "empregosEfetivados.page", type = "tiles", name = ActionSupport.SUCCESS) })
 	public String iniciarEmprego() {
-
-		return PremiumAction.SUCCESS;
+		return ActionSupport.SUCCESS;
 	}
 
 	/**
@@ -411,22 +467,70 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 * @return tela de inclusao.
 	 */
-	@Action(value = "/incluirEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = EmpresaAction.SUCCESS) })
+	@Action(value = "/incluirEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = ActionSupport.SUCCESS) })
 	public String incluirEmpresa() {
 		try {
 			this.getEmpresa().getEndereco().setCidade(this.getEmpresaBo().obterCidadePorId(this.getIdCidade()));
 			this.obterDadosTelefone();
 			this.getEmpresa().setRamoAtividade(this.getEmpresaBo().obterRamoAtividadePorId(this.getIdRamoAtividade()));
 			this.obterDadosVagasOfertadas();
+			
 			this.empresaBo.incluir(this.getEmpresa());
-			this.limparDados();
+			
+			// faz um refresh no objeto Empresa e popula as informações da tela novamente
+			this.setEmpresa(this.empresaBo.obterEmpresaPeloId(this.empresa.getIdEmpresa()));
+			this.incluirSessao(SESSION_EMPRESA_LOGIN, this.getEmpresa());
+			this.popularDadosDaTela();
+			
 			this.adicionarMensagemSucesso(PremiumAction.OPERACAO_SUCESSO);
 		} catch (final NegocioException ne) {
 			this.adicionarMensagemValidacao(ne);
 		}
-		return PremiumAction.SUCCESS;
+		return ActionSupport.SUCCESS;
 	}
-
+	
+	@Action(value = "/salvarEmpresa", results = { @Result(location = "empresa.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	public String salvarEmpresa() {
+		try {
+			Empresa cadastroAtual = (Empresa) this.obterDaSessao(SESSION_EMPRESA_LOGIN);
+			this.getEmpresa().setIdEmpresa(cadastroAtual.getIdEmpresa());
+			
+			this.obterDadosTelefone();
+			this.obterDadosVagasOfertadas();
+			
+			Cidade cidade = new Cidade();
+			cidade.setIdCidade(this.getIdCidade());
+			this.getEmpresa().getEndereco().setCidade(cidade);
+			
+			RamoAtividade ramoAtividade = new RamoAtividade();
+			ramoAtividade.setIdRamoAtividade(this.getIdRamoAtividade());
+			this.getEmpresa().setRamoAtividade(ramoAtividade);
+			
+			// persiste as informações na base, faz um refresh no objeto Empresa e popula as informações da tela novamente
+			this.setEmpresa(this.empresaBo.salvar(this.getEmpresa()));
+			this.incluirSessao(SESSION_EMPRESA_LOGIN, this.getEmpresa());
+			this.popularDadosDaTela();
+		} catch (final NegocioException ne) {
+			this.adicionarMensagemValidacao(ne);
+		}
+		return ActionSupport.SUCCESS;
+	}
+	
+	@Action(value = "/excluirEmpresaPorId", results = { @Result(location = "index.page", type = "tiles", name = ActionSupport.SUCCESS) })
+	public String excluirEmpresaPorId() {
+		try {
+			if (this.getEmpresa() == null || this.getEmpresa().getIdEmpresa() == null) {
+				throw new NegocioException("Não foi possível efetuar a exclusão da empresa");
+			}
+			this.empresaBo.excluir(this.empresaBo.obterEmpresaPeloId(this.getEmpresa().getIdEmpresa()));
+			
+			this.adicionarMensagemSucesso(PremiumAction.OPERACAO_SUCESSO);
+		} catch (final NegocioException ne) {
+			this.adicionarMensagemValidacao(ne);
+		}
+		return ActionSupport.SUCCESS;
+	}
+	
 	/**
 	 * Método responsável por oberer os dados das vagas ofertadas.
 	 * 
@@ -435,36 +539,23 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	@SuppressWarnings("unchecked")
 	private void obterDadosVagasOfertadas() {
-
-		final List<VagasOfertadasDTO> dtoList = (List<VagasOfertadasDTO>) this.obterDaSessao("vagaList");
-
+		final List<VagasOfertadasDTO> dtoList = (List<VagasOfertadasDTO>) this.obterDaSessao(SESSION_VAGA_LIST);
 		if (ValidatorUtil.isNotNull(dtoList)) {
 			final List<VagaOfertada> vagas = new ArrayList<VagaOfertada>();
-
 			for (final VagasOfertadasDTO dto : dtoList) {
-
 				final VagaOfertada vaga = new VagaOfertada();
-
-				final Cidade cidade = this.empresaBo.obterCidadePorId(dto.getIdCidade());
-
-				final AreaInteresse area = this.empresaBo.obterAreaInteressePorId(dto.getIdArea());
-
+				final Cidade cidade = new Cidade();
+				cidade.setIdCidade(dto.getIdCidade());
 				vaga.setCidade(cidade);
-
 				vaga.setNuVagaOfertada(dto.getQtdVagas());
-
 				vaga.setDtExpiracaoVaga(DataUtil.obterData(dto.getDataExpiracaoStr()));
-
 				vaga.setDsVagaOfertada(dto.getDsVagaOfertada());
-
 				vaga.setEmpresa(this.getEmpresa());
-
+				AreaInteresse area = new AreaInteresse();
+				area.setIdAreaInteresse(dto.getIdArea());
 				vaga.setAreaInteresse(area);
-
 				vagas.add(vaga);
-
 			}
-
 			this.getEmpresa().setVagaOfertadas(vagas);
 		}
 	}
@@ -477,33 +568,19 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	@SuppressWarnings("unchecked")
 	private void obterDadosTelefone() {
-
-		final List<TelefoneDTO> telefones = (List<TelefoneDTO>) this.obterDaSessao("telefoneList");
-
+		final List<TelefoneDTO> telefones = (List<TelefoneDTO>) this.obterDaSessao(SESSION_TELEFONE_LIST);
 		final List<Telefone> fones = new ArrayList<Telefone>();
-
 		if (ValidatorUtil.isNotNull(telefones)) {
-
 			for (final TelefoneDTO dto : telefones) {
-
 				final Telefone telefone = new Telefone();
-
 				final TipoTelefone tipo = this.getEmpresaBo().obterTipoTelefonePorId(dto.getIdTipo());
-
 				telefone.setTipoTelefone(tipo);
-
 				telefone.setNuDdi(dto.getNuDdi());
-
 				telefone.setNuDdd(dto.getNuDdd());
-
 				telefone.setNuTelefone(dto.getNumeroDTO());
-
 				telefone.setEmpresa(this.getEmpresa());
-
 				fones.add(telefone);
-
 			}
-
 			this.getEmpresa().setTelefones(fones);
 		}
 	}
@@ -516,17 +593,11 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	@SuppressWarnings("unchecked")
 	private void inicializarListaCidade() {
-
 		if (ValidatorUtil.isNotNull(this.getIdUf())) {
-
 			this.setCidadeList(this.getEmpresaBo().obterCidadePorIdUf(this.getIdUf()));
-
-			this.incluirSessao("cidadeList", this.getCidadeList());
-
+			this.incluirSessao(SESSION_CIDADE_LIST, this.getCidadeList());
 		} else {
-
-			this.setCidadeList((List<CidadeDTO>) this.obterDaSessao("cidadeList"));
-
+			this.setCidadeList((List<CidadeDTO>) this.obterDaSessao(SESSION_CIDADE_LIST));
 		}
 	}
 
@@ -538,19 +609,12 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	@SuppressWarnings("unchecked")
 	private void inicializarListaUf() {
-
 		if (ValidatorUtil.isNotNull(this.getIdPais())) {
-
 			this.setUfList(this.getEmpresaBo().obetUfPorIdPais(this.getIdPais()));
-
-			this.incluirSessao("ufList", this.getUfList());
-
+			this.incluirSessao(SESSION_UF_LIST, this.getUfList());
 		} else {
-
-			this.setUfList((List<UfDTO>) this.obterDaSessao("ufList"));
-
+			this.setUfList((List<UfDTO>) this.obterDaSessao(SESSION_UF_LIST));
 		}
-
 	}
 
 	/**
@@ -561,23 +625,14 @@ public class EmpresaAction extends PremiumAction {
 	 * @return
 	 */
 	private TelefoneDTO obterTelefone() {
-
 		final TelefoneDTO dto = new TelefoneDTO();
-
 		dto.setIdDTO(this.telefone.getIdTelefone());
-
 		dto.setNumeroDTO(this.telefone.getNuTelefone());
-
 		dto.setNuDdd(this.telefone.getNuDdd());
-
 		dto.setNuDdi(this.telefone.getNuDdi());
-
 		final TipoTelefone tipo = this.getEmpresaBo().obterTipoTelefonePorId(this.getIdTipoTelefone());
-
 		dto.setDsTipo(tipo.getDsTipoTelefone());
-
 		dto.setIdTipo(tipo.getIdTipoTelefone());
-
 		return dto;
 	}
 
@@ -588,9 +643,7 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 */
 	private void inicializarListaPais() {
-
 		this.setPaisList(this.getEmpresaBo().listarPais());
-
 	}
 
 	/**
@@ -675,10 +728,8 @@ public class EmpresaAction extends PremiumAction {
 	 * 
 	 */
 	private void adicionarTelefoneSessao() {
-
 		this.createIndexTelefone();
-
-		this.incluirSessao("telefoneList", this.telefoneList);
+		this.incluirSessao(SESSION_TELEFONE_LIST, this.telefoneList);
 	}
 
 	/**
@@ -689,7 +740,7 @@ public class EmpresaAction extends PremiumAction {
 	 */
 	private void adicionarVagasSessao() {
 		this.createIndexVagas();
-		this.incluirSessao("vagaList", this.vagaList);
+		this.incluirSessao(SESSION_VAGA_LIST, this.vagaList);
 	}
 
 	/**
@@ -698,28 +749,19 @@ public class EmpresaAction extends PremiumAction {
 	 * @author Silvânio
 	 */
 	private void limparDados() {
-
 		this.setEmpresa(new Empresa());
-
 		this.getEmpresa().setEndereco(new Endereco());
-
 		this.getEmpresa().setRamoAtividade(new RamoAtividade());
-
-		this.removerSessao("ufList");
-
-		this.removerSessao("cidadeList");
-
-		this.removerSessao("telefoneList");
-
-		this.removerSessao("vagaList");
-
+		
 		this.setIdPais(null);
-
 		this.setIdUf(null);
-
 		this.setIdCidade(null);
-
 		this.setIdRamoAtividade(null);
+
+		this.removerSessao(SESSION_UF_LIST);
+		this.removerSessao(SESSION_CIDADE_LIST);
+		this.removerSessao(SESSION_TELEFONE_LIST);
+		this.removerSessao(SESSION_VAGA_LIST);
 	}
 
 	public EmpresaBo getEmpresaBo() {

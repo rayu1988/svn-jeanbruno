@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib uri="/struts-tags" prefix="s" %>   
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>  
@@ -51,15 +50,29 @@
 					<!-- Incluir o menu lateral -->
 					<h2 class="titulo-campo">Instituição / Empresa</h2>
 					<s:form>
-					  <s:url var="remoteurlIniciarEmpresa" action="iniciarEmpresa" namespace="/empresa" /> 
-					  <s:url var="remoteurlVisualizarCurriculo" action="abreVisualizarCurriculo" namespace="/visualizar" /> 
-					 <div class="quadro-branco">
-						<ul class="instituicao-empresa">
-							<li><s:a  href="%{remoteurlVisualizarCurriculo}" >Buscar Currículo</s:a></li>
-							<li><s:a  href="%{remoteurlIniciarEmpresa}" >Cadastrar Instituição/Empresa</s:a></li>
-							<li><a href="#">Esqueceu a senha?</a></li>
-						</ul>
-					</div>
+						<div class="quadro-branco">
+							<ul class="instituicao-empresa">
+								<s:url var="remoteurlVisualizarCurriculo" action="abreVisualizarCurriculo" namespace="/visualizar" />
+								<li><s:a href="%{remoteurlVisualizarCurriculo}" >Buscar Currículo</s:a></li>
+								
+								<c:if test="${session['empresaLogin'] eq null}">
+									<s:url var="urEmpresaLogin" action="iniciarLogin" namespace="/empresa" /> 
+									<li><s:a href="%{urEmpresaLogin}" >Efetuar Login</s:a></li>
+									
+									<s:url var="remoteurlIniciarEmpresa" action="iniciarEmpresa" namespace="/empresa" /> 
+									<li><s:a href="%{remoteurlIniciarEmpresa}" >Novo Cadastro</s:a></li>
+								</c:if>
+								<c:if test="${session['empresaLogin'] ne null}">
+									<s:url var="alterarEmpresa" action="alterarEmpresa" namespace="/empresa" /> 
+									<li><s:a href="%{alterarEmpresa}" >Alterar Cadastro</s:a></li>
+
+									<s:url var="logoutEmpresa" action="logout" namespace="/empresa" /> 
+									<li><s:a href="%{logoutEmpresa}" >Sair</s:a></li>
+								</c:if>
+								
+								<li><a href="#">Esqueci a Senha</a></li>
+							</ul>
+						</div>
 					</s:form>
 				</div>
 				<!-- Incluir conteúdo lateral -->

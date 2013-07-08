@@ -13,12 +13,13 @@
  	<br/>
  
     <div style="text-align: center;">
-
-		<s:submit value="Gravar" cssClass="ui-state-default ui-button"  cssStyle="border-radius: 3px; margin-top:20px;" />
-		
-		<s:submit value="Voltar" action="voltarInicioEmpresa"  cssClass="ui-state-default ui-button"  cssStyle="border-radius: 3px; margin-top:20px;" />
-
+    	<c:if test="${session['empresaLogin'] eq null}">
+			<s:submit value="Incluir" cssClass="ui-state-default ui-button"  cssStyle="border-radius: 3px; margin-top:20px;" />
+    	</c:if>
+    	<c:if test="${session['empresaLogin'] ne null}">
+			<s:submit value="Salvar" action="salvarEmpresa" cssClass="ui-state-default ui-button"  cssStyle="border-radius: 3px; margin-top:20px;" />
+    	</c:if>
+		<s:submit value="Voltar" action="voltarInicioEmpresa" cssClass="ui-state-default ui-button"  cssStyle="border-radius: 3px; margin-top:20px;" />
     </div>
-
 </s:form>
 
