@@ -4,6 +4,9 @@
    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
+	<definition name="index.page" template="/views/index.jsp">
+	</definition>
+
 	<definition name="template.page"  template="/views/tiles/template/template.jsp">
 	</definition>
 
@@ -18,6 +21,10 @@
 	</definition>
    	<definition name="loadTablePhoneNumber.page" template="/views/empresa/dados_telefone_table.jsp" />
    	<definition name="loadTableJobVacancy.page" template="/views/empresa/dados_vagas_table.jsp" />
+
+   	<definition name="loginEmpresa.page" extends="template.page" >
+		<put-attribute name="formulario" value="/views/empresa/loginEmpresa.jsp" />
+	</definition>
 
    	<definition name="testJSON.page" template="/testJSON.jsp"/>
 	

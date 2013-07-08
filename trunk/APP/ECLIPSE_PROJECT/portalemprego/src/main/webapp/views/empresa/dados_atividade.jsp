@@ -22,17 +22,19 @@
 	   
 	   <li>
 	     <label><spam style="color: #ff0101;">*</spam>Usúario:</label>
-	       <s:textfield  name="empresa.dsLogin" id="idLogin" size="30" maxLength="50"  theme="simple"/>
+	       <s:textfield  name="empresa.dsLogin" id="idLogin" size="30" maxLength="50" theme="simple"/>
 	   </li>
 	   
-	   <li>
-	     <label><spam style="color: #ff0101;">*</spam>Senha:</label>
-	     <s:password  name="empresa.dsSenha"  accesskey="true" id="idSenha" size="30" maxLength="20"  theme="simple"  />
-	   </li>
-	   
-	   <li>
-	     <label><spam style="color: #ff0101;">*</spam>Confirma Senha:</label>
-	     <s:password  name="empresa.dsSenhaConfirmacao"  id="idSenhaConfirmacao" size="30" maxLength="20"  theme="simple"  />
-	   </li>
+	   <c:if test="${session['empresaLogin'] eq null}">
+		   <li>
+		     <label><spam style="color: #ff0101;">*</spam>Senha:</label>
+		     <s:password  name="empresa.dsSenha" accesskey="true" id="idSenha" size="30" maxLength="20" theme="simple"  />
+		   </li>
+		   
+		   <li>
+		     <label><spam style="color: #ff0101;">*</spam>Confirma Senha:</label>
+		     <s:password  name="empresa.dsSenhaConfirmacao" id="idSenhaConfirmacao" size="30" maxLength="20"  theme="simple"  />
+		   </li>
+	   </c:if>
 	   
    </ul> 

@@ -18,7 +18,7 @@
 <script type="text/javascript" src="${request['javax.servlet.forward.context_path']}/js/jquery.maskedinput.js"></script>
 <script type="text/javascript" src="${request['javax.servlet.forward.context_path']}/js/jquery.maskMoney.js"></script>
 <script type="text/javascript" src="${request['javax.servlet.forward.context_path']}/js/functions.js"></script>
-<tiles:importAttribute name="appendJavaScript"/>
+<tiles:importAttribute />
 <c:if test="${appendJavaScript ne null}">
 	<script type="text/javascript" src="${request['javax.servlet.forward.context_path']}${appendJavaScript}"></script>
 </c:if>
@@ -68,7 +68,7 @@
 			<div id="menu-quadro">
 
 
-				<tiles:insertAttribute name="menu" />
+				<tiles:insertAttribute name="menu" ignore="true"/>
 
 				<div id="formulario">
 
@@ -87,7 +87,7 @@
 						<br/>
 					</s:if>
 
-					<tiles:insertAttribute name="formulario" />
+					<tiles:insertAttribute name="formulario" ignore="true"/>
 
 				</div>
 

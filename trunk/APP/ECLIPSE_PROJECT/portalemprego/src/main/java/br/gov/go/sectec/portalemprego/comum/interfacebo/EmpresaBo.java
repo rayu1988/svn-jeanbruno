@@ -17,6 +17,12 @@ import br.gov.go.sectec.portalemprego.core.entidade.DTO.UfDTO;
 
 public interface EmpresaBo extends NegocioGenerico<Empresa, Integer> {
 
+	public Empresa login(String dsLogin, String dsSenha);
+	
+	public Empresa obterEmpresaPeloId(Long id);
+	
+	public Empresa salvar(Empresa empresa);
+	
 	/**
 	 * Método responsável por
 	 * 

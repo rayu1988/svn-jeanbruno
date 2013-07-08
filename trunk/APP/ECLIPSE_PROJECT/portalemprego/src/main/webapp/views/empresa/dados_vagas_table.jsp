@@ -13,7 +13,7 @@
 		    <grid:gridColumn name="dsCidade" index="dsCidade" title="Cidade" sortable="false" align="left"/>
 	    	<grid:gridColumn name="dsArea" index="dsArea" title="Área" sortable="false" align="left"/>
 	    	<grid:gridColumn name="qtdVagas" index="qtdVagas" title="Quantidade de Vagas" sortable="false" align="left"/>
-	    	<grid:gridColumn name="dataExpiracaoStr" index="dataExpiracaoStr"  title="Data de Expiração" sortable="false" align="left"/>
-	    	<grid:gridColumn name="dsVagaOfertada" index="dsVagaOfertada"  title="Descrição" sortable="false" align="left"/>
+	    	<grid:gridColumn name="dataExpiracaoStr" index="dataExpiracaoStr" title="Data de Expiração" sortable="false" align="left"/>
+	    	<grid:gridColumn name="dsVagaOfertada" index="dsVagaOfertada" title="Descrição" sortable="false" align="left"/>
 	    	<grid:gridColumn name="index" index="index" title="Ação" sortable="left" align="center" formatter="buildHtmlContentButtons_JobVacancy" />
 		</grid:grid>
