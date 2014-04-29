@@ -4,7 +4,10 @@
 #encontrar primeiro positivo
 	ler primeira posição
 	se: o caractere lido é positivo
-		então: positiveMaxSum = readValue
+		então:
+			positiveMaxSum = readValue
+			posI = i
+			posJ = i
 		senão: #continuar percorrendo o vetor até encontrar o primeiro caractere válido.
 		
 ler próximo caractere ( i )
@@ -27,6 +30,29 @@ se: backupMaxSum > positiveMaxSum
 	então: retornar backupMaxSum
 	senão: retornar positiveMaxSum
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main() {
 	int i=0, inputSize=0, readValue=0, previousValue=0, positiveMaxSum=0, negativeMaxSum=0, backupMaxSum=0;
 	int maxPositionI, maxPositionJ;
@@ -41,7 +67,7 @@ int main() {
 				positiveMaxSum = readValue;
 				
 				// positions
-				maxPositionI = i
+				maxPositionI = i;
 				maxPositionJ = i;
 				
 				break;
