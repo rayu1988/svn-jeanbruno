@@ -1,0 +1,90 @@
+maxSum = 0;
+negativeSum = 0;
+positiveSum = 0;
+
+#encontrar primeiro positivo
+
+for ( i = 0; i < VECTOR.lenght; i++ ) {
+	if ( VECTOR[i] >= 0 && VECTOR[i -1] < 0) { // elemento corrente positivo e o anterior negativo
+		positiveSum = VECTOR[i];
+	} else if ( VECTOR[i] >= 0 && VECTOR[i -1] < 0 ) {
+		positiveSum += VECTOR[i];
+	}
+	
+	if ( VECTOR[i] < 0 && VECTOR[i - 1] >= 0 ) { // elemento corrente negativo e anterior positivo
+		if ( positiveSum > ( maxSum + negativeSum + positiveSum ) ) { // o positiveSum for maior que maxSum, negativeSum e positiveSum atual
+			maxSum = positiveSum;
+		} else {
+			maxSum = maxSum + negativeSum + positiveSum;
+		}
+		negativeSum = VECTOR[i];
+	} else if ( VECTOR[i] < 0 && VECTOR[i - 1] < 0 ) { // elemento corrente negativo e o anterior também
+		negativeSum += VECTOR[i];
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#carregar vetor
+
+#procurar primeiro inteiro
+
+
+2 pontos para parar de calcular o somatório
+	 1 - Encontrei um negativo
+	 2 - Cheguei no final
+	 
+//encontrar primeiro positivo
+para i de 0 até VECTOR.length
+	faça:
+		se: VECTOR[i] > 0
+			então:
+				positiveSum = VECTOR[i]
+				positionI = i
+				positionJ = i
+			fimentão:
+		fimse:
+	fimfaça:
+fimpara:
+	 
+para i de 0 até VECTOR.length
+	faça:
+		se: VECTOR[i] >= 0  // elemento positivo
+			então: 
+				se: VECTOR[i - 1] < 0 // elemento anterior é negativo
+					então: 
+						maxSum = positiveSum
+						positiveSum = VECTOR[i]
+						positionJ = i
+					senão:
+						positiveSum += VECTOR[i]
+						positionJ = i
+					fimsenão:
+				fimse:
+			senão: // elemento negativo
+				se: VECTOR[i - 1] < 0 // elemento anterior é negativo
+					então:
+						negativeSum += VECTOR[i]
+					senão: // elemento anterior é positivo
+						
+					fimsenão:
+				fimse:
+			fimsenão:
+		fimse:
+	fimfaça:
+fimpara:

@@ -8,18 +8,18 @@ int main() {
 		int inputSize = readValue - 1;
 		
 		// preenchimento vetor
-		printf("PREENCHENDO VETOR DE TAMANHO: %d\n", inputSize);
+		//printf("PREENCHENDO VETOR DE TAMANHO: %d\n", inputSize);
 		for ( i = 0; i <= inputSize; i++ ) {
 			scanf("%d", &readValue);
 			VECTOR[ i ] = readValue;
 		}
-		printf("PREENCHENDO COMPLETO\n");
+		//printf("PREENCHENDO COMPLETO\n");
 		
 		int sum = 0, maxSum = 0;
 		for ( i = 0; i < inputSize; i++ ) {
 			sum = calc( VECTOR , i , inputSize );
 			
-			printf("CONCLUIDO CALCULO PARA CARACTERE DE: %d ATE %d\n", i, inputSize);
+			//printf("CONCLUIDO CALCULO PARA CARACTERE DE: %d ATE %d\n", i, inputSize);
 			if ( sum > maxSum ) {
 				maxSum = sum;
 			}
