@@ -63,10 +63,6 @@ public class XStreamFactory {
 		return xStream.toXML(obj);
 	}
 	
-	public TrackMessageTO fromXML(File file) {
-		return (TrackMessageTO) xStream.fromXML(file);
-	}
-	
 	public TrackMessageTO fromXML(String xmlContent) {
 		return (TrackMessageTO) xStream.fromXML(xmlContent);
 	}
