@@ -1,0 +1,20 @@
+<project name="laptracker_client" default="build-jar" basedir=".">
+	
+	<tstamp>
+		<format property="day" pattern="yyyyMMdd.HHmm"/>
+	</tstamp>
+	
+	<property name="laptracker_client-project" value="../laptracker_client" />
+	<property name="laptracker_client-home" value="${laptracker_client-project}/bin" />
+	<property name="laptracker_client-dist" value="${laptracker_client-project}/dist" />
+	<property name="laptracker_client-jar" value="laptracker_client.${day}.jar" />
+	
+	<target name="build-jar" description="Criating the jar file">
+									
+		<mkdir dir="${laptracker_client-dist}"/>
+								
+	    <zip destfile="${laptracker_client-dist}/${laptracker_client-jar}">
+			<zipfileset dir="${laptracker_client-home}" />
+	    </zip>
+	</target>
+</project>

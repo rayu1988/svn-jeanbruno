@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/br/com/laptracker/business/service/ImportTrackMessage.java=UTF-8
+encoding//src/br/com/laptracker/business/service/ImportTrackMessageResult.java=UTF-8
+encoding//src/br/com/laptracker/business/service/impl/ImportTrackMessageImplService.java=UTF-8
+encoding//src/br/com/laptracker/business/service/impl/ImportTrackMessageImplServiceLocator.java=UTF-8
+encoding//src/br/com/laptracker/business/service/impl/ImportTrackMessageImplServiceSoapBindingStub.java=UTF-8
