@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/base/base_form.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:laptracker="http://laptracker.com.br/laptracker">
+	
+	<ui:define name="headForm">
+		<h:outputText value="#{msg.lapTrack} #{msg.privateAreaFormSeparatorHeader} #{msg.appList}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<rich:dataTable id="lapTrackList"
+						styleClass="tableFormList"
+						style="border: none;"
+						rendered="true"
+						rows="#{lapTrackBean.dataModel.itensPerPage}"
+						rowClasses="rowOdd, rowEven"
+						value="#{lapTrackBean.dataModel}"
+						var="lapTrack">
+			
+			<!-- actions -->
+			<rich:column styleClass="columnListActions">
+				<laptracker:commandListDelete id="deleteLapTracker" targetProperty="lapTrack" backingBean="#{lapTrackBean}"
+						action="remove" propertyFrom="#{lapTrack}" toolTipMessage="#{msg.privateAreaActionDelete} #{msg.administrator}"/>
+			</rich:column>
+			
+			<!-- date -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapTrackDate}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{lapTrackBean.consult}" >
+					<h:outputText value="#{lapTrack.date}">
+						<f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
+					</h:outputText>
+					<f:setPropertyActionListener value="#{lapTrack}" target="#{lapTrackBean.lapTrack}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- lap type -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapTrackLapType}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{lapTrackBean.consult}" >
+					<h:outputText value="#{lapTrack.lapType}">
+						<f:converter converterId="LapTypeConverter"/>
+					</h:outputText>
+					<f:setPropertyActionListener value="#{lapTrack}" target="#{lapTrackBean.lapTrack}" />
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- distance -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapTrackDistance}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{lapTrackBean.consult}" >
+					<h:outputText value="#{lapTrack.distanceValue} "/>
+					<h:outputText value="#{lapTrack.distanceUnit}">
+						<f:converter converterId="DistanceUnitConverter"/>
+					</h:outputText>
+					<f:setPropertyActionListener value="#{lapTrack}" target="#{lapTrackBean.lapTrack}"/>
+				</h:commandLink>
+			</rich:column>
+			
+			<!-- waste time -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapTrackWastTime}"/>
+				</f:facet>
+			
+				<h:commandLink action="#{lapTrackBean.consult}" >
+					<h:outputText value="#{lapTrack.totalTimeValue}">
+						<f:convertDateTime pattern="#{lapTrack.totalTimeFormat}"/>
+					</h:outputText>
+					<f:setPropertyActionListener value="#{lapTrack}" target="#{lapTrackBean.lapTrack}"/>
+				</h:commandLink>
+			</rich:column>
+		</rich:dataTable>
+		
+		<t:saveState value="#{lapTrackBean.dataModel}"/>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionNew}" styleClass="customButton buttonMainForm" action="#{lapTrackBean.prepareUpload}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

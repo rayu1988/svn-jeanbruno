@@ -1,0 +1,42 @@
+<project name="laptracker" default="build-war" basedir=".">
+	
+	<tstamp>
+		<format property="day" pattern="yyyyMMdd.HHmm"/>
+	</tstamp>
+	
+	<property name="laptracker-project" value="../laptracker" />
+	<property name="laptracker-web-home" value="${laptracker-project}/WebContent" />
+	<property name="laptracker-dist" value="${laptracker-project}/dist" />
+	<property name="laptracker-dist-tmp" value="${laptracker-dist}/tmp" />
+	<property name="laptracker-war" value="laptracker.${day}.war" />
+	
+	<target name="build-war" description="Criating the war file">
+		
+		<!-- create the required directories -->
+		<mkdir dir="${laptracker-dist}"/>
+		<mkdir dir="${laptracker-dist-tmp}"/>
+		
+		<!-- copy the content to temp dir -->
+		<copy todir="${laptracker-dist-tmp}">
+			<fileset dir="${laptracker-web-home}"/>
+		</copy>
+		
+		<!-- replace the required content to production environment -->
+		<replace dir="${laptracker-web-home}/WEB-INF" includes="web.xml">
+			<replacetoken><![CDATA[<!--ant:build:jsf:project_state--><param-value>Development</param-value><!--ant:build:jsf:project_state-->]]></replacetoken>
+			<replacevalue><![CDATA[<param-value>Production</param-value>]]></replacevalue>
+		</replace>
+		<replace dir="${laptracker-web-home}/WEB-INF" includes="web.xml">
+			<replacetoken><![CDATA[<!--ant:build:jsf:refresh_period--><param-value>2</param-value><!--ant:build:jsf:refresh_period-->]]></replacetoken>
+			<replacevalue><![CDATA[<param-value>-1</param-value>]]></replacevalue>
+		</replace>
+		
+		<!-- generate the war file -->
+	    <zip destfile="${laptracker-dist}/${laptracker-war}">
+			<zipfileset dir="${laptracker-web-home}" />
+	    </zip>
+		
+		<!-- delete the temp dir -->
+		<delete dir="${laptracker-dist-tmp}"/>
+	</target>
+</project>

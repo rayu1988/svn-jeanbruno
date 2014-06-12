@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/base/base_form.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="headForm">
+		<h:outputText value="#{msg.lapTrack} #{msg.privateAreaFormSeparatorHeader} #{msg.fileUpload} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionNew}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+		
+			<!-- file -->
+			<h:outputLabel value="#{msg.fileUploadFile}:" for="file"/>
+			<t:inputFileUpload id="file" value="#{lapTrackBean.uploadedFile}" />
+		
+		</h:panelGrid>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionSave}" styleClass="customButton buttonMainForm" action="#{lapTrackBean.insert}" immediate="false"/>
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{lapTrackBean.goToDashboard}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>

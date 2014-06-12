@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+	version="2.0">
+	
+    <namespace>http://laptracker.com.br/laptracker</namespace>
+    
+    <!-- start tags -->
+	<tag>
+    	<tag-name>messages</tag-name>
+    	<source>../tags/messages.xhtml</source>
+    </tag>
+
+	<tag>
+    	<tag-name>jsFunction</tag-name>
+    	<source>../tags/jsFunction.xhtml</source>
+    </tag>
+    
+	<tag>
+    	<tag-name>commandListDelete</tag-name>
+    	<source>../tags/commandListDelete.xhtml</source>
+    	<attribute>
+    		<name>id</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>toolTipMessage</name>
+    		<required>false</required>
+    	</attribute>
+    	<attribute>
+    		<name>backingBean</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>action</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>propertyFrom</name>
+    		<required>true</required>
+    	</attribute>
+    	<attribute>
+    		<name>targetProperty</name>
+    		<required>true</required>
+    	</attribute>
+    </tag>
+    <!-- ends tags -->
+    
+</facelet-taglib>

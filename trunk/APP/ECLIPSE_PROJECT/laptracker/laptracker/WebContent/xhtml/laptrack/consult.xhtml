@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/xhtml/base/base_form.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	<ui:define name="headForm">
+		<h:outputText value="#{msg.lapTrack} #{msg.privateAreaFormSeparatorHeader} #{msg.privateAreaActionView}"/>
+	</ui:define>
+	
+	<ui:define name="formBody">
+		<h:panelGrid styleClass="tableInputForm" columns="2" columnClasses="columnLabel, columnInput">
+			<!-- date -->
+			<h:outputLabel value="#{msg.lapTrackDate}:" for="date"/>
+			<h:outputText value="#{lapTrackBean.lapTrack.date}">
+				<f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
+			</h:outputText>
+			
+			<!-- lap type -->
+			<h:outputLabel value="#{msg.lapTrackLapType}:" for="lapType"/>
+			<h:outputText value="#{lapTrackBean.lapTrack.lapType}" id="lapType">
+				<f:converter converterId="LapTypeConverter"/>
+			</h:outputText>
+			
+			<!-- distance -->
+			<h:outputLabel value="#{msg.lapTrackDistance}:" for="distance"/>
+			<h:panelGroup layout="block" id="distance">
+				<h:outputText value="#{lapTrackBean.lapTrack.distanceValue} "/>
+				<h:outputText value="#{lapTrackBean.lapTrack.distanceUnit}">
+					<f:converter converterId="DistanceUnitConverter"/>
+				</h:outputText>
+			</h:panelGroup>
+			
+			<!-- waste time -->
+			<h:outputLabel value="#{msg.lapTrackWastTime}:" for="wastTime"/>
+			<h:outputText value="#{lapTrackBean.lapTrack.totalTimeValue}" id="wastTime">
+				<f:convertDateTime pattern="#{lapTrackBean.lapTrack.totalTimeFormat}"/>
+			</h:outputText>
+			
+		</h:panelGrid>
+
+		<rich:dataTable id="lapList"
+					styleClass="tableFormList"
+					style="border: none;"
+					rendered="true"
+					rowClasses="rowOdd, rowEven"
+					value="#{lapTrackBean.lapTrack.listLaps}"
+					var="lap">
+			
+			<!-- identifier -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapIdentifier}"/>
+				</f:facet>
+				<h:outputText value="#{lap.identifier}"/>
+			</rich:column>
+			
+			<!-- format -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapFormat}"/>
+				</f:facet>
+				<h:outputText value="#{lap.format}"/>
+			</rich:column>
+			
+			<!-- time -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapTime}"/>
+				</f:facet>
+				<h:outputText value="#{lap.time}"/>
+			</rich:column>
+			
+			<!-- distance_value -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapDistance}"/>
+				</f:facet>
+				<h:outputText value="#{lap.distanceValue}"/>
+			</rich:column>
+			
+			<!-- distance_unit -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapDistanceUnit}"/>
+				</f:facet>
+				<h:outputText value="#{lap.distanceUnit}">
+					<f:converter converterId="DistanceUnitConverter"/>
+				</h:outputText>
+			</rich:column>
+			
+			<!-- break_time -->
+			<rich:column >
+				<f:facet name="header">
+					<h:outputText value="#{msg.lapBreakTime}"/>
+				</f:facet>
+				<h:outputText value="#{lap.breakTime}"/>
+			</rich:column>
+			
+		</rich:dataTable>
+	</ui:define>
+	
+	<ui:define name="formButtons">
+		<h:commandButton value="#{msg.privateAreaActionCancel}" styleClass="customButton buttonMainForm" action="#{lapTrackBean.list}" immediate="true"/>
+	</ui:define>
+	
+</ui:composition>
