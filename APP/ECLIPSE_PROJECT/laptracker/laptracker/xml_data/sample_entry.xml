@@ -1,0 +1,82 @@
+<trackmessage>
+  <laptrack>
+    <id>20121220070528</id>
+	<tipo>fracionada</tipo>
+    <distanciaUnidade>Metros</distanciaUnidade>
+	<distanciaValor>400.0</distanciaValor>
+	<tempoTotalFormato>hh:mm:ss</tempoTotalFormato>
+	<tempoTotalValor>00:00:06</tempoTotalValor>
+	<divisaoDistanciaUnidade>Metros</divisaoDistanciaUnidade>
+    <divisaoDistanciaValor>100.0</divisaoDistanciaValor>
+	<!-- <tempoDescanso>00:01:04</tempoDescanso> novo ( CAMPO OPCIONAL) -->
+    <lap>
+	  <id>1</id>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:02</tempo>
+      <!-- <tempoDescanso>00:00:02</tempoDescanso> novo ( CAMPO OPCIONAL) -->
+      <distancia>100.0</distancia>
+      <!-- <UnidadeDistancia>Metros</UnidadeDistancia> removido -->
+    </lap>
+    <lap>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:01</tempo>
+      <id>2</id>
+      <distancia>100.0</distancia>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+    </lap>
+    <lap>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:01</tempo>
+      <id>3</id>
+      <distancia>100.0</distancia>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+    </lap>
+    <lap>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:02</tempo>
+      <id>4</id>
+      <distancia>100.0</distancia>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+    </lap>
+  </laptrack>
+  <laptrack>
+  	<id>20121220074912</id>
+	<!-- NENHUMA MODIFICACAO FEITA NO TIPO CONTINUA -->
+  	<tipo>continua</tipo>
+    <distanciaUnidade>Kilometros</distanciaUnidade>
+    <distanciaValor>1.0</distanciaValor>
+    <tempoTotalFormato>hh:mm:ss</tempoTotalFormato>
+    <tempoTotalValor>00:00:05</tempoTotalValor>
+    <divisaoDistanciaUnidade>Metros</divisaoDistanciaUnidade>
+    <divisaoDistanciaValor>250.0</divisaoDistanciaValor>
+	<!-- nao tem tempo descanso -->
+    <lap>
+      <id>1</id>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:01</tempo>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+      <distancia>250.0</distancia>
+    </lap>
+    <lap>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:02</tempo>
+      <id>2</id>
+      <distancia>500.0</distancia>
+    </lap>
+    <lap>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:03</tempo>
+      <id>3</id>
+      <distancia>750.0</distancia>
+    </lap>
+    <lap>
+      <UnidadeDistancia>Metros</UnidadeDistancia>
+      <tempoFormato>hh:mm:ss</tempoFormato>
+      <tempo>00:00:05</tempo>
+      <id>4</id>
+      <distancia>1000.0</distancia>
+    </lap>
+  </laptrack>
+</trackmessage>
