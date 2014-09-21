@@ -1,0 +1,31 @@
+div.select_wrapper {
+	padding: 0px;
+	margin: 0px;
+	width: 200px;
+	height: 300px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border: 1px solid #EBEFF6;
+	float: left; 
+}
+
+div.option_wrapper {
+	width: 100%;
+}
+
+div.select_option {
+	padding: 5px;
+	border-bottom: 1px solid #F3F3F3;
+}
+
+div.option_unselected {
+}
+
+div.option_selected {
+	color: #FFF;
+	background-color: #1E90FF;
+}
+
+div.buttons {
+	float: left;
+}
